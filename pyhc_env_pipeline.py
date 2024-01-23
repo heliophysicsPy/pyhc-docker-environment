@@ -1,13 +1,15 @@
 """
 Main script to generate Docker images of Python environments with the latest versions of all published PyHC packages.
 
-Steps:
+Pipeline steps:
   1. Generate dependency conflict spreadsheet
   2. If no conflicts found, create requirements.txt file from spreadsheet
   3. Comment out numpy and SpacePy (and pysatcdf, kamodo, and pySPEDAS/PyTplot) in requirements.txt (they'll be installed separately)
   4. Update the requirements.txt files.
-  5. Create 3 Docker images from Dockerfiles (pyhc-environment, pyhc-gallery, pyhc-gallery-w-executable-paper)
-  6. If the right ("push"?) flag is set, push those Docker images to Docker Hub with tags like :vYYYY.mm.dd; then Update source files in GitHub
+
+  In GitHub Actions:
+    5. Create 3 Docker images from Dockerfiles (pyhc-environment, pyhc-gallery, pyhc-gallery-w-executable-paper)
+    6. If the right ("push"?) flag is set, push those Docker images to Docker Hub with tags like :vYYYY.mm.dd; then Update source files in GitHub
 
 __author__ = "Shawn Polson"
 """
@@ -15,45 +17,64 @@ __author__ = "Shawn Polson"
 
 import os
 from datetime import datetime
-import sys
-
-# Add the parent directory to sys.path to make the generate-dependency-table module available
-# sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from utils.generate_dependency_table import *
 from utils.pipeline_utils import *
 
 
+def pipeline_should_run(packages_to_ignore=['cdflib', 'geospacelab', 'heliopy', 'pytplot']):
+    """
+    Step 1: Check if any PyHC packages have released updates. If not, the pipeline doesn't need to run (return False).
+    """
+    requirements_file_path = os.path.join(os.path.dirname(__file__), 'docker', 'pyhc-environment', 'contents', 'requirements.txt')
+    all_packages = get_core_pyhc_packages() + get_other_pyhc_packages()
+    updates = check_for_package_updates(requirements_file_path, all_packages, packages_to_ignore)
+    if updates:
+        print("Updates required for the following PyHC packages:")
+        for package, versions in updates.items():
+            print(
+                f"{package}: Current version {versions['current_version']}, Latest version {versions['latest_version']}")
+        return True
+    else:
+        print("All PyHC packages are up to date.")
+        return False
+
+
 if __name__ == '__main__':
-    filename = f"PyHC-Dependency-Table-{datetime.now().strftime('%m-%d-%Y-%H-%M')}.xlsx"
-    spreadsheet_folder = "spreadsheets"
-    if not os.path.exists(spreadsheet_folder):
-        os.makedirs(spreadsheet_folder)
-    spreadsheet_path = os.path.join(spreadsheet_folder, filename)
+    if pipeline_should_run():
 
-    all_packages = get_core_pyhc_packages() + get_other_pyhc_packages() + get_supplementary_packages()
-    table_data = generate_dependency_table_data(all_packages)
+        # Generate dependency conflict spreadsheet
+        filename = f"PyHC-Dependency-Table-{datetime.now().strftime('%Y-%m-%d-%H-%M')}.xlsx"
+        spreadsheet_folder = "spreadsheets"
+        if not os.path.exists(spreadsheet_folder):
+            os.makedirs(spreadsheet_folder)
+        spreadsheet_path = os.path.join(spreadsheet_folder, filename)
 
-    table = excel_spreadsheet_from_table_data(table_data)
-    table.save(spreadsheet_path)
+        all_packages = get_core_pyhc_packages() + get_other_pyhc_packages() + get_supplementary_packages()
+        table_data = generate_dependency_table_data(all_packages)
 
-    try:
-        # # TODO: DELETE BELOW LINE
-        # spreadsheet_path = "spreadsheets/PyHC-Dependency-Table-01-04-2024-17-23.xlsx"
+        table = excel_spreadsheet_from_table_data(table_data)
+        table.save(spreadsheet_path)
 
-        requirements_file_path = "requirements.txt"
-        requirements_txt = spreadsheet_to_requirements_file(spreadsheet_path)
-        with open(requirements_file_path, 'w') as file:
-            file.write(requirements_txt)
-        comment_out_numpy_and_spacepy(requirements_file_path)
-        comment_out_pysatcdf(requirements_file_path)
-        comment_out_kamodo(requirements_file_path)
-        comment_out_pyspedas_pytplot_pytplot_mpl_temp(requirements_file_path)
-        replace_requirements(source_file_path=requirements_file_path,
-                             destination_file_path='docker/pyhc-gallery-w-executable-paper/contents/requirements.txt')
-    except ValueError as e:
-        raise e
+        try:
+            requirements_txt = spreadsheet_to_requirements_file(spreadsheet_path)
 
-    # TODO: Push to GitHub?
-    # TODO: At this point we can try building docker images
+            # Path to the docker folder in the repository
+            docker_folder_path = os.path.join(os.path.dirname(__file__), 'docker')
 
-    print("Done.")
+            # Get Docker image names and update requirements.txt for each
+            docker_image_names = get_docker_image_names(docker_folder_path)
+            for image_name in docker_image_names:
+                docker_requirements_path = os.path.join(docker_folder_path, image_name, 'contents', 'requirements.txt')
+                with open(docker_requirements_path, 'w') as file:
+                    file.write(requirements_txt)
+
+                # Comment out specific packages
+                comment_out_numpy_and_spacepy(docker_requirements_path)
+                comment_out_pysatcdf(docker_requirements_path)
+                comment_out_kamodo(docker_requirements_path)
+                comment_out_pyspedas_pytplot_pytplot_mpl_temp(docker_requirements_path)
+
+        except ValueError as e:
+            raise e
+
+        print("Updated all Docker images.")
