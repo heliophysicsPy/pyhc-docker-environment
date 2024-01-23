@@ -40,7 +40,9 @@ def pipeline_should_run(packages_to_ignore=['cdflib', 'geospacelab', 'heliopy', 
 
 
 if __name__ == '__main__':
-    if pipeline_should_run():
+    if not pipeline_should_run():
+        print("Pipeline will not run.")
+    else:
 
         # Generate dependency conflict spreadsheet
         filename = f"PyHC-Dependency-Table-{datetime.now().strftime('%Y-%m-%d-%H-%M')}.xlsx"
