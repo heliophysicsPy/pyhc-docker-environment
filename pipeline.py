@@ -30,10 +30,11 @@ def pipeline_should_run(packages_to_ignore=['cdflib', 'geospacelab', 'heliopy', 
     all_packages = get_core_pyhc_packages() + get_other_pyhc_packages()
     updates = check_for_package_updates(requirements_file_path, all_packages, packages_to_ignore)
     if updates:
-        print("Updates required for the following PyHC packages:")
+        print("Updates required for the following PyHC packages:", flush=True)
         for package, versions in updates.items():
             print(
-                f"{package}: Current version {versions['current_version']}, Latest version {versions['latest_version']}")
+                f"{package}: Current version {versions['current_version']}, Latest version {versions['latest_version']}",
+                flush=True)
         return True
     else:
         print("All PyHC packages are up to date.")
