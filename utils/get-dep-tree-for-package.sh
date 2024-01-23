@@ -11,7 +11,7 @@ source $TEMP_ENV_NAME/bin/activate
 
 # Install the given package and store its pipdeptree output
 PIP_INSTALL_OUTPUT_1=$(pip install $PACKAGE)
-PIP_INSTALL_OUTPUT_2=$(pip install -q pipdeptree)
+PIP_INSTALL_OUTPUT_2=$(pip install -q pipdeptree==2.3.3)
 
 # Remove '==<version' from $PACKAGE if given
 PACKAGE=$(echo "$PACKAGE" | sed 's/==.*//')
