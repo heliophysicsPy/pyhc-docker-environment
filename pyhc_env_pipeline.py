@@ -4,10 +4,10 @@ Main script to generate Docker images of Python environments with the latest ver
 Steps:
   1. Generate dependency conflict spreadsheet
   2. If no conflicts found, create requirements.txt file from spreadsheet
-  3. Comment out numpy and SpacePy in requirements.txt (they'll be installed separately first)
-  4. Create 3 Dockerfiles from text templates (pyhc-environment, pyhc-gallery, pyhc-gallery-w-executable-paper)
+  3. Comment out numpy and SpacePy (and pysatcdf, kamodo, and pySPEDAS/PyTplot) in requirements.txt (they'll be installed separately)
+  4. Update the requirements.txt files.
   5. Create 3 Docker images from Dockerfiles (pyhc-environment, pyhc-gallery, pyhc-gallery-w-executable-paper)
-  6. Update source files in GitHub and push Docker images to Docker Hub
+  6. If the right ("push"?) flag is set, push those Docker images to Docker Hub with tags like :vYYYY.mm.dd; then Update source files in GitHub
 
 __author__ = "Shawn Polson"
 """
