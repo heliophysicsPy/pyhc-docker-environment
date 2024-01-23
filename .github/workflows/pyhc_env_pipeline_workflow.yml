@@ -23,7 +23,7 @@ jobs:
         pip install -r pipeline_requirements.txt
 
     - name: Run Pipeline Script
-      run: python pyhc_env_pipeline.py
+      run: python pipeline.py
 
     - name: Build and Push Docker Images
       run: python utils/docker_operations.py ./docker ${{ secrets.DOCKER_HUB_USERNAME }} ${{ secrets.DOCKER_HUB_TOKEN }}
