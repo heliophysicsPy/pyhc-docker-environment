@@ -2,7 +2,7 @@
 """
 Script to generate table of PyHC package dependency conflicts.
 
-__authors__ = ["Shawn Polson", "GPT-4"]
+__authors__ = ["Shawn Polson"]
 """
 
 
