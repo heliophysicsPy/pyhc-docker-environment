@@ -1,0 +1,42 @@
+name: PyHC Environment Pipeline Workflow
+
+on:
+  schedule:
+    - cron: '0 7 * * *'  # Runs at midnight Mountain Time (UTC-7)
+  workflow_dispatch:
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.9'
+
+    - name: Install Pipeline Dependencies
+      run: |
+        pip install -r pipeline_requirements.txt
+
+    - name: Run Pipeline Script
+      run: python pipeline.py
+
+    - name: Build and Push Docker Images
+      run: python utils/docker_operations.py ./docker ${{ secrets.DOCKER_HUB_USERNAME }} ${{ secrets.DOCKER_HUB_TOKEN }}
+
+    - name: Commit and Push Changes
+      if: success()  # This step runs only if the previous steps were successful
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git add .
+        git commit -m "Update Docker images and requirements.txt" || exit 0  # Exit if no changes
+        git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+# Add email notification steps here (if needed)
