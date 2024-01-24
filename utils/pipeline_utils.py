@@ -46,7 +46,7 @@ def check_for_package_updates(requirements_path, package_names, ignore_list=None
         current_version = None
         for line in requirements:
             if package_name.lower() in line.lower():
-                match = re.search(r'==(.+?)(\s*#|$)', line)
+                match = re.search(r'==(.+?)(\s*#|$)', line)  # Note, this only catches lines with == (should be the case for all PyHC packages)
                 if match:
                     current_version = match.group(1).strip()
                 break
