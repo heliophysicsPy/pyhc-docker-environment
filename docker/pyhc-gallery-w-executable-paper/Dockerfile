@@ -10,15 +10,14 @@ RUN apt-get update && apt-get install -y gcc g++ gfortran ncurses-dev build-esse
 # Add the "contents" directory contents into the container at /app
 ADD contents/ /app
 
-# Check for "executable-paper" directory and download if not present
-# (https://drive.google.com/file/d/1Zw5oDCXBxZlwU_BLqeAPflUzXKJGgtzp/view?usp=sharing)
-RUN if [ ! -d "/app/executable-paper" ]; then \
-        wget --no-check-certificate --save-cookies cookies.txt --keep-session-cookies --no-verbose -O /dev/null 'https://drive.google.com/uc?export=download&id=1Zw5oDCXBxZlwU_BLqeAPflUzXKJGgtzp' && \
-        wget --load-cookies cookies.txt --no-check-certificate --no-verbose 'https://drive.google.com/uc?export=download&confirm='$(wget --quiet --save-cookies cookies.txt --keep-session-cookies --no-verbose --output-document - 'https://drive.google.com/uc?export=download&id=1Zw5oDCXBxZlwU_BLqeAPflUzXKJGgtzp' | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')'&id=1Zw5oDCXBxZlwU_BLqeAPflUzXKJGgtzp' -O executable-paper.zip && \
-        unzip executable-paper.zip -d /app && \
-        rm executable-paper.zip && \
-        rm cookies.txt && \
+# Unzip "executable-paper.zip" if it's present, else fail
+RUN if [ -f "/app/executable-paper.zip" ]; then \
+        unzip /app/executable-paper.zip -d /app && \
+        rm /app/executable-paper.zip; \
         rm -rf /app/__MACOSX; \
+    else \
+        echo "ERROR: executable-paper.zip not found (note, this file is tracked by Git LFS)." >&2; \
+        exit 1; \
     fi
 
 # Configure CDF library
