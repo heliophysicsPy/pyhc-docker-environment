@@ -13,6 +13,9 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
+    - name: Fetch LFS Files
+      run: git lfs pull
+
     - name: Set up Python 3.9
       uses: actions/setup-python@v2
       with:
