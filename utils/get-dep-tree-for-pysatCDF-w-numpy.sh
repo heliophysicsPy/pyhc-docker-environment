@@ -134,7 +134,7 @@ if [ $INSTALL_STATUS -ne 0 ]; then
 fi
 
 # Install pipdeptree, suppressing output
-pip install pipdeptree > /dev/null 2>&1
+pip install pipdeptree==2.3.3 > /dev/null 2>&1
 
 # Get dependency tree (Only this output will be displayed)
 PIPTREE_OUTPUT=$(pipdeptree -p pysatCDF)
