@@ -31,7 +31,7 @@ jobs:
     - name: Build and Push Docker Images
       run: python utils/docker_operations.py ./docker ${{ secrets.DOCKER_HUB_USERNAME }} ${{ secrets.DOCKER_HUB_TOKEN }}
 
-    - name: Commit and Push Changes
+    - name: Commit and Push Repo Changes
       if: success()  # This step runs only if the previous steps were successful
       run: |
         git config --global user.name 'github-actions[bot]'
