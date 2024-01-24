@@ -17,6 +17,7 @@ __author__ = "Shawn Polson"
 
 
 import os
+import sys
 from datetime import datetime
 from utils.generate_dependency_table import *
 from utils.pipeline_utils import *
@@ -44,6 +45,7 @@ def pipeline_should_run(packages_to_ignore=['cdflib', 'geospacelab', 'heliopy', 
 if __name__ == '__main__':
     if not pipeline_should_run():
         print("Pipeline will not run.")
+        sys.exit(2)  # Exit with a non-zero status to indicate no need to continue
     else:
 
         # Generate dependency conflict spreadsheet
