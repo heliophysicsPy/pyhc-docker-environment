@@ -43,9 +43,10 @@ def pipeline_should_run(packages_to_ignore=['cdflib', 'geospacelab', 'heliopy', 
 
 
 if __name__ == '__main__':
+    print("::set-output name=should_run::true")
     if not pipeline_should_run():
         print("Pipeline will not run.")
-        sys.exit(2)  # Exit with a non-zero status to indicate no need to continue
+        print("::set-output name=should_run::false")  # Tells GitHub Actions not to continue
     else:
 
         # Generate dependency conflict spreadsheet
