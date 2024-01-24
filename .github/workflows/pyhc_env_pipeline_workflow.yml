@@ -22,11 +22,6 @@ jobs:
       run: |
         pip install -r pipeline_requirements.txt
 
-    - name: Check Docker Status
-      run: |
-        docker --version
-        docker info
-
     - name: Run Pipeline Script
       run: python pipeline.py
 
