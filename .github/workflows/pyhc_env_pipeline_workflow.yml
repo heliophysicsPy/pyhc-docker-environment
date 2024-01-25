@@ -29,6 +29,9 @@ jobs:
       id: pipeline_check
       run: echo "::set-output name=result::$(python pipeline.py)"
 
+    - name: Update README Table
+      run: python utils/update_readme.py
+
     - name: Build and Push Docker Images
       if: steps.pipeline_check.outputs.result == 'true'
       run: python utils/docker_operations.py ./docker ${{ secrets.DOCKER_HUB_USERNAME }} ${{ secrets.DOCKER_HUB_TOKEN }}
@@ -39,7 +42,7 @@ jobs:
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
         git add .
-        git commit -m "Update Docker image requirements and spreadsheet" || exit 0
+        git commit -m "Update Docker image requirements, spreadsheet, README" || exit 0
         git push
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
