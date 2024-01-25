@@ -29,11 +29,11 @@ docker pull spolson/pyhc-gallery-w-executable-paper:vYYYY.MM.DD
 Package | Version
 ---|---
 aacgmv2 | 2.6.3
-aiapy | NOT A VERSION
+aiapy | 0.7.4
 aidapy | 0.0.4
 apexpy | 2.0.1
 astrometry-azel | 1.3.0
-ccsdspy | BLAH
+ccsdspy | 1.2.1
 cdflib | 0.4.9
 dascutils | 2.3.0
 dbprocessing | 0.1.0
