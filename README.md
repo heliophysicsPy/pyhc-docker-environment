@@ -24,3 +24,5 @@ docker pull spolson/pyhc-gallery:vYYYY.MM.DD
 docker pull spolson/pyhc-gallery-w-executable-paper:vYYYY.MM.DD
 ```
 (Replace `vYYYY.MM.DD` with the actual image version.)
+
+## PyHC Package Versions in Current Environment
