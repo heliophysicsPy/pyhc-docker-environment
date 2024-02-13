@@ -27,18 +27,18 @@ jobs:
 
     - name: Run Pipeline Script
       id: pipeline_check
-      run: echo "::set-output name=result::$(python pipeline.py)"
+      run: python pipeline.py
 
     - name: Update README Table
-      if: steps.pipeline_check.outputs.result == 'true'
+      if: steps.pipeline_check.outputs.should_run == 'true'
       run: python utils/update_readme.py
 
     - name: Build and Push Docker Images
-      if: steps.pipeline_check.outputs.result == 'true'
+      if: steps.pipeline_check.outputs.should_run == 'true'
       run: python utils/docker_operations.py ./docker ${{ secrets.DOCKER_HUB_USERNAME }} ${{ secrets.DOCKER_HUB_TOKEN }}
 
     - name: Commit and Push Repo Changes
-      if: steps.pipeline_check.outputs.result == 'true'
+      if: steps.pipeline_check.outputs.should_run == 'true'
       run: |
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'

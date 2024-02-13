@@ -38,15 +38,14 @@ def pipeline_should_run(packages_to_ignore=['cdflib', 'geospacelab', 'heliopy', 
                 flush=True)
         return True
     else:
-        print("All PyHC packages are up to date.")
+        print("All PyHC packages are up to date.", flush=True)
         return False
 
 
 if __name__ == '__main__':
-    print("::set-output name=should_run::true")
     if not pipeline_should_run():
-        print("Pipeline will not run.")
-        print("::set-output name=should_run::false")  # Tells GitHub Actions not to continue
+        print("Pipeline will not run.", flush=True)
+        print("::set-output name=should_run::false", flush=True)  # Tells GitHub Actions not to continue
     else:
 
         # Generate dependency conflict spreadsheet
@@ -84,4 +83,5 @@ if __name__ == '__main__':
         except ValueError as e:
             raise e
 
-        print("Updated all Docker images.")
+        print("::set-output name=should_run::true", flush=True)
+        print("Updated all Docker images' requirements.", flush=True)
