@@ -48,4 +48,12 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-# Add email notification steps here (if needed)
+    - name: Notify on Successful Push
+      if: steps.pipeline_check.outputs.should_run == 'true'
+      uses: peter-evans/create-or-update-comment@v4
+      with:
+        issue-number: 2
+        body: |
+          Docker Hub images and GitHub repo have been updated by GitHub Actions.
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
