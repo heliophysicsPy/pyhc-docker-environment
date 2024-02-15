@@ -49,6 +49,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Notify on Successful Push
+      if: steps.pipeline_check.outputs.should_run == 'true'
       uses: peter-evans/create-or-update-comment@v4
       with:
         issue-number: 2
