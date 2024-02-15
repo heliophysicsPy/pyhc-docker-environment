@@ -39,7 +39,7 @@ dascutils | 2.3.0
 dbprocessing | 0.1.0
 dmsp | 0.6.0
 enlilviz | 0.2.0
-fiasco | 0.2.2
+fiasco | 0.2.3
 geopack | 1.0.10
 georinex | 1.16.2
 geospacelab | 0.6.1
@@ -60,13 +60,13 @@ ndcube | 2.2.0
 nexradutils | 1.0.0
 ocbpy | 0.3.0
 OMMBV | 1.0.1
-plasmapy | 2023.10.0
+plasmapy | 2024.2.0
 pydarn | 4.0
 pyflct | 0.2.3
-pymap3d | 3.0.1
+pymap3d | 3.1.0
 pysat | 3.1.0
 pysatCDF | 0.3.2
-pyspedas | 1.5.4
+pyspedas | 1.5.5
 pytplot | 1.7.28
 pytplot-mpl-temp | 2.2.5
 pyzenodo3 | 1.0.2
