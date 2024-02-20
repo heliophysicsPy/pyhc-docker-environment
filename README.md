@@ -66,9 +66,9 @@ pyflct | 0.2.3
 pymap3d | 3.1.0
 pysat | 3.1.0
 pysatCDF | 0.3.2
-pyspedas | 1.5.5
+pyspedas | 1.5.6
 pytplot | 1.7.28
-pytplot-mpl-temp | 2.2.5
+pytplot-mpl-temp | 2.2.6
 pyzenodo3 | 1.0.2
 reesaurora | 1.0.5
 regularizepsf | 0.2.3
