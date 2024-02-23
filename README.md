@@ -52,7 +52,7 @@ iri2016 | 1.11.1
 irispy-lmsal | 0.2.0
 kamodo | 23.3.0
 lowtran | 3.1.0
-madrigalWeb | 3.2.4
+madrigalWeb | 3.3
 maidenhead | 1.7.0
 mcalf | 1.0.0
 msise00 | 1.10.1
@@ -78,7 +78,7 @@ solarmach | 0.3.3
 solo-epd-loader | 0.3.6
 space-packet-parser | 4.1.1
 spacepy | 0.4.1
-speasy | 1.2.2
+speasy | 1.2.3
 spiceypy | 6.0.0
 sunkit-image | 0.5.1
 sunkit-instruments | 0.5.0
