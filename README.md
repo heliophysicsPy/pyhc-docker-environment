@@ -75,7 +75,7 @@ regularizepsf | 0.2.3
 sciencedates | 1.5.0
 SkyWinder | 0.0.3
 solarmach | 0.3.3
-solo-epd-loader | 0.3.6
+solo-epd-loader | 0.3.7
 space-packet-parser | 4.1.1
 spacepy | 0.4.1
 speasy | 1.2.3
