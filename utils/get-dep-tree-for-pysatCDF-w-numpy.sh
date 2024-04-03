@@ -11,7 +11,7 @@ python3.9 -m venv $TEMP_ENV_NAME
 # Activate the virtual environment
 source $TEMP_ENV_NAME/bin/activate
 
-# Upgrade pip and Install numpy
+# Upgrade pip and Install numpy & pysatCDF
 pip install --upgrade pip
 pip install numpy==1.24.3 pysatCDF
 
