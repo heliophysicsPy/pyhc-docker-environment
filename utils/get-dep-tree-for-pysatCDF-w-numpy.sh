@@ -13,10 +13,7 @@ source $TEMP_ENV_NAME/bin/activate
 
 # Upgrade pip and Install numpy
 pip install --upgrade pip
-pip install numpy==1.24.3
-
-# Install pysatCDF
-pip install pysatCDF
+pip install numpy==1.24.3 pysatCDF
 
 # # Clone pysatCDF from GitHub
 # git clone https://github.com/rstoneback/pysatCDF.git
