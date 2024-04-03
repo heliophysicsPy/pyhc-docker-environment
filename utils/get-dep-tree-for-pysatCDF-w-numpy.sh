@@ -15,27 +15,30 @@ source $TEMP_ENV_NAME/bin/activate
 pip install --upgrade pip
 pip install numpy==1.24.3
 
-# Clone pysatCDF from GitHub
-git clone https://github.com/rstoneback/pysatCDF.git
-cd pysatCDF
-
 # Install pysatCDF
-python setup.py install
-INSTALL_STATUS=$?
+pip install pysatCDF
 
-# Move out of pysatCDF directory
-cd ..
+# # Clone pysatCDF from GitHub
+# git clone https://github.com/rstoneback/pysatCDF.git
+# cd pysatCDF
 
-# Delete the pysatCDF directory
-rm -rf pysatCDF
+# # Install pysatCDF
+# python setup.py install
+# INSTALL_STATUS=$?
 
-# Check if the installation was successful
-if [ $INSTALL_STATUS -ne 0 ]; then
-    echo "Error: Installation of $PACKAGE failed."
-    deactivate
-    rm -rf $TEMP_ENV_NAME/
-    exit 1
-fi
+# # Move out of pysatCDF directory
+# cd ..
+
+# # Delete the pysatCDF directory
+# rm -rf pysatCDF
+
+# # Check if the installation was successful
+# if [ $INSTALL_STATUS -ne 0 ]; then
+#     echo "Error: Installation of $PACKAGE failed."
+#     deactivate
+#     rm -rf $TEMP_ENV_NAME/
+#     exit 1
+# fi
 
 # Install pipdeptree
 pip install pipdeptree==2.3.3
