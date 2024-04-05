@@ -68,7 +68,7 @@ exceptiongroup>=1.0.2
 execnet>=1.1
 executing>=1.2.0
 extension
-fastjsonschema
+fastjsonschema>=2.15
 fiasco==0.2.3
 flask-cors
 flask-restful==0.3.8
@@ -226,7 +226,7 @@ pytest==7.4.4
 python-dateutil>=2.8.2
 python-forge
 python-json-logger>=2.0.4
-# pytplot-mpl-temp==2.2.9  # gets installed last in the Dockerfile
+# pytplot-mpl-temp==2.2.13  # gets installed last in the Dockerfile
 # pytplot==1.7.28  # gets installed last in the Dockerfile
 pytz>=2020.1
 pyvo>=1.1
@@ -269,7 +269,7 @@ sscws
 stack-data
 sunkit-image==0.5.1
 sunkit-instruments==0.5.0
-sunpy==5.1.1
+sunpy==5.1.2
 sunraster==0.5.1
 sympy==1.5.1
 tables>=3.4.4

@@ -67,7 +67,7 @@ pymap3d | 3.1.0
 pysat | 3.2.0
 pyspedas | 1.5.6
 pytplot | 1.7.28
-pytplot-mpl-temp | 2.2.9
+pytplot-mpl-temp | 2.2.13
 pyzenodo3 | 1.0.2
 reesaurora | 1.0.5
 regularizepsf | 0.2.3
@@ -81,7 +81,7 @@ speasy | 1.2.4
 spiceypy | 6.0.0
 sunkit-image | 0.5.1
 sunkit-instruments | 0.5.0
-sunpy | 5.1.1
+sunpy | 5.1.2
 sunraster | 0.5.1
 themisasi | 1.2.0
 viresclient | 0.11.6
