@@ -14,7 +14,7 @@ asdf-astropy>=0.2.0
 asdf-coordinates-schemas>=0.3
 asdf-standard>=1.1.0
 asdf-transform-schemas>=0.5
-asdf-unit-schemas>=0.1
+asdf-unit-schemas>=0.1.0
 asdf-wcs-schemas>=0.4.0
 asdf>=2.13
 asteval>=0.9.28
@@ -218,7 +218,7 @@ pyqtgraph>=0.11.1
 pyqtwebengine-qt5>=5.15.0
 pyqtwebengine>=5.15.2
 pysat==3.2.0
-# pyspedas==1.5.6  # gets installed last in the Dockerfile
+# pyspedas==1.5.8  # gets installed last in the Dockerfile
 pytest-arraydiff==0.6.1
 pytest-doctestplus==1.2.1
 pytest-xdist==3.5.0
