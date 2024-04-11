@@ -8,8 +8,8 @@ antlr4-python3-runtime==4.7
 anyio>=3.1.0
 apexpy==2.0.1
 appdirs
-argon2-cffi
 argon2-cffi-bindings
+argon2-cffi>=21.1
 asdf-astropy>=0.2.0
 asdf-coordinates-schemas>=0.3
 asdf-standard>=1.1.0
@@ -126,7 +126,7 @@ jsonschema>=4.18.0
 jupyter-client>=7.4.4,<9
 jupyter-core>=4.12,!=5.0
 jupyter-events>=0.9.0
-jupyter-server-terminals
+jupyter-server-terminals>=0.4.4
 jupyter-server>=2.0.0,<3
 jupyterlab-pygments
 jupyterlab-server>=2.3.0,<3
@@ -173,7 +173,7 @@ ocbpy==0.3.0
 omegaconf>=1.4,<1.5
 OMMBV==1.0.1
 ordered-set>=4.1.0,<4.2.0
-overrides
+overrides>=5.0
 packaging>=22.0
 palettable
 pandas>=1.5.3
@@ -193,7 +193,7 @@ pluggy>=1.4,<2.0
 portalocker
 pox>=0.3.4
 ppft>=1.7.6.8
-prometheus-client
+prometheus-client>=0.9
 prompt-toolkit>=3.0.41,<3.1.0
 psutil
 ptyprocess>=0.5
@@ -237,7 +237,7 @@ pyzenodo3==1.0.2
 pyzmq>=24
 reesaurora==1.0.5
 referencing>=0.31.0
-regularizepsf==0.2.3
+regularizepsf==0.3.2
 requests-file>=1.5.1
 requests-toolbelt>=0.7.1
 requests>=2.31,<3.0.0
@@ -294,7 +294,7 @@ viresclient==0.11.6
 voila>=0.5.0
 wcwidth
 webencodings>=0.4
-websocket-client
+websocket-client>=1.7
 websockets>=9.0
 werkzeug>=3.0.0
 wget
