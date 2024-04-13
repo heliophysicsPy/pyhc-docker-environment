@@ -227,7 +227,7 @@ pytest==7.4.4
 python-dateutil>=2.8.2
 python-forge
 python-json-logger>=2.0.4
-# pytplot-mpl-temp==2.2.13  # gets installed last in the Dockerfile
+# pytplot-mpl-temp==2.2.15  # gets installed last in the Dockerfile
 # pytplot==1.7.28  # gets installed last in the Dockerfile
 pytz>=2020.1
 pyvo>=1.1
