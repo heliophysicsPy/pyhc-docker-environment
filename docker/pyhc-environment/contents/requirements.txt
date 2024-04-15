@@ -219,7 +219,7 @@ pyqtgraph>=0.11.1
 pyqtwebengine-qt5>=5.15.0
 pyqtwebengine>=5.15.2
 pysat==3.2.0
-# pyspedas==1.5.8  # gets installed last in the Dockerfile
+# pyspedas==1.5.9  # gets installed last in the Dockerfile
 pytest-arraydiff==0.6.1
 pytest-doctestplus==1.2.1
 pytest-xdist==3.5.0
@@ -227,7 +227,7 @@ pytest==7.4.4
 python-dateutil>=2.8.2
 python-forge
 python-json-logger>=2.0.4
-# pytplot-mpl-temp==2.2.15  # gets installed last in the Dockerfile
+# pytplot-mpl-temp==2.2.18  # gets installed last in the Dockerfile
 # pytplot==1.7.28  # gets installed last in the Dockerfile
 pytz>=2020.1
 pyvo>=1.1
