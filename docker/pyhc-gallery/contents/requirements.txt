@@ -219,7 +219,7 @@ pyqtgraph>=0.11.1
 pyqtwebengine-qt5>=5.15.0
 pyqtwebengine>=5.15.2
 pysat==3.2.0
-# pyspedas==1.5.9  # gets installed last in the Dockerfile
+# pyspedas==1.5.11  # gets installed last in the Dockerfile
 pytest-arraydiff==0.6.1
 pytest-doctestplus==1.2.1
 pytest-xdist==3.5.0
