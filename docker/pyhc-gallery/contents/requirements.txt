@@ -263,7 +263,7 @@ sortedcontainers>=2.1.0,<3.0.0
 soupsieve>1.2
 space-packet-parser==4.2.0
 # spacepy==0.5.0  # gets installed first in the Dockerfile
-speasy==1.2.4
+speasy==1.2.7
 spiceypy==6.0.0
 sqlalchemy
 sscws
