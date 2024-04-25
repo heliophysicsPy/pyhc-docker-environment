@@ -28,7 +28,7 @@ attrs>=22.2.0
 babel>=2.10
 backports.tarfile
 beautifulsoup4>=4.9.3
-bitarray>=2.8.0,<3.0.0
+bitarray>=2.9.0,<3.0.0
 bitstring>=4.0.1
 bleach!=5.0.0
 blinker>=1.6.2
@@ -257,7 +257,7 @@ setuptools>=61.2.0
 six>=1.12.0
 SkyWinder==0.0.3
 sniffio>=1.1
-solarmach==0.3.3
+solarmach==0.3.4
 solo-epd-loader==0.3.7
 sortedcontainers>=2.1.0,<3.0.0
 soupsieve>1.2
