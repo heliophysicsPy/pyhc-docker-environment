@@ -67,7 +67,7 @@ pymap3d | 3.1.0
 pysat | 3.2.0
 pyspedas | 1.5.12
 pytplot | 1.7.28
-pytplot-mpl-temp | 2.2.22
+pytplot-mpl-temp | 2.2.23
 pyzenodo3 | 1.0.2
 reesaurora | 1.0.5
 regularizepsf | 0.3.2
@@ -76,7 +76,7 @@ SkyWinder | 0.0.3
 solarmach | 0.3.4
 solo-epd-loader | 0.3.7
 space-packet-parser | 4.2.0
-spacepy | 0.5.0
+spacepy | 0.6.0
 speasy | 1.2.7
 spiceypy | 6.0.0
 sunkit-image | 0.5.1

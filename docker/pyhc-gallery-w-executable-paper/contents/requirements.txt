@@ -227,7 +227,7 @@ pytest==7.4.4
 python-dateutil>=2.8.2
 python-forge
 python-json-logger>=2.0.4
-# pytplot-mpl-temp==2.2.22  # gets installed last in the Dockerfile
+# pytplot-mpl-temp==2.2.23  # gets installed last in the Dockerfile
 # pytplot==1.7.28  # gets installed last in the Dockerfile
 pytz>=2020.1
 pyvo>=1.1
@@ -262,7 +262,7 @@ solo-epd-loader==0.3.7
 sortedcontainers>=2.1.0,<3.0.0
 soupsieve>1.2
 space-packet-parser==4.2.0
-# spacepy==0.5.0  # gets installed first in the Dockerfile
+# spacepy==0.6.0  # gets installed first in the Dockerfile
 speasy==1.2.7
 spiceypy==6.0.0
 sqlalchemy
