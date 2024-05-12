@@ -44,7 +44,7 @@ geopack | 1.0.10
 georinex | 1.16.2
 geospacelab | 0.6.1
 goesutils | 1.0.8
-hapiclient | 0.2.5
+hapiclient | 0.2.6
 heliopy | 0.15.4
 hissw | 2.3
 igrf | 13.0.2
@@ -81,7 +81,7 @@ speasy | 1.2.7
 spiceypy | 6.0.0
 sunkit-image | 0.5.1
 sunkit-instruments | 0.5.0
-sunpy | 5.1.2
+sunpy | 5.1.3
 sunraster | 0.5.1
 themisasi | 1.2.0
 viresclient | 0.11.6
