@@ -33,7 +33,7 @@ aiapy | 0.7.4
 aidapy | 0.0.4
 apexpy | 2.0.1
 astrometry-azel | 1.3.0
-ccsdspy | 1.2.1
+ccsdspy | 1.3.0
 cdflib | 0.4.9
 dascutils | 2.3.0
 dbprocessing | 0.1.0
