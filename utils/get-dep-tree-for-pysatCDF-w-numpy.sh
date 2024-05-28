@@ -6,7 +6,7 @@ PACKAGE=$1
 
 # Create a new virtual environment (consider python version)
 TEMP_ENV_NAME="temp_env_for_$PACKAGE"
-python3.9 -m venv $TEMP_ENV_NAME
+python3.10 -m venv $TEMP_ENV_NAME
 
 # Activate the virtual environment
 source $TEMP_ENV_NAME/bin/activate
