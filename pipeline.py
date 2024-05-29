@@ -39,7 +39,7 @@ def pipeline_should_run(packages_to_ignore=['cdflib', 'geospacelab', 'heliopy', 
         return True
     else:
         print("All PyHC packages are up to date.", flush=True)
-        return True
+        return False
 
 
 if __name__ == '__main__':
