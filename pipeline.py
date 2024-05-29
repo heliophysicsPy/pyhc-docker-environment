@@ -39,7 +39,7 @@ def pipeline_should_run(packages_to_ignore=['cdflib', 'geospacelab', 'heliopy', 
         return True
     else:
         print("All PyHC packages are up to date.", flush=True)
-        return True
+        return False
 
 
 if __name__ == '__main__':
@@ -75,10 +75,8 @@ if __name__ == '__main__':
                     file.write(requirements_txt)
 
                 # Comment out specific packages
-                # comment_out_numpy_and_spacepy(docker_requirements_path)
                 comment_out_pysatcdf(docker_requirements_path)
                 comment_out_kamodo(docker_requirements_path)
-                # comment_out_pyspedas_pytplot_pytplot_mpl_temp(docker_requirements_path)
                 comment_out_pytplot_and_pytplot_mpl_temp(docker_requirements_path)
 
         except ValueError as e:
