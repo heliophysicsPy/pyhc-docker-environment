@@ -37,13 +37,9 @@ RUN conda env create -f /app/environment.yml && \
 
 ENV PATH /opt/conda/envs/pyhc-all/bin:$PATH
 
-# Install PyHC packages with pip (SpacePy, Kamodo, and pySPEDAS separately)
-RUN pip install --no-cache-dir numpy==1.24.3 && \
-    pip install --no-cache-dir spacepy --no-build-isolation && \
-    pip install --use-pep517 --retries 5 --no-cache-dir -r /app/requirements.txt && \
-    pip install --no-cache-dir git+https://github.com/nasa/Kamodo.git && \
-    pip install --no-cache-dir pytplot-mpl-temp && \
-    pip install --no-cache-dir pyspedas
+# Install PyHC packages with pip (Kamodo separately)
+RUN pip install --use-pep517 --retries 5 --no-cache-dir -r /app/requirements.txt && \
+    pip install --no-cache-dir git+https://github.com/nasa/Kamodo.git
 
 # Cleanup environment.yml and requirements.txt after their use
 RUN rm /app/environment.yml /app/requirements.txt
