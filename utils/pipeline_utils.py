@@ -100,7 +100,7 @@ def comment_out_pysatcdf(requirements_file_path):
     with open(requirements_file_path, 'r') as file:
         lines = file.readlines()
 
-    # Iterate through the lines and comment out numpy and spacepy
+    # Iterate through the lines and comment out package
     for i, line in enumerate(lines):
         if 'pysatCDF' in line:
             lines[i] = f"# {line.strip()}  # pip install is broken and I don't want to install from GitHub\n"
@@ -119,7 +119,7 @@ def comment_out_kamodo(requirements_file_path):
     with open(requirements_file_path, 'r') as file:
         lines = file.readlines()
 
-    # Iterate through the lines and comment out numpy and spacepy
+    # Iterate through the lines and comment out package
     for i, line in enumerate(lines):
         if 'kamodo' in line:
             lines[i] = f"# {line.strip()}  # gets installed from GitHub instead\n"
@@ -138,10 +138,29 @@ def comment_out_pyspedas_pytplot_pytplot_mpl_temp(requirements_file_path):
     with open(requirements_file_path, 'r') as file:
         lines = file.readlines()
 
-    # Iterate through the lines and comment out numpy and spacepy
+    # Iterate through the lines and comment out packages
     for i, line in enumerate(lines):
         if 'pyspedas' in line or 'pytplot' in line or 'pytplot-mpl-temp' in line:
             lines[i] = f"# {line.strip()}  # gets installed last in the Dockerfile\n"
+
+    # Write the modified contents back to the file
+    with open(requirements_file_path, 'w') as file:
+        file.writelines(lines)
+
+
+def comment_out_pytplot_and_pytplot_mpl_temp(requirements_file_path):
+    """
+    This function takes a requirements.txt file as input, comments out lines for "pytplot"
+    and "pytplot_mpl_temp", and adds a comment after those lines.
+    """
+    # Read the contents of the file
+    with open(requirements_file_path, 'r') as file:
+        lines = file.readlines()
+
+    # Iterate through the lines and comment out packages
+    for i, line in enumerate(lines):
+        if 'pytplot' in line or 'pytplot-mpl-temp' in line:
+            lines[i] = f"# {line.strip()}  # pySPEDAS controls PyTplot installation\n"
 
     # Write the modified contents back to the file
     with open(requirements_file_path, 'w') as file:
