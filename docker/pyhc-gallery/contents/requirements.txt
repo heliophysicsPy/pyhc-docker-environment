@@ -77,7 +77,6 @@ fonttools>=4.22.0
 fortranformat
 frozenlist>=1.1.1
 fsspec>=2021.09.0
-future
 geomagindices>=1.4.0
 geopack==1.0.10
 georinex==1.16.2
@@ -235,7 +234,7 @@ pyzenodo3==1.0.2
 pyzmq>=24
 reesaurora==1.0.5
 referencing>=0.31.0
-regularizepsf==0.3.2
+regularizepsf==0.3.3
 requests-file>=1.5.1
 requests-toolbelt>=0.7.1
 requests>=2.31,<3.0.0
