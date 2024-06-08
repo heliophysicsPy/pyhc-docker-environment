@@ -58,14 +58,14 @@ mcalf | 1.0.0
 msise00 | 1.10.1
 ndcube | 2.2.1
 nexradutils | 1.0.0
-ocbpy | 0.3.0
+ocbpy | 0.4.0
 OMMBV | 1.0.1
 plasmapy | 2024.5.0
 pydarn | 4.0
 pyflct | 0.2.3
 pymap3d | 3.1.0
 pysat | 3.2.0
-pyspedas | 1.5.13
+pyspedas | 1.5.14
 pytplot | 1.7.28
 pytplot-mpl-temp | 2.2.26
 pyzenodo3 | 1.0.2
@@ -77,7 +77,7 @@ solarmach | 0.4.0
 solo-epd-loader | 0.3.7
 space-packet-parser | 4.2.0
 spacepy | 0.6.0
-speasy | 1.3.0
+speasy | 1.3.1
 spiceypy | 6.0.0
 sunkit-image | 0.5.1
 sunkit-instruments | 0.5.0
