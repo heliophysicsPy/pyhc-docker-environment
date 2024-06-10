@@ -49,7 +49,7 @@ heliopy | 0.15.4
 hissw | 2.3
 igrf | 13.0.2
 iri2016 | 1.11.1
-irispy-lmsal | 0.2.0
+irispy-lmsal | 0.2.1
 kamodo | 23.3.0
 lowtran | 3.1.0
 madrigalWeb | 3.3

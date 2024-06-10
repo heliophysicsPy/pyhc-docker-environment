@@ -107,7 +107,7 @@ ipykernel>=6.8.0
 ipython>=7.23.1
 ipywidgets>=7.7.0
 iri2016==1.11.1
-irispy-lmsal==0.2.0
+irispy-lmsal==0.2.1
 isodate>=0.6.0
 itsdangerous>=2.1.2
 jaraco.classes
