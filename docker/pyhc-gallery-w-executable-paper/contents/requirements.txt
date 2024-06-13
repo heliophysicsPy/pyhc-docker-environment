@@ -254,7 +254,7 @@ setuptools>=61.2.0
 six>=1.12.0
 SkyWinder==0.0.3
 sniffio>=1.1
-solarmach==0.4.0
+solarmach==0.4.1
 solo-epd-loader==0.3.7
 sortedcontainers>=2.1.0,<3.0.0
 soupsieve>1.2

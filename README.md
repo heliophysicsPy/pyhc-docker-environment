@@ -73,7 +73,7 @@ reesaurora | 1.0.5
 regularizepsf | 0.3.3
 sciencedates | 1.5.0
 SkyWinder | 0.0.3
-solarmach | 0.4.0
+solarmach | 0.4.1
 solo-epd-loader | 0.3.7
 space-packet-parser | 4.2.0
 spacepy | 0.6.0
