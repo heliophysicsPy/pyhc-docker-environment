@@ -166,7 +166,7 @@ networkx>=2.8
 nexradutils==1.0.0
 numba>=0.57.0
 numexpr>=2.6.2
-numpy==1.26.4  # was originally 'numpy>=1.23,<2.1' but numpy 2 breaks our env (issue #12)
+numpy==1.26.4  # was originally 'numpy==1.26.4' but numpy 2 breaks our env (issue #12)
 ocbpy==0.4.0
 omegaconf>=1.4,<1.5
 OMMBV==1.0.1
@@ -234,7 +234,7 @@ pyzenodo3==1.0.2
 pyzmq>=24
 reesaurora==1.0.5
 referencing>=0.31.0
-regularizepsf==0.3.3
+regularizepsf==0.3.4
 requests-file>=1.5.1
 requests-toolbelt>=0.7.1
 requests>=2.31,<3.0.0
