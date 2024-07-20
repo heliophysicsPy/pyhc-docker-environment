@@ -16,10 +16,10 @@ asdf-standard>=1.1.0
 asdf-transform-schemas>=0.5
 asdf-wcs-schemas>=0.4.0
 asdf>=2.13
-asteval>=0.9.28
+asteval>=1.0
 astrometry-azel==1.3.0
 astropy-iers-data>=0.2024.5.27.0.30.8
-astropy>=5.3,!=5.1.0
+astropy>=5.3.0,!=5.1.0
 astroquery
 asttokens>=2.1.0
 async-timeout>=4.0,<5.0
@@ -209,11 +209,11 @@ pyjwt>=2.0.0,<3.0.0
 pymap3d==3.1.0
 pyopenssl
 pyparsing>=2.3.1
-pyqt5-qt5>=5.15.2
-pyqt5-sip>=12.13,<13
+pyqt5-qt5>=5.15.2,<5.16.0
+pyqt5-sip>=12.15,<13
 pyqt5>=5.15.4
 pyqtgraph>=0.11.1
-pyqtwebengine-qt5>=5.15.0
+pyqtwebengine-qt5>=5.15.0,<5.16.0
 pyqtwebengine>=5.15.2
 pysat==3.2.0
 pyspedas==1.5.16
@@ -268,7 +268,7 @@ stack-data
 sunkit-image==0.5.1
 sunkit-instruments==0.5.0
 sunkit-magex
-sunpy==5.1.5
+sunpy==6.0.0
 sunraster==0.5.1
 sympy==1.5.1
 tables>=3.4.4
@@ -286,7 +286,7 @@ tqdm>=4.63
 traitlets>=5.13.0,<6
 typing-extensions>=4.6
 tzdata>=2022.7
-uncertainties>=3.1.4
+uncertainties>=3.2.2
 urllib3>=1.26.0,<3
 viresclient==0.11.6
 voila>=0.4.0
