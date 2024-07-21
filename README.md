@@ -60,7 +60,7 @@ ndcube | 2.2.2
 nexradutils | 1.0.0
 ocbpy | 0.4.0
 OMMBV | 1.0.1
-plasmapy | 2024.5.0
+plasmapy | 2024.7.0
 pydarn | 4.0
 pyflct | 0.2.3
 pymap3d | 3.1.0
@@ -84,6 +84,6 @@ sunkit-instruments | 0.5.0
 sunpy | 6.0.0
 sunraster | 0.5.1
 themisasi | 1.2.0
-viresclient | 0.11.6
+viresclient | 0.11.8
 wmm2015 | 1.1.1
 wmm2020 | 1.1.1
