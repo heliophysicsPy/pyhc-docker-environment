@@ -29,7 +29,7 @@ docker pull spolson/pyhc-gallery-w-executable-paper:vYYYY.MM.DD
 Package | Version
 ---|---
 aacgmv2 | 2.6.3
-aiapy | 0.8.0
+aiapy | 0.9.1
 aidapy | 0.0.4
 apexpy | 2.0.1
 astrometry-azel | 1.3.0
@@ -67,7 +67,7 @@ pymap3d | 3.1.0
 pysat | 3.2.0
 pyspedas | 1.5.16
 pytplot | 1.7.28
-pytplot-mpl-temp | 2.2.36
+pytplot-mpl-temp | 2.2.37
 pyzenodo3 | 1.0.2
 reesaurora | 1.0.5
 regularizepsf | 0.3.4
