@@ -202,7 +202,7 @@ pycparser
 pydarn==4.0
 pydarnio>=1.1.0
 pyerfa>=2.0.1.1
-pyflct==0.2.3
+pyflct==0.3.0
 pygments>=2.4.1
 pyistp>=0.5.0
 pyjwt>=2.0.0,<3.0.0
