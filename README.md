@@ -33,7 +33,7 @@ aiapy | 0.9.1
 aidapy | 0.0.4
 apexpy | 2.0.1
 astrometry-azel | 1.3.0
-ccsdspy | 1.3.0
+ccsdspy | 1.3.1
 cdflib | 0.4.9
 dascutils | 2.3.0
 dbprocessing | 0.1.0
@@ -52,7 +52,7 @@ iri2016 | 1.11.1
 irispy-lmsal | 0.2.1
 kamodo | 23.3.0
 lowtran | 3.1.0
-madrigalWeb | 3.3
+madrigalWeb | 3.3.1
 maidenhead | 1.7.0
 mcalf | 1.0.0
 msise00 | 1.10.1
