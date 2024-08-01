@@ -62,7 +62,7 @@ ocbpy | 0.4.0
 OMMBV | 1.0.1
 plasmapy | 2024.7.0
 pydarn | 4.0
-pyflct | 0.3.0
+pyflct | 0.3.1
 pymap3d | 3.1.0
 pysat | 3.2.0
 pyspedas | 1.5.16
