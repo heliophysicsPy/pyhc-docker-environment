@@ -63,12 +63,12 @@ pydarn | 4.0
 pyflct | 0.3.1
 pymap3d | 3.1.0
 pysat | 3.2.0
-pyspedas | 1.5.16
+pyspedas | 1.5.17
 pytplot | 1.7.28
-pytplot-mpl-temp | 2.2.38
+pytplot-mpl-temp | 2.2.39
 pyzenodo3 | 1.0.2
 reesaurora | 1.0.5
-regularizepsf | 0.3.4
+regularizepsf | 0.3.6
 sciencedates | 1.5.0
 SkyWinder | 0.0.3
 solarmach | 0.4.2
@@ -82,6 +82,6 @@ sunkit-instruments | 0.5.0
 sunpy | 6.0.0
 sunraster | 0.5.1
 themisasi | 1.2.0
-viresclient | 0.11.8
+viresclient | 0.12.0
 wmm2015 | 1.1.1
 wmm2020 | 1.1.1
