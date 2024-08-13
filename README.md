@@ -13,7 +13,6 @@ The PyHC Environment Pipeline automates the creation of Docker images with Pytho
 The pipeline creates and maintains the following Docker images:
 - [pyhc-environment](https://hub.docker.com/r/spolson/pyhc-environment) (the base env)
 - [pyhc-gallery](https://hub.docker.com/r/spolson/pyhc-gallery) (base env with notebooks from PyHC's gallery)
-- [pyhc-gallery-w-executable-paper](https://hub.docker.com/r/spolson/pyhc-gallery-w-executable-paper) (base env with notebooks from PyHC's gallery _and_ an executable paper)
 
 ## Usage
 Pull the Docker images from Docker Hub to start with a pre-configured Python environment tailored for heliophysics research and development.
@@ -21,7 +20,6 @@ Pull the Docker images from Docker Hub to start with a pre-configured Python env
 ```bash
 docker pull spolson/pyhc-environment:vYYYY.MM.DD
 docker pull spolson/pyhc-gallery:vYYYY.MM.DD
-docker pull spolson/pyhc-gallery-w-executable-paper:vYYYY.MM.DD
 ```
 (Replace `vYYYY.MM.DD` with the actual image version.)
 
