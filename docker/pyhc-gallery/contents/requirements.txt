@@ -43,7 +43,7 @@ cffi>=1.12
 cftime
 charset-normalizer>=2,<4
 click>=8.1.3
-cloudpickle>=1.5.0
+cloudpickle>=3.0.0
 cmasher
 colorspacious>=1.1.0
 comm>=0.1.3
@@ -234,7 +234,7 @@ pyzenodo3==1.0.2
 pyzmq>=24
 reesaurora==1.0.5
 referencing>=0.31.0
-regularizepsf==0.3.6
+regularizepsf==0.4.0
 requests-file>=1.5.1
 requests-toolbelt>=0.7.1
 requests>=2.31,<3.0.0
