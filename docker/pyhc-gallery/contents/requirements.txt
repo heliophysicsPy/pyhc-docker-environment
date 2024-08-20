@@ -78,7 +78,7 @@ fortranformat
 frozenlist>=1.1.1
 fsspec>=2021.09.0
 geomagindices>=1.4.0
-geopack==1.0.10
+geopack==1.0.11
 georinex==1.16.2
 geospacelab==0.6.1
 globus-sdk>=3.0

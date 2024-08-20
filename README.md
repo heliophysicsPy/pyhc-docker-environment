@@ -38,7 +38,7 @@ dbprocessing | 0.1.0
 dmsp | 0.6.0
 enlilviz | 0.2.0
 fiasco | 0.2.3
-geopack | 1.0.10
+geopack | 1.0.11
 georinex | 1.16.2
 geospacelab | 0.6.1
 goesutils | 1.0.8
