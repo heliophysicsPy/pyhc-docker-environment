@@ -71,9 +71,10 @@ def get_other_pyhc_packages():
     heliopy is hardcoded to 0.15.4 because 1.0.0 is deprecated.
     geospacelab is hardcoded to 0.6.1 because its cdflib version is too high for the other packages.
     cdflib is hardcoded to 0.4.9 because other packages cant handle >1.0.0.
-    pysatCDF has been removed due to installation failures
+    pysatCDF has been removed due to installation failures.
+    OMMBV has been removed due to installation failures.
     """
-    return ["aacgmv2", "aiapy", "aidapy", "apexpy", "astrometry-azel", "ccsdspy", "cdflib==0.4.9", "dascutils", "dbprocessing", "dmsp", "enlilviz", "fiasco", "geopack", "georinex", "geospacelab==0.6.1", "goesutils", "heliopy==0.15.4", "hissw", "igrf", "iri2016", "irispy-lmsal", "lowtran", "madrigalWeb", "maidenhead", "mcalf", "msise00", "ndcube", "nexradutils", "ocbpy", "OMMBV", "pydarn", "pyflct", "pymap3d", "pytplot", "pytplot-mpl-temp", "pyzenodo3", "reesaurora", "regularizepsf", "sciencedates", "SkyWinder", "solarmach", "solo-epd-loader", "space-packet-parser", "speasy", "spiceypy", "sunkit-image", "sunkit-instruments", "sunraster", "themisasi", "viresclient", "wmm2015", "wmm2020"]
+    return ["aacgmv2", "aiapy", "aidapy", "apexpy", "astrometry-azel", "ccsdspy", "cdflib==0.4.9", "dascutils", "dbprocessing", "dmsp", "enlilviz", "fiasco", "geopack", "georinex", "geospacelab==0.6.1", "goesutils", "heliopy==0.15.4", "hissw", "igrf", "iri2016", "irispy-lmsal", "lowtran", "madrigalWeb", "maidenhead", "mcalf", "msise00", "ndcube", "nexradutils", "ocbpy", "pydarn", "pyflct", "pymap3d", "pytplot", "pytplot-mpl-temp", "pyzenodo3", "reesaurora", "regularizepsf", "sciencedates", "SkyWinder", "solarmach", "solo-epd-loader", "space-packet-parser", "speasy", "spiceypy", "sunkit-image", "sunkit-instruments", "sunraster", "themisasi", "viresclient", "wmm2015", "wmm2020"]
 
 
 def get_supplementary_packages():
