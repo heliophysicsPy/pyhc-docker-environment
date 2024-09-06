@@ -58,13 +58,13 @@ ndcube | 2.2.2
 nexradutils | 1.0.0
 ocbpy | 0.4.0
 plasmapy | 2024.7.0
-pydarn | 4.0
+pydarn | 4.1
 pyflct | 0.3.1
 pymap3d | 3.1.0
 pysat | 3.2.0
 pyspedas | 1.6.0
 pytplot | 1.7.28
-pytplot-mpl-temp | 2.2.41
+pytplot-mpl-temp | 2.2.42
 pyzenodo3 | 1.0.2
 reesaurora | 1.0.5
 regularizepsf | 0.4.0
