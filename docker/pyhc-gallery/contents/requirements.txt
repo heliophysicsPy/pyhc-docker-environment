@@ -218,7 +218,7 @@ pyqtwebengine-qt5>=5.15.0,<5.16.0
 pyqtwebengine>=5.15.2
 pysat==3.2.0
 pyshp>=2.3
-pyspedas==1.6.0
+pyspedas==1.6.1
 pytest-arraydiff==0.6.1
 pytest-doctestplus==1.2.1
 pytest-xdist==3.6.1
@@ -226,7 +226,7 @@ pytest>=7.0.0
 python-dateutil>=2.8.2
 python-forge
 python-json-logger>=2.0.4
-# pytplot-mpl-temp==2.2.43  # pySPEDAS controls PyTplot installation
+# pytplot-mpl-temp==2.2.45  # pySPEDAS controls PyTplot installation
 # pytplot==1.7.28  # pySPEDAS controls PyTplot installation
 pytz>=2020.1
 pyvo>=1.1
