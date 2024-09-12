@@ -70,7 +70,7 @@ execnet>=2.1
 executing>=1.2.0
 extension
 fastjsonschema>=2.15
-fiasco==0.2.3
+fiasco==0.3.0
 flask-cors
 flask-restful==0.3.8
 flask==1.1.2
@@ -174,7 +174,7 @@ orderly-set==5.2.2
 overrides>=5.0
 packaging>=23.1
 palettable
-pandas>=2.0
+pandas>=2.1
 pandocfilters>=1.4.1
 parfive>=2.0.0
 parso>=0.8.3,<0.9.0
@@ -307,4 +307,4 @@ xarray>=2022.6.0
 xyzservices>=2021.09.1
 yarl>=1.0,<2.0
 zeep
-zipp>=0.5
+zipp>=3.20
