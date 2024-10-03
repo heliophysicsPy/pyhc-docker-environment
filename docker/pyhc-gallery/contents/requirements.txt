@@ -19,7 +19,7 @@ asdf-wcs-schemas>=0.4.0
 asdf>=2.13
 asteval>=1.0
 astrometry-azel==1.3.0
-astropy-iers-data>=0.2024.7.29.0.32.7
+astropy-iers-data>=0.2024.8.27.10.28.29
 astropy>=5.3.0,!=5.1.0
 astroquery
 asttokens>=2.1.0
@@ -59,7 +59,7 @@ debugpy>=1.6.5
 decorator>=4.4.2
 deepdiff==8.0.1
 defusedxml
-dill>=0.3.8
+dill>=0.3.9
 diskcache
 dkist>=1.0.0
 dmsp==0.6.0
@@ -96,7 +96,7 @@ heliopy==0.15.4
 hissw==2.3
 html5lib>=0.999
 hydra-core==0.11.3
-hypothesis==6.112.1
+hypothesis==6.112.2
 idna>=2.8,<4
 igrf==13.0.2
 imageio>=2.33
@@ -153,7 +153,7 @@ mpmath>=1.2.1
 msgpack
 msise00==1.10.1
 multidict>=4.5,<7.0
-multiprocess>=0.70.16
+multiprocess>=0.70.17
 natsort>=7.1.1
 nbclient>=0.5.0
 nbconvert>=6.4.5,<8
@@ -188,8 +188,8 @@ platformdirs>=3.0
 plotly
 pluggy>=1.5,<2
 portalocker
-pox>=0.3.4
-ppft>=1.7.6.8
+pox>=0.3.5
+ppft>=1.7.6.9
 prometheus-client>=0.9
 prompt-toolkit>=3.0.41,<3.1.0
 psutil
@@ -218,7 +218,7 @@ pyqtwebengine-qt5>=5.15.0,<5.16.0
 pyqtwebengine>=5.15.2
 pysat==3.2.0
 pyshp>=2.3
-pyspedas==1.6.1
+pyspedas==1.6.2
 pytest-arraydiff==0.6.1
 pytest-doctestplus==1.2.1
 pytest-xdist==3.6.1

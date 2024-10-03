@@ -62,7 +62,7 @@ pydarn | 4.1
 pyflct | 0.3.1
 pymap3d | 3.1.0
 pysat | 3.2.0
-pyspedas | 1.6.1
+pyspedas | 1.6.2
 pytplot | 1.7.28
 pytplot-mpl-temp | 2.2.46
 pyzenodo3 | 1.0.2
