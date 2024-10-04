@@ -28,8 +28,6 @@ attrs>=22.2.0
 babel>=2.10
 backports.tarfile
 beautifulsoup4>=4.9.3
-bitarray>=2.9.0,<3.0.0
-bitstring>=4.0.1
 bleach!=5.0.0
 blinker>=1.6.2
 blosc2>=2.3.0
@@ -138,7 +136,7 @@ llvmlite>=0.43.0dev0,<0.44
 lmfit>=1.1.0
 locket
 lowtran==3.1.0
-lxml>=4.6.0
+lxml>=4.8.0
 madrigalWeb==3.3.1
 madrigalweb>=3.2
 maidenhead==1.7.0
@@ -216,7 +214,7 @@ pyqt5>=5.15.4
 pyqtgraph>=0.11.1
 pyqtwebengine-qt5>=5.15.0,<5.16.0
 pyqtwebengine>=5.15.2
-pysat==3.2.0
+pysat==3.2.1
 pyshp>=2.3
 pyspedas==1.6.2
 pytest-arraydiff==0.6.1
@@ -261,7 +259,7 @@ solarmach==0.4.2
 solo-epd-loader==0.3.7
 sortedcontainers>=2.1.0,<3.0.0
 soupsieve>1.2
-space-packet-parser==4.2.0
+space-packet-parser==5.0.0
 spacepy==0.6.0
 speasy==1.4.0
 spiceypy==6.0.0

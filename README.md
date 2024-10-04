@@ -61,7 +61,7 @@ plasmapy | 2024.7.0
 pydarn | 4.1
 pyflct | 0.3.1
 pymap3d | 3.1.0
-pysat | 3.2.0
+pysat | 3.2.1
 pyspedas | 1.6.2
 pytplot | 1.7.28
 pytplot-mpl-temp | 2.2.46
@@ -72,7 +72,7 @@ sciencedates | 1.5.0
 SkyWinder | 0.0.3
 solarmach | 0.4.2
 solo-epd-loader | 0.3.7
-space-packet-parser | 4.2.0
+space-packet-parser | 5.0.0
 spacepy | 0.6.0
 speasy | 1.4.0
 spiceypy | 6.0.0
