@@ -72,7 +72,7 @@ sciencedates | 1.5.0
 SkyWinder | 0.0.3
 solarmach | 0.4.2
 solo-epd-loader | 0.3.7
-space-packet-parser | 5.0.0
+space-packet-parser | 5.0.1
 spacepy | 0.6.0
 speasy | 1.4.0
 spiceypy | 6.0.0
