@@ -31,7 +31,7 @@ aiapy | 0.9.1
 aidapy | 0.0.4
 apexpy | 2.0.1
 astrometry-azel | 1.3.0
-ccsdspy | 1.3.1
+ccsdspy | 1.3.2
 cdflib | 0.4.9
 dascutils | 2.3.0
 dbprocessing | 0.1.0
@@ -54,7 +54,7 @@ madrigalWeb | 3.3.1
 maidenhead | 1.7.0
 mcalf | 1.0.0
 msise00 | 1.10.1
-ndcube | 2.2.2
+ndcube | 2.2.3
 nexradutils | 1.0.0
 ocbpy | 0.4.0
 plasmapy | 2024.7.0
@@ -78,7 +78,7 @@ speasy | 1.4.0
 spiceypy | 6.0.0
 sunkit-image | 0.5.1
 sunkit-instruments | 0.5.0
-sunpy | 6.0.2
+sunpy | 6.0.3
 sunraster | 0.5.1
 themisasi | 1.2.0
 viresclient | 0.12.0
