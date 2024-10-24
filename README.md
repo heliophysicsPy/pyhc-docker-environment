@@ -54,7 +54,7 @@ madrigalWeb | 3.3.1
 maidenhead | 1.7.0
 mcalf | 1.0.0
 msise00 | 1.10.1
-ndcube | 2.2.3
+ndcube | 2.2.4
 nexradutils | 1.0.0
 ocbpy | 0.4.0
 plasmapy | 2024.7.0
