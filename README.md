@@ -67,7 +67,7 @@ pytplot | 1.7.28
 pytplot-mpl-temp | 2.2.50
 pyzenodo3 | 1.0.2
 reesaurora | 1.0.5
-regularizepsf | 1.0.0
+regularizepsf | 1.0.1
 sciencedates | 1.5.0
 SkyWinder | 0.0.3
 solarmach | 0.4.2

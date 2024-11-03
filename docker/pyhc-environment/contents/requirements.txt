@@ -233,7 +233,7 @@ pyzenodo3==1.0.2
 pyzmq>=24
 reesaurora==1.0.5
 referencing>=0.31.0
-regularizepsf==1.0.0
+regularizepsf==1.0.1
 requests-file>=1.5.1
 requests-toolbelt>=0.7.1
 requests>=2.31,<3.0.0
