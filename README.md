@@ -73,7 +73,7 @@ SkyWinder | 0.0.3
 solarmach | 0.4.3
 solo-epd-loader | 0.3.7
 space-packet-parser | 5.0.1
-spacepy | 0.6.0
+spacepy | 0.7.0
 speasy | 1.4.0
 spiceypy | 6.0.0
 sunkit-image | 0.5.1
