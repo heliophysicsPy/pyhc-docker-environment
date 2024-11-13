@@ -29,7 +29,7 @@ Package | Version
 aacgmv2 | 2.6.3
 aiapy | 0.9.1
 aidapy | 0.0.4
-apexpy | 2.0.1
+apexpy | 2.0.2
 astrometry-azel | 1.3.0
 ccsdspy | 1.3.2
 cdflib | 0.4.9
