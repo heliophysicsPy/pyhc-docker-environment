@@ -37,13 +37,25 @@ jobs:
       if: steps.pipeline_check.outputs.should_run == 'true'
       run: python utils/docker_operations.py ./docker ${{ secrets.DOCKER_HUB_USERNAME }} ${{ secrets.DOCKER_HUB_TOKEN }}
 
-    - name: Commit and Push Repo Changes
-      if: steps.pipeline_check.outputs.should_run == 'true'
+    - name: Commit and Push Repo Changes (No Conflicts)
+      if: steps.pipeline_check.outputs.should_run == 'true' && steps.pipeline_check.outputs.has_conflict != 'true'
       run: |
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
         git add .
         git commit -m "Update Docker image requirements, spreadsheet, README" || exit 0
+        git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Commit and Push Conflicted Spreadsheet
+      if: steps.pipeline_check.outputs.has_conflict == 'true'
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        # Only add the conflict spreadsheet(s):
+        git add spreadsheets/*.xlsx
+        git commit -m "Add dependency conflict spreadsheet" || exit 0
         git push
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -55,5 +67,15 @@ jobs:
         issue-number: 2
         body: |
           Docker Hub images and GitHub repo have been updated by GitHub Actions.
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Notify on Dependency Conflict
+      if: steps.pipeline_check.outputs.has_conflict == 'true'
+      uses: peter-evans/create-or-update-comment@v4
+      with:
+        issue-number: 2
+        body: |
+          A dependency conflict was found. The conflict spreadsheet has been pushed to the repo.
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

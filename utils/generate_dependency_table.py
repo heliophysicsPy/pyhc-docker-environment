@@ -428,6 +428,9 @@ def lower_bound_is_compatible(current_range, new_lower_bound):
                 compatible = Version(new_lower_bound.version) <= curr_v
             else:
                 compatible = Version(new_lower_bound.version) < curr_v
+            # Additional check to prevent empty intersection:
+            if compatible and Version(new_lower_bound.version) == curr_v and new_lower_bound.operator.startswith('>=') and curr_op.startswith('<'):
+                compatible = False
         elif curr_op == "==":
             compatible = (Version(new_lower_bound.version) <= curr_v and inclusive) or (Version(new_lower_bound.version) < curr_v)
         elif curr_op == "!=":
@@ -463,6 +466,9 @@ def upper_bound_is_compatible(current_range, new_upper_bound):
                 compatible = Version(new_upper_bound.version) >= curr_v
             else:
                 compatible = Version(new_upper_bound.version) > curr_v
+            # Additional check for empty intersection:
+            if compatible and Version(new_upper_bound.version) == curr_v and new_upper_bound.operator.startswith('<=') and curr_op.startswith('>'):
+                compatible = False
         elif curr_op == "==":
             compatible = (Version(new_upper_bound.version) >= curr_v and inclusive) or (Version(new_upper_bound.version) > curr_v)
         elif curr_op == "!=":
