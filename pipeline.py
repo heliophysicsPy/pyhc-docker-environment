@@ -23,7 +23,8 @@ from utils.generate_dependency_table import *
 from utils.pipeline_utils import *
 
 
-def pipeline_should_run(packages_to_ignore=['cdflib', 'geospacelab', 'heliopy', 'pytplot']):
+# def pipeline_should_run(packages_to_ignore=['cdflib', 'geospacelab', 'heliopy', 'pytplot']):
+def pipeline_should_run(packages_to_ignore=['heliopy', 'pytplot']):
     """
     Step 1: Check if any PyHC packages have released updates. If not, the pipeline doesn't need to run (return False).
     """
