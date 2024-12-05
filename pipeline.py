@@ -43,6 +43,8 @@ def pipeline_should_run(packages_to_ignore=['cdflib', 'geospacelab', 'heliopy', 
 
 
 if __name__ == '__main__':
+    has_conflict = False  # Initialize the conflict flag
+
     if not pipeline_should_run():
         print("Pipeline will not run.", flush=True)
         print("::set-output name=should_run::false", flush=True)  # Tells GitHub Actions not to continue
@@ -80,8 +82,12 @@ if __name__ == '__main__':
                 comment_out_pytplot_and_pytplot_mpl_temp(docker_requirements_path)
                 specify_numpy_1_26_4(docker_requirements_path)
 
-        except ValueError as e:
-            raise e
+            print("::set-output name=should_run::true", flush=True)
+            print("::set-output name=has_conflict::false", flush=True)
+            print("Updated all Docker images' requirements.", flush=True)
 
-        print("::set-output name=should_run::true", flush=True)
-        print("Updated all Docker images' requirements.", flush=True)
+        except ValueError as e:
+            has_conflict = True
+            print(f"Dependency conflict found: {e}", flush=True)
+            print("::set-output name=should_run::false", flush=True)
+            print("::set-output name=has_conflict::true", flush=True)
