@@ -23,8 +23,7 @@ from utils.generate_dependency_table import *
 from utils.pipeline_utils import *
 
 
-# def pipeline_should_run(packages_to_ignore=['cdflib', 'geospacelab', 'heliopy', 'pytplot']):
-def pipeline_should_run(packages_to_ignore=['heliopy', 'pytplot']):
+def pipeline_should_run(packages_to_ignore=['cdflib', 'geospacelab', 'heliopy', 'pytplot']):
     """
     Step 1: Check if any PyHC packages have released updates. If not, the pipeline doesn't need to run (return False).
     """
@@ -40,7 +39,8 @@ def pipeline_should_run(packages_to_ignore=['heliopy', 'pytplot']):
         return True
     else:
         print("All PyHC packages are up to date.", flush=True)
-        return False
+        # return False
+        return True  # TODO: REVERT THIS!
 
 
 if __name__ == '__main__':
@@ -58,7 +58,8 @@ if __name__ == '__main__':
             os.makedirs(spreadsheet_folder)
         spreadsheet_path = os.path.join(spreadsheet_folder, filename)
 
-        all_packages = get_core_pyhc_packages() + get_other_pyhc_packages() + get_supplementary_packages()
+        # all_packages = get_core_pyhc_packages() + get_other_pyhc_packages() + get_supplementary_packages()
+        all_packages = ['apexpy==2.0.2', 'pyrfu==2.4.14']  # TODO: REVERT THIS!
         table_data = generate_dependency_table_data(all_packages)
 
         table = excel_spreadsheet_from_table_data(table_data)
@@ -81,7 +82,7 @@ if __name__ == '__main__':
                 comment_out_pysatcdf(docker_requirements_path)
                 comment_out_kamodo(docker_requirements_path)
                 comment_out_pytplot_and_pytplot_mpl_temp(docker_requirements_path)
-                specify_numpy_1_26_4(docker_requirements_path)
+                # specify_numpy_1_26_4(docker_requirements_path)  # TODO: REVERT THIS!?
 
             print("::set-output name=should_run::true", flush=True)
             print("::set-output name=has_conflict::false", flush=True)
