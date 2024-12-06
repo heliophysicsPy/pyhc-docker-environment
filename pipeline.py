@@ -80,7 +80,6 @@ if __name__ == '__main__':
                 comment_out_pysatcdf(docker_requirements_path)
                 comment_out_kamodo(docker_requirements_path)
                 comment_out_pytplot_and_pytplot_mpl_temp(docker_requirements_path)
-                specify_numpy_1_26_4(docker_requirements_path)
 
             print("::set-output name=should_run::true", flush=True)
             print("::set-output name=has_conflict::false", flush=True)

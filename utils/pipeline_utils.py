@@ -26,7 +26,23 @@ def fetch_latest_version_from_pypi(package_name):
 
 def check_for_package_updates(requirements_path, package_names, ignore_list=None):
     """
-    Check if the packages in the requirements.txt file are up-to-date with PyPI.
+    Check if the specified packages are up-to-date with PyPI.
+
+    This function compares the current environment's packages (as listed in the given 
+    requirements.txt file) against the latest versions on PyPI. If any package is not 
+    present in requirements.txt (i.e., newly added to the list of packages you want to 
+    track), it will be considered as "Not Installed" and treated as requiring an update 
+    to add it to the environment.
+
+    Args:
+        requirements_path (str): The path to the requirements.txt file.
+        package_names (list of str): The list of packages to check.
+        ignore_list (list of str, optional): A list of package names to ignore.
+
+    Returns:
+        dict: A dictionary mapping package names to a dict with 'current_version' and 
+              'latest_version' keys for packages that require updates. For newly introduced 
+              packages, 'current_version' will be set to "Not Installed".
     """
     if ignore_list is None:
         ignore_list = []
@@ -54,8 +70,14 @@ def check_for_package_updates(requirements_path, package_names, ignore_list=None
         # Fetch the latest version from PyPI
         latest_version = fetch_latest_version_from_pypi(package_name)
 
-        if latest_version and current_version and latest_version != current_version:
-            updates_required[package_name] = {'current_version': current_version, 'latest_version': latest_version}
+        # If we have a latest_version from PyPI, determine if an update is needed.
+        if latest_version:
+            # If package is not installed or installed but out-of-date, we consider it an update.
+            if current_version is None or latest_version != current_version:
+                updates_required[package_name] = {
+                    'current_version': current_version if current_version else "Not Installed",
+                    'latest_version': latest_version
+                }
 
     return updates_required
 
