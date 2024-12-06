@@ -29,10 +29,12 @@ Package | Version
 aacgmv2 | 2.6.3
 aiapy | 0.9.1
 aidapy | 0.0.4
+amisrsynthdata | 1.1.8
 apexpy | 2.0.2
 astrometry-azel | 1.3.0
 ccsdspy | 1.3.2
-cdflib | 0.4.9
+cdflib | 1.3.2
+cloudcatalog | 1.0.0
 dascutils | 2.3.0
 dbprocessing | 0.1.0
 dmsp | 0.6.0
@@ -40,7 +42,7 @@ enlilviz | 0.2.0
 fiasco | 0.3.0
 geopack | 1.0.11
 georinex | 1.16.2
-geospacelab | 0.6.1
+geospacelab | 0.8.12
 goesutils | 1.0.8
 hapiclient | 0.2.6
 heliopy | 0.15.4
@@ -58,6 +60,8 @@ ndcube | 2.2.4
 nexradutils | 1.0.0
 ocbpy | 0.4.0
 plasmapy | 2024.10.0
+pyaurorax | 1.4.0
+pycdfpp | 0.7.4
 pydarn | 4.1
 pyflct | 0.3.1
 pymap3d | 3.1.0
@@ -68,7 +72,9 @@ pytplot-mpl-temp | 2.2.50
 pyzenodo3 | 1.0.2
 reesaurora | 1.0.5
 regularizepsf | 1.0.2
+savic | 1.1.0
 sciencedates | 1.5.0
+SciQLop | 0.8.1
 SkyWinder | 0.0.3
 solarmach | 0.4.3
 solo-epd-loader | 0.3.7
