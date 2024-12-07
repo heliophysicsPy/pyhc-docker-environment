@@ -84,7 +84,7 @@ speasy | 1.4.0
 spiceypy | 6.0.0
 sunkit-image | 0.5.1
 sunkit-instruments | 0.5.0
-sunpy | 6.0.3
+sunpy | 6.0.4
 sunraster | 0.5.1
 themisasi | 1.2.0
 viresclient | 0.12.0
