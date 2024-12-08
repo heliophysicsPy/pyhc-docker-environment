@@ -213,7 +213,7 @@ psutil
 ptyprocess>=0.5
 pure-eval
 py-cpuinfo
-pyaurorax==1.4.0
+pyaurorax==1.5.0
 pycapnp
 pycdfpp==0.7.4
 pycparser
@@ -251,7 +251,7 @@ python-json-logger>=2.0.4
 # pytplot-mpl-temp==2.2.50  # pySPEDAS controls PyTplot installation
 # pytplot==1.7.28  # pySPEDAS controls PyTplot installation
 pytz>=2020.1
-pyucalgarysrs==1.4.0
+pyucalgarysrs==1.6.3
 pyvo>=1.1
 pywavelets
 pyyaml>=5.4.1
