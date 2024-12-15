@@ -36,7 +36,7 @@ blinker>=1.9
 blosc2>=2.3.0
 bokeh>=1.1
 boto3
-botocore>=1.35.78,<1.36.0
+botocore>=1.35.81,<1.36.0
 bottleneck
 cartopy>=0.23.0,<0.24.0
 ccsdspy==1.3.2
@@ -107,7 +107,7 @@ hydra-core==0.11.3
 hypothesis==6.122.3
 idna>=2.8,<4
 igrf==13.0.2
-imageio>=2.33
+imageio>=2.33,!=2.35.0
 importlib-metadata>=4.13.0
 importlib-resources
 incremental
@@ -175,7 +175,7 @@ ndcube==2.2.4
 ndindex>=1.4
 nest-asyncio
 netcdf4>=1.6.2
-networkx>=2.8
+networkx>=3.0
 nexradutils==1.0.0
 notebook
 notebook-shim>=0.2,<0.3
@@ -198,7 +198,7 @@ partd>=1.4.0
 pathlib2
 pathos>=0.2.5
 pexpect>4.3
-pillow>=9.1
+pillow>=10.1
 plasmapy==2024.10.0
 platformdirs>=3.0
 plotly
@@ -213,7 +213,7 @@ psutil
 ptyprocess>=0.5
 pure-eval
 py-cpuinfo
-pyaurorax==1.6.0
+pyaurorax==1.7.0
 pycapnp
 pycdfpp==0.7.4
 pycparser
@@ -274,7 +274,7 @@ savic==1.1.0
 sciencedates==1.5.0
 scikit-image>=0.19.0
 scikit-learn>=1.2.0
-scipy>=1.9.0,<2.0.0,!=1.10.0
+scipy>=1.11.2,<2.0.0,!=1.10.0
 SciQLop==0.8.1
 sciqlopplots==0.7.5
 seaborn
