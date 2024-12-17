@@ -72,6 +72,7 @@ pytplot-mpl-temp | 2.2.50
 pyzenodo3 | 1.0.2
 reesaurora | 1.0.5
 regularizepsf | 1.0.2
+sammi-cdf | 0.1.2
 savic | 1.1.0
 sciencedates | 1.5.0
 SciQLop | 0.8.1
