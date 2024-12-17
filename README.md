@@ -40,6 +40,7 @@ dbprocessing | 0.1.0
 dmsp | 0.6.0
 enlilviz | 0.2.0
 fiasco | 0.3.0
+gcmprocpy | 1.1.0
 geopack | 1.0.11
 georinex | 1.16.2
 geospacelab | 0.8.12

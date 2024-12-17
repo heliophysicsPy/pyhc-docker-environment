@@ -36,7 +36,7 @@ blinker>=1.9
 blosc2>=2.3.0
 bokeh>=1.1
 boto3
-botocore>=1.35.82,<1.36.0
+botocore>=1.35.83,<1.36.0
 bottleneck
 cartopy>=0.23.0,<0.24.0
 ccsdspy==1.3.2
@@ -82,6 +82,8 @@ fonttools>=4.22.0
 fortranformat
 frozenlist>=1.1.1
 fsspec>=2021.09.0
+gcmprocpy==1.1.0
+geomag
 geomagindices>=1.4.0
 geopack==1.0.11
 georinex==1.16.2
