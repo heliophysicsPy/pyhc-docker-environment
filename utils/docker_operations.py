@@ -49,6 +49,11 @@ def build_and_push_docker_images(docker_folder_path, docker_username, docker_tok
 
             print(f"Successfully processed: {date_tag} and {latest_tag}")
 
+        # If we reach this point, we have successfully built and pushed today's images.
+        # Set the output variable to the date-based version tag (e.g., v2024.12.19).
+        # This assumes all images use the same date tag.
+        print(f"::set-output name=docker_version::v{today}")
+
     except subprocess.CalledProcessError as e:
         print(f"Error during Docker operations: {e}", flush=True)
         print("::set-output name=should_run::false", flush=True)
