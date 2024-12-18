@@ -48,6 +48,24 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+    - name: Update science-platforms-coordination to Trigger Binder Rebuild
+      if: steps.pipeline_check.outputs.should_run == 'true' && steps.pipeline_check.outputs.has_conflict != 'true'
+      run: |
+        # Clone the target repo using a PAT with push permissions
+        git clone https://${{ secrets.SCIENCE_PLATFORMS_PAT }}@github.com/heliophysicsPy/science-platforms-coordination.git coordination_repo
+        cd coordination_repo
+        git checkout pyhc
+
+        # Update the existing "Last updated:" line in README.md with a new timestamp
+        last_updated="Last updated: $(date -u +"%Y-%m-%d %H:%M:%S UTC")"
+        sed -i "s|^Last updated:.*|$last_updated|" README.md
+
+        git config user.name 'github-actions[bot]'
+        git config user.email 'github-actions[bot]@users.noreply.github.com'
+        git add README.md
+        git commit -m "Trigger Binder rebuild with updated timestamp"
+        git push origin pyhc
+
     - name: Commit and Push Conflicted Spreadsheet
       if: steps.pipeline_check.outputs.has_conflict == 'true'
       run: |
