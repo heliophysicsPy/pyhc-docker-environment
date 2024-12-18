@@ -5,7 +5,7 @@ FROM continuumio/miniconda3
 WORKDIR /app
 
 # Update the packages in the base image and install the necessary compilers, then cleanup
-RUN apt-get update && apt-get install -y gcc g++ gfortran ncurses-dev build-essential cmake \
+RUN apt-get update && apt-get install -y gcc g++ gfortran ncurses-dev build-essential cmake libgl1-mesa-glx \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
