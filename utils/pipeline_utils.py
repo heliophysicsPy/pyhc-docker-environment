@@ -24,6 +24,11 @@ def fetch_latest_version_from_pypi(package_name):
         return None
 
 
+def strip_extras(package_name):
+    # This regex removes any bracketed extras.
+    return re.sub(r'\[.*?\]', '', package_name)
+
+
 def check_for_package_updates(requirements_path, package_names, ignore_list=None):
     """
     Check if the specified packages are up-to-date with PyPI.
@@ -55,26 +60,31 @@ def check_for_package_updates(requirements_path, package_names, ignore_list=None
         # Strip any version specifier and fetch the package name
         package_name = package.split('==')[0].strip()
 
-        if package_name in ignore_list:
+        # Strip extras from package_name before querying PyPI
+        package_name_base = strip_extras(package_name)
+
+        if package_name_base in ignore_list:
             continue
 
         # Extract the current version from requirements.txt
         current_version = None
         for line in requirements:
-            if package_name.lower() in line.lower():
+            # Strip extras from line as well to ensure matching
+            line_stripped = strip_extras(line)
+            if package_name_base.lower() in line_stripped.lower():
                 match = re.search(r'==(.+?)(\s*#|$)', line)  # Note, this only catches lines with == (should be the case for all PyHC packages, but there's an updated regex in update_readme.py for reference)
                 if match:
                     current_version = match.group(1).strip()
                 break
 
-        # Fetch the latest version from PyPI
-        latest_version = fetch_latest_version_from_pypi(package_name)
+        # Fetch the latest version from PyPI using the stripped package name
+        latest_version = fetch_latest_version_from_pypi(package_name_base)
 
         # If we have a latest_version from PyPI, determine if an update is needed.
         if latest_version:
             # If package is not installed or installed but out-of-date, we consider it an update.
             if current_version is None or latest_version != current_version:
-                updates_required[package_name] = {
+                updates_required[package_name_base] = {
                     'current_version': current_version if current_version else "Not Installed",
                     'latest_version': latest_version
                 }
