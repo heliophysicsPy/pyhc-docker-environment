@@ -94,6 +94,6 @@ sunkit-instruments | 0.5.0
 sunpy | 6.0.4
 sunraster | 0.5.1
 themisasi | 1.2.0
-viresclient | 0.12.1
+viresclient | 0.12.0
 wmm2015 | 1.1.1
 wmm2020 | 1.1.1
