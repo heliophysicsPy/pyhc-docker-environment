@@ -61,7 +61,7 @@ lowtran | 3.1.0
 madrigalWeb | 3.3.1
 maidenhead | 1.7.0
 mcalf | 1.0.0
-msise00 | 1.10.1
+msise00 | 1.11.1
 ndcube | 2.2.4
 nexradutils | 1.0.0
 ocbpy | 0.4.0
@@ -94,6 +94,6 @@ sunkit-instruments | 0.5.0
 sunpy | 6.0.4
 sunraster | 0.5.1
 themisasi | 1.2.0
-viresclient | 0.12.0
+viresclient | 0.12.1
 wmm2015 | 1.1.1
 wmm2020 | 1.1.1
