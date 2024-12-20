@@ -51,7 +51,7 @@ def get_core_pyhc_packages():
     TODO: consider scraping this from projects_core.yml online?
     :return: A list of the core PyHC package names.
     """
-    return ["hapiclient", "kamodo", "plasmapy", "pysat", "pyspedas", "spacepy", "sunpy"]
+    return ["hapiclient", "kamodo", "plasmapy", "pysat", "pyspedas", "spacepy", "sunpy", "pyhc-core[tests]"]
 
 
 def get_other_pyhc_packages():
