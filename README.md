@@ -19,7 +19,7 @@ The pipeline creates and maintains the following Docker images:
 ## Usage
 Click the "launch binder" badge at the top of this README to launch the latest `pyhc-environment` in Binder.
 
-Alternatively, you may run the Docker images locally by pulling them from Docker Hub: 
+Alternatively, you may run the Docker images locally by pulling them from Docker Hub:
 
 ```bash
 docker pull spolson/pyhc-environment:vYYYY.MM.DD
