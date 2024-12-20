@@ -69,8 +69,9 @@ def get_other_pyhc_packages():
     pysatCDF has been removed due to installation failures.
     OMMBV has been removed due to installation failures.
     pyrfu has not been added yet because its cdflib and numpy versions are too high for other packages.
+    msise00 was removed as a test to see if it was breaking things.
     """
-    return ["aacgmv2", "aiapy", "aidapy", "amisrsynthdata", "apexpy", "astrometry-azel", "ccsdspy", "cdflib", "cloudcatalog", "dascutils", "dbprocessing", "dmsp", "enlilviz", "fiasco", "gcmprocpy", "geopack", "georinex", "geospacelab", "goesutils", "heliopy==0.15.4", "hissw", "igrf", "iri2016", "irispy-lmsal", "lofarSun", "lowtran", "madrigalWeb", "maidenhead", "mcalf", "msise00", "ndcube", "nexradutils", "ocbpy", "pyaurorax", "pycdfpp", "pydarn", "pyflct", "pymap3d", "pytplot", "pytplot-mpl-temp", "pyzenodo3", "reesaurora", "regularizepsf", "sammi-cdf", "savic", "sciencedates", "SciQLop", "SkyWinder", "solarmach", "solo-epd-loader", "space-packet-parser", "speasy", "spiceypy", "sunkit-image", "sunkit-instruments", "sunraster", "themisasi", "viresclient", "wmm2015", "wmm2020"]
+    return ["aacgmv2", "aiapy", "aidapy", "amisrsynthdata", "apexpy", "astrometry-azel", "ccsdspy", "cdflib", "cloudcatalog", "dascutils", "dbprocessing", "dmsp", "enlilviz", "fiasco", "gcmprocpy", "geopack", "georinex", "geospacelab", "goesutils", "heliopy==0.15.4", "hissw", "igrf", "iri2016", "irispy-lmsal", "lofarSun", "lowtran", "madrigalWeb", "maidenhead", "mcalf", "ndcube", "nexradutils", "ocbpy", "pyaurorax", "pycdfpp", "pydarn", "pyflct", "pymap3d", "pytplot", "pytplot-mpl-temp", "pyzenodo3", "reesaurora", "regularizepsf", "sammi-cdf", "savic", "sciencedates", "SciQLop", "SkyWinder", "solarmach", "solo-epd-loader", "space-packet-parser", "speasy", "spiceypy", "sunkit-image", "sunkit-instruments", "sunraster", "themisasi", "viresclient", "wmm2015", "wmm2020"]
 
 
 def get_supplementary_packages():
