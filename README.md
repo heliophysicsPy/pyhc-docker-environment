@@ -66,7 +66,7 @@ ndcube | 2.2.4
 nexradutils | 1.0.0
 ocbpy | 0.4.0
 plasmapy | 2024.10.0
-pyaurorax | 1.7.0
+pyaurorax | 1.8.0
 pycdfpp | 0.7.4
 pydarn | 4.1
 pyflct | 0.3.1
