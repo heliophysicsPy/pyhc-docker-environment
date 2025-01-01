@@ -30,7 +30,7 @@ docker pull spolson/pyhc-gallery:vYYYY.MM.DD
 ## PyHC Package Versions in Current Environment
 Package | Version
 ---|---
-aacgmv2 | 2.6.3
+aacgmv2 | 2.7.0
 aiapy | 0.9.1
 aidapy | 0.0.4
 amisrsynthdata | 1.1.8

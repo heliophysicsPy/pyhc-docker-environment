@@ -1,4 +1,4 @@
-aacgmv2==2.6.3
+aacgmv2==2.7.0
 aiapy==0.9.1
 aidapy==0.0.4
 aiohappyeyeballs>=2.3.0
