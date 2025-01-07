@@ -548,7 +548,7 @@ def get_dependency_ranges_by_package(packages, use_installed=False):
         output = subprocess.check_output(script_command, shell=True)
         output_str = output.decode('utf-8')
         try:
-            package_version = output_str.split('\n', 1)[0].split('==')[1]
+            package_version = output_str.split('\n', 1)[0].split('==')[1]  # TODO: This can cause the `Invalid specifier: '=='` bug when output is empty/malformed!!
         except IndexError:
             package_version = ""
         dependencies = {}
