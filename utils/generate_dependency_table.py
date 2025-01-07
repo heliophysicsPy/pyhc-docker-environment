@@ -548,9 +548,15 @@ def get_dependency_ranges_by_package(packages, use_installed=False):
         output = subprocess.check_output(script_command, shell=True)
         output_str = output.decode('utf-8')
         try:
-            package_version = output_str.split('\n', 1)[0].split('==')[1]  # TODO: This can cause the `Invalid specifier: '=='` bug when output is empty/malformed!!
+            package_version = output_str.split('\n', 1)[0].split('==')[1]
         except IndexError:
             package_version = ""
+            # Handle case where package_version is empty
+            raise RuntimeError(
+                f"Failed to parse version for package '{package}'. "
+                f"The first line of pipdeptree output did not contain '==<version>'.\n"
+                f"Output:\n{output_str}"
+            )
         dependencies = {}
         for line in output_str.split("\n"):
             # match = re.match("^\s*-\s*(\S+)\s+\[required:\s+(.+),\s+installed:.+\]", line)
