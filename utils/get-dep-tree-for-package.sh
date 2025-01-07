@@ -1,6 +1,7 @@
 #!/bin/bash
 
 PACKAGE=$1
+BASE_PACKAGE=$(echo "$PACKAGE" | sed 's/\[.*\]//')
 
 # Create a new virtual environment (carefully consider python version?)
 TEMP_ENV_NAME="temp_env_for_$PACKAGE"
@@ -16,7 +17,7 @@ PIP_INSTALL_OUTPUT_2=$(pip install -q pipdeptree==2.3.3)
 
 # Remove '==<version' from $PACKAGE if given
 PACKAGE=$(echo "$PACKAGE" | sed 's/==.*//')
-PIPTREE_OUTPUT=$(pipdeptree -p $PACKAGE)
+PIPTREE_OUTPUT=$(pipdeptree -p $BASE_PACKAGE)
 
 # Deactivate the virtual environment
 deactivate
