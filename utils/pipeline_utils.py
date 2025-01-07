@@ -63,7 +63,7 @@ def check_for_package_updates(requirements_path, package_names, ignore_list=None
         # Strip extras from package_name before querying PyPI
         package_name_base = strip_extras(package_name)
 
-        if package_name_base in ignore_list:
+        if package_name in ignore_list or package_name_base in ignore_list:
             continue
 
         # Extract the current version from requirements.txt
