@@ -85,7 +85,8 @@ jobs:
         issue-number: 2
         body: |
           Docker Hub images and GitHub repo have been updated by GitHub Actions.
-          Updated packages: 
+          
+          Updated: 
           ${{ steps.pipeline_check.outputs.package_updates }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
