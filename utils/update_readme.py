@@ -23,8 +23,8 @@ def extract_versions_from_requirements(requirements_path, package_names):
         else:
             # Extract version from requirements.txt
             for line in requirements:
-                # Regex to match the package name at the start of the line or after a comment
-                match = re.match(rf"(^|\#\s*){package_name.lower()}([><=]=?)", line.lower())
+                # Regex to match the package name with optional extras at the start of the line or after a comment
+                match = re.match(rf"(^|\#\s*){re.escape(package_name.lower())}(\[.*\])?([><=]=?)", line.lower())
                 if match:
                     version_match = re.search(r'([><=]=?\s*)([^#\s]+)', line)
                     if version_match:
