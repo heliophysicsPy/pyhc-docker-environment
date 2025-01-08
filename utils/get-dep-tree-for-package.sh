@@ -1,7 +1,8 @@
 #!/bin/bash
 
 PACKAGE=$1
-BASE_PACKAGE=$(echo "$PACKAGE" | sed 's/\[.*\]//')
+BASE_PACKAGE=$(echo "$PACKAGE" | sed 's/\[.*\]//')  # remove bracketed extras
+BASE_PACKAGE=$(echo "$BASE_PACKAGE" | sed 's/==.*//')  # remove ==version
 
 # Create a new virtual environment (carefully consider python version?)
 TEMP_ENV_NAME="temp_env_for_$PACKAGE"
@@ -15,7 +16,7 @@ PIP_INSTALL_OUTPUT_0=$(pip install wheel)
 PIP_INSTALL_OUTPUT_1=$(pip install $PACKAGE)
 PIP_INSTALL_OUTPUT_2=$(pip install -q pipdeptree==2.3.3)
 
-# Remove '==<version' from $PACKAGE if given
+# Remove '==<version' from $PACKAGE if given (unnecessary now that we pass $BASE_PACKAGE to pipdeptree)
 PACKAGE=$(echo "$PACKAGE" | sed 's/==.*//')
 PIPTREE_OUTPUT=$(pipdeptree -p $BASE_PACKAGE)
 
