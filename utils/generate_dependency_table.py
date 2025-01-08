@@ -70,7 +70,7 @@ def get_other_pyhc_packages():
     OMMBV has been removed due to installation failures.
     pyrfu has not been added yet because its cdflib and numpy versions are too high for other packages.
     """
-    return ["aacgmv2", "aiapy", "aidapy", "amisrsynthdata", "apexpy", "astrometry-azel", "ccsdspy", "cdflib", "cloudcatalog", "dascutils", "dbprocessing", "dmsp", "enlilviz", "fiasco", "gcmprocpy", "geopack", "georinex", "geospacelab", "goesutils", "heliopy==0.15.4", "hissw", "igrf", "iri2016", "irispy-lmsal", "lofarSun", "lowtran", "madrigalWeb", "maidenhead", "mcalf", "msise00", "ndcube", "nexradutils", "ocbpy", "pyaurorax", "pycdfpp", "pydarn", "pyflct", "pymap3d", "pytplot", "pytplot-mpl-temp", "pyzenodo3", "reesaurora", "regularizepsf", "sammi-cdf", "savic", "sciencedates", "SciQLop", "SkyWinder", "solarmach", "solo-epd-loader", "space-packet-parser", "speasy", "spiceypy", "sunkit-image", "sunkit-instruments", "sunraster", "themisasi", "viresclient", "wmm2015", "wmm2020"]
+    return ["aacgmv2", "aiapy", "aidapy", "amisrsynthdata", "apexpy", "astrometry-azel", "ccsdspy", "cdflib", "cloudcatalog", "dascutils", "dbprocessing", "dmsp", "enlilviz", "fiasco", "gcmprocpy", "geopack", "georinex", "geospacelab", "goesutils", "hapiplot", "heliopy==0.15.4", "hissw", "igrf", "iri2016", "irispy-lmsal", "lofarSun", "lowtran", "madrigalWeb", "maidenhead", "mcalf", "msise00", "ndcube", "nexradutils", "ocbpy", "pyaurorax", "pycdfpp", "pydarn", "pyflct", "pymap3d", "pytplot", "pytplot-mpl-temp", "pyzenodo3", "reesaurora", "regularizepsf", "sammi-cdf", "savic", "sciencedates", "SciQLop", "SkyWinder", "solarmach", "solo-epd-loader", "space-packet-parser", "speasy", "spiceypy", "sunkit-image", "sunkit-instruments", "sunraster", "themisasi", "viresclient", "wmm2015", "wmm2020"]
 
 
 def get_supplementary_packages():
@@ -78,7 +78,7 @@ def get_supplementary_packages():
     :return: A list of supplementary packages, including optional dependencies not found by pipdeptree
              and those used for unit tests.
     """
-    return ["deepdiff", "hypothesis", "pytest-arraydiff", "pytest-doctestplus", "pytest-xdist", "setuptools-scm", "hapiplot"]
+    return ["deepdiff", "hypothesis", "pytest-arraydiff", "pytest-doctestplus", "pytest-xdist", "setuptools-scm"]
 
 
 # def spreadsheet_to_requirements_file_orig(spreadsheet):
