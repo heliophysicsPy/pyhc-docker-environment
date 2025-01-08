@@ -19,7 +19,7 @@ RUN mv /app/cdf38_0-dist /usr/lib/ && \
 ENV CDF_BASE=/usr/lib/cdf38_0-dist
 ENV CDF_LIB=$CDF_BASE/lib
 
-# Create the conda environment using environment.yml and activate it
+# Create the conda environment using environment.yml and activate it, then cleanup
 RUN conda env create -f /app/environment.yml && \
     echo "source activate pyhc-all" > ~/.bashrc && \
     conda clean -afy
@@ -27,8 +27,9 @@ RUN conda env create -f /app/environment.yml && \
 ENV PATH /opt/conda/envs/pyhc-all/bin:$PATH
 
 # Install PyHC packages with pip (Kamodo separately)
-RUN pip install --use-pep517 --retries 5 --no-cache-dir -r /app/requirements.txt && \
-    pip install --no-cache-dir git+https://github.com/nasa/Kamodo.git
+RUN pip install --no-cache-dir git+https://github.com/nasa/Kamodo.git && \
+    pip install --use-pep517 --retries 5 --no-cache-dir -r /app/requirements.txt
+    
 
 # Cleanup environment.yml and requirements.txt after their use
 RUN rm /app/environment.yml /app/requirements.txt
