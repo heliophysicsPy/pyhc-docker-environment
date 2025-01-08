@@ -83,8 +83,8 @@ if __name__ == '__main__':
 
             print("::set-output name=should_run::true", flush=True)
             print("::set-output name=has_conflict::false", flush=True)
-            newline = '\n'
-            print(f"::set-output name=package_updates::{newline.join(pipeline_updates_info)}", flush=True)
+            formatted_updates = '%0A'.join(pipeline_updates_info)
+            print(f"::set-output name=package_updates::{formatted_updates}", flush=True)
             print("Updated all Docker images' requirements.", flush=True)
 
         except ValueError as e:
