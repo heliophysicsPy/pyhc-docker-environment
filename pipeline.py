@@ -50,8 +50,6 @@ if __name__ == '__main__':
         print("Pipeline will not run.", flush=True)
         print("::set-output name=should_run::false", flush=True)  # Tells GitHub Actions not to continue
     else:
-        print(f"::set-output name=package_updates::{'\n'.join(pipeline_updates_info)}")
-
         # Generate dependency conflict spreadsheet
         filename = f"PyHC-Dependency-Table-{datetime.now().strftime('%Y-%m-%d-%H-%M')}.xlsx"
         spreadsheet_folder = "spreadsheets"
@@ -85,6 +83,8 @@ if __name__ == '__main__':
 
             print("::set-output name=should_run::true", flush=True)
             print("::set-output name=has_conflict::false", flush=True)
+            newline = '\n'
+            print(f"::set-output name=package_updates::{newline.join(pipeline_updates_info)}", flush=True)
             print("Updated all Docker images' requirements.", flush=True)
 
         except ValueError as e:
