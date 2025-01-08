@@ -78,7 +78,7 @@ def get_supplementary_packages():
     :return: A list of supplementary packages, including optional dependencies not found by pipdeptree
              and those used for unit tests.
     """
-    return ["deepdiff", "hypothesis", "pytest-arraydiff", "pytest-doctestplus", "pytest-xdist", "setuptools-scm"]
+    return ["deepdiff", "hypothesis", "pytest-arraydiff", "pytest-doctestplus", "pytest-xdist", "setuptools-scm", "hapiplot"]
 
 
 # def spreadsheet_to_requirements_file_orig(spreadsheet):
