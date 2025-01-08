@@ -34,7 +34,7 @@ aacgmv2 | 2.7.0
 aiapy | 0.9.1
 aidapy | 0.0.4
 amisrsynthdata | 1.1.8
-apexpy | 2.0.2
+apexpy | 2.1.0
 astrometry-azel | 1.3.0
 ccsdspy | 1.3.2
 cdflib | 1.3.2
