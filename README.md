@@ -50,6 +50,7 @@ georinex | 1.16.2
 geospacelab | 0.8.12
 goesutils | 1.0.8
 hapiclient | 0.2.6
+hapiplot | 0.2.2
 heliopy | 0.15.4
 hissw | 2.3
 igrf | 13.0.2
@@ -70,6 +71,7 @@ pyaurorax | 1.8.0
 pycdfpp | 0.7.4
 pydarn | 4.1
 pyflct | 0.3.1
+pyhc-core[tests] | 0.0.6
 pymap3d | 3.1.0
 pysat | 3.2.1
 pyspedas | 1.7.1
