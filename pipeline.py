@@ -22,6 +22,7 @@ from datetime import datetime
 from utils.generate_dependency_table import *
 from utils.pipeline_utils import *
 
+pipeline_updates_info = []
 
 def pipeline_should_run(packages_to_ignore=['cdflib', 'geospacelab', 'heliopy', 'pytplot']):
     """
@@ -33,9 +34,9 @@ def pipeline_should_run(packages_to_ignore=['cdflib', 'geospacelab', 'heliopy', 
     if updates:
         print("Updates required for the following PyHC packages:", flush=True)
         for package, versions in updates.items():
-            print(
-                f"{package}: Current version {versions['current_version']}, Latest version {versions['latest_version']}",
-                flush=True)
+            line_desc = f"{package}: Previous version {versions['current_version']}, Latest version {versions['latest_version']}"
+            print(line_desc, flush=True)
+            pipeline_updates_info.append(line_desc)
         return True
     else:
         print("All PyHC packages are up to date.", flush=True)
@@ -49,7 +50,6 @@ if __name__ == '__main__':
         print("Pipeline will not run.", flush=True)
         print("::set-output name=should_run::false", flush=True)  # Tells GitHub Actions not to continue
     else:
-
         # Generate dependency conflict spreadsheet
         filename = f"PyHC-Dependency-Table-{datetime.now().strftime('%Y-%m-%d-%H-%M')}.xlsx"
         spreadsheet_folder = "spreadsheets"
@@ -83,6 +83,8 @@ if __name__ == '__main__':
 
             print("::set-output name=should_run::true", flush=True)
             print("::set-output name=has_conflict::false", flush=True)
+            formatted_updates = '%0A'.join(pipeline_updates_info)
+            print(f"::set-output name=package_updates::{formatted_updates}", flush=True)
             print("Updated all Docker images' requirements.", flush=True)
 
         except ValueError as e:

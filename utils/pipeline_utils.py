@@ -24,6 +24,11 @@ def fetch_latest_version_from_pypi(package_name):
         return None
 
 
+def strip_extras(package_name):
+    # This regex removes any bracketed extras.
+    return re.sub(r'\[.*?\]', '', package_name)
+
+
 def check_for_package_updates(requirements_path, package_names, ignore_list=None):
     """
     Check if the specified packages are up-to-date with PyPI.
@@ -55,7 +60,10 @@ def check_for_package_updates(requirements_path, package_names, ignore_list=None
         # Strip any version specifier and fetch the package name
         package_name = package.split('==')[0].strip()
 
-        if package_name in ignore_list:
+        # Strip extras from package_name before querying PyPI
+        package_name_base = strip_extras(package_name)
+
+        if package_name in ignore_list or package_name_base in ignore_list:
             continue
 
         # Extract the current version from requirements.txt
@@ -67,8 +75,8 @@ def check_for_package_updates(requirements_path, package_names, ignore_list=None
                     current_version = match.group(1).strip()
                 break
 
-        # Fetch the latest version from PyPI
-        latest_version = fetch_latest_version_from_pypi(package_name)
+        # Fetch the latest version from PyPI using the stripped package name
+        latest_version = fetch_latest_version_from_pypi(package_name_base)
 
         # If we have a latest_version from PyPI, determine if an update is needed.
         if latest_version:

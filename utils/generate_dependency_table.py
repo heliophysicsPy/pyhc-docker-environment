@@ -51,7 +51,7 @@ def get_core_pyhc_packages():
     TODO: consider scraping this from projects_core.yml online?
     :return: A list of the core PyHC package names.
     """
-    return ["hapiclient", "kamodo", "plasmapy", "pysat", "pyspedas", "spacepy", "sunpy"]
+    return ["hapiclient", "kamodo", "plasmapy", "pysat", "pyspedas", "spacepy", "sunpy", "pyhc-core[tests]"]
 
 
 def get_other_pyhc_packages():
@@ -70,7 +70,7 @@ def get_other_pyhc_packages():
     OMMBV has been removed due to installation failures.
     pyrfu has not been added yet because its cdflib and numpy versions are too high for other packages.
     """
-    return ["aacgmv2", "aiapy", "aidapy", "amisrsynthdata", "apexpy", "astrometry-azel", "ccsdspy", "cdflib", "cloudcatalog", "dascutils", "dbprocessing", "dmsp", "enlilviz", "fiasco", "gcmprocpy", "geopack", "georinex", "geospacelab", "goesutils", "heliopy==0.15.4", "hissw", "igrf", "iri2016", "irispy-lmsal", "lofarSun", "lowtran", "madrigalWeb", "maidenhead", "mcalf", "msise00", "ndcube", "nexradutils", "ocbpy", "pyaurorax", "pycdfpp", "pydarn", "pyflct", "pymap3d", "pytplot", "pytplot-mpl-temp", "pyzenodo3", "reesaurora", "regularizepsf", "sammi-cdf", "savic", "sciencedates", "SciQLop", "SkyWinder", "solarmach", "solo-epd-loader", "space-packet-parser", "speasy", "spiceypy", "sunkit-image", "sunkit-instruments", "sunraster", "themisasi", "viresclient", "wmm2015", "wmm2020"]
+    return ["aacgmv2", "aiapy", "aidapy", "amisrsynthdata", "apexpy", "astrometry-azel", "ccsdspy", "cdflib", "cloudcatalog", "dascutils", "dbprocessing", "dmsp", "enlilviz", "fiasco", "gcmprocpy", "geopack", "georinex", "geospacelab", "goesutils", "hapiplot", "heliopy==0.15.4", "hissw", "igrf", "iri2016", "irispy-lmsal", "lofarSun", "lowtran", "madrigalWeb", "maidenhead", "mcalf", "msise00", "ndcube", "nexradutils", "ocbpy", "pyaurorax", "pycdfpp", "pydarn", "pyflct", "pymap3d", "pytplot", "pytplot-mpl-temp", "pyzenodo3", "reesaurora", "regularizepsf", "sammi-cdf", "savic", "sciencedates", "SciQLop", "SkyWinder", "solarmach", "solo-epd-loader", "space-packet-parser", "speasy", "spiceypy", "sunkit-image", "sunkit-instruments", "sunraster", "themisasi", "viresclient", "wmm2015", "wmm2020"]
 
 
 def get_supplementary_packages():
@@ -551,6 +551,12 @@ def get_dependency_ranges_by_package(packages, use_installed=False):
             package_version = output_str.split('\n', 1)[0].split('==')[1]
         except IndexError:
             package_version = ""
+            # Handle case where package_version is empty
+            raise RuntimeError(
+                f"Failed to parse version for package '{package}'. "
+                f"The first line of pipdeptree output did not contain '==<version>'.\n"
+                f"Output:\n{output_str}"
+            )
         dependencies = {}
         for line in output_str.split("\n"):
             # match = re.match("^\s*-\s*(\S+)\s+\[required:\s+(.+),\s+installed:.+\]", line)
