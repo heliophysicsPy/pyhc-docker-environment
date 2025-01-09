@@ -31,7 +31,7 @@ docker pull spolson/pyhc-gallery:vYYYY.MM.DD
 Package | Version
 ---|---
 aacgmv2 | 2.7.0
-aiapy | 0.9.1
+aiapy | 0.10.0
 aidapy | 0.0.4
 amisrsynthdata | 1.1.8
 apexpy | 2.1.0
@@ -76,7 +76,7 @@ pymap3d | 3.1.0
 pysat | 3.2.1
 pyspedas | 1.7.1
 pytplot | 1.7.28
-pytplot-mpl-temp | 2.2.50
+pytplot-mpl-temp | 2.2.51
 pyzenodo3 | 1.0.2
 reesaurora | 1.0.5
 regularizepsf | 1.0.2
