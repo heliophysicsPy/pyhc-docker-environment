@@ -37,7 +37,7 @@ amisrsynthdata | 1.1.8
 apexpy | 2.1.0
 astrometry-azel | 1.3.0
 ccsdspy | 1.3.2
-cdflib | 1.3.2
+cdflib | 1.3.3
 cloudcatalog | 1.0.0
 dascutils | 2.3.0
 dbprocessing | 0.1.0
@@ -47,7 +47,7 @@ fiasco | 0.3.0
 gcmprocpy | 1.1.0
 geopack | 1.0.11
 georinex | 1.16.2
-geospacelab | 0.8.12
+geospacelab | 0.8.14
 goesutils | 1.0.8
 hapiclient | 0.2.6
 hapiplot | 0.2.2
@@ -63,7 +63,7 @@ madrigalWeb | 3.3.1
 maidenhead | 1.7.0
 mcalf | 1.0.0
 msise00 | 1.11.1
-ndcube | 2.2.4
+ndcube | 2.3.0
 nexradutils | 1.0.0
 ocbpy | 0.4.0
 plasmapy | 2024.10.0
