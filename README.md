@@ -68,7 +68,7 @@ nexradutils | 1.0.0
 ocbpy | 0.4.0
 plasmapy | 2024.10.0
 pyaurorax | 1.10.0
-pycdfpp | 0.7.4
+pycdfpp | 0.7.6
 pydarn | 4.1
 pyflct | 0.3.1
 pyhc-core[tests] | 0.0.6
@@ -86,7 +86,7 @@ sciencedates | 1.5.0
 SciQLop | 0.8.1
 SkyWinder | 0.0.3
 solarmach | 0.4.3
-solo-epd-loader | 0.3.7
+solo-epd-loader | 0.4.0
 space-packet-parser | 5.0.1
 spacepy | 0.7.0
 speasy | 1.4.0

@@ -36,7 +36,7 @@ blinker>=1.9
 blosc2>=2.3.0
 bokeh>=1.1
 boto3
-botocore>=1.36.3,<1.37.0
+botocore>=1.36.4,<1.37.0
 bottleneck
 cartopy>=0.23.0,<0.24.0
 ccsdspy==1.3.2
@@ -218,7 +218,7 @@ pure-eval
 py-cpuinfo
 pyaurorax==1.10.0
 pycapnp
-pycdfpp==0.7.4
+pycdfpp==0.7.6
 pycparser
 pydarn==4.1
 pydarnio>=1.3.0
@@ -296,7 +296,7 @@ six>=1.9
 SkyWinder==0.0.3
 sniffio>=1.1
 solarmach==0.4.3
-solo-epd-loader==0.3.7
+solo-epd-loader==0.4.0
 sortedcontainers>=2.1.0,<3.0.0
 soupsieve>1.2
 space-packet-parser==5.0.1
