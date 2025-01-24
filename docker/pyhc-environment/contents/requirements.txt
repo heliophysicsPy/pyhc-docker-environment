@@ -36,7 +36,7 @@ blinker>=1.9
 blosc2>=2.3.0
 bokeh>=1.1
 boto3
-botocore>=1.36.4,<1.37.0
+botocore>=1.36.5,<1.37.0
 bottleneck
 cartopy>=0.23.0,<0.24.0
 ccsdspy==1.3.2
@@ -216,7 +216,7 @@ psutil
 ptyprocess>=0.5
 pure-eval
 py-cpuinfo
-pyaurorax==1.10.0
+pyaurorax==1.11.0
 pycapnp
 pycdfpp==0.7.6
 pycparser
@@ -256,7 +256,7 @@ python-json-logger>=2.0.4
 # pytplot-mpl-temp==2.2.51  # pySPEDAS controls PyTplot installation
 # pytplot==1.7.28  # pySPEDAS controls PyTplot installation
 pytz>=2020.1
-pyucalgarysrs==1.12.0
+pyucalgarysrs==1.13.0
 pyvo>=1.5
 pywavelets
 pyyaml>=5.4.1
