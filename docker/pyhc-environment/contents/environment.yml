@@ -3,7 +3,7 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - python=3.10.14
+  - python=3.11.11
   - gfortran_linux-64  # - gfortran=11.2  # needed for ffnet dependency of spacepy
   - gcc_linux-64  # Added to help matplotlib wheel build
   - gxx_linux-64  # Added to help matplotlib wheel build
