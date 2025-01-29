@@ -7,6 +7,7 @@ from pipeline_utils import *
 
 def build_and_push_docker_images(docker_folder_path, docker_username, docker_token):
     today = datetime.now().strftime("%Y.%m.%d")
+    date_tag_suffix = "-alt"
     docker_image_names = get_docker_image_names(docker_folder_path)
 
     try:
@@ -15,7 +16,7 @@ def build_and_push_docker_images(docker_folder_path, docker_username, docker_tok
         subprocess.run(login_command, shell=True, check=True)
 
         for image_name in docker_image_names:
-            date_tag = f"{docker_username}/{image_name}:v{today}"
+            date_tag = f"{docker_username}/{image_name}:v{today}{date_tag_suffix}"
             latest_tag = f"{docker_username}/{image_name}:latest"
 
             # Build the Docker image with the date-based tag
@@ -50,9 +51,9 @@ def build_and_push_docker_images(docker_folder_path, docker_username, docker_tok
             print(f"Successfully processed: {date_tag} and {latest_tag}")
 
         # If we reach this point, we have successfully built and pushed today's images.
-        # Set the output variable to the date-based version tag (e.g., v2024.12.19).
+        # Set the output variable to the date-based version tag (e.g., v2024.12.19-alt).
         # This assumes all images use the same date tag.
-        print(f"::set-output name=docker_version::v{today}")
+        print(f"::set-output name=docker_version::v{today}{date_tag_suffix}")
 
     except subprocess.CalledProcessError as e:
         print(f"Error during Docker operations: {e}", flush=True)
