@@ -4,9 +4,9 @@ PACKAGE=$1
 BASE_PACKAGE=$(echo "$PACKAGE" | sed 's/\[.*\]//')  # remove bracketed extras
 BASE_PACKAGE=$(echo "$BASE_PACKAGE" | sed 's/==.*//')  # remove ==version
 
-# Create a new virtual environment (carefully consider python version?)
+# Create a new virtual environment
 TEMP_ENV_NAME="temp_env_for_$PACKAGE"
-python3.10 -m venv $TEMP_ENV_NAME
+python3 -m venv $TEMP_ENV_NAME
 
 # Activate the virtual environment
 source $TEMP_ENV_NAME/bin/activate
