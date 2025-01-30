@@ -47,7 +47,7 @@ fiasco | 0.4.0
 gcmprocpy | 1.1.0
 geopack | 1.0.11
 georinex | 1.16.2
-geospacelab | 0.8.14
+geospacelab | 0.8.15
 goesutils | 1.0.8
 hapiclient | 0.2.6
 hapiplot | 0.2.2
@@ -74,7 +74,7 @@ pyflct | 0.3.1
 pyhc-core[tests] | 0.0.6
 pymap3d | 3.1.0
 pysat | 3.2.1
-pyspedas | 1.7.1
+pyspedas | 1.7.2
 pytplot | 1.7.28
 pytplot-mpl-temp | 2.2.52
 pyzenodo3 | 1.0.2
@@ -85,7 +85,7 @@ savic | 1.1.0
 sciencedates | 1.5.0
 SciQLop | 0.8.1
 SkyWinder | 0.0.3
-solarmach | 0.4.3
+solarmach | 0.5.0
 solo-epd-loader | 0.4.0
 space-packet-parser | 5.0.1
 spacepy | 0.7.0

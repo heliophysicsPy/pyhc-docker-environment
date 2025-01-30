@@ -1,8 +1,12 @@
 aacgmv2==2.7.0
 aiapy==0.10.0
 aidapy==0.0.4
+aioboto3
+aiobotocore==2.18.0
+aiofiles>=23.2.1
 aiohappyeyeballs>=2.3.0
-aiohttp>=3.8
+aiohttp>=3.9.2,<4.0.0,!=4.0.0a0,!=4.0.0a1
+aioitertools>=0.5.1,<1.0.0
 aiosignal>=1.1.2
 alembic
 amisrsynthdata==1.1.8
@@ -36,7 +40,7 @@ blinker>=1.9
 blosc2>=2.3.0
 bokeh>=1.1
 boto3
-botocore>=1.36.8,<1.37.0
+botocore>=1.36.1,<1.36.2
 bottleneck
 cartopy>=0.23.0,<0.24.0
 ccsdspy==1.3.2
@@ -81,13 +85,13 @@ flask==1.1.2
 fonttools>=4.22.0
 fortranformat
 frozenlist>=1.1.1
-fsspec>=2021.09.0
+fsspec==2024.12.0
 gcmprocpy==1.1.0
 geomag
 geomagindices>=1.4.0
 geopack==1.0.11
 georinex==1.16.2
-geospacelab==0.8.14
+geospacelab==0.8.15
 globus-sdk>=3.0
 goesutils==1.0.8
 greenlet!=0.4.17
@@ -167,7 +171,7 @@ more-itertools
 mpmath>=1.2.1
 msgpack
 msise00==1.11.1
-multidict>=4.5,<7.0
+multidict>=6.0.0,<7.0
 multiprocess>=0.70.17
 narwhals>=1.15.1
 natsort>=7.1.1
@@ -245,7 +249,7 @@ pyside6-addons==6.7.1
 pyside6-essentials==6.7.1
 pyside6-qtads==4.3.0.1
 pyside6==6.7.1
-pyspedas==1.7.1
+pyspedas==1.7.2
 pytest-arraydiff==0.6.1
 pytest-doctestplus==1.4.0
 pytest-xdist==3.6.1
@@ -275,6 +279,7 @@ requests>=2.31,<3.0.0
 rfc3339-validator
 rfc3986-validator>=0.1.1
 rpds-py>=0.7.1
+s3fs
 s3transfer>=0.11.0,<0.12.0
 sammi-cdf==1.0.0
 savic==1.1.0
@@ -296,7 +301,7 @@ shiboken6==6.7.1
 six>=1.9
 SkyWinder==0.0.3
 sniffio>=1.1
-solarmach==0.4.3
+solarmach==0.5.0
 solo-epd-loader==0.4.0
 sortedcontainers>=2.1.0,<3.0.0
 soupsieve>1.2
@@ -344,7 +349,7 @@ wget>=3.2
 widgetsnbextension~=4.0.12
 wmm2015==1.1.1
 wmm2020==1.1.1
-wrapt>=1.14.0
+wrapt>=1.14.0,<2.0.0
 xarray>=2022.6.0
 xgboost>=1.7.2
 xyzservices>=2021.09.1
