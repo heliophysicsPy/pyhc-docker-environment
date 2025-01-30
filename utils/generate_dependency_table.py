@@ -537,10 +537,12 @@ def get_dependency_ranges_by_package(packages, use_installed=False):
                 script_command = f"./utils/get-dep-tree-for-pysatCDF-w-numpy.sh {package}"
             elif package == "OMMBV":
                 script_command = f"./utils/get-dep-tree-for-ommbv.sh {package}"
-            elif package == "spacepy":
-                script_command = f"./utils/get-dep-tree-for-spacepy.sh {package}"
+            # elif package == "spacepy":
+            #     script_command = f"./utils/get-dep-tree-for-spacepy.sh {package}"
             # elif package == "fisspy":
             #     script_command = f"./get-dep-tree-for-fisspy-w-conda.sh {package}"
+            elif package == "cloudcatalog":
+                script_command = f"./utils/get-dep-tree-for-cloudcatalog.sh {package}"
             else:
                 # script_command = f"./get-dep-tree-for-package.sh {package}"
                 # script_command = f"../get-dep-tree-for-package.sh {package}"
