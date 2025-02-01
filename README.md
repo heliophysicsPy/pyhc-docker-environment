@@ -36,7 +36,7 @@ aidapy | 0.0.4
 amisrsynthdata | 1.1.8
 apexpy | 2.1.0
 astrometry-azel | 1.3.0
-ccsdspy | 1.3.2
+ccsdspy | 1.3.3
 cdflib | 1.3.3
 cloudcatalog | 1.0.0
 dascutils | 2.3.0
