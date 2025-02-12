@@ -63,11 +63,11 @@ madrigalWeb | 3.3.1
 maidenhead | 1.7.0
 mcalf | 1.0.0
 msise00 | 1.11.1
-ndcube | 2.3.0
+ndcube | 2.3.1
 nexradutils | 1.0.0
 ocbpy | 0.5.0
 plasmapy | 2024.10.0
-pyaurorax | 1.13.0
+pyaurorax | 1.14.0
 pycdfpp | 0.7.6
 pydarn | 4.1
 pyflct | 0.3.1

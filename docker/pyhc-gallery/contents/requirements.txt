@@ -42,7 +42,7 @@ bokeh>=1.1
 boto3
 botocore>=1.36.1,<1.36.2
 bottleneck
-cartopy>=0.23.0,<0.24.0
+cartopy>=0.24.0,<0.25.0
 ccsdspy==1.3.3
 cdasws>=1.7.24
 cdflib==1.3.3
@@ -111,7 +111,7 @@ httpcore==1
 httpx>=0.25.0
 humanize>=4.4.0,<5.0.0
 hydra-core==0.11.3
-hypothesis==6.125.2
+hypothesis==6.125.3
 idna>=2.8,<4
 igrf==13.0.2
 imageio>=2.33,!=2.35.0
@@ -164,7 +164,7 @@ mako
 markdown>=3.0.1
 markupsafe>=2.1.1
 matplotlib-inline>=0.1
-matplotlib>=3.9.0,<4.0.0,!=3.6.1
+matplotlib>=3.7.0,<4.0.0,!=3.6.1
 mcalf==1.0.0
 mistune>=2.0.3,<4
 more-itertools
@@ -179,7 +179,7 @@ nbclient>=0.5.0
 nbconvert>=6.4.5,<8
 nbformat>=5.7
 ncompress
-ndcube==2.3.0
+ndcube==2.3.1
 ndindex>=1.4
 nest-asyncio
 netcdf4>=1.6.2
@@ -188,7 +188,7 @@ nexradutils==1.0.0
 notebook
 notebook-shim>=0.2,<0.3
 numexpr>=2.6.2
-numpy>=1.26.4,<2.0.0,!=1.24.0
+numpy>=1.24.3,<2.0.0,!=1.24.0
 nvidia-nccl-cu12
 ocbpy==0.5.0
 omegaconf>=1.4,<1.5
@@ -221,7 +221,7 @@ psutil
 ptyprocess>=0.5
 pure-eval
 py-cpuinfo
-pyaurorax==1.13.0
+pyaurorax==1.14.0
 pycapnp
 pycdfpp==0.7.6
 pycparser
@@ -236,7 +236,7 @@ pyjwt>=2.0.0,<3.0.0
 pymap3d==3.1.0
 pyopenssl
 pyparsing>=2.3.1
-pyproj>=3.6.1,<4.0.0
+pyproj>=3.7.0,<4.0.0
 pyqt5-qt5>=5.15.2,<5.16.0
 pyqt5-sip>=12.15,<13
 pyqt5>=5.15.4
@@ -261,7 +261,7 @@ python-json-logger>=2.0.4
 # pytplot-mpl-temp==2.2.52  # pySPEDAS controls PyTplot installation
 # pytplot==1.7.28  # pySPEDAS controls PyTplot installation
 pytz>=2020.1
-pyucalgarysrs==1.18.0
+pyucalgarysrs==1.20.0
 pyvo>=1.5
 pywavelets
 pyyaml>=5.4.1
