@@ -31,7 +31,7 @@ docker pull spolson/pyhc-gallery:vYYYY.MM.DD
 Package | Version
 ---|---
 aacgmv2 | 2.7.0
-aiapy | 0.10.0
+aiapy | 0.10.1
 aidapy | 0.0.4
 amisrsynthdata | 1.1.8
 apexpy | 2.1.0
@@ -67,7 +67,7 @@ ndcube | 2.3.1
 nexradutils | 1.0.0
 ocbpy | 0.5.0
 plasmapy | 2024.10.0
-pyaurorax | 1.14.0
+pyaurorax | 1.15.0
 pycdfpp | 0.7.6
 pydarn | 4.1
 pyflct | 0.3.1

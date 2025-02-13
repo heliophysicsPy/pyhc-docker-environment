@@ -1,5 +1,5 @@
 aacgmv2==2.7.0
-aiapy==0.10.0
+aiapy==0.10.1
 aidapy==0.0.4
 aioboto3
 aiobotocore==2.18.0
@@ -221,7 +221,7 @@ psutil
 ptyprocess>=0.5
 pure-eval
 py-cpuinfo
-pyaurorax==1.14.0
+pyaurorax==1.15.0
 pycapnp
 pycdfpp==0.7.6
 pycparser
