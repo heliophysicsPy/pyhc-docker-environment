@@ -303,7 +303,7 @@ six>=1.9
 SkyWinder==0.0.3
 sniffio>=1.1
 solarmach==0.5.0
-solo-epd-loader==0.4.0
+solo-epd-loader==0.4.1
 sortedcontainers>=2.1.0,<3.0.0
 soupsieve>1.2
 space-packet-parser==5.0.1

@@ -86,7 +86,7 @@ sciencedates | 1.5.0
 SciQLop | 0.8.1
 SkyWinder | 0.0.3
 solarmach | 0.5.0
-solo-epd-loader | 0.4.0
+solo-epd-loader | 0.4.1
 space-packet-parser | 5.0.1
 spacepy | 0.7.0
 speasy | 1.4.0
