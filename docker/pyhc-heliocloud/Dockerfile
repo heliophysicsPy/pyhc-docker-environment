@@ -3,6 +3,9 @@
 ARG PANGEO_BASE_IMAGE_TAG=2024.01.15
 FROM pangeo/base-image:${PANGEO_BASE_IMAGE_TAG}
 
+# Switch to root so we can run apt-get etc.
+USER root
+
 # Set the working directory in the container to /app
 WORKDIR /app
 
