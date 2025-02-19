@@ -15,39 +15,44 @@ def build_and_push_docker_images(docker_folder_path, docker_username, docker_tok
         subprocess.run(login_command, shell=True, check=True)
 
         for image_name in docker_image_names:
-            date_tag = f"{docker_username}/{image_name}:v{today}"
-            latest_tag = f"{docker_username}/{image_name}:latest"
+            # TODO: temporarily skipping the pyhc-environment image for this branch!
+            if image_name == "pyhc-environment":
+                print("Skipping pyhc-environment image")
+                continue
+            else:
+                date_tag = f"{docker_username}/{image_name}:v{today}"
+                latest_tag = f"{docker_username}/{image_name}:latest"
 
-            # Build the Docker image with the date-based tag
-            build_command = f"docker build -t {date_tag} {docker_folder_path}/{image_name}"
-            print(f"Building image: {date_tag}")
-            subprocess.run(build_command, shell=True, check=True)
+                # Build the Docker image with the date-based tag
+                build_command = f"docker build -t {date_tag} {docker_folder_path}/{image_name}"
+                print(f"Building image: {date_tag}")
+                subprocess.run(build_command, shell=True, check=True)
 
-            # Push the date-based tagged image
-            push_command_date = f"docker push {date_tag}"
-            print(f"Pushing image: {date_tag}")
-            subprocess.run(push_command_date, shell=True, check=True)
+                # Push the date-based tagged image
+                push_command_date = f"docker push {date_tag}"
+                print(f"Pushing image: {date_tag}")
+                subprocess.run(push_command_date, shell=True, check=True)
 
-            # Tag the newly built image as 'latest'
-            retag_command = f"docker tag {date_tag} {latest_tag}"
-            print(f"Tagging {date_tag} as {latest_tag}")
-            subprocess.run(retag_command, shell=True, check=True)
+                # Tag the newly built image as 'latest'
+                retag_command = f"docker tag {date_tag} {latest_tag}"
+                print(f"Tagging {date_tag} as {latest_tag}")
+                subprocess.run(retag_command, shell=True, check=True)
 
-            # Push the 'latest' tagged image
-            push_command_latest = f"docker push {latest_tag}"
-            print(f"Pushing image: {latest_tag}")
-            subprocess.run(push_command_latest, shell=True, check=True)
+                # Push the 'latest' tagged image
+                push_command_latest = f"docker push {latest_tag}"
+                print(f"Pushing image: {latest_tag}")
+                subprocess.run(push_command_latest, shell=True, check=True)
 
-            # Remove the images locally to free up disk space
-            remove_command_date = f"docker rmi {date_tag}"
-            print(f"Removing image: {date_tag}")
-            subprocess.run(remove_command_date, shell=True, check=True)
+                # Remove the images locally to free up disk space
+                remove_command_date = f"docker rmi {date_tag}"
+                print(f"Removing image: {date_tag}")
+                subprocess.run(remove_command_date, shell=True, check=True)
 
-            remove_command_latest = f"docker rmi {latest_tag}"
-            print(f"Removing image: {latest_tag}")
-            subprocess.run(remove_command_latest, shell=True, check=True)
+                remove_command_latest = f"docker rmi {latest_tag}"
+                print(f"Removing image: {latest_tag}")
+                subprocess.run(remove_command_latest, shell=True, check=True)
 
-            print(f"Successfully processed: {date_tag} and {latest_tag}")
+                print(f"Successfully processed: {date_tag} and {latest_tag}")
 
         # If we reach this point, we have successfully built and pushed today's images.
         # Set the output variable to the date-based version tag (e.g., v2024.12.19).
