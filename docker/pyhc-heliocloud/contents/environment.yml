@@ -1,13 +1,109 @@
 name: pyhc-all
 channels:
   - conda-forge
-  - defaults
+  - nodefaults
 dependencies:
+  # from pyhc-environment
   - python=3.11.11
   - gfortran_linux-64  # - gfortran=11.2  # needed for ffnet dependency of spacepy
   - gcc_linux-64  # Added to help matplotlib wheel build
   - gxx_linux-64  # Added to help matplotlib wheel build
   - jupyter-book=0.15.1
-  - jupyterlab=4.0.10  #=3.5.0
+  - jupyterlab=4.0.10  # CONFLICTS with jupyterlab>=4.3.4,<4.4,!=4.1.0 in PyHC requirements.txt
   - jupyterlab-git=0.50.0
   - pip
+  # from HelioCloud
+  #   the basics
+  # - pytest              # already in PyHC requirements.txt; PyHC pinned >=7.0.0 (no conflict)
+  - conda-lock
+  # - cython              # already in PyHC requirements.txt
+
+  #   jupyter stuff
+  # - jupyter_core=5.7.2          # already in PyHC requirements.txt; PyHC pinned >=4.12,!=5.0 (CONFLICT)
+  # - jupyter_client=8.6.2        # already in PyHC requirements.txt; PyHC pinned >=7.4.4,<9 (no conflict)
+  # - jupyter_server=2.14.1       # already in PyHC requirements.txt; PyHC pinned >=2.4.0,<3 (CONFLICT)
+  - jupyter-server-proxy=4.2.0
+  # - jupyterlab=4.2.2            # already in PyHC requirements.txt; PyHC pinned jupyterlab=4.0.10 in env.yml (CONFLICT)
+  # - jupyterlab_server=2.27.2    # already in PyHC requirements.txt; PyHC pinned >=2.27.1,<3 (no conflict)
+  - jupyterlab_pygments=0.3.0
+  # - jupyterlab_widgets=3.0.11   # already in PyHC requirements.txt; PyHC pinned ~=3.0.12 (no conflict)
+  - jupyterhub-base=5.0.0
+  - jupyterhub-singleuser=5.0.0
+  # - jupyter_book                # HelioCloud unpinned, PyHC pinned jupyter-book=0.15.1 in this file (no conflict)
+
+  #   dask stuff
+  # - dask=2024.6.2               # already in PyHC requirements.txt; PyHC pinned >=2021.8.0 (no conflict)
+  - dask-core=2024.6.2
+  - dask-gateway=2024.1.0
+  - dask-labextension=7.0.0
+  - dask-glm=0.3.2
+  - dask-ml=2024.4.4
+  - distributed=2024.6.2
+
+  #   helio/pyhc stuff
+  # - aiapy=0.7.4                 # already in PyHC requirements.txt; PyHC pinned ==0.10.1 (CONFLICT)
+  # - cdflib                      # already in PyHC requirements.txt; PyHC pinned ==1.3.3, (CONFLICT)
+  # - hapiclient=0.2.5            # already in PyHC requirements.txt; PyHC pinned ==0.2.6 (CONFLICT)
+  # - plasmapy=2024.5.0           # already in PyHC requirements.txt; PyHC pinned ==2024.10.0 (CONFLICT)
+  # - sunpy=5.1.2                 # already in PyHC requirements.txt; PyHC pinned ==6.0.4 (CONFLICT)
+  # - sunkit-image=0.5.1          # already in PyHC requirements.txt, PyHC pinned same version 0.5.1 (no conflict)
+  - sunpy-soar=1.2
+  # - voila                        # already in PyHC requirements.txt; PyHC pinned >=0.2.7 (no conflict)
+
+  # other
+  - glob2
+  # - html5lib                     # already in PyHC requirements.txt; PyHC pinned >=0.999 (no conflict)
+  # - ipympl                       # already in PyHC requirements.txt
+  # - keyring                      # already in PyHC requirements.txt; PyHC pinned >=15.0 (no conflict)
+  - nbgitpuller
+  - nodejs
+  - python-magic
+  - py-spy
+  - sgp4
+
+  #   PANGEO depends
+  - awscli
+  # - boto3                        # already in PyHC requirements.txt
+  # - h5netcdf                     # already in PyHC requirements.txt
+  # - h5py                         # already in PyHC requirements.txt; HelioCloud unpinned, PyHC pinned >=3.11.0,<4.0.0 (no conflict)
+
+  # dev / debugging tools
+  - ipdb
+  # - ipython=8.6.0               # already in PyHC requirements.txt; PyHC pinned >=7.23.1,<9 (no conflict)
+  # - ipykernel=6.20.2            # already in PyHC requirements.txt; PyHC pinned >=6.5.0 (no conflict)
+  - ipyleaflet
+  - ipytree=0.2.2
+  # - ipywidgets=8.1.2            # already in PyHC requirements.txt; PyHC pinned >=7.6.0,<9 (no conflict)
+  - jupyterlab_code_formatter
+  # - jupyterlab-git              # HelioCloud unpinned, PyHC pinned jupyterlab-git=0.50.0 in this file (no conflict)
+  - jupyter-panel-proxy
+  - jupyter-resource-usage
+  - kerchunk
+  # - lxml                         # already in PyHC requirements.txt; PyHC pinned >=4.8.0 (no conflict)
+  - lz4
+  # - matplotlib-base              # HelioCloud uses matplotlib-base, PyHC pinned matplotlib>=3.7.0,<4.0.0,!=3.6.1
+  - memory_profiler
+  - nb_conda_kernels=2.3.1
+  - nbstripout
+  # - netcdf4                      # already in PyHC requirements.txt; PyHC pinned >=1.6.2 (no conflict)
+  - numcodecs
+  # - numpy                        # already in PyHC requirements.txt; PyHC pinned >=1.24.3,<2.0.0,!=1.24.0 (no conflict)
+  # - pandas                       # already in PyHC requirements.txt; PyHC pinned >=2.1 (no conflict)
+  - panel
+  - rechunker
+  - s3fs>0.5                       # already in PyHC requirements.txt; PyHC has s3fs unpinned
+  # - scikit-image                 # already in PyHC requirements.txt; PyHC pinned >=0.19.0 (no conflict)
+  # - scikit-learn                 # already in PyHC requirements.txt; PyHC pinned >=1.2.0 (no conflict)
+  # - scipy                        # already in PyHC requirements.txt; PyHC pinned >=1.14.1,<2.0.0,!=1.10.0 (no conflict)
+  # - seaborn                      # already in PyHC requirements.txt
+  - sparse
+  - tensorflow
+  # - xarray                       # already in PyHC requirements.txt; PyHC pinned >=2022.6.0 (no conflict)
+  - xarrayutils
+  - zarr
+
+  #   from helio-daskhub-core
+  - specutils
+  - photutils
+  - xlrd
+  - xlwt
