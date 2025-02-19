@@ -1,5 +1,7 @@
 # Use an official Anaconda runtime as a parent image
-FROM continuumio/miniconda3
+# FROM continuumio/miniconda3  # What PyHC Environment used; HelioCloud uses Pangeo instead
+ARG PANGEO_BASE_IMAGE_TAG=2024.01.15
+FROM pangeo/base-image:${PANGEO_BASE_IMAGE_TAG}
 
 # Set the working directory in the container to /app
 WORKDIR /app
@@ -8,6 +10,13 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y gcc g++ gfortran ncurses-dev build-essential cmake libgl1-mesa-glx \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+
+# Install apt.txt packages
+RUN echo "Found apt.txt; installing packages..." && \
+    apt-get update -qq && \
+    xargs -a /app/apt.txt apt-get install -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Add the "contents" directory contents into the container at /app
 ADD contents/ /app
@@ -18,6 +27,11 @@ RUN mv /app/cdf38_0-dist /usr/lib/ && \
 
 ENV CDF_BASE=/usr/lib/cdf38_0-dist
 ENV CDF_LIB=$CDF_BASE/lib
+
+# Copy jupyter_notebook_config.py to /etc/jupyter
+RUN echo "Found jupyter_notebook_config.py; copying to /etc/jupyter/..." && \
+    mkdir -p /etc/jupyter && \
+    cp /app/jupyter_notebook_config.py /etc/jupyter/
 
 # Create the conda environment using environment.yml and activate it, then cleanup
 RUN conda env create -f /app/environment.yml && \
@@ -31,8 +45,8 @@ RUN pip install --no-cache-dir git+https://github.com/nasa/Kamodo.git && \
     pip install --use-pep517 --retries 5 --no-cache-dir -r /app/requirements.txt
     
 
-# Cleanup environment.yml and requirements.txt after their use
-RUN rm /app/environment.yml /app/requirements.txt
+# Cleanup environment files after their use
+RUN rm /app/environment.yml /app/requirements.txt /app/apt.txt /app/jupyter_notebook_config.py
 
 # Make port 8888 available to the world outside this container
 EXPOSE 8888
