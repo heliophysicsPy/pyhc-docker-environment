@@ -9,6 +9,9 @@ USER root
 # Set the working directory in the container to /app
 WORKDIR /app
 
+# Add the "contents" directory contents into the container at /app
+ADD contents/ /app
+
 # Update the packages in the base image and install the necessary compilers, then cleanup
 RUN apt-get update && apt-get install -y gcc g++ gfortran ncurses-dev build-essential cmake libgl1-mesa-glx \
     && apt-get clean \
@@ -20,9 +23,6 @@ RUN echo "Found apt.txt; installing packages..." && \
     xargs -a /app/apt.txt apt-get install -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
-
-# Add the "contents" directory contents into the container at /app
-ADD contents/ /app
 
 # Configure CDF library and package data directories
 RUN mv /app/cdf38_0-dist /usr/lib/ && \
