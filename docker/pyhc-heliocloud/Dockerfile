@@ -9,8 +9,8 @@ USER root
 # Set the working directory in the container to /app
 WORKDIR /app
 
-# Add the "contents" directory contents into the container at /app
-ADD contents/ /app
+# Copy the "contents" directory contents into the container at /app
+COPY contents/ /app
 
 # Update the packages in the base image and install the necessary compilers, then cleanup
 RUN apt-get update && apt-get install -y gcc g++ gfortran ncurses-dev build-essential cmake libgl1-mesa-glx \
@@ -46,7 +46,6 @@ ENV PATH /opt/conda/envs/pyhc-all/bin:$PATH
 # Install PyHC packages with pip (Kamodo separately)
 RUN pip install --no-cache-dir git+https://github.com/nasa/Kamodo.git && \
     pip install --use-pep517 --retries 5 --no-cache-dir -r /app/requirements.txt
-    
 
 # Cleanup environment files after their use
 RUN rm /app/environment.yml /app/requirements.txt /app/apt.txt /app/jupyter_notebook_config.py
