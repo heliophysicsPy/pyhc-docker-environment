@@ -75,10 +75,10 @@ def get_other_pyhc_packages():
 
 def get_supplementary_packages():
     """
-    :return: A list of supplementary packages, including optional dependencies not found by pipdeptree
-             and those used for unit tests.
+    :return: A list of supplementary packages, including optional dependencies not found by pipdeptree,
+             those used for unit tests, and HelioCloud dependencies (the second list).
     """
-    return ["deepdiff", "hypothesis", "pytest-arraydiff", "pytest-doctestplus", "pytest-xdist", "setuptools-scm"]
+    return ["deepdiff", "hypothesis", "pytest-arraydiff", "pytest-doctestplus", "pytest-xdist", "setuptools-scm"] + ["ai.cs==1.0.7", "ccdproc==2.4.2", "geospacepy==0.2.2", "jupytext==1.16.4", "smart_open[s3]", "nbzip", "pfsspy[performance]", "pyEphem==9.99", "pyForecastTools==1.1.1"]
 
 
 # def spreadsheet_to_requirements_file_orig(spreadsheet):
