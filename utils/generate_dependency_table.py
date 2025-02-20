@@ -527,7 +527,9 @@ def get_dependency_ranges_by_package(packages, use_installed=False):
     """
     installed_packages = get_packages_installed_in_environment()
     all_dependencies = {}
-    for package in packages:
+    total_packages = len(packages)  # for progress tracking output
+    for i, package in enumerate(packages, start=1):
+        print(f"Processing package: {package} ({i}/{total_packages})", flush=True)  # progress tracking output
         if use_installed and package.lower() in installed_packages:
             script_command = f"pipdeptree -p {package}"
         else:
