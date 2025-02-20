@@ -12,11 +12,6 @@ WORKDIR /app
 # Copy the "contents" directory contents into the container at /app
 COPY contents/ /app
 
-# Install Message Of The Day (motd)
-RUN echo "cat /etc/motd" > /etc/profile.d/show_motd.sh
-COPY --chown=1000:1000 motd /etc/
-RUN chmod 644 /etc/motd
-
 # Update the packages in the base image and install the necessary compilers, then cleanup
 RUN apt-get update && apt-get install -y gcc g++ gfortran ncurses-dev build-essential cmake libgl1-mesa-glx libhdf5-dev libnetcdf-dev capnproto libcapnp-dev \
     && apt-get clean \
@@ -35,6 +30,11 @@ RUN mv /app/cdf38_0-dist /usr/lib/ && \
 
 ENV CDF_BASE=/usr/lib/cdf38_0-dist
 ENV CDF_LIB=$CDF_BASE/lib
+
+# Install Message Of The Day (motd)
+RUN echo "cat /etc/motd" > /etc/profile.d/show_motd.sh
+COPY --chown=1000:1000 motd /etc/
+RUN chmod 644 /etc/motd
 
 # Copy jupyter_notebook_config.py to /etc/jupyter (TODO: delete; should be handled by pangeo's ONBUILD)
 # RUN echo "Found jupyter_notebook_config.py; copying to /etc/jupyter/..." && \
