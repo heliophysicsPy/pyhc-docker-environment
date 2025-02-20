@@ -51,7 +51,7 @@ cffi>=1.12
 cftime
 charset-normalizer>=2,<4
 click>=8.1.3,<9.0.0
-cloudcatalog==1.0.0
+cloudcatalog==1.0.2
 cloudpickle>=3.0.0
 cmasher
 colorspacious>=1.1.0
@@ -258,7 +258,7 @@ python-casacore
 python-dateutil>=2.8.2,<3.0.0
 python-forge
 python-json-logger>=2.0.4
-# pytplot-mpl-temp==2.2.53  # pySPEDAS controls PyTplot installation
+# pytplot-mpl-temp==2.2.54  # pySPEDAS controls PyTplot installation
 # pytplot==1.7.28  # pySPEDAS controls PyTplot installation
 pytz>=2020.1
 pyucalgarysrs==1.20.0
@@ -284,7 +284,7 @@ s3transfer>=0.11.0,<0.12.0
 sammi-cdf==1.0.0
 savic==1.1.0
 sciencedates==1.5.0
-scikit-image>=0.19.0
+scikit-image>=0.20.0
 scikit-learn>=1.2.0
 scipy>=1.14.1,<2.0.0,!=1.10.0
 SciQLop==0.8.1
@@ -314,7 +314,7 @@ sqlalchemy-utils>=0.37.8
 sqlalchemy>=1.4.0,<2
 sscws
 stack-data
-sunkit-image==0.5.1
+sunkit-image==0.6.0
 sunkit-instruments==0.5.0
 sunkit-magex
 sunpy==6.0.4

@@ -38,7 +38,7 @@ apexpy | 2.1.0
 astrometry-azel | 1.3.0
 ccsdspy | 1.3.3
 cdflib | 1.3.3
-cloudcatalog | 1.0.0
+cloudcatalog | 1.0.2
 dascutils | 2.3.0
 dbprocessing | 0.1.0
 dmsp | 0.6.0
@@ -76,7 +76,7 @@ pymap3d | 3.1.0
 pysat | 3.2.1
 pyspedas | 1.7.4
 pytplot | 1.7.28
-pytplot-mpl-temp | 2.2.53
+pytplot-mpl-temp | 2.2.54
 pyzenodo3 | 1.0.2
 reesaurora | 1.0.5
 regularizepsf | 1.0.2
@@ -91,7 +91,7 @@ space-packet-parser | 5.0.1
 spacepy | 0.7.0
 speasy | 1.4.0
 spiceypy | 6.0.0
-sunkit-image | 0.5.1
+sunkit-image | 0.6.0
 sunkit-instruments | 0.5.0
 sunpy | 6.0.4
 sunraster | 0.5.1
