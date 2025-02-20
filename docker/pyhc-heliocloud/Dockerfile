@@ -13,7 +13,7 @@ WORKDIR /app
 COPY contents/ /app
 
 # Update the packages in the base image and install the necessary compilers, then cleanup
-RUN apt-get update && apt-get install -y gcc g++ gfortran ncurses-dev build-essential cmake libgl1-mesa-glx \
+RUN apt-get update && apt-get install -y gcc g++ gfortran ncurses-dev build-essential cmake libgl1-mesa-glx libhdf5-dev libnetcdf-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
