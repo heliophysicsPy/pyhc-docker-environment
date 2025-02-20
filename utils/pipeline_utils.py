@@ -143,7 +143,7 @@ def comment_out_pysatcdf(requirements_file_path):
 def comment_out_kamodo(requirements_file_path):
     """
     This function takes a requirements.txt file as input, comments out the line for "kamodo",
-    and adds a comment after the line.
+    prepends the Kamodo Git URL, and adds a comment at the end of the line.
     """
     # Read the contents of the file
     with open(requirements_file_path, 'r') as file:
@@ -151,8 +151,8 @@ def comment_out_kamodo(requirements_file_path):
 
     # Iterate through the lines and comment out package
     for i, line in enumerate(lines):
-        if 'kamodo' in line:
-            lines[i] = f"# {line.strip()}  # gets installed from GitHub instead\n"
+        if line.strip().startswith(("kamodo", "kamodo==")):
+            lines[i] = f"git+https://github.com/nasa/Kamodo.git  # {line.strip()}  # gets installed from GitHub instead\n"
 
     # Write the modified contents back to the file
     with open(requirements_file_path, 'w') as file:
