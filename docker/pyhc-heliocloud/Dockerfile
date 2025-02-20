@@ -2,6 +2,7 @@
 # FROM continuumio/miniconda3  # What PyHC Environment used; HelioCloud uses Pangeo instead
 ARG PANGEO_BASE_IMAGE_TAG=2024.01.15
 FROM pangeo/base-image:${PANGEO_BASE_IMAGE_TAG}
+# TODO: pangeo's ONBUILD commands expect files in a binder/ folder, which I'm not doing here, so there are side effects like it creating a default "notebook" env with Python 3.13. Consider moving things to a Binder folder to leverage ONBUILDs or explicitly delete the created default env.
 
 # Switch to root so we can run apt-get etc.
 USER root
@@ -13,7 +14,7 @@ WORKDIR /app
 COPY contents/ /app
 
 # Update the packages in the base image and install the necessary compilers, then cleanup
-RUN apt-get update && apt-get install -y gcc g++ gfortran ncurses-dev build-essential cmake libgl1-mesa-glx libhdf5-dev libnetcdf-dev \
+RUN apt-get update && apt-get install -y gcc g++ gfortran ncurses-dev build-essential cmake libgl1-mesa-glx libhdf5-dev libnetcdf-dev capnproto libcapnp-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -45,9 +46,9 @@ RUN mamba env create -f /app/environment.yml \
 
 ENV PATH /opt/conda/envs/pyhc-all/bin:$PATH
 
-# Install PyHC packages with pip (Kamodo separately)
-RUN pip install --no-cache-dir git+https://github.com/nasa/Kamodo.git && \
-    pip install --use-pep517 --retries 5 --no-cache-dir -r /app/requirements.txt
+# Install PyHC packages with pip (Kamodo separately) - explicitly use the right environment
+RUN /opt/conda/envs/pyhc-all/bin/pip install --no-cache-dir git+https://github.com/nasa/Kamodo.git && \
+    /opt/conda/envs/pyhc-all/bin/pip install --use-pep517 --retries 5 --no-cache-dir -r /app/requirements.txt
 
 # Cleanup environment files after their use
 RUN rm /app/environment.yml /app/requirements.txt /app/apt.txt /app/jupyter_notebook_config.py
