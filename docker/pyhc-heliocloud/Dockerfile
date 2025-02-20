@@ -46,9 +46,11 @@ RUN mamba env create -f /app/environment.yml \
 
 ENV PATH /opt/conda/envs/pyhc-all/bin:$PATH
 
-# Install PyHC packages with pip (Kamodo separately) - explicitly use the right environment
-RUN /opt/conda/envs/pyhc-all/bin/pip install --no-cache-dir git+https://github.com/nasa/Kamodo.git && \
-    /opt/conda/envs/pyhc-all/bin/pip install --use-pep517 --retries 5 --no-cache-dir -r /app/requirements.txt
+# Install PyHC packages with pip (Kamodo separately) - explicitly use the right environment by activating it
+SHELL ["/bin/bash", "-c"]
+RUN source activate pyhc-all && \
+    pip install --no-cache-dir git+https://github.com/nasa/Kamodo.git && \
+    pip install --use-pep517 --retries 5 --no-cache-dir -r /app/requirements.txt
 
 # Cleanup environment files after their use
 RUN rm /app/environment.yml /app/requirements.txt /app/apt.txt /app/jupyter_notebook_config.py
