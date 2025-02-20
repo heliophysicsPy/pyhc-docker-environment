@@ -36,10 +36,17 @@ RUN echo "Found jupyter_notebook_config.py; copying to /etc/jupyter/..." && \
     mkdir -p /etc/jupyter && \
     cp /app/jupyter_notebook_config.py /etc/jupyter/
 
-# Create the conda environment using environment.yml and activate it, then cleanup
-RUN conda env create -f /app/environment.yml && \
-    echo "source activate pyhc-all" > ~/.bashrc && \
-    conda clean -afy
+# Create the conda environment (using mamba) from environment.yml and activate it, then cleanup
+# NOTE: mamba installation is commented out because the pangeo/base-image should come with it pre-installed (DELETE ONCE CONFIRMED)
+# RUN conda install -n base -c conda-forge -y mamba \
+#     && conda clean -afy \
+#     && rm -rf /opt/conda/pkgs/*
+
+ENV MAMBA_ROOT_PREFIX=/opt/conda
+
+RUN mamba env create -f /app/environment.yml \
+    && echo "source activate pyhc-all" > ~/.bashrc \
+    && conda clean -afy
 
 ENV PATH /opt/conda/envs/pyhc-all/bin:$PATH
 
