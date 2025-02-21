@@ -56,8 +56,8 @@ RUN chmod 644 /etc/motd
 #     pip install --no-cache-dir git+https://github.com/nasa/Kamodo.git && \
 #     pip install --use-pep517 --retries 5 --no-cache-dir -r /app/requirements.txt
 
-# Cleanup environment files after their use
-# RUN rm /app/environment.yml /app/requirements.txt /app/apt.txt /app/jupyter_notebook_config.py
+# Cleanup environment files after their use (TODO: include remaining cruft if it still appears in Binder—e.g. the whole contents/ dir)
+RUN rm /app/environment.yml /app/requirements.txt /app/apt.txt /app/jupyter_notebook_config.py
 
 # Change ownership of home dir and Python env using dynamic Python version (note: this recursive permission setting can apparently take a long time... ~7 mins?)
 RUN /bin/bash -c "source activate \$CONDA_ENV && \
