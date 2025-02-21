@@ -12,6 +12,9 @@ WORKDIR /app
 # Copy the "contents" directory contents into the container at /app
 COPY contents/ /app
 
+# Install Kamodo separately (fails to resolve when included in requirements.txt because it needs pandas<2 while we use pandas>2)
+RUN pip install --no-cache-dir git+https://github.com/nasa/Kamodo.git
+
 # Update the packages in the base image and install the necessary compilers, then cleanup
 RUN apt-get update && apt-get install -y gcc g++ gfortran ncurses-dev build-essential cmake libgl1-mesa-glx libhdf5-dev libnetcdf-dev capnproto libcapnp-dev \
     && apt-get clean \
@@ -56,8 +59,8 @@ RUN chmod 644 /etc/motd
 #     pip install --no-cache-dir git+https://github.com/nasa/Kamodo.git && \
 #     pip install --use-pep517 --retries 5 --no-cache-dir -r /app/requirements.txt
 
-# Cleanup environment files after their use (TODO: include remaining cruft if it still appears in Binder—e.g. the whole contents/ dir)
-RUN rm /app/environment.yml /app/requirements.txt /app/apt.txt /app/jupyter_notebook_config.py
+# Cleanup environment files after their use
+RUN rm -rf /app/environment.yml /app/requirements.txt /app/apt.txt /app/jupyter_notebook_config.py /app/motd /app/start /app/Dockerfile /app/contents
 
 # Change ownership of home dir and Python env using dynamic Python version (note: this recursive permission setting can apparently take a long time... ~7 mins?)
 RUN /bin/bash -c "source activate \$CONDA_ENV && \

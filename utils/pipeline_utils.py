@@ -152,7 +152,8 @@ def comment_out_kamodo(requirements_file_path):
     # Iterate through the lines and comment out package
     for i, line in enumerate(lines):
         if line.strip().startswith(("kamodo", "kamodo==")):
-            lines[i] = f"git+https://github.com/nasa/Kamodo.git  # {line.strip()}  # gets installed from GitHub instead\n"
+            # lines[i] = f"git+https://github.com/nasa/Kamodo.git  # {line.strip()}  # gets installed from GitHub instead\n"  # Can't include Kamodo's git URL yet (it breaks pip install with conflict on pandas<2)
+            lines[i] = f"# {line.strip()}  # gets installed from GitHub instead\n"
 
     # Write the modified contents back to the file
     with open(requirements_file_path, 'w') as file:
