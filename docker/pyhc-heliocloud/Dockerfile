@@ -13,6 +13,7 @@ WORKDIR /app
 COPY contents/ /app
 
 # Install Kamodo separately (fails to resolve when included in requirements.txt because it needs pandas<2 while we use pandas>2)
+# NOTE: This runs AFTER the base image's ONBUILD commands, so Kamodo's requirements clobber the other packages... probably not a good idea
 RUN pip install --no-cache-dir git+https://github.com/nasa/Kamodo.git
 
 # Update the packages in the base image and install the necessary compilers, then cleanup
