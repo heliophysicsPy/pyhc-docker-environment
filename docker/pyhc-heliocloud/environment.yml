@@ -1,4 +1,5 @@
-name: pyhc-all
+# Note: name used to be 'pyhc-all' but we've updated to match Pangeo's base image name
+name: notebook
 channels:
   - conda-forge
   - nodefaults
