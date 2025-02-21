@@ -249,7 +249,7 @@ pyside6-addons==6.7.1
 pyside6-essentials==6.7.1
 pyside6-qtads==4.3.0.1
 pyside6==6.7.1
-pyspedas==1.7.4
+pyspedas==1.7.5
 pytest-arraydiff==0.6.1
 pytest-doctestplus==1.4.0
 pytest-xdist==3.6.1
@@ -314,7 +314,7 @@ sqlalchemy-utils>=0.37.8
 sqlalchemy>=1.4.0,<2
 sscws
 stack-data
-sunkit-image==0.6.0
+sunkit-image==0.6.1
 sunkit-instruments==0.5.0
 sunkit-magex
 sunpy==6.0.4
@@ -339,7 +339,7 @@ typing-extensions>=4.9
 tzdata>=2022.7
 uncertainties>=3.2.2
 urllib3>=1.26.16,<3,!=2.2.0
-viresclient==0.12.1
+viresclient==0.12.2
 voila>=0.2.7
 wcwidth
 webencodings
