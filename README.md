@@ -59,7 +59,7 @@ irispy-lmsal | 0.2.1
 kamodo | 23.3.0
 lofarSun | 0.3.32
 lowtran | 3.1.0
-madrigalWeb | 3.3.1
+madrigalWeb | 3.3.2
 maidenhead | 1.7.0
 mcalf | 1.0.0
 msise00 | 1.11.1

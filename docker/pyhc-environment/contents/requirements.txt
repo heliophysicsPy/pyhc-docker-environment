@@ -157,7 +157,7 @@ locket
 lofarSun==0.3.32
 lowtran==3.1.0
 lxml>=4.8.0
-madrigalWeb==3.3.1
+madrigalWeb==3.3.2
 madrigalweb>=3.2
 maidenhead==1.7.0
 mako
@@ -295,7 +295,7 @@ semantic-version>=2.8
 send2trash>=1.8.2
 sep-pjw
 sep>=1.4.0
-setuptools-scm==8.1.0
+setuptools-scm==8.2.0
 setuptools>=61.2.0
 shapely>=1.8
 shiboken6==6.7.1
