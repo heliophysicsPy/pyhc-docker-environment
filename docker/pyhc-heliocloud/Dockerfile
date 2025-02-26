@@ -17,6 +17,7 @@ RUN apt-get update && apt-get install -y build-essential libhdf5-dev libnetcdf-d
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+# Tell the system to use the system C compiler
 ENV CC=/usr/bin/cc
 
 # Install PyHC packages with pip (Kamodo separately; fails to resolve when included in requirements.txt because it needs pandas<2 while we use pandas>2)
