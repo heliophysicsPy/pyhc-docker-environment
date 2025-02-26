@@ -59,7 +59,7 @@ irispy-lmsal | 0.2.1
 kamodo | 23.3.0
 lofarSun | 0.3.32
 lowtran | 3.1.0
-madrigalWeb | 3.3.1
+madrigalWeb | 3.3.2
 maidenhead | 1.7.0
 mcalf | 1.0.0
 msise00 | 1.11.1
@@ -74,9 +74,9 @@ pyflct | 0.3.1
 pyhc-core[tests] | 0.0.6
 pymap3d | 3.1.0
 pysat | 3.2.1
-pyspedas | 1.7.5
+pyspedas | 1.7.6
 pytplot | 1.7.28
-pytplot-mpl-temp | 2.2.54
+pytplot-mpl-temp | 2.2.55
 pyzenodo3 | 1.0.2
 reesaurora | 1.0.5
 regularizepsf | 1.0.2
@@ -89,11 +89,11 @@ solarmach | 0.5.0
 solo-epd-loader | 0.4.1
 space-packet-parser | 5.0.1
 spacepy | 0.7.0
-speasy | 1.4.0
+speasy | 1.5.1
 spiceypy | 6.0.0
 sunkit-image | 0.6.1
 sunkit-instruments | 0.5.0
-sunpy | 6.0.4
+sunpy | 6.0.5
 sunraster | 0.5.1
 themisasi | 1.2.0
 viresclient | 0.12.2
