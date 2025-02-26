@@ -3,7 +3,7 @@ ai.cs==1.0.7
 aiapy==0.10.1
 aidapy==0.0.4
 aioboto3
-aiobotocore==2.18.0
+aiobotocore==2.20.0
 aiofiles>=23.2.1
 aiohappyeyeballs>=2.3.0
 aiohttp>=3.9.2,<4.0.0,!=4.0.0a0,!=4.0.0a1
@@ -44,7 +44,7 @@ blinker>=1.9
 blosc2>=2.3.0
 bokeh>=1.1
 boto3
-botocore>=1.36.1,<1.36.2
+botocore>=1.36.20,<1.36.24
 bottleneck
 cartopy>=0.24.0,<0.25.0
 ccdproc==2.4.2
@@ -119,7 +119,7 @@ httpcore==1
 httpx>=0.25.0
 humanize>=4.4.0,<5.0.0
 hydra-core==0.11.3
-hypothesis==6.126.0
+hypothesis==6.127.2
 idna>=2.8,<4
 igrf==13.0.2
 imageio>=2.33,!=2.35.0
@@ -166,7 +166,7 @@ locket
 lofarSun==0.3.32
 lowtran==3.1.0
 lxml>=4.8.0
-madrigalWeb==3.3.1
+madrigalWeb==3.3.2
 madrigalweb>=3.2
 maidenhead==1.7.0
 mako
@@ -248,7 +248,7 @@ pyflct==0.3.1
 pyForecastTools==1.1.1
 pygments>=2.4.1
 pyhc-core[tests]==0.0.6
-pyistp>=0.5.0
+pyistp>=0.7.0
 pyjwt>=2.0.0,<3.0.0
 pymap3d==3.1.0
 pyopenssl
@@ -266,7 +266,7 @@ pyside6-addons==6.7.1
 pyside6-essentials==6.7.1
 pyside6-qtads==4.3.0.1
 pyside6==6.7.1
-pyspedas==1.7.5
+pyspedas==1.7.6
 pytest-arraydiff==0.6.1
 pytest-doctestplus==1.4.0
 pytest-xdist==3.6.1
@@ -275,7 +275,7 @@ python-casacore
 python-dateutil>=2.8.2,<3.0.0
 python-forge
 python-json-logger>=2.0.4
-# pytplot-mpl-temp==2.2.54  # pySPEDAS controls PyTplot installation
+# pytplot-mpl-temp==2.2.55  # pySPEDAS controls PyTplot installation
 # pytplot==1.7.28  # pySPEDAS controls PyTplot installation
 pytz>=2020.1
 pyucalgarysrs==1.20.0
@@ -313,7 +313,7 @@ semantic-version>=2.8
 send2trash>=1.8.2
 sep-pjw
 sep>=1.4.0
-setuptools-scm==8.1.0
+setuptools-scm==8.2.0
 setuptools>=61.2.0
 shapely>=1.8
 shiboken6==6.7.1
@@ -327,7 +327,7 @@ sortedcontainers>=2.1.0,<3.0.0
 soupsieve>1.2
 space-packet-parser==5.0.1
 spacepy==0.7.0
-speasy==1.4.0
+speasy==1.5.1
 spiceypy==6.0.0
 sqlalchemy-utils>=0.37.8
 sqlalchemy>=1.4.0,<2
@@ -336,7 +336,7 @@ stack-data
 sunkit-image==0.6.1
 sunkit-instruments==0.5.0
 sunkit-magex
-sunpy==6.0.4
+sunpy==6.0.5
 sunraster==0.5.1
 sympy==1.5.1
 tables>=3.8.0
