@@ -6,9 +6,9 @@ channels:
 dependencies:
   # from pyhc-environment
   - python=3.11.11
-  - gfortran_linux-64  # - gfortran=11.2  # needed for ffnet dependency of spacepy
-  - gcc_linux-64  # Added to help matplotlib wheel build
-  - gxx_linux-64  # Added to help matplotlib wheel build
+  # - gfortran_linux-64  # - gfortran=11.2  # needed for ffnet dependency of spacepy
+  # - gcc_linux-64  # Added to help matplotlib wheel build
+  # - gxx_linux-64  # Added to help matplotlib wheel build
   - jupyter-book=0.15.1
   - jupyterlab=4.0.10  # CONFLICTS with jupyterlab>=4.3.4,<4.4,!=4.1.0 in PyHC requirements.txt
   - jupyterlab-git=0.50.0

@@ -17,9 +17,11 @@ RUN pip install --no-cache-dir git+https://github.com/nasa/Kamodo.git && \
     pip install --use-pep517 --retries 5 --no-cache-dir -r /app/requirements.txt
 
 # Update the packages in the base image and install the necessary compilers, then cleanup
-RUN apt-get update && apt-get install -y gcc g++ gfortran ncurses-dev build-essential cmake libgl1-mesa-glx libhdf5-dev libnetcdf-dev capnproto libcapnp-dev \
+RUN apt-get update && apt-get install -y build-essential libhdf5-dev libnetcdf-dev capnproto libcapnp-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+
+ENV CC=/usr/bin/cc
 
 # Configure CDF library and package data directories
 RUN mv /app/cdf38_0-dist /usr/lib/ && \
