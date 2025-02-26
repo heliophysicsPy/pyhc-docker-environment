@@ -12,16 +12,16 @@ WORKDIR /app
 # Copy the "contents" directory contents into the container at /app
 COPY contents/ /app
 
-# Install PyHC packages with pip (Kamodo separately; fails to resolve when included in requirements.txt because it needs pandas<2 while we use pandas>2)
-RUN pip install --no-cache-dir git+https://github.com/nasa/Kamodo.git && \
-    pip install --use-pep517 --retries 5 --no-cache-dir -r /app/requirements.txt
-
 # Update the packages in the base image and install the necessary compilers, then cleanup
 RUN apt-get update && apt-get install -y build-essential libhdf5-dev libnetcdf-dev capnproto libcapnp-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 ENV CC=/usr/bin/cc
+
+# Install PyHC packages with pip (Kamodo separately; fails to resolve when included in requirements.txt because it needs pandas<2 while we use pandas>2)
+RUN pip install --no-cache-dir git+https://github.com/nasa/Kamodo.git && \
+    pip install --use-pep517 --retries 5 --no-cache-dir -r /app/requirements.txt
 
 # Configure CDF library and package data directories
 RUN mv /app/cdf38_0-dist /usr/lib/ && \
