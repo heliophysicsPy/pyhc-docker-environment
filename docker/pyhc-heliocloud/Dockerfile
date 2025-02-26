@@ -12,21 +12,14 @@ WORKDIR /app
 # Copy the "contents" directory contents into the container at /app
 COPY contents/ /app
 
-# Install Kamodo separately (fails to resolve when included in requirements.txt because it needs pandas<2 while we use pandas>2)
-# NOTE: This runs AFTER the base image's ONBUILD commands, so Kamodo's requirements clobber the other packages... probably not a good idea
-RUN pip install --no-cache-dir git+https://github.com/nasa/Kamodo.git
+# Install PyHC packages with pip (Kamodo separately; fails to resolve when included in requirements.txt because it needs pandas<2 while we use pandas>2)
+RUN pip install --no-cache-dir git+https://github.com/nasa/Kamodo.git && \
+    pip install --use-pep517 --retries 5 --no-cache-dir -r /app/requirements.txt
 
 # Update the packages in the base image and install the necessary compilers, then cleanup
 RUN apt-get update && apt-get install -y gcc g++ gfortran ncurses-dev build-essential cmake libgl1-mesa-glx libhdf5-dev libnetcdf-dev capnproto libcapnp-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
-
-# Install apt.txt packages (TODO: delete; should be handled by pangeo's ONBUILD)
-# RUN echo "Found apt.txt; installing packages..." && \
-#     apt-get update -qq && \
-#     xargs -a /app/apt.txt apt-get install -y && \
-#     apt-get clean && \
-#     rm -rf /var/lib/apt/lists/*
 
 # Configure CDF library and package data directories
 RUN mv /app/cdf38_0-dist /usr/lib/ && \
@@ -40,19 +33,19 @@ RUN echo "cat /etc/motd" > /etc/profile.d/show_motd.sh
 COPY --chown=1000:1000 motd /etc/
 RUN chmod 644 /etc/motd
 
-# Copy jupyter_notebook_config.py to /etc/jupyter (TODO: delete; should be handled by pangeo's ONBUILD)
-# RUN echo "Found jupyter_notebook_config.py; copying to /etc/jupyter/..." && \
-#     mkdir -p /etc/jupyter && \
-#     cp /app/jupyter_notebook_config.py /etc/jupyter/
-
-# Create the conda environment (using mamba) from environment.yml and activate it, then cleanup (TODO: delete; should be handled by pangeo's ONBUILD)
-# ENV MAMBA_ROOT_PREFIX=/opt/conda
-
-# RUN mamba env create -f /app/environment.yml \
-#     && echo "source activate pyhc-all" > ~/.bashrc \
-#     && conda clean -afy
-
-# ENV PATH /opt/conda/envs/pyhc-all/bin:$PATH
+# Ensure the jovyan user owns /app,
+# then copy all notebooks from /app/notebooks into /home/jovyan/notebooks
+# and copy the README into /home/jovyan
+RUN chown -R jovyan:users /app && \
+    mkdir -p /home/jovyan/notebooks && \
+    if [ -d "/app/notebooks" ]; then \
+        cp -r /app/notebooks/* /home/jovyan/notebooks/; \
+    fi && \
+    chown -R jovyan:users /home/jovyan/notebooks && \
+    if [ -f "/app/README.md" ]; then \
+        cp /app/README.md /home/jovyan/ && \
+        chown jovyan:users /home/jovyan/README.md; \
+    fi
 
 # Install PyHC packages with pip (Kamodo separately) - explicitly use the right environment by activating it (TODO: delete; should be handled by pangeo's ONBUILD)
 # SHELL ["/bin/bash", "-c"]
@@ -62,6 +55,8 @@ RUN chmod 644 /etc/motd
 
 # Cleanup environment files after their use
 RUN rm -rf /app/environment.yml /app/requirements.txt /app/apt.txt /app/jupyter_notebook_config.py /app/motd /app/start /app/Dockerfile /app/contents
+
+RUN rm -rf /home/jovyan/environment.yml /home/jovyan/requirements.txt /home/jovyan/apt.txt /home/jovyan/jupyter_notebook_config.py /home/jovyan/motd /home/jovyan/start /home/jovyan/Dockerfile /home/jovyan/contents
 
 # Change ownership of home dir and Python env using dynamic Python version (note: this recursive permission setting can apparently take a long time... ~7 mins?)
 RUN /bin/bash -c "source activate \$CONDA_ENV && \
