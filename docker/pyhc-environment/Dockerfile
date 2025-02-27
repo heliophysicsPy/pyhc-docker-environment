@@ -43,7 +43,7 @@ RUN cp /app/import-test.ipynb /home/jovyan/import-test.ipynb && \
     chown -R jovyan:users /home/jovyan && \
     chown -R jovyan:users /app
 
-# Change ownership of the entire conda directory to allow package installation/modification
+# Change ownership of the entire conda directory to allow package installation/modification (note: this recursive permission setting can take a long time... ~2 mins in GitHub Actions) 
 RUN chown -R jovyan:users /opt/conda && \
     chmod -R u+w /opt/conda
 
