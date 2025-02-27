@@ -39,18 +39,13 @@ RUN echo "cat /etc/motd" > /etc/profile.d/show_motd.sh
 COPY --chown=1000:1000 motd /etc/
 RUN chmod 644 /etc/motd
 
-# Ensure the jovyan user owns /app,
-# then copy all notebooks from /app/notebooks into /home/jovyan/notebooks
-# and copy the README into /home/jovyan
-RUN chown -R jovyan:users /app && \
-    mkdir -p /home/jovyan/notebooks && \
+# Copy notebooks and README to jovyan's home directory
+RUN mkdir -p /home/jovyan/notebooks && \
     if [ -d "/app/notebooks" ]; then \
         cp -r /app/notebooks/* /home/jovyan/notebooks/; \
     fi && \
-    chown -R jovyan:users /home/jovyan/notebooks && \
     if [ -f "/app/README.md" ]; then \
-        cp /app/README.md /home/jovyan/ && \
-        chown jovyan:users /home/jovyan/README.md; \
+        cp /app/README.md /home/jovyan/; \
     fi
 
 # Cleanup environment files after their use
@@ -58,14 +53,12 @@ RUN rm -rf /app/environment.yml /app/requirements.txt /app/apt.txt /app/jupyter_
 
 RUN rm -rf /home/jovyan/environment.yml /home/jovyan/requirements.txt /home/jovyan/apt.txt /home/jovyan/jupyter_notebook_config.py /home/jovyan/motd /home/jovyan/start /home/jovyan/Dockerfile /home/jovyan/contents
 
-# Change ownership of home dir and Python env using dynamic Python version (note: this recursive permission setting can apparently take a long time... ~7 mins?)
-RUN /bin/bash -c "source activate \$CONDA_ENV && \
-    PYVERSION=\$(python -c 'import sys; print(\"python%d.%d\" % sys.version_info[:2])') && \
-    echo \"Detected PYVERSION=\$PYVERSION\" && \
+# Set comprehensive permissions to allow package installation/modification (note: this recursive permission setting can take a long time...)
+RUN chown -R jovyan:users /app && \
     chown -R jovyan:users /home/jovyan && \
     chmod -R u+w /home/jovyan && \
-    chown -R jovyan:users /srv/conda/envs/\$CONDA_ENV/lib/\$PYVERSION/site-packages && \
-    chmod -R u+w /srv/conda/envs/\$CONDA_ENV/lib/\$PYVERSION/site-packages"
+    chown -R jovyan:users /srv/conda && \
+    chmod -R u+w /srv/conda
 
 WORKDIR /home/jovyan
 
