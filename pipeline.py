@@ -28,7 +28,8 @@ def pipeline_should_run(packages_to_ignore=['cdflib', 'geospacelab', 'heliopy', 
     """
     Step 1: Check if any PyHC packages have released updates. If not, the pipeline doesn't need to run (return False).
     """
-    requirements_file_path = os.path.join(os.path.dirname(__file__), 'docker', 'pyhc-environment', 'contents', 'requirements.txt')
+    # NOTE: changed 'pyhc-environment' to 'pyhc-heliocloud' in the following line
+    requirements_file_path = os.path.join(os.path.dirname(__file__), 'docker', 'pyhc-heliocloud', 'contents', 'requirements.txt')
     all_packages = get_core_pyhc_packages() + get_other_pyhc_packages()
     updates = check_for_package_updates(requirements_file_path, all_packages, packages_to_ignore)
     if updates:
