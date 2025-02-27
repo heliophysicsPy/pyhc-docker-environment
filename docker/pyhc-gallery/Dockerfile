@@ -24,9 +24,10 @@ ENV CDF_LIB=$CDF_BASE/lib
 
 # Create the conda environment using environment.yml and activate it, then cleanup
 RUN conda env create -f /app/environment.yml && \
-    echo "source activate pyhc-all" > ~/.bashrc && \
+    echo ". /opt/conda/etc/profile.d/conda.sh && conda activate pyhc-all" > /etc/profile.d/init_conda.sh && \
     conda clean -afy
 
+# Add environment's bin directory to PATH for global access to commands
 ENV PATH /opt/conda/envs/pyhc-all/bin:$PATH
 
 # Install PyHC packages with pip (Kamodo separately)
