@@ -12,8 +12,8 @@ dependencies:
   - jupyter-book=0.15.1
   # - jupyterlab=4.0.10  # CONFLICTS with jupyterlab>=4.3.4,<4.4,!=4.1.0 in PyHC requirements.txt
   - jupyterlab-git=0.50.0
-  - sqlite>=3.49.1
-  - libsqlite>=3.49.1
+  - sqlite=3.48.0     # version 3.49.1 breaks speasy import and sunpy unit tests
+  - libsqlite=3.48.0  # version 3.49.1 breaks speasy import and sunpy unit tests
   - pip
 
   # from HelioCloud
