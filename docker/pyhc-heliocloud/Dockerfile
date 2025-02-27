@@ -53,7 +53,7 @@ RUN rm -rf /app/environment.yml /app/requirements.txt /app/apt.txt /app/jupyter_
 
 RUN rm -rf /home/jovyan/environment.yml /home/jovyan/requirements.txt /home/jovyan/apt.txt /home/jovyan/jupyter_notebook_config.py /home/jovyan/motd /home/jovyan/start /home/jovyan/Dockerfile /home/jovyan/contents
 
-# Set comprehensive permissions to allow package installation/modification (note: this recursive permission setting can take a long time...)
+# Set comprehensive permissions to allow package installation/modification (note: this recursive permission setting can take a long time... ~2 mins in GitHub Actions)
 RUN chown -R jovyan:users /app && \
     chown -R jovyan:users /home/jovyan && \
     chmod -R u+w /home/jovyan && \
