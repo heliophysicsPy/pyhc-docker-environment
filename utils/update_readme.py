@@ -58,7 +58,8 @@ def update_readme_with_table(readme_path, section_header, new_table):
 
 
 if __name__ == '__main__':
-    requirements_file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'docker', 'pyhc-environment', 'contents', 'requirements.txt')
+    # NOTE: changed 'pyhc-environment' to 'pyhc-heliocloud' in the following line
+    requirements_file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'docker', 'pyhc-heliocloud', 'contents', 'requirements.txt')
     pyhc_packages = get_core_pyhc_packages() + get_other_pyhc_packages()
 
     package_versions = extract_versions_from_requirements(requirements_file_path, pyhc_packages)
