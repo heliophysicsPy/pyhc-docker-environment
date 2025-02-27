@@ -10,6 +10,7 @@ dependencies:
   - jupyter-book=0.15.1
   - jupyterlab=4.0.10  #=3.5.0
   - jupyterlab-git=0.50.0
+  - jupyterhub-singleuser
   - pip
   # - pip:
   #   - aacgmv2>=2.6.2
