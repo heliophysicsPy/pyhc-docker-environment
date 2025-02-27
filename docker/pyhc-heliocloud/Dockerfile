@@ -25,7 +25,7 @@ RUN pip install --no-cache-dir git+https://github.com/nasa/Kamodo.git && \
     pip install --use-pep517 --retries 5 --no-cache-dir -r /app/requirements.txt
 
 # Ensure SQLite is installed correctly (TODO: try removing this to see if specifying better sqlite/libsqlite versions in environment.yml fixed the issue!) 
-RUN mamba install -y libsqlite --force-reinstall
+# RUN mamba install -y libsqlite --force-reinstall
 
 # Configure CDF library and package data directories
 RUN mv /app/cdf38_0-dist /usr/lib/ && \
