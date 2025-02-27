@@ -67,6 +67,8 @@ RUN /bin/bash -c "source activate \$CONDA_ENV && \
     chown -R jovyan:users /srv/conda/envs/\$CONDA_ENV/lib/\$PYVERSION/site-packages && \
     chmod -R u+w /srv/conda/envs/\$CONDA_ENV/lib/\$PYVERSION/site-packages"
 
+WORKDIR /home/jovyan
+
 # Make port 8888 available to the world outside this container
 EXPOSE 8888
 
