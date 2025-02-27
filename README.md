@@ -2,28 +2,26 @@
 [![Binder](https://binder.opensci.2i2c.cloud/badge_logo.svg)](https://binder.opensci.2i2c.cloud/v2/gh/heliophysicsPy/science-platforms-coordination/pyhc)
 
 ## Overview
-The PyHC Environment Pipeline automates the creation of Docker images with Python environments that come pre-loaded with the latest versions of all published PyHC ([Python in Heliophysics Community](https://pyhc.org/projects)) packages. The GitHub Actions workflow rebuilds and pushes the Docker images to [Docker Hub](https://hub.docker.com/u/spolson) each time a PyHC package releases a new update. It also keeps the source files in this repo in-sync with what's in Docker Hub, and updates a Binder build.
+The PyHC Environment Pipeline automates the creation of a Docker image with a Python environment that comes pre-loaded with the latest versions of all published PyHC ([Python in Heliophysics Community](https://pyhc.org/projects)) packages. The GitHub Actions workflow rebuilds and pushes the Docker image to [Docker Hub](https://hub.docker.com/u/spolson) each time a PyHC package releases a new update. It also keeps the source files in this repo in-sync with what's in Docker Hub, and updates a Binder build.
 
 ## Features
-- **Automated Docker Builds**: Automatically builds Docker images with updated Python environments using GitHub Actions.
+- **Binder Deployment**: For ease of use, the `pyhc-environment` Docker image is deployed in Binder and continually updated (use the "launch binder" badge above to access it).
+- **Automated Docker Builds**: Automatically builds the Docker image with an updated Python environment using GitHub Actions.
 - **Daily Updates**: Runs daily to check for and include the latest versions of PyHC packages.
-- **Docker Hub Hosting**: Docker images are readily available on Docker Hub for easy access and deployment.
+- **Docker Hub Hosting**: Docker image is readily available on Docker Hub for easy access and deployment.
 - **Dependency Spreadsheet**: An intermediate step of the pipeline is to generate an Excel spreadsheet showing a matrix of allowed version range requirements.
-- **Binder Deployment**: For ease of use, the `pyhc-environment` Docker image is deployed in Binder and continually updated (use the "launch binder" badge above to access it). 
 
-## Docker Images
-The pipeline creates and maintains the following Docker images:
-- [pyhc-environment](https://hub.docker.com/r/spolson/pyhc-environment) (the base env)
-- [pyhc-gallery](https://hub.docker.com/r/spolson/pyhc-gallery) (base env with notebooks from PyHC's gallery)
+## Docker Image
+The pipeline creates and maintains the following Docker image:
+- [pyhc-environment](https://hub.docker.com/r/spolson/pyhc-environment)
 
 ## Usage
 Click the "launch binder" badge at the top of this README to launch the latest `pyhc-environment` in Binder.
 
-Alternatively, you may run the Docker images locally by pulling them from Docker Hub:
+Alternatively, you may run the Docker image locally by pulling it from Docker Hub:
 
 ```bash
 docker pull spolson/pyhc-environment:vYYYY.MM.DD
-docker pull spolson/pyhc-gallery:vYYYY.MM.DD
 ```
 (Replace `vYYYY.MM.DD` with the actual image version.)
 
