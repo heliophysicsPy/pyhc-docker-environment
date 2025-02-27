@@ -53,12 +53,6 @@ RUN chown -R jovyan:users /app && \
         chown jovyan:users /home/jovyan/README.md; \
     fi
 
-# Install PyHC packages with pip (Kamodo separately) - explicitly use the right environment by activating it (TODO: delete; should be handled by pangeo's ONBUILD)
-# SHELL ["/bin/bash", "-c"]
-# RUN source activate pyhc-all && \
-#     pip install --no-cache-dir git+https://github.com/nasa/Kamodo.git && \
-#     pip install --use-pep517 --retries 5 --no-cache-dir -r /app/requirements.txt
-
 # Cleanup environment files after their use
 RUN rm -rf /app/environment.yml /app/requirements.txt /app/apt.txt /app/jupyter_notebook_config.py /app/motd /app/start /app/Dockerfile /app/contents
 
