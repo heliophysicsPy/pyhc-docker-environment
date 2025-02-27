@@ -10,8 +10,10 @@ dependencies:
   # - gcc_linux-64  # Added to help matplotlib wheel build
   # - gxx_linux-64  # Added to help matplotlib wheel build
   - jupyter-book=0.15.1
-  - jupyterlab=4.0.10  # CONFLICTS with jupyterlab>=4.3.4,<4.4,!=4.1.0 in PyHC requirements.txt
+  # - jupyterlab=4.0.10  # CONFLICTS with jupyterlab>=4.3.4,<4.4,!=4.1.0 in PyHC requirements.txt
   - jupyterlab-git=0.50.0
+  - sqlite>=3.49.1
+  - libsqlite>=3.49.1
   - pip
 
   # from HelioCloud

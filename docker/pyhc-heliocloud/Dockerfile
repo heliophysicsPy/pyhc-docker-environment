@@ -13,19 +13,19 @@ WORKDIR /app
 COPY contents/ /app
 
 # Update the packages in the base image and install the necessary compilers, then cleanup
-RUN apt-get update && apt-get install -y build-essential libhdf5-dev libnetcdf-dev capnproto libcapnp-dev sqlite3 libsqlite3-dev \
+RUN apt-get update && apt-get install -y build-essential libhdf5-dev libnetcdf-dev capnproto libcapnp-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
 # Tell the system to use the system C compiler
 ENV CC=/usr/bin/cc
 
-# Add system SQLite library path
-ENV LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
-
 # Install PyHC packages with pip (Kamodo separately; fails to resolve when included in requirements.txt because it needs pandas<2 while we use pandas>2)
 RUN pip install --no-cache-dir git+https://github.com/nasa/Kamodo.git && \
     pip install --use-pep517 --retries 5 --no-cache-dir -r /app/requirements.txt
+
+# Ensure SQLite is installed correctly (TODO: try removing this to see if specifying better sqlite/libsqlite versions in environment.yml fixed the issue!) 
+RUN mamba install -y libsqlite --force-reinstall
 
 # Configure CDF library and package data directories
 RUN mv /app/cdf38_0-dist /usr/lib/ && \
