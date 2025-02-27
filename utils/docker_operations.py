@@ -15,7 +15,7 @@ def build_and_push_docker_images(docker_folder_path, docker_username, docker_tok
         subprocess.run(login_command, shell=True, check=True)
 
         for image_name in docker_image_names:
-            date_tag = f"{docker_username}/{image_name}:v{today}"
+            date_tag = f"{docker_username}/{image_name}:v{today}-new"
             latest_tag = f"{docker_username}/{image_name}:latest"
 
             # Build the Docker image with the date-based tag
