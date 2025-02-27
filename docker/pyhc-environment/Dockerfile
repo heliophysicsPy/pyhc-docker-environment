@@ -47,10 +47,11 @@ RUN cp /app/import-test.ipynb /home/jovyan/import-test.ipynb && \
 RUN chown -R jovyan:users /opt/conda && \
     chmod -R u+w /opt/conda
 
-# Pre-build the wmm2015 and wmm2020 packages using Bash shell
+# Pre-build the wmm2015, wmm2020, and savic packages using Bash shell
 RUN /bin/bash -c "source activate pyhc-all && \
     python -c 'import wmm2015' && \
-    python -c 'import wmm2020'"
+    python -c 'import wmm2020' && \
+    python -c 'import savic'"
 
 # Set the working directory to jovyan's home for Binder compatibility
 WORKDIR /home/jovyan
