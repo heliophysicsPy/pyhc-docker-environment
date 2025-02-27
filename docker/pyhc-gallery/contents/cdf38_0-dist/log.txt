@@ -1,7 +1,0 @@
-Setting env vars...
-Before:
-PWD:
-/work/dependencies/cdf38_0-dist
-After:
-CDF_LIB=/root/work/dependencies/cdf38_0-dist/lib
-CDF_BASE=/root/work/dependencies/cdf38_0-dist
