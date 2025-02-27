@@ -69,7 +69,9 @@ def check_for_package_updates(requirements_path, package_names, ignore_list=None
         # Extract the current version from requirements.txt
         current_version = None
         for line in requirements:
-            if package_name.lower() in line.lower():
+            # Match only when the package name is at the beginning of the line or after a comment/whitespace
+            # and is followed by == or whitespace - this prevents partial matches
+            if re.search(rf'(^|\s|#)\s*{re.escape(package_name.lower())}(==|\s|$|\[)', line.lower()):
                 match = re.search(r'==(.+?)(\s*#|$)', line)  # Note, this only catches lines with == (should be the case for all PyHC packages, but there's an updated regex in update_readme.py for reference)
                 if match:
                     current_version = match.group(1).strip()
@@ -143,7 +145,7 @@ def comment_out_pysatcdf(requirements_file_path):
 def comment_out_kamodo(requirements_file_path):
     """
     This function takes a requirements.txt file as input, comments out the line for "kamodo",
-    prepends the Kamodo Git URL, and adds a comment at the end of the line.
+    prepends the Kamodo Git URL (TODO: re-enable), and adds a comment at the end of the line.
     """
     # Read the contents of the file
     with open(requirements_file_path, 'r') as file:
