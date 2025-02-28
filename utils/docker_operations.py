@@ -20,7 +20,7 @@ def build_and_push_docker_images(docker_folder_path, docker_username, docker_tok
                 print("Skipping pyhc-environment image")
                 continue
             else:
-                date_tag = f"{docker_username}/{image_name}:v{today}-new2"
+                date_tag = f"{docker_username}/{image_name}:v{today}"
                 latest_tag = f"{docker_username}/{image_name}:latest"
 
                 # Build the Docker image with the date-based tag
