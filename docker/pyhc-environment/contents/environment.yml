@@ -10,6 +10,9 @@ dependencies:
   - jupyter-book=0.15.1
   - jupyterlab=4.0.10  #=3.5.0
   - jupyterlab-git=0.50.0
+  - jupyterhub-singleuser  # required for authenticated binderhubs
+  - sqlite=3.48.0     # version 3.49.1 breaks speasy import and sunpy unit tests
+  - libsqlite=3.48.0  # version 3.49.1 breaks speasy import and sunpy unit tests
   - pip
   # - pip:
   #   - aacgmv2>=2.6.2
