@@ -119,6 +119,7 @@ incremental
 iniconfig
 ipykernel>=6.5.0
 ipympl
+ipython-pygments-lexers
 ipython>=7.23.1,<9
 ipywidgets>=7.6.0,<9
 iri2016==1.11.1
@@ -336,7 +337,7 @@ typing-extensions>=4.9
 tzdata>=2022.7
 uncertainties>=3.2.2
 urllib3>=1.26.16,<3,!=2.2.0
-viresclient==0.12.2
+viresclient==0.12.3
 voila>=0.2.7
 wcwidth
 webencodings
