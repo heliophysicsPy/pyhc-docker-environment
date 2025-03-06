@@ -77,8 +77,11 @@ def get_supplementary_packages():
     """
     :return: A list of supplementary packages, including optional dependencies not found by pipdeptree
              and those used for unit tests.
+    TODO:
+    astropy=6.1.7 and xarray==2024.10.0 are hardcoded because the latest versions of the two are currently not compatible.
+    This was evidenced by a few PlasmaPy unit tests failing. Remove these pins when they become unnecessary.
     """
-    return ["deepdiff", "hypothesis", "pytest-arraydiff", "pytest-doctestplus", "pytest-xdist", "setuptools-scm"]
+    return ["deepdiff", "hypothesis", "pytest-arraydiff", "pytest-doctestplus", "pytest-xdist", "setuptools-scm"] + ["astropy==6.1.7", "xarray==2024.10.0"]
 
 
 # def spreadsheet_to_requirements_file_orig(spreadsheet):
