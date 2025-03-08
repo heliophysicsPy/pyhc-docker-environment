@@ -83,7 +83,7 @@ flask==1.1.2
 fonttools>=4.22.0
 fortranformat
 frozenlist>=1.1.1
-fsspec==2025.2.0
+fsspec==2025.3.0
 gcmprocpy==1.1.0
 geomag
 geomagindices>=1.4.0
@@ -248,7 +248,7 @@ pyside6-addons==6.7.1
 pyside6-essentials==6.7.1
 pyside6-qtads==4.3.0.1
 pyside6==6.7.1
-pyspedas==1.7.7
+pyspedas==1.7.9
 pytest-arraydiff==0.6.1
 pytest-doctestplus==1.4.0
 pytest-xdist==3.6.1
