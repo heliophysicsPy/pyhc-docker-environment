@@ -42,7 +42,7 @@ dbprocessing | 0.1.0
 dmsp | 0.6.0
 enlilviz | 0.2.0
 fiasco | 0.4.0
-gcmprocpy | 1.1.0
+gcmprocpy | 1.2.0
 geopack | 1.0.11
 georinex | 1.16.2
 geospacelab | 0.8.15
@@ -72,9 +72,9 @@ pyflct | 0.3.1
 pyhc-core[tests] | 0.0.6
 pymap3d | 3.1.0
 pysat | 3.2.1
-pyspedas | 1.7.9
+pyspedas | 1.7.11
 pytplot | 1.7.28
-pytplot-mpl-temp | 2.2.57
+pytplot-mpl-temp | 2.2.59
 pyzenodo3 | 1.0.2
 reesaurora | 1.0.5
 regularizepsf | 1.0.2
