@@ -74,7 +74,7 @@ pymap3d | 3.1.0
 pysat | 3.2.1
 pyspedas | 1.7.11
 pytplot | 1.7.28
-pytplot-mpl-temp | 2.2.59
+pytplot-mpl-temp | 2.2.60
 pyzenodo3 | 1.0.2
 reesaurora | 1.0.5
 regularizepsf | 1.0.2
