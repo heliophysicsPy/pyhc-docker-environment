@@ -249,7 +249,7 @@ pyside6-addons==6.7.1
 pyside6-essentials==6.7.1
 pyside6-qtads==4.3.0.1
 pyside6==6.7.1
-pyspedas==1.7.11
+pyspedas==1.7.12
 pytest-arraydiff==0.6.1
 pytest-doctestplus==1.4.0
 pytest-xdist==3.6.1
