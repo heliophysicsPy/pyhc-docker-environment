@@ -64,7 +64,7 @@ dask>=2023.2.0
 dbprocessing==0.1.0
 debugpy>=1.6.5
 decorator>=4.4.2
-deepdiff==8.3.0
+deepdiff==8.4.2
 defusedxml
 dill>=0.3.9
 diskcache
@@ -109,7 +109,7 @@ httpcore==1
 httpx>=0.25.0
 humanize>=4.4.0,<5.0.0
 hydra-core==0.11.3
-hypothesis==6.129.2
+hypothesis==6.129.4
 idna>=2.8,<4
 igrf==13.0.2
 imageio>=2.33,!=2.35.0
@@ -258,7 +258,7 @@ python-casacore
 python-dateutil>=2.8.2,<3.0.0
 python-forge
 python-json-logger>=2.0.4
-# pytplot-mpl-temp==2.2.60  # pySPEDAS controls PyTplot installation
+# pytplot-mpl-temp==2.2.61  # pySPEDAS controls PyTplot installation
 # pytplot==1.7.28  # pySPEDAS controls PyTplot installation
 pytz>=2020.1
 pyucalgarysrs==1.20.0
