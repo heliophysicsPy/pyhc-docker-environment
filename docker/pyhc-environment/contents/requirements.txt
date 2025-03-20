@@ -42,7 +42,7 @@ boto3
 botocore>=1.37.1,<1.37.2
 bottleneck
 cartopy>=0.24.0,<0.25.0
-ccsdspy==1.4.0
+ccsdspy==1.4.1
 cdasws>=1.7.24
 cdflib==1.3.3
 certifi>=2017.4.17
@@ -249,7 +249,7 @@ pyside6-addons==6.7.1
 pyside6-essentials==6.7.1
 pyside6-qtads==4.3.0.1
 pyside6==6.7.1
-pyspedas==1.7.12
+pyspedas==1.7.13
 pytest-arraydiff==0.6.1
 pytest-doctestplus==1.4.0
 pytest-xdist==3.6.1
@@ -258,7 +258,7 @@ python-casacore
 python-dateutil>=2.8.2,<3.0.0
 python-forge
 python-json-logger>=2.0.4
-# pytplot-mpl-temp==2.2.61  # pySPEDAS controls PyTplot installation
+# pytplot-mpl-temp==2.2.63  # pySPEDAS controls PyTplot installation
 # pytplot==1.7.28  # pySPEDAS controls PyTplot installation
 pytz>=2020.1
 pyucalgarysrs==1.20.0
@@ -295,7 +295,7 @@ semantic-version>=2.8
 send2trash>=1.8.2
 sep-pjw
 sep>=1.4.0
-setuptools-scm==8.2.0
+setuptools-scm==8.2.1
 setuptools>=61.2.0
 shapely>=1.8
 shiboken6==6.7.1
