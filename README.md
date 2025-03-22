@@ -72,7 +72,7 @@ pyflct | 0.3.1
 pyhc-core[tests] | 0.0.6
 pymap3d | 3.1.0
 pysat | 3.2.2
-pyspedas | 1.7.13
+pyspedas | 1.7.14
 pytplot | 1.7.28
 pytplot-mpl-temp | 2.2.65
 pyzenodo3 | 1.0.2
@@ -84,7 +84,7 @@ sciencedates | 1.5.0
 SciQLop | 0.8.1
 SkyWinder | 0.0.3
 solarmach | 0.5.0
-solo-epd-loader | 0.4.1
+solo-epd-loader | 0.4.2
 space-packet-parser | 5.0.1
 spacepy | 0.7.0
 speasy | 1.5.1
