@@ -73,9 +73,9 @@ pyflct | 0.3.1
 pyhc-core[tests] | 0.0.6
 pymap3d | 3.1.0
 pysat | 3.2.2
-pyspedas | 1.7.15
+pyspedas | 1.7.16
 pytplot | 1.7.28
-pytplot-mpl-temp | 2.2.67
+pytplot-mpl-temp | 2.2.68
 pyzenodo3 | 1.0.2
 reesaurora | 1.0.5
 regularizepsf | 1.0.2
