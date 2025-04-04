@@ -46,7 +46,7 @@ fiasco | 0.4.0
 gcmprocpy | 1.2.0
 geopack | 1.0.11
 georinex | 1.16.2
-geospacelab | 0.8.15
+geospacelab | 0.9.0
 goesutils | 1.0.8
 hapiclient | 0.2.6
 hapiplot | 0.2.2
@@ -85,7 +85,7 @@ sciencedates | 1.5.0
 SciQLop | 0.8.1
 SkyWinder | 0.0.3
 solarmach | 0.5.0
-solo-epd-loader | 0.4.2
+solo-epd-loader | 0.4.3
 space-packet-parser | 5.0.1
 spacepy | 0.7.0
 speasy | 1.5.1
