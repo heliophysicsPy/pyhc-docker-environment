@@ -33,7 +33,7 @@ aiapy | 0.10.1
 aidapy | 0.0.4
 amisrsynthdata | 1.1.8
 apexpy | 2.1.0
-asilib | 0.25.3
+asilib | 0.26.0
 astrometry-azel | 1.3.0
 ccsdspy | 1.4.1
 cdflib | 1.3.3
@@ -75,7 +75,7 @@ pymap3d | 3.1.0
 pysat | 3.2.2
 pyspedas | 1.7.19
 pytplot | 1.7.28
-pytplot-mpl-temp | 2.2.69
+pytplot-mpl-temp | 2.2.70
 pyzenodo3 | 1.0.2
 reesaurora | 1.0.5
 regularizepsf | 1.0.2
