@@ -36,7 +36,7 @@ apexpy | 2.1.0
 asilib | 0.26.0
 astrometry-azel | 1.3.0
 ccsdspy | 1.4.1
-cdflib | 1.3.3
+cdflib | 1.3.4
 cloudcatalog | 1.0.2
 dascutils | 2.3.0
 dbprocessing | 0.1.0
@@ -58,7 +58,7 @@ irispy-lmsal | 0.2.1
 kamodo | 23.3.0
 lofarSun | 0.3.32
 lowtran | 3.1.0
-madrigalWeb | 3.3.2
+madrigalWeb | 3.3.3
 maidenhead | 1.7.0
 mcalf | 1.0.0
 msise00 | 1.11.1
