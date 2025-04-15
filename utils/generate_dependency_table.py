@@ -67,10 +67,9 @@ def get_other_pyhc_packages():
     TODO:
     heliopy is hardcoded to 0.15.4 because 1.0.0 is deprecated.
     pysatCDF has been removed due to installation failures.
-    OMMBV has been removed due to installation failures.
     pyrfu has not been added yet because its cdflib and numpy versions are too high for other packages.
     """
-    return ["aacgmv2", "aiapy", "aidapy", "amisrsynthdata", "apexpy", "asilib", "astrometry-azel", "ccsdspy", "cdflib", "cloudcatalog", "dascutils", "dbprocessing", "dmsp", "enlilviz", "fiasco", "gcmprocpy", "geopack", "georinex", "geospacelab", "goesutils", "hapiplot", "heliopy==0.15.4", "hissw", "igrf", "iri2016", "irispy-lmsal", "lofarSun", "lowtran", "madrigalWeb", "maidenhead", "mcalf", "msise00", "ndcube", "nexradutils", "ocbpy", "pyaurorax", "pycdfpp", "pydarn", "pyflct", "pymap3d", "pytplot", "pytplot-mpl-temp", "pyzenodo3", "reesaurora", "regularizepsf", "sammi-cdf", "savic", "sciencedates", "SciQLop", "SkyWinder", "solarmach", "solo-epd-loader", "space-packet-parser", "speasy", "spiceypy", "sunkit-image", "sunkit-instruments", "sunraster", "themisasi", "viresclient", "wmm2015", "wmm2020"]
+    return ["aacgmv2", "aiapy", "aidapy", "amisrsynthdata", "apexpy", "asilib", "astrometry-azel", "ccsdspy", "cdflib", "cloudcatalog", "dascutils", "dbprocessing", "dmsp", "enlilviz", "fiasco", "gcmprocpy", "geopack", "georinex", "geospacelab", "goesutils", "hapiplot", "heliopy==0.15.4", "hissw", "igrf", "iri2016", "irispy-lmsal", "lofarSun", "lowtran", "madrigalWeb", "maidenhead", "mcalf", "msise00", "ndcube", "nexradutils", "ocbpy", "OMMBV", "pyaurorax", "pycdfpp", "pydarn", "pyflct", "pymap3d", "pytplot", "pytplot-mpl-temp", "pyzenodo3", "reesaurora", "regularizepsf", "sammi-cdf", "savic", "sciencedates", "SciQLop", "SkyWinder", "solarmach", "solo-epd-loader", "space-packet-parser", "speasy", "spiceypy", "sunkit-image", "sunkit-instruments", "sunraster", "themisasi", "viresclient", "wmm2015", "wmm2020"]
 
 
 def get_supplementary_packages():
@@ -540,8 +539,8 @@ def get_dependency_ranges_by_package(packages, use_installed=False):
                 # script_command = f"./get-dep-tree-for-pysatCDF-w-numpy.sh {package}"
                 # script_command = f"../get-dep-tree-for-pysatCDF-w-numpy.sh {package}"
                 script_command = f"./utils/get-dep-tree-for-pysatCDF-w-numpy.sh {package}"
-            elif package == "OMMBV":
-                script_command = f"./utils/get-dep-tree-for-ommbv.sh {package}"
+            # elif package == "OMMBV":
+            #     script_command = f"./utils/get-dep-tree-for-ommbv.sh {package}"
             # elif package == "spacepy":
             #     script_command = f"./utils/get-dep-tree-for-spacepy.sh {package}"
             # elif package == "fisspy":
