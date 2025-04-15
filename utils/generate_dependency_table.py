@@ -546,6 +546,8 @@ def get_dependency_ranges_by_package(packages, use_installed=False):
             #     script_command = f"./get-dep-tree-for-fisspy-w-conda.sh {package}"
             elif package == "cloudcatalog":
                 script_command = f"./utils/get-dep-tree-for-cloudcatalog.sh {package}"
+            elif package == "pyrfu":
+                script_command = f"./utils/get-dep-tree-for-pyrfu.sh {package}"
             else:
                 # script_command = f"./get-dep-tree-for-package.sh {package}"
                 # script_command = f"../get-dep-tree-for-package.sh {package}"
