@@ -87,7 +87,7 @@ fortranformat
 frozenlist>=1.1.1
 fsspec==2025.3.2
 future
-gcmprocpy==1.2.0
+gcmprocpy==1.2.1
 geomag
 geomagindices>=1.4.0
 geopack==1.0.11
