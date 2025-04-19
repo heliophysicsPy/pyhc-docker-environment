@@ -33,7 +33,7 @@ aiapy | 0.10.1
 aidapy | 0.0.4
 amisrsynthdata | 1.1.8
 apexpy | 2.1.0
-asilib | 0.26.0
+asilib | 0.26.1
 astrometry-azel | 1.3.0
 ccsdspy | 1.4.1
 cdflib | 1.3.4
