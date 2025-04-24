@@ -40,6 +40,7 @@ RUN rm /app/environment.yml /app/requirements.txt
 # Copy notebooks to jovyan's home directory and set permissions
 RUN cp /app/import-test.ipynb /home/jovyan/import-test.ipynb && \
     cp /app/unit-tests.ipynb /home/jovyan/unit-tests.ipynb && \
+    cp /app/Welcome.ipynb /home/jovyan/Welcome.ipynb && \
     chown -R jovyan:users /home/jovyan && \
     chown -R jovyan:users /app
 
