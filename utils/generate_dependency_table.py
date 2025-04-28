@@ -548,6 +548,8 @@ def get_dependency_ranges_by_package(packages, use_installed=False):
                 script_command = f"./utils/get-dep-tree-for-cloudcatalog.sh {package}"
             elif package == "pyrfu":
                 script_command = f"./utils/get-dep-tree-for-pyrfu.sh {package}"
+            elif package == "SciQLop":
+                script_command = f"./utils/get-dep-tree-for-sciqlop.sh {package}"
             else:
                 # script_command = f"./get-dep-tree-for-package.sh {package}"
                 # script_command = f"../get-dep-tree-for-package.sh {package}"
