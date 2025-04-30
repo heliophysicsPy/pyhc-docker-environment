@@ -77,7 +77,7 @@ pyrfu | 2.4.17
 pysat | 3.2.2
 pyspedas | 1.7.19
 pytplot | 1.7.28
-pytplot-mpl-temp | 2.2.71
+pytplot-mpl-temp | 2.2.72
 pyzenodo3 | 1.0.2
 reesaurora | 1.0.5
 regularizepsf | 1.0.2
