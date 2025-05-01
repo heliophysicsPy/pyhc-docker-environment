@@ -231,7 +231,7 @@ pyaurorax==1.16.0
 pycapnp
 pycdfpp==0.7.6
 pycparser
-pydarn==4.1
+pydarn==4.1.1
 pydarnio>=1.3.0
 pyerfa>=2.0.1.1
 pyflct==0.3.1
@@ -256,7 +256,7 @@ pyside6-addons==6.7.1
 pyside6-essentials==6.7.1
 pyside6-qtads==4.3.0.1
 pyside6==6.7.1
-pyspedas==1.7.19
+pyspedas==1.7.20
 pytest-arraydiff==0.6.1
 pytest-doctestplus==1.4.0
 pytest-xdist==3.6.1
@@ -265,7 +265,7 @@ python-casacore
 python-dateutil>=2.9.0,<3.0.0
 python-forge
 python-json-logger>=2.0.4
-# pytplot-mpl-temp==2.2.72  # pySPEDAS controls PyTplot installation
+# pytplot-mpl-temp==2.2.73  # pySPEDAS controls PyTplot installation
 # pytplot==1.7.28  # pySPEDAS controls PyTplot installation
 pytz>=2020.1
 pyucalgarysrs==1.20.1
@@ -294,7 +294,7 @@ savic==1.1.0
 sciencedates==1.5.0
 scikit-image>=0.20.0
 scikit-learn>=1.2.0
-scipy>=1.14.1,<2.0.0,!=1.10.0
+scipy>=1.14.1,<1.15.0,!=1.10.0
 SciQLop==0.8.1
 sciqlopplots==0.7.5
 seaborn
