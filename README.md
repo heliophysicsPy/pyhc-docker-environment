@@ -46,7 +46,7 @@ fiasco | 0.4.0
 gcmprocpy | 1.2.1
 geopack | 1.0.11
 georinex | 1.16.2
-geospacelab | 0.9.1
+geospacelab | 0.9.4
 goesutils | 1.0.8
 hapiclient | 0.2.6
 hapiplot | 0.2.2
@@ -67,7 +67,7 @@ nexradutils | 1.0.0
 ocbpy | 0.5.0
 OMMBV | 1.1.0
 plasmapy | 2024.10.0
-pyaurorax | 1.16.0
+pyaurorax | 1.16.1
 pycdfpp | 0.7.6
 pydarn | 4.1.1
 pyflct | 0.3.1
