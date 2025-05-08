@@ -54,7 +54,7 @@ heliopy | 0.15.4
 hissw | 2.3
 igrf | 13.0.2
 iri2016 | 1.11.1
-irispy-lmsal | 0.2.1
+irispy-lmsal | 0.2.3
 kamodo | 23.3.0
 lofarSun | 0.3.32
 lowtran | 3.1.0
@@ -94,7 +94,6 @@ speasy | 1.5.1
 spiceypy | 6.0.0
 sunkit-image | 0.6.1
 sunkit-instruments | 0.6.0
-sunpy | 6.1.1
 sunraster | 0.5.1
 themisasi | 1.2.0
 viresclient | 0.13.0
