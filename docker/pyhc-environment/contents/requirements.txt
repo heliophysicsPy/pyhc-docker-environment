@@ -126,7 +126,7 @@ ipython-pygments-lexers
 ipython>=7.23.1,<10
 ipywidgets>=7.6.0,<9
 iri2016==1.11.1
-irispy-lmsal==0.2.3
+irispy-lmsal==0.2.4
 isodate>=0.6.0
 itsdangerous>=2.2
 jaraco.classes
@@ -206,7 +206,7 @@ packaging>=23.2
 palettable
 pandas>=2.2.3
 pandocfilters>=1.4.1
-parfive>=2.1
+parfive>=2.2.0
 parso>=0.8.4,<0.9.0
 partd>=1.4.0
 pathlib2
@@ -229,7 +229,7 @@ pure-eval
 py-cpuinfo
 pyaurorax==1.16.1
 pycapnp
-pycdfpp==0.7.6
+pycdfpp==0.7.7
 pycparser
 pydarn==4.1.1
 pydarnio>=1.3.0

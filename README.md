@@ -54,7 +54,7 @@ heliopy | 0.15.4
 hissw | 2.3
 igrf | 13.0.2
 iri2016 | 1.11.1
-irispy-lmsal | 0.2.3
+irispy-lmsal | 0.2.4
 kamodo | 23.3.0
 lofarSun | 0.3.32
 lowtran | 3.1.0
@@ -68,7 +68,7 @@ ocbpy | 0.5.0
 OMMBV | 1.1.0
 plasmapy | 2024.10.0
 pyaurorax | 1.16.1
-pycdfpp | 0.7.6
+pycdfpp | 0.7.7
 pydarn | 4.1.1
 pyflct | 0.3.1
 pyhc-core[tests] | 0.0.6
