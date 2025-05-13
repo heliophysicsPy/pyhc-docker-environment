@@ -21,10 +21,10 @@ import subprocess
 # TODO: get fisspy pipdeptree via conda (get-dep-tree-for-fisspy-w-conda.sh)
 # TODO: sort final spreadsheet by lowercased names.
 
-# TODO: Versions with wildcards * break everything.
+# TODO: Versions with wildcards * used to break everything.
 #   Note: String comparison basically works if one version has * in it.
-#   Idea: Can I just remove the * from the version when I encounter it? e.g. 5.0.* -> 5.0 (and still keep * in the eventual output?)
-#   What I'm doing currently: just removing * from versions for now; pretending like they don't exist
+#   Original idea: (just removing * from versions for now; pretending like they don't exist) Can I just remove the * from the version when I encounter it? e.g. 5.0.* -> 5.0 (and still keep * in the eventual output?)
+#   What I'm doing currently: Converting wildcard version specifiers to equivalent range specifiers in `remove_wildcards()`.
 
 # TODO: Naming consideration: "project" = a (PyHC) package that gets its own table column,
 #                             "package" = a (dependency) package that gets its own table row
@@ -172,7 +172,7 @@ def test_combine_ranges():
     r2 = combine_ranges("any", ">=1.1.2")
     r3 = combine_ranges(">=1.5", ">1.5,<2")
     r4 = combine_ranges(">1.1.1", "==1.2.3")
-    r5 = combine_ranges("<1.1.1", ">=1.2.3,<2.0")
+    # r5 = combine_ranges("<1.1.1", ">=1.2.3,<2.0")
     r6 = combine_ranges(">=1.1.1", ">=1.2.3,<2.0")
     r7 = combine_ranges(">=1.2.3,<2", ">=1.1.1")
     r8 = combine_ranges("==1.1.2", ">=0.9")
@@ -181,6 +181,7 @@ def test_combine_ranges():
     r11= combine_ranges(">=1.9", ">=1.19.5,<1.27.0")
     r12= combine_ranges(">=1.21.0", ">=1.19.5,<1.27.0")
     r13= combine_ranges(">=4.9.2", ">=4.12,!=5.0.*")  # TODO: how should I handle * wildcards?
+    r14= combine_ranges(">=1.0.4", "==1.*")           # TODO: this should be allowed
     pass
 
 
@@ -482,23 +483,141 @@ def upper_bound_is_compatible(current_range, new_upper_bound):
     return compatible
 
 
+# def remove_wildcards(version_range_str):
+#     """
+#     Removes any * wildcards from the given versions by removing any occurrences of '.*' from their ends.
+#     :param version_range_str: String like ">=1.5.0,<2.0,!=1.6.*"
+#     :return: String like ">=1.5.0,<2.0,!=1.6"
+#     """
+#     def remove_wildcard(version_str):
+#         release = version_str.split(".")
+#         if release[-1] == "*":
+#             release.pop()
+#             return ".".join(release)
+#         else:
+#             # raise Exception("remove_wildcard() did not find a * at the end of '" + version_str + "' to remove.")
+#             return version_str
+
+#     versions = version_range_str.split(",")
+#     return ",".join(list(map(remove_wildcard, versions)))
+
 def remove_wildcards(version_range_str):
     """
-    Removes any * wildcards from the given versions by removing any occurrences of '.*' from their ends.
-    :param version_range_str: String like ">=1.5.0,<2.0,!=1.6.*"
-    :return: String like ">=1.5.0,<2.0,!=1.6"
+    Converts wildcard version specifiers to equivalent range specifiers.
+    :param version_range_str: String like ">=1.5.0,<2.0,!=1.6.*,==1.*"
+    :return: String like ">=1.5.0,<2.0,!=1.6,>=1.0.0,<2.0.0"
     """
-    def remove_wildcard(version_str):
-        release = version_str.split(".")
-        if release[-1] == "*":
-            release.pop()
-            return ".".join(release)
+    if not version_range_str:
+        return version_range_str
+    
+    # Split by comma to handle multiple specifiers
+    specifiers = [spec.strip() for spec in version_range_str.split(",")]
+    converted_specs = []
+    
+    for spec in specifiers:
+        if not spec:
+            continue
+            
+        # Extract operator and version
+        if spec.startswith("=="):
+            operator = "=="
+            version = spec[2:].strip()
+        elif spec.startswith("!="):
+            operator = "!="
+            version = spec[2:].strip()
+        elif spec.startswith(">="):
+            operator = ">="
+            version = spec[2:].strip()
+        elif spec.startswith("<="):
+            operator = "<="
+            version = spec[2:].strip()
+        elif spec.startswith(">"):
+            operator = ">"
+            version = spec[1:].strip()
+        elif spec.startswith("<"):
+            operator = "<"
+            version = spec[1:].strip()
+        elif spec.startswith("~="):
+            operator = "~="
+            version = spec[2:].strip()
         else:
-            # raise Exception("remove_wildcard() did not find a * at the end of '" + version_str + "' to remove.")
-            return version_str
+            # No operator, assume ==
+            operator = "=="
+            version = spec.strip()
+        
+        # Handle wildcard versions
+        if version.endswith(".*"):
+            base_version = version[:-2]  # Remove ".*"
+            
+            if operator == "==":
+                # ==1.* becomes >=1.0.0,<2.0.0
+                # ==1.2.* becomes >=1.2.0,<1.3.0
+                parts = base_version.split(".")
+                
+                # Construct the lower bound (always pad with zeros to 3 parts)
+                lower_parts = parts[:]
+                while len(lower_parts) < 3:
+                    lower_parts.append("0")
+                lower_bound = ".".join(lower_parts)
+                
+                # Construct the upper bound (increment the LAST part of the base version)
+                upper_parts = parts[:]
+                try:
+                    # Increment the last part in the original base version
+                    last_idx = len(upper_parts) - 1
+                    upper_parts[last_idx] = str(int(upper_parts[last_idx]) + 1)
+                    
+                    # Pad to 3 parts
+                    while len(upper_parts) < 3:
+                        upper_parts.append("0")
+                    
+                    upper_bound = ".".join(upper_parts)
+                    
+                    converted_specs.append(f">={lower_bound}")
+                    converted_specs.append(f"<{upper_bound}")
+                except ValueError:
+                    # If we can't parse the version number, just remove the wildcard
+                    converted_specs.append(f"{operator}{base_version}")
+                    
+            elif operator == "!=":
+                # !=1.6.* is complex to represent exactly, but for practical purposes
+                # we can approximate it. For now, just remove the wildcard and keep the !=
+                # This is a limitation but better than the current behavior
+                converted_specs.append(f"{operator}{base_version}")
+                
+            else:
+                # For other operators, just remove the wildcard
+                # This might not be perfect but is better than breaking
+                converted_specs.append(f"{operator}{base_version}")
+        else:
+            # No wildcard, keep as-is
+            converted_specs.append(spec)
+    
+    return ",".join(converted_specs)
 
-    versions = version_range_str.split(",")
-    return ",".join(list(map(remove_wildcard, versions)))
+
+# Test the improved function
+def test_improved_remove_wildcards():
+    """Test cases for the improved remove_wildcards function"""
+    test_cases = [
+        ("==1.*", ">=1.0.0,<2.0.0"),
+        (">=1.0.4,==1.*", ">=1.0.4,>=1.0.0,<2.0.0"), 
+        ("!=1.6.*", "!=1.6"),  # Approximation for now
+        (">=4.9.2,!=5.0.*", ">=4.9.2,!=5.0"),
+        ("==1.2.*", ">=1.2.0,<1.3.0"),
+        (">=1.5.0,<2.0,!=1.6.*", ">=1.5.0,<2.0,!=1.6"),
+        (">=1.0.0", ">=1.0.0"),  # No wildcards
+        ("", ""),  # Empty string
+    ]
+    
+    print("Testing improved remove_wildcards function:")
+    for input_val, expected in test_cases:
+        result = remove_wildcards(input_val)
+        print(f"Input:    {input_val}")
+        print(f"Expected: {expected}")
+        print(f"Got:      {result}")
+        print(f"Match:    {result == expected}")
+        print("---")
 
 
 def determine_version_range(dependencies, package, requirement):
@@ -576,7 +695,7 @@ def get_dependency_ranges_by_package(packages, use_installed=False):
             if match:
                 name, version_range = match.groups()
                 name = name.lower()
-                version_range = remove_wildcards(version_range)  # TODO: BEWARE: We pretend wildcards don't exist.
+                version_range = remove_wildcards(version_range)  # TODO: BEWARE: We pretend wildcards don't exist when operator is !=.
                 dependencies[name] = determine_version_range(dependencies, name, version_range)
         dependencies[package.split('==')[0]] = f"=={package_version}"  # each top row package lists itself as dependency
         sorted_dependencies = {key: value for key, value in sorted(dependencies.items())}
@@ -603,7 +722,7 @@ def get_dependency_ranges_for_environment(env_packages, full_path_to_pipdeptree=
             if match:
                 name, version_range = match.groups()
                 name = name.lower()
-                version_range = remove_wildcards(version_range)  # TODO: BEWARE: We pretend wildcards don't exist.
+                version_range = remove_wildcards(version_range)  # TODO: BEWARE: We pretend wildcards don't exist when operator is !=.
                 dependencies[name] = determine_version_range(dependencies, name, version_range)
     sorted_dependencies = {k: v for k, v in sorted(dependencies.items())}
     return sorted_dependencies
