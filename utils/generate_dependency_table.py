@@ -203,7 +203,7 @@ def combine_ranges(current_range, new_range):
         if rule_is_compatible(temp_rules, new_rule):
             temp_rules = update_range(temp_rules, new_rule)
         else:
-            raise RuntimeError(f"Found incompatibility: {new_range}")
+            raise RuntimeError(f"Found incompatibility: {current_range} vs. {new_range}")
     return str(temp_rules)
 
 
@@ -512,8 +512,11 @@ def determine_version_range(dependencies, package, requirement):
         return requirement
     else:
         current_range = dependencies[package]
-        new_range = reorder_requirements(combine_ranges(current_range, requirement))
-        return new_range
+        try:
+            new_range = reorder_requirements(combine_ranges(current_range, requirement))
+            return new_range
+        except RuntimeError as e:
+            raise RuntimeError(f"Package '{package}': {str(e)}")
 
 
 def get_dependency_ranges_by_package(packages, use_installed=False):
