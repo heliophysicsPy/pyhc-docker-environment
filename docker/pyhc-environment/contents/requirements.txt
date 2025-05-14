@@ -326,7 +326,7 @@ streamtracer>=2.2.0
 sunkit-image==0.6.1
 sunkit-instruments==0.6.0
 sunkit-magex
-sunpy!=6.0.0,==6.1.1
+sunpy==6.1.1
 sunraster==0.5.1
 sympy==1.5.1
 tables>=3.8.0
