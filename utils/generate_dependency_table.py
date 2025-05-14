@@ -226,9 +226,10 @@ def update_range(current_range, new_rule):
         else:
             return current_range
     elif op == "!=":
-        for spec in current_range:
-            if spec == Specifier(f"=={v}"):
-                return current_range
+        # if we’re already pinned to a single explicit version, any extra
+        # “!= …” rule is redundant, so ignore it.
+        if any(spec.operator == "==" for spec in current_range):
+            return current_range
         return update_exclusions(current_range, new_rule)  # Add exclusion '!=v' if it's not already there
     elif op == "~=":
         if compatible_release_is_compatible(current_range, v):
