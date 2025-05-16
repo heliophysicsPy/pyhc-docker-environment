@@ -69,7 +69,7 @@ OMMBV | 1.1.0
 plasmapy | 2024.10.0
 pyaurorax | 1.17.0
 pycdfpp | 0.7.7
-pydarn | 4.1.1
+pydarn | 4.1.2
 pyflct | 0.3.1
 pyhc-core[tests] | 0.0.6
 pymap3d | 3.1.0
