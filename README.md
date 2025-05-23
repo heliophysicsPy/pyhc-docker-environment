@@ -33,7 +33,7 @@ aiapy | 0.10.1
 aidapy | 0.0.4
 amisrsynthdata | 1.1.8
 apexpy | 2.1.0
-asilib | 0.26.1
+asilib | 0.26.3
 astrometry-azel | 1.3.0
 ccsdspy | 1.4.1
 cdflib | 1.3.4
@@ -46,7 +46,7 @@ fiasco | 0.4.0
 gcmprocpy | 1.2.1
 geopack | 1.0.11
 georinex | 1.16.2
-geospacelab | 0.10.1
+geospacelab | 0.10.2
 goesutils | 1.0.8
 hapiclient | 0.2.6
 hapiplot | 0.2.2
