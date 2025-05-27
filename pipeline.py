@@ -24,7 +24,7 @@ from utils.pipeline_utils import *
 
 pipeline_updates_info = []
 
-def pipeline_should_run(packages_to_ignore=['cdflib', 'geospacelab', 'heliopy', 'pytplot', 'SciQLop']):  # TODO: remove SciQLop once we unpin it from v0.8.1!
+def pipeline_should_run(packages_to_ignore=['cdflib', 'geospacelab', 'heliopy', 'pytplot']):
     """
     Step 1: Check if any PyHC packages have released updates. If not, the pipeline doesn't need to run (return False).
     """
