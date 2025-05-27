@@ -84,7 +84,7 @@ regularizepsf | 1.0.2
 sammi-cdf | 1.0.0
 savic | 1.1.0
 sciencedates | 1.5.0
-SciQLop | 0.8.1
+SciQLop | 0.9.3
 SkyWinder | 0.0.3
 solarmach | 0.5.0
 solo-epd-loader | 0.4.3
