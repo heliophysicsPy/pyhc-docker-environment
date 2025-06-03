@@ -37,7 +37,7 @@ asilib | 0.26.5
 astrometry-azel | 1.3.0
 ccsdspy | 1.4.1
 cdflib | 1.3.4
-cloudcatalog | 1.0.2
+cloudcatalog | 1.1.0
 dascutils | 2.3.0
 dbprocessing | 0.1.0
 dmsp | 0.6.0
@@ -54,7 +54,7 @@ heliopy | 0.15.4
 hissw | 2.3
 igrf | 13.0.2
 iri2016 | 1.11.1
-irispy-lmsal | 0.2.4
+irispy-lmsal | 0.2.5
 kamodo | 23.3.0
 lofarSun | 0.3.32
 lowtran | 3.1.0
