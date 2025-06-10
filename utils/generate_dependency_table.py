@@ -658,8 +658,6 @@ def get_dependency_ranges_by_package(packages, use_installed=False):
             script_command = f"pipdeptree -p {package}"
         else:
             if package == "pysatCDF":
-                # script_command = f"./get-dep-tree-for-pysatCDF-w-numpy.sh {package}"
-                # script_command = f"../get-dep-tree-for-pysatCDF-w-numpy.sh {package}"
                 script_command = f"./utils/get-dep-tree-for-pysatCDF-w-numpy.sh {package}"
             # elif package == "OMMBV":
             #     script_command = f"./utils/get-dep-tree-for-ommbv.sh {package}"
@@ -667,15 +665,15 @@ def get_dependency_ranges_by_package(packages, use_installed=False):
             #     script_command = f"./utils/get-dep-tree-for-spacepy.sh {package}"
             # elif package == "fisspy":
             #     script_command = f"./get-dep-tree-for-fisspy-w-conda.sh {package}"
-            elif package == "cloudcatalog":
-                script_command = f"./utils/get-dep-tree-for-cloudcatalog.sh {package}"
-            elif package == "pyrfu":
-                script_command = f"./utils/get-dep-tree-for-pyrfu.sh {package}"
+            elif package.split('==')[0] == "cloudcatalog":
+                script_command = f"./utils/get-dep-tree-for-package-w-boto.sh {package}"
+            elif package.split('==')[0] == "pyrfu":
+                script_command = f"./utils/get-dep-tree-for-package-w-boto.sh {package}"
+            elif package.split('==')[0] == "swxsoc":
+                script_command = f"./utils/get-dep-tree-for-package-w-boto.sh {package}"
             elif package.split('==')[0] == "SciQLop":
-                script_command = f"./utils/get-dep-tree-for-sciqlop.sh {package}"
+                script_command = f"./utils/get-dep-tree-for-package-w-httpcore.sh {package}"
             else:
-                # script_command = f"./get-dep-tree-for-package.sh {package}"
-                # script_command = f"../get-dep-tree-for-package.sh {package}"
                 script_command = f"./utils/get-dep-tree-for-package.sh {package}"
         output = subprocess.check_output(script_command, shell=True)
         output_str = output.decode('utf-8')
