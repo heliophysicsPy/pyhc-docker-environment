@@ -62,7 +62,7 @@ madrigalWeb | 3.3.3
 maidenhead | 1.8.0
 mcalf | 1.0.0
 msise00 | 1.11.1
-ndcube | 2.3.1
+ndcube | 2.3.2
 nexradutils | 1.0.0
 ocbpy | 0.5.0
 OMMBV | 1.1.0
@@ -95,7 +95,7 @@ spiceypy | 6.0.0
 sunkit-image | 0.6.1
 sunkit-instruments | 0.6.0
 sunpy | 6.1.1
-sunraster | 0.5.1
+sunraster | 0.6.0
 swxsoc | 0.2.2
 themisasi | 1.2.0
 viresclient | 0.13.0
