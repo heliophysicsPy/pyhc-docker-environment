@@ -94,7 +94,7 @@ geomag
 geomagindices>=1.4.0
 geopack==1.0.11
 georinex==1.16.2
-geospacelab==0.10.4
+geospacelab==0.11.0
 globus-sdk>=3.0
 goesutils==1.0.8
 greenlet>=1,!=0.4.17
@@ -264,7 +264,7 @@ pyside6-addons==6.9.0
 pyside6-essentials==6.9.0
 pyside6-qtads==4.4.0
 pyside6==6.9.0
-pyspedas==1.7.22
+pyspedas==1.7.23
 pytest-arraydiff==0.6.1
 pytest-doctestplus==1.4.0
 pytest-xdist==3.7.0
@@ -273,7 +273,7 @@ python-casacore
 python-dateutil>=2.9.0,<3.0.0
 python-forge
 python-json-logger>=2.0.4
-# pytplot-mpl-temp==2.2.73  # pySPEDAS controls PyTplot installation
+# pytplot-mpl-temp==2.2.75  # pySPEDAS controls PyTplot installation
 # pytplot==1.7.28  # pySPEDAS controls PyTplot installation
 pytz>=2020.1
 pyucalgarysrs==1.21.2
