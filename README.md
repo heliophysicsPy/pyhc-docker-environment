@@ -46,7 +46,7 @@ fiasco | 0.4.0
 gcmprocpy | 1.2.1
 geopack | 1.0.11
 georinex | 1.16.2
-geospacelab | 0.11.0
+geospacelab | 0.11.3
 goesutils | 1.0.8
 hapiclient | 0.2.6
 hapiplot | 0.2.2
@@ -54,7 +54,7 @@ heliopy | 0.15.4
 hissw | 2.3
 igrf | 13.0.2
 iri2016 | 1.11.1
-irispy-lmsal | 0.2.5
+irispy-lmsal | 0.3.0
 kamodo | 23.3.0
 lofarSun | 0.3.32
 lowtran | 3.1.0
