@@ -115,7 +115,7 @@ httpx-ws>=0.7.1,<0.8.0
 httpx>=0.25.0
 humanize>=4.4.0,<5.0.0
 hydra-core==0.11.3
-hypothesis==6.135.10
+hypothesis==6.135.11
 idna>=2.8,<4
 igrf==13.0.2
 imageio>=2.33,!=2.35.0
@@ -336,7 +336,7 @@ streamtracer>=2.2.0
 sunkit-image==0.6.1
 sunkit-instruments==0.6.0
 sunkit-magex
-sunpy==6.1.1
+sunpy==7.0.0
 sunraster==0.6.0
 swxsoc==0.2.2
 sympy==1.5.1
