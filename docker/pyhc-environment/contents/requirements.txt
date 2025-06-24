@@ -1,4 +1,5 @@
 aacgmv2==2.7.0
+about-time==4.2.1
 aiapy==0.10.1
 aidapy==0.0.4
 aioboto3
@@ -8,7 +9,9 @@ aiohappyeyeballs>=2.5.0
 aiohttp>=3.9.2,<4.0.0,!=4.0.0a0,!=4.0.0a1
 aioitertools>=0.5.1,<1.0.0
 aiosignal>=1.1.2
+alabaster>=0.7.14
 alembic
+alive-progress
 amisrsynthdata==1.1.8
 aniso8601>=0.82
 antlr4-python3-runtime==4.7
@@ -17,11 +20,11 @@ apexpy==2.1.0
 appdirs>=1.4.4
 argon2-cffi-bindings
 argon2-cffi>=21.1
-asdf-astropy>=0.5.0
+asdf-astropy>=0.8.0
 asdf-coordinates-schemas>=0.4
 asdf-standard>=1.1.0
 asdf-transform-schemas>=0.6
-asdf-wcs-schemas>=0.4.0
+asdf-wcs-schemas>=0.5.0
 asdf>=3.3.0
 asilib==0.26.5
 asteval>=1.0
@@ -32,7 +35,7 @@ astroquery
 asttokens>=2.1.0
 async-lru>=1.0.0
 attrs>=22.2.0
-babel>=2.10
+babel>=2.13
 backports.tarfile
 beautifulsoup4>=4.9.3
 bleach!=5.0.0
@@ -56,6 +59,7 @@ cloudpickle>=3.0.0
 cmasher
 colorspacious>=1.1.0
 comm>=0.1.3
+configparser
 contourpy>=1.2
 cryptography>=41.0.5,<46,!=3.4.0
 cycler>=0.10
@@ -72,6 +76,7 @@ dill>=0.4.0
 diskcache
 dkist>=1.10.0
 dmsp==0.6.0
+docutils>=0.20,<0.22
 drms
 enlilviz==0.2.0
 execnet>=2.1
@@ -95,8 +100,10 @@ geomagindices>=1.4.0
 geopack==1.0.11
 georinex==1.16.2
 geospacelab==0.11.3
+gfz-api-client
 globus-sdk>=3.0
 goesutils==1.0.8
+grapheme==0.6.0
 greenlet>=1,!=0.4.17
 gridaurora
 gwcs>=0.24.0
@@ -115,10 +122,11 @@ httpx-ws>=0.7.1,<0.8.0
 httpx>=0.25.0
 humanize>=4.4.0,<5.0.0
 hydra-core==0.11.3
-hypothesis==6.135.11
+hypothesis==6.135.14
 idna>=2.8,<4
 igrf==13.0.2
 imageio>=2.33,!=2.35.0
+imagesize>=1.3
 importlib-metadata>=4.13.0
 importlib-resources
 incremental
@@ -153,6 +161,7 @@ jupyterlab-pygments
 jupyterlab-server>=2.27.1,<3
 jupyterlab-widgets~=3.0.15
 jupyterlab>=4.4.3,<4.5,!=4.1.0
+kaipy==1.1.2
 # kamodo==23.3.0  # gets installed from GitHub instead
 keyring>=25.5.0
 kiwisolver>=1.3.1
@@ -224,6 +233,7 @@ pluggy>=1.5,<2
 portalocker
 pox>=0.3.6
 ppft>=1.7.7
+progressbar
 prometheus-client>=0.9
 prompt-toolkit>=3.0.41,<3.1.0
 propcache>=0.2.1
@@ -231,7 +241,7 @@ psutil
 ptyprocess>=0.5
 pure-eval
 py-cpuinfo
-pyaurorax==1.17.0
+pyaurorax==1.18.0
 pycapnp
 pycdfpp==0.7.7
 pycparser
@@ -242,7 +252,7 @@ pydarnio~=1.3.0
 pyerfa>=2.0.1.1
 pyflct==0.3.1
 pygithub
-pygments>=2.7.2
+pygments>=2.17
 pyhc-core[tests]==0.0.6
 pyistp>=0.7.0
 pyjwt>=2.4.0,<3.0.0
@@ -276,7 +286,7 @@ python-json-logger>=2.0.4
 # pytplot-mpl-temp==2.2.75  # pySPEDAS controls PyTplot installation
 # pytplot==1.7.28  # pySPEDAS controls PyTplot installation
 pytz>=2020.1
-pyucalgarysrs==1.21.2
+pyucalgarysrs==1.23.1
 pyvo>=1.5
 pywavelets
 pyyaml>=6.0.0
@@ -295,6 +305,7 @@ requests-toolbelt>=0.7.1
 requests>=2.32.0,<3.0.0
 rfc3339-validator
 rfc3986-validator>=0.1.1
+roman-numerals-py>=1.0.0
 rpds-py>=0.7.1
 s3fs
 s3transfer>=0.11.0,<0.12.0
@@ -318,7 +329,9 @@ shapely>=1.8
 shiboken6==6.9.0
 six>=1.9
 SkyWinder==0.0.3
+slack-sdk
 sniffio>=1.1
+snowballstemmer>=2.2
 solarmach==0.5.0
 solo-epd-loader==0.4.3
 sortedcontainers>=2.1.0,<3.0.0
@@ -326,6 +339,16 @@ soupsieve>1.2
 space-packet-parser==5.0.1
 spacepy==0.7.0
 speasy==1.5.2
+sphinx-rtd-theme
+sphinx>=6,<9
+sphinxcontrib-applehelp>=1.0.7
+sphinxcontrib-autoprogram
+sphinxcontrib-devhelp>=1.0.6
+sphinxcontrib-htmlhelp>=2.0.6
+sphinxcontrib-jquery>=4,<5
+sphinxcontrib-jsmath>=1.0.1
+sphinxcontrib-qthelp>=1.0.6
+sphinxcontrib-serializinghtml>=1.1.9
 spiceypy==6.0.0
 sqlalchemy-utils>=0.37.8
 sqlalchemy>=1.4.0,<2
@@ -338,6 +361,7 @@ sunkit-instruments==0.6.0
 sunkit-magex
 sunpy==7.0.0
 sunraster==0.6.0
+supermag-api
 swxsoc==0.2.2
 sympy==1.5.1
 tables>=3.8.0
@@ -358,6 +382,7 @@ tscat-gui>=0.4.0,<0.5.0
 tscat>=0.4.0,<0.5.0
 typing-extensions>=4.13.2
 tzdata>=2022.7
+ujson>=5.0,<6.0
 uncertainties>=3.2.2
 urllib3>=1.26.16,<3,!=2.2.0
 viresclient==0.13.0
