@@ -76,9 +76,9 @@ pyhc-core[tests] | 0.0.6
 pymap3d | 3.1.0
 pyrfu | 2.4.17
 pysat | 3.2.2
-pyspedas | 1.7.23
+pyspedas | 1.7.24
 pytplot | 1.7.28
-pytplot-mpl-temp | 2.2.75
+pytplot-mpl-temp | 2.2.76
 pyzenodo3 | 1.0.2
 reesaurora | 1.0.5
 regularizepsf | 1.0.2
