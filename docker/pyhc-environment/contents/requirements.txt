@@ -256,7 +256,7 @@ pygments>=2.17
 pyhc-core[tests]==0.0.6
 pyistp>=0.7.0
 pyjwt>=2.4.0,<3.0.0
-pymap3d==3.1.0
+pymap3d==3.2.0
 pynacl>=1.4.0
 pyopenssl
 pyparsing>=2.3.1
@@ -274,7 +274,7 @@ pyside6-addons==6.9.0
 pyside6-essentials==6.9.0
 pyside6-qtads==4.4.0
 pyside6==6.9.0
-pyspedas==1.7.24
+pyspedas==1.7.25
 pytest-arraydiff==0.6.1
 pytest-doctestplus==1.4.0
 pytest-xdist==3.8.0
