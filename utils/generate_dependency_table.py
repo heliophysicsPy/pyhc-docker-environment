@@ -672,6 +672,8 @@ def get_dependency_ranges_by_package(packages, use_installed=False):
                 script_command = f"./utils/get-dep-tree-for-package-w-httpcore.sh {package}"
             elif package.split('==')[0] == "pyrfu":
                 script_command = f"./utils/get-dep-tree-for-package-w-boto.sh {package}"
+            elif package.split('==')[0] == "pyaurorax":
+                script_command = f"./utils/get-dep-tree-for-package-w-numpy.sh {package}"
             elif package.split('==')[0] == "swxsoc":
                 script_command = f"./utils/get-dep-tree-for-package-w-boto.sh {package}"
             elif package.split('==')[0] == "SciQLop":
