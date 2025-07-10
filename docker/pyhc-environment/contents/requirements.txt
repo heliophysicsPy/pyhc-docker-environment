@@ -357,7 +357,7 @@ sscws
 stack-data
 streamtracer>=2.2.0
 sunkit-image==0.6.1
-sunkit-instruments==0.6.0
+sunkit-instruments==0.6.2
 sunkit-magex
 sunpy==7.0.0
 sunraster==0.6.0
