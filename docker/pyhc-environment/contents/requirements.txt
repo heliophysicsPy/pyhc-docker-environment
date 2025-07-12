@@ -8,7 +8,7 @@ aiofiles>=23.2.1
 aiohappyeyeballs>=2.5.0
 aiohttp>=3.9.2,<4.0.0,!=4.0.0a0,!=4.0.0a1
 aioitertools>=0.5.1,<1.0.0
-aiosignal>=1.1.2
+aiosignal>=1.4.0
 alabaster>=0.7.14
 alembic
 alive-progress
@@ -274,7 +274,7 @@ pyside6-addons==6.9.0
 pyside6-essentials==6.9.0
 pyside6-qtads==4.4.0
 pyside6==6.9.0
-pyspedas==1.7.25
+pyspedas==1.7.26
 pytest-arraydiff==0.6.1
 pytest-doctestplus==1.4.0
 pytest-xdist==3.8.0
