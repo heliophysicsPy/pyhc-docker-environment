@@ -81,7 +81,7 @@ pytplot | 1.7.28
 pytplot-mpl-temp | 2.2.76
 pyzenodo3 | 1.0.2
 reesaurora | 1.0.5
-regularizepsf | 1.0.2
+regularizepsf | 1.1.0
 sammi-cdf | 1.0.2
 savic | 1.1.0
 sciencedates | 1.5.0
