@@ -42,7 +42,7 @@ dascutils | 2.3.0
 dbprocessing | 0.1.0
 dmsp | 0.6.0
 enlilviz | 0.2.0
-fiasco | 0.4.0
+fiasco | 0.4.1
 gcmprocpy | 1.2.1
 geopack | 1.0.11
 georinex | 1.16.2
@@ -78,7 +78,7 @@ pyrfu | 2.4.17
 pysat | 3.2.2
 pyspedas | 1.7.28
 pytplot | 1.7.28
-pytplot-mpl-temp | 2.2.78
+pytplot-mpl-temp | 2.2.79
 pyzenodo3 | 1.0.2
 reesaurora | 1.0.5
 regularizepsf | 1.1.0

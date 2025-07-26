@@ -85,7 +85,7 @@ expression
 extension
 fastjsonschema>=2.15
 ffmpeg-python
-fiasco==0.4.0
+fiasco==0.4.1
 flask-cors
 flask-restful==0.3.8
 flask==1.1.2
@@ -283,7 +283,7 @@ python-casacore
 python-dateutil>=2.9.0,<3.0.0
 python-forge
 python-json-logger>=2.0.4
-# pytplot-mpl-temp==2.2.78  # pySPEDAS controls PyTplot installation
+# pytplot-mpl-temp==2.2.79  # pySPEDAS controls PyTplot installation
 # pytplot==1.7.28  # pySPEDAS controls PyTplot installation
 pytz>=2020.1
 pyucalgarysrs==1.23.3
