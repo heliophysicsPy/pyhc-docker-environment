@@ -69,7 +69,7 @@ ocbpy | 0.5.0
 OMMBV | 1.1.0
 plasmapy | 2024.10.0
 pyaurorax | 1.19.0
-pycdfpp | 0.7.7
+pycdfpp | 0.8.0
 pydarn | 4.1.2
 pyflct | 0.3.1
 pyhc-core[tests] | 0.0.6
