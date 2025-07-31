@@ -137,7 +137,7 @@ ipython-pygments-lexers
 ipython>=7.23.1,<10
 ipywidgets>=7.6.0,<9
 iri2016==1.11.1
-irispy-lmsal==0.3.0
+irispy-lmsal==0.3.1
 isodate>=0.6.0
 itsdangerous>=2.2.0
 jaraco.classes
