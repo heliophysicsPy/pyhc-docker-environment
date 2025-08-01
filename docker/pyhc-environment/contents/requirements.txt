@@ -71,7 +71,6 @@ debugpy>=1.6.5
 decorator>=4.4.2
 deepdiff==8.5.0
 defusedxml
-deprecated
 dill>=0.4.0
 diskcache
 dkist>=1.10.0
@@ -358,7 +357,7 @@ streamtracer>=2.2.0
 sunkit-image==0.6.1
 sunkit-instruments==0.6.2
 sunkit-magex
-sunpy==7.0.0
+sunpy==7.0.1
 sunraster==0.6.0
 supermag-api
 swxsoc==0.2.2
