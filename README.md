@@ -36,7 +36,7 @@ apexpy | 2.1.0
 asilib | 0.26.5
 astrometry-azel | 1.3.0
 ccsdspy | 1.4.2
-cdflib | 1.3.4
+cdflib | 1.3.6
 cloudcatalog | 1.1.0
 dascutils | 2.3.0
 dbprocessing | 0.1.0
@@ -67,7 +67,7 @@ ndcube | 2.3.2
 nexradutils | 1.0.0
 ocbpy | 0.5.0
 OMMBV | 1.1.0
-plasmapy | 2024.10.0
+plasmapy | 2025.8.0
 pyaurorax | 1.19.0
 pycdfpp | 0.8.0
 pydarn | 4.1.2

@@ -48,7 +48,7 @@ bottleneck
 cartopy>=0.24.0,<0.25.0
 ccsdspy==1.4.2
 cdasws>=1.7.24
-cdflib==1.3.4
+cdflib==1.3.6
 certifi>=2017.4.17
 cffi>=1.14
 cftime
@@ -121,7 +121,7 @@ httpx-ws>=0.7.1,<0.8.0
 httpx>=0.25.0
 humanize>=4.4.0,<5.0.0
 hydra-core==0.11.3
-hypothesis==6.136.7
+hypothesis==6.137.1
 idna>=2.8,<4
 igrf==13.0.2
 imageio>=2.33,!=2.35.0
@@ -150,7 +150,7 @@ joblib>=1.2.0
 json5>=0.9.0
 jsonschema-specifications>=2023.03.6
 jsonschema>=4.18.0
-jupyter-client>=8.0.0,<9
+jupyter-client>=8.0.0
 jupyter-core>=4.12,!=5.0
 jupyter-events>=0.11.0
 jupyter-lsp>=2.0.0
@@ -159,14 +159,14 @@ jupyter-server>=2.4.0,<3
 jupyterlab-pygments
 jupyterlab-server>=2.27.1,<3
 jupyterlab-widgets~=3.0.15
-jupyterlab>=4.4.4,<4.5,!=4.1.0
+jupyterlab>=4.4.5,<4.5,!=4.1.0
 kaipy==1.1.2
 # kamodo==23.3.0  # gets installed from GitHub instead
 keyring>=25.5.0
 kiwisolver>=1.3.1
 lazy-loader>=0.4
 llvmlite>=0.43.0dev0,<0.44
-lmfit>=1.1.0
+lmfit>=1.1
 locket
 lofarSun==0.3.32
 lowtran==3.1.0
@@ -184,7 +184,7 @@ mistune>=2.0.3,<4
 more-itertools
 mpl-animators>=1.2.3
 mplcursors
-mpmath>=1.2.1
+mpmath>=1.3
 msgpack
 msise00==1.11.1
 multidict>=6.0.0,<7.0
@@ -192,7 +192,7 @@ multiprocess>=0.70.18
 narwhals>=1.15.1
 natsort>=7.1.1
 nbclient>=0.5.0
-nbconvert>=6.4.5,<8
+nbconvert>=6.4.4
 nbformat>=5.7
 ncompress
 ndcube==2.3.2
@@ -225,7 +225,7 @@ pathlib2
 pathos>=0.2.5
 pexpect>4.3
 pillow>=10.1
-plasmapy==2024.10.0
+plasmapy==2025.8.0
 platformdirs>=3.0
 plotly
 pluggy>=1.5,<2
@@ -322,7 +322,7 @@ semantic-version>=2.8
 send2trash>=1.8.2
 sep
 setuptools-scm==8.3.1
-setuptools>=61.2.0
+setuptools>=66
 shapely>=2.0
 shiboken6==6.9.0
 six>=1.9
@@ -384,18 +384,16 @@ ujson>=5.0,<6.0
 uncertainties>=3.2.2
 urllib3>=1.26.16,<3,!=2.2.0
 viresclient==0.13.0
-voila>=0.2.7
 wcwidth
 webencodings
 websocket-client>=1.7
-websockets>=9.0
 werkzeug>=3.1.0
 wget>=3.2
 wheel
 widgetsnbextension~=4.0.14
 wmm2015==1.1.1
 wmm2020==1.1.1
-wrapt>=1.14.0,<2.0.0
+wrapt>=1.15,<2.0.0
 wsproto
 xarray==2024.10.0
 xgboost>=1.7.2
