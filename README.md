@@ -65,7 +65,7 @@ mcalf | 1.0.0
 msise00 | 1.11.1
 ndcube | 2.3.2
 nexradutils | 1.0.0
-ocbpy | 0.5.0
+ocbpy | 0.6.0
 OMMBV | 1.1.0
 plasmapy | 2025.8.0
 pyaurorax | 1.19.0
