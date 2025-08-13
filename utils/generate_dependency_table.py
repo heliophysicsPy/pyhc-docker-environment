@@ -328,8 +328,9 @@ def update_upper_bound(current_range, upper_bound):
             return current_range  # '==version' will always trump upper_bound
         elif "~=" in rule:
             # we might separate '~=version' into lower and upper bounds
-            if Version(upper_bound.version) < Version(rule.version):
-                v_list = list(Version(rule.version).release)
+            spec_rule = Specifier(rule)
+            if Version(upper_bound.version) < Version(spec_rule.version):
+                v_list = list(Version(spec_rule.version).release)
                 v_list[-1] = "*"
                 v_compatible = ".".join(str(e) for e in v_list)
                 v_lower = Version(v_compatible.replace("*", "0"))
@@ -337,7 +338,7 @@ def update_upper_bound(current_range, upper_bound):
                 if v_upper >= Version(upper_bound.version) >= v_lower:
                     current_range_has_upper_bound = True
                     rules[i] = str(upper_bound)
-                    rules = str(update_lower_bound(SpecifierSet(",".join(rules)), v_lower)).split(",")
+                    rules = str(update_lower_bound(SpecifierSet(",".join(rules)), Specifier(f">={v_lower}"))).split(",")
     if not current_range_has_upper_bound:
         rules.append(str(upper_bound))
     return SpecifierSet(",".join(rules))
@@ -367,8 +368,9 @@ def update_lower_bound(current_range, lower_bound):
             return current_range  # '==version' will always trump lower_bound
         elif "~=" in rule:
             # we might separate '~=version' into lower and upper bounds
-            if Version(lower_bound.version) > Version(rule.version):
-                v_list = list(rule.version.release)
+            spec_rule = Specifier(rule)
+            if Version(lower_bound.version) > Version(spec_rule.version):
+                v_list = list(Version(spec_rule.version).release)
                 v_list[-1] = "*"
                 v_compatible = ".".join(str(e) for e in v_list)
                 v_lower = Version(v_compatible.replace("*", "0"))
@@ -376,7 +378,7 @@ def update_lower_bound(current_range, lower_bound):
                 if v_lower <= Version(lower_bound.version) <= v_upper:
                     current_range_has_lower_bound = True
                     rules[i] = str(lower_bound)
-                    rules = str(update_upper_bound(SpecifierSet(",".join(rules)), v_upper)).split(",")
+                    rules = str(update_upper_bound(SpecifierSet(",".join(rules)), Specifier(f"<{v_upper}"))).split(",")
     if not current_range_has_lower_bound:
         rules.append(str(lower_bound))
     return SpecifierSet(",".join(rules))
@@ -436,11 +438,14 @@ def lower_bound_is_compatible(current_range, new_lower_bound):
         elif curr_op == "!=":
             pass
         elif curr_op == "~=":
-            v_list = list(curr_v.release)
-            v_list[-1] = "*"
-            v_compatible = ".".join(str(e) for e in v_list)
-            v_lower = Version(v_compatible.replace("*", "0"))
-            compatible = Version(new_lower_bound.version) >= v_lower
+            v_parts = list(curr_v.release)
+            if len(v_parts) == 1:
+                v_parts[0] += 1
+            else:
+                v_parts[-2] += 1
+                v_parts = v_parts[:-1]
+            v_upper = Version(".".join(str(p) for p in v_parts))
+            compatible = Version(new_lower_bound.version) < v_upper
 
         if not compatible:
             return False
@@ -474,11 +479,10 @@ def upper_bound_is_compatible(current_range, new_upper_bound):
         elif curr_op == "!=":
             pass
         elif curr_op == "~=":
-            v_list = list(curr_v.release)
-            v_list[-1] = "*"
-            v_compatible = ".".join(str(e) for e in v_list)
-            v_upper = Version(v_compatible.replace("*", "999"))
-            compatible = Version(new_upper_bound.version) <= v_upper
+            # ~=3.0 means >=3.0,<4.0
+            # Check if new upper bound doesn't exclude the lower part of the ~= range
+            v_lower = curr_v  # The lower bound of ~= is the version itself
+            compatible = Version(new_upper_bound.version) > v_lower
 
         if not compatible:
             return False
