@@ -232,29 +232,19 @@ def update_range(current_range, new_rule):
             return current_range
         return update_exclusions(current_range, new_rule)  # Add exclusion '!=v' if it's not already there
     elif op == "~=":
-        if compatible_release_is_compatible(current_range, v):
-            # Always convert ~= to explicit bounds and combine
-            # ~=X.Y means >=X.Y,<X.(Y+1)
-            # ~=X.Y.Z means >=X.Y.Z,<X.(Y+1)
-            v_parts = list(v.release)
-            
-            # Lower bound is the version itself
-            lower_bound = Specifier(f">={str(v)}")
-            
-            # Upper bound calculation
-            if len(v_parts) == 1:
-                upper_parts = [v_parts[0] + 1]
-            else:
-                upper_parts = v_parts[:-1]
-                upper_parts[-1] += 1
-            upper_bound = Specifier(f"<{'.'.join(str(p) for p in upper_parts)}")
-            
-            # Update both bounds
-            temp_range = update_lower_bound(current_range, lower_bound)
-            temp_range = update_upper_bound(temp_range, upper_bound)
-            return temp_range
+        # Convert ~= to explicit bounds and merge regardless; if incompatible, it will be caught by
+        # lower_bound_is_compatible/upper_bound_is_compatible via update_* calls
+        v_parts = list(v.release)
+        lower_bound = Specifier(f">={str(v)}")
+        if len(v_parts) == 1:
+            upper_parts = [v_parts[0] + 1]
         else:
-            return current_range
+            upper_parts = v_parts[:-1]
+            upper_parts[-1] += 1
+        upper_bound = Specifier(f"<{'.'.join(str(p) for p in upper_parts)}")
+        temp_range = update_lower_bound(current_range, lower_bound)
+        temp_range = update_upper_bound(temp_range, upper_bound)
+        return temp_range
     elif op == ">" or op == ">=":
         if lower_bound_is_compatible(current_range, new_rule):
             return update_lower_bound(current_range, new_rule)  # new_rule might update/become current_range's lower bound
@@ -288,10 +278,17 @@ def rule_is_compatible(current_range, new_rule):
                 return False
         return True  # POSSIBLE UPDATE: Add exclusion '!=v' (don't add a 2nd time if it's already in current_range)
     elif op == "~=":
-        if compatible_release_is_compatible(current_range, v):
-            return True  # POSSIBLE UPDATE: v might update current_range's lower/upper bounds
+        # Treat ~=X as the explicit window [X, bump(X)) and check both bounds against current_range
+        # per PEP 440 compatible release behavior
+        v_parts = list(v.release)
+        if len(v_parts) == 1:
+            upper_parts = [v_parts[0] + 1]
         else:
-            return False
+            upper_parts = v_parts[:-1]
+            upper_parts[-1] += 1
+        lower_bound = Specifier(f">={str(v)}")
+        upper_bound = Specifier(f"<{'.'.join(str(p) for p in upper_parts)}")
+        return lower_bound_is_compatible(current_range, lower_bound) and upper_bound_is_compatible(current_range, upper_bound)
     elif op == ">" or op == ">=":
         if lower_bound_is_compatible(current_range, new_rule):
             return True  # POSSIBLE UPDATE: new_rule might update/become current_range's lower bound
@@ -369,11 +366,15 @@ def update_upper_bound(current_range, upper_bound):
                 upper_parts[-1] += 1
             v_lower = v
             v_upper = Version(".".join(str(p) for p in upper_parts))
-            # If the incoming upper_bound lies within the ~= window, adopt it and ensure lower bound
-            if v_lower <= Version(upper_bound.version) < v_upper:
-                current_range_has_upper_bound = True
-                rules[i] = str(upper_bound)
-                rules = str(update_lower_bound(SpecifierSet(",".join(rules)), Specifier(f">={v_lower}"))).split(",")
+            # Choose the strictest effective upper bound between incoming and ~= window cap
+            effective_upper = Version(upper_bound.version)
+            if effective_upper > v_upper:
+                effective_upper = v_upper
+            current_range_has_upper_bound = True
+            # Replace the ~= rule with the effective upper bound
+            rules[i] = str(Specifier(f"<{effective_upper}"))
+            # Ensure the lower bound of the ~= window is present
+            rules = str(update_lower_bound(SpecifierSet(",".join(rules)), Specifier(f">={v_lower}"))).split(",")
     if not current_range_has_upper_bound:
         rules.append(str(upper_bound))
     return SpecifierSet(",".join(rules))
@@ -417,6 +418,7 @@ def update_lower_bound(current_range, lower_bound):
             if v_lower <= Version(lower_bound.version) < v_upper:
                 current_range_has_lower_bound = True
                 rules[i] = str(lower_bound)
+                # Tighten/ensure the upper bound to be within ~= window if present
                 rules = str(update_upper_bound(SpecifierSet(",".join(rules)), Specifier(f"<{v_upper}"))).split(",")
     if not current_range_has_lower_bound:
         rules.append(str(lower_bound))
