@@ -357,18 +357,23 @@ def update_upper_bound(current_range, upper_bound):
         elif "==" in rule:
             return current_range  # '==version' will always trump upper_bound
         elif "~=" in rule:
-            # we might separate '~=version' into lower and upper bounds
+            # If current_range contains a ~= rule, convert it to explicit bounds per PEP 440
             spec_rule = Specifier(rule)
-            if Version(upper_bound.version) < Version(spec_rule.version):
-                v_list = list(Version(spec_rule.version).release)
-                v_list[-1] = "*"
-                v_compatible = ".".join(str(e) for e in v_list)
-                v_lower = Version(v_compatible.replace("*", "0"))
-                v_upper = Version(v_compatible.replace("*", "999"))
-                if v_upper >= Version(upper_bound.version) >= v_lower:
-                    current_range_has_upper_bound = True
-                    rules[i] = str(upper_bound)
-                    rules = str(update_lower_bound(SpecifierSet(",".join(rules)), Specifier(f">={v_lower}"))).split(",")
+            v = Version(spec_rule.version)
+            v_parts = list(v.release)
+            # Compute PEP 440 upper bound
+            if len(v_parts) == 1:
+                upper_parts = [v_parts[0] + 1]
+            else:
+                upper_parts = v_parts[:-1]
+                upper_parts[-1] += 1
+            v_lower = v
+            v_upper = Version(".".join(str(p) for p in upper_parts))
+            # If the incoming upper_bound lies within the ~= window, adopt it and ensure lower bound
+            if v_lower <= Version(upper_bound.version) < v_upper:
+                current_range_has_upper_bound = True
+                rules[i] = str(upper_bound)
+                rules = str(update_lower_bound(SpecifierSet(",".join(rules)), Specifier(f">={v_lower}"))).split(",")
     if not current_range_has_upper_bound:
         rules.append(str(upper_bound))
     return SpecifierSet(",".join(rules))
@@ -397,18 +402,22 @@ def update_lower_bound(current_range, lower_bound):
         elif "==" in rule:
             return current_range  # '==version' will always trump lower_bound
         elif "~=" in rule:
-            # we might separate '~=version' into lower and upper bounds
+            # If current_range contains a ~= rule, convert it to explicit bounds per PEP 440
             spec_rule = Specifier(rule)
-            if Version(lower_bound.version) > Version(spec_rule.version):
-                v_list = list(Version(spec_rule.version).release)
-                v_list[-1] = "*"
-                v_compatible = ".".join(str(e) for e in v_list)
-                v_lower = Version(v_compatible.replace("*", "0"))
-                v_upper = Version(v_compatible.replace("*", "999"))
-                if v_lower <= Version(lower_bound.version) <= v_upper:
-                    current_range_has_lower_bound = True
-                    rules[i] = str(lower_bound)
-                    rules = str(update_upper_bound(SpecifierSet(",".join(rules)), Specifier(f"<{v_upper}"))).split(",")
+            v = Version(spec_rule.version)
+            v_parts = list(v.release)
+            # Compute PEP 440 upper bound
+            if len(v_parts) == 1:
+                upper_parts = [v_parts[0] + 1]
+            else:
+                upper_parts = v_parts[:-1]
+                upper_parts[-1] += 1
+            v_lower = v
+            v_upper = Version(".".join(str(p) for p in upper_parts))
+            if v_lower <= Version(lower_bound.version) < v_upper:
+                current_range_has_lower_bound = True
+                rules[i] = str(lower_bound)
+                rules = str(update_upper_bound(SpecifierSet(",".join(rules)), Specifier(f"<{v_upper}"))).split(",")
     if not current_range_has_lower_bound:
         rules.append(str(lower_bound))
     return SpecifierSet(",".join(rules))
