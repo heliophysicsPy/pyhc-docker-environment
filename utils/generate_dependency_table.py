@@ -232,10 +232,19 @@ def update_range(current_range, new_rule):
             return current_range
         return update_exclusions(current_range, new_rule)  # Add exclusion '!=v' if it's not already there
     elif op == "~=":
-        if compatible_release_is_compatible(current_range, v):
-            return enforce_compatible_release(current_range, new_rule)  # TODO: v might update current_range's lower/upper bounds
+        # Convert ~= to explicit bounds and merge regardless; if incompatible, it will be caught by
+        # lower_bound_is_compatible/upper_bound_is_compatible via update_* calls
+        v_parts = list(v.release)
+        lower_bound = Specifier(f">={str(v)}")
+        if len(v_parts) == 1:
+            upper_parts = [v_parts[0] + 1]
         else:
-            return current_range
+            upper_parts = v_parts[:-1]
+            upper_parts[-1] += 1
+        upper_bound = Specifier(f"<{'.'.join(str(p) for p in upper_parts)}")
+        temp_range = update_lower_bound(current_range, lower_bound)
+        temp_range = update_upper_bound(temp_range, upper_bound)
+        return temp_range
     elif op == ">" or op == ">=":
         if lower_bound_is_compatible(current_range, new_rule):
             return update_lower_bound(current_range, new_rule)  # new_rule might update/become current_range's lower bound
@@ -269,10 +278,17 @@ def rule_is_compatible(current_range, new_rule):
                 return False
         return True  # POSSIBLE UPDATE: Add exclusion '!=v' (don't add a 2nd time if it's already in current_range)
     elif op == "~=":
-        if compatible_release_is_compatible(current_range, v):
-            return True  # POSSIBLE UPDATE: v might update current_range's lower/upper bounds
+        # Treat ~=X as the explicit window [X, bump(X)) and check both bounds against current_range
+        # per PEP 440 compatible release behavior
+        v_parts = list(v.release)
+        if len(v_parts) == 1:
+            upper_parts = [v_parts[0] + 1]
         else:
-            return False
+            upper_parts = v_parts[:-1]
+            upper_parts[-1] += 1
+        lower_bound = Specifier(f">={str(v)}")
+        upper_bound = Specifier(f"<{'.'.join(str(p) for p in upper_parts)}")
+        return lower_bound_is_compatible(current_range, lower_bound) and upper_bound_is_compatible(current_range, upper_bound)
     elif op == ">" or op == ">=":
         if lower_bound_is_compatible(current_range, new_rule):
             return True  # POSSIBLE UPDATE: new_rule might update/become current_range's lower bound
@@ -287,7 +303,6 @@ def rule_is_compatible(current_range, new_rule):
 
 def enforce_compatible_release(current_range, compatible_release_rule):
     """
-    TODO: finish me. Consider the case of >=0.5,<=2.0,!=1.0  and ~=1.0
     :param current_range: e.g. SpecifierSet(">=1.6,<2.0")
     :param compatible_release_rule: A Specifier compatible release rule e.g. Specifier("~=1.5")
     :return: A SpecifierSet that's the result of combining current_range with compatible_release_rule
@@ -295,14 +310,26 @@ def enforce_compatible_release(current_range, compatible_release_rule):
     if len(current_range) == 1 and str(current_range) == str(compatible_release_rule):
         return current_range  # they're both ~=v for the same v so no change
 
-    v_list = list(Version(compatible_release_rule.version).release)
-    v_list[-1] = "*"
-    v_compatible = ".".join(str(e) for e in v_list)
-    v_lower = Version(v_compatible.replace("*", "0"))
-    v_upper = Version(v_compatible.replace("*", "999"))
-    temp_range = update_lower_bound(current_range, Specifier(f"~={str(v_lower)}"))  # TODO: make Specifier from v_lower
-    temp_range = update_upper_bound(temp_range, Specifier(f"~={str(v_upper)}"))     # TODO: make Specifier from v_upper
-    return temp_range  #TODO: this doesn't handle every case... like just replacing the upper/lower bounds with the ~=version rule
+    # Convert ~= to explicit bounds
+    v = Version(compatible_release_rule.version)
+    v_parts = list(v.release)
+    
+    # Calculate the upper bound for ~=
+    if len(v_parts) == 1:
+        upper_parts = [v_parts[0] + 1]
+    else:
+        upper_parts = v_parts[:-1]
+        upper_parts[-1] += 1
+    
+    # Create the explicit range
+    lower_bound = Specifier(f">={str(v)}")
+    upper_bound = Specifier(f"<{'.'.join(str(p) for p in upper_parts)}")
+    
+    # Combine with existing range
+    temp_range = update_lower_bound(current_range, lower_bound)
+    temp_range = update_upper_bound(temp_range, upper_bound)
+    
+    return temp_range
 
 
 def update_upper_bound(current_range, upper_bound):
@@ -327,17 +354,27 @@ def update_upper_bound(current_range, upper_bound):
         elif "==" in rule:
             return current_range  # '==version' will always trump upper_bound
         elif "~=" in rule:
-            # we might separate '~=version' into lower and upper bounds
-            if Version(upper_bound.version) < Version(rule.version):
-                v_list = list(Version(rule.version).release)
-                v_list[-1] = "*"
-                v_compatible = ".".join(str(e) for e in v_list)
-                v_lower = Version(v_compatible.replace("*", "0"))
-                v_upper = Version(v_compatible.replace("*", "999"))
-                if v_upper >= Version(upper_bound.version) >= v_lower:
-                    current_range_has_upper_bound = True
-                    rules[i] = str(upper_bound)
-                    rules = str(update_lower_bound(SpecifierSet(",".join(rules)), v_lower)).split(",")
+            # If current_range contains a ~= rule, convert it to explicit bounds per PEP 440
+            spec_rule = Specifier(rule)
+            v = Version(spec_rule.version)
+            v_parts = list(v.release)
+            # Compute PEP 440 upper bound
+            if len(v_parts) == 1:
+                upper_parts = [v_parts[0] + 1]
+            else:
+                upper_parts = v_parts[:-1]
+                upper_parts[-1] += 1
+            v_lower = v
+            v_upper = Version(".".join(str(p) for p in upper_parts))
+            # Choose the strictest effective upper bound between incoming and ~= window cap
+            effective_upper = Version(upper_bound.version)
+            if effective_upper > v_upper:
+                effective_upper = v_upper
+            current_range_has_upper_bound = True
+            # Replace the ~= rule with the effective upper bound
+            rules[i] = str(Specifier(f"<{effective_upper}"))
+            # Ensure the lower bound of the ~= window is present
+            rules = str(update_lower_bound(SpecifierSet(",".join(rules)), Specifier(f">={v_lower}"))).split(",")
     if not current_range_has_upper_bound:
         rules.append(str(upper_bound))
     return SpecifierSet(",".join(rules))
@@ -366,17 +403,23 @@ def update_lower_bound(current_range, lower_bound):
         elif "==" in rule:
             return current_range  # '==version' will always trump lower_bound
         elif "~=" in rule:
-            # we might separate '~=version' into lower and upper bounds
-            if Version(lower_bound.version) > Version(rule.version):
-                v_list = list(rule.version.release)
-                v_list[-1] = "*"
-                v_compatible = ".".join(str(e) for e in v_list)
-                v_lower = Version(v_compatible.replace("*", "0"))
-                v_upper = Version(v_compatible.replace("*", "999"))
-                if v_lower <= Version(lower_bound.version) <= v_upper:
-                    current_range_has_lower_bound = True
-                    rules[i] = str(lower_bound)
-                    rules = str(update_upper_bound(SpecifierSet(",".join(rules)), v_upper)).split(",")
+            # If current_range contains a ~= rule, convert it to explicit bounds per PEP 440
+            spec_rule = Specifier(rule)
+            v = Version(spec_rule.version)
+            v_parts = list(v.release)
+            # Compute PEP 440 upper bound
+            if len(v_parts) == 1:
+                upper_parts = [v_parts[0] + 1]
+            else:
+                upper_parts = v_parts[:-1]
+                upper_parts[-1] += 1
+            v_lower = v
+            v_upper = Version(".".join(str(p) for p in upper_parts))
+            if v_lower <= Version(lower_bound.version) < v_upper:
+                current_range_has_lower_bound = True
+                rules[i] = str(lower_bound)
+                # Tighten/ensure the upper bound to be within ~= window if present
+                rules = str(update_upper_bound(SpecifierSet(",".join(rules)), Specifier(f"<{v_upper}"))).split(",")
     if not current_range_has_lower_bound:
         rules.append(str(lower_bound))
     return SpecifierSet(",".join(rules))
@@ -436,11 +479,14 @@ def lower_bound_is_compatible(current_range, new_lower_bound):
         elif curr_op == "!=":
             pass
         elif curr_op == "~=":
-            v_list = list(curr_v.release)
-            v_list[-1] = "*"
-            v_compatible = ".".join(str(e) for e in v_list)
-            v_lower = Version(v_compatible.replace("*", "0"))
-            compatible = Version(new_lower_bound.version) >= v_lower
+            v_parts = list(curr_v.release)
+            if len(v_parts) == 1:
+                v_parts[0] += 1
+            else:
+                v_parts[-2] += 1
+                v_parts = v_parts[:-1]
+            v_upper = Version(".".join(str(p) for p in v_parts))
+            compatible = Version(new_lower_bound.version) < v_upper
 
         if not compatible:
             return False
@@ -474,11 +520,10 @@ def upper_bound_is_compatible(current_range, new_upper_bound):
         elif curr_op == "!=":
             pass
         elif curr_op == "~=":
-            v_list = list(curr_v.release)
-            v_list[-1] = "*"
-            v_compatible = ".".join(str(e) for e in v_list)
-            v_upper = Version(v_compatible.replace("*", "999"))
-            compatible = Version(new_upper_bound.version) <= v_upper
+            # ~=3.0 means >=3.0,<4.0
+            # Check if new upper bound doesn't exclude the lower part of the ~= range
+            v_lower = curr_v  # The lower bound of ~= is the version itself
+            compatible = Version(new_upper_bound.version) > v_lower
 
         if not compatible:
             return False
@@ -598,6 +643,31 @@ def remove_wildcards(version_range_str):
     return ",".join(converted_specs)
 
 
+def normalize_compatible_releases(version_range_str):
+    """
+    Expand any ~=X[.Y[.Z]] specifiers into explicit >=X[.Y[.Z]] and <bump(X[.Y]).
+    Leaves other specifiers unchanged.
+    """
+    if not version_range_str:
+        return version_range_str
+    parts = [p.strip() for p in version_range_str.split(",") if p.strip()]
+    out = []
+    for p in parts:
+        if p.startswith("~="):
+            ver = p[2:].strip()
+            v = Version(ver)
+            r = list(v.release)
+            if len(r) == 1:
+                upper = [r[0] + 1]
+            else:
+                upper = r[:-1]
+                upper[-1] += 1
+            out.append(f">={v}")
+            out.append(f"<{'.'.join(str(x) for x in upper)}")
+        else:
+            out.append(p)
+    return ",".join(out)
+
 # Test the improved function
 def test_improved_remove_wildcards():
     """Test cases for the improved remove_wildcards function"""
@@ -668,6 +738,8 @@ def get_dependency_ranges_by_package(packages, use_installed=False):
             #     script_command = f"./get-dep-tree-for-fisspy-w-conda.sh {package}"
             elif package.split('==')[0] == "cloudcatalog":
                 script_command = f"./utils/get-dep-tree-for-package-w-boto.sh {package}"
+            elif package.split('==')[0] == "EUVpy":
+                script_command = f"./utils/get-dep-tree-for-package-w-httpcore.sh {package}"
             elif package.split('==')[0] == "kaipy":
                 script_command = f"./utils/get-dep-tree-for-package-w-httpcore.sh {package}"
             elif package.split('==')[0] == "pyrfu":
@@ -700,6 +772,7 @@ def get_dependency_ranges_by_package(packages, use_installed=False):
                 name, version_range = match.groups()
                 name = name.lower()
                 version_range = remove_wildcards(version_range)  # TODO: BEWARE: We pretend wildcards don't exist when operator is !=.
+                version_range = normalize_compatible_releases(version_range)
                 dependencies[name] = determine_version_range(dependencies, name, version_range)
         dependencies[package.split('==')[0]] = f"=={package_version}"  # each top row package lists itself as dependency
         sorted_dependencies = {key: value for key, value in sorted(dependencies.items())}
@@ -722,11 +795,12 @@ def get_dependency_ranges_for_environment(env_packages, full_path_to_pipdeptree=
         output = subprocess.check_output(command, shell=True)
         output_str = output.decode('utf-8')
         for line in output_str.split("\n"):
-            match = re.match("^\s*-\s*(\S+)\s+\[required:\s+(.+),\s+installed:.+\]", line)
+            match = re.match(r"^\s*-\s*(\S+)\s+\[required:\s+(.+),\s+installed:.+\]", line)
             if match:
                 name, version_range = match.groups()
                 name = name.lower()
-                version_range = remove_wildcards(version_range)  # TODO: BEWARE: We pretend wildcards don't exist when operator is !=.
+                version_range = remove_wildcards(version_range)
+                version_range = normalize_compatible_releases(version_range)
                 dependencies[name] = determine_version_range(dependencies, name, version_range)
     sorted_dependencies = {k: v for k, v in sorted(dependencies.items())}
     return sorted_dependencies
