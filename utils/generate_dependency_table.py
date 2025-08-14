@@ -287,7 +287,6 @@ def rule_is_compatible(current_range, new_rule):
 
 def enforce_compatible_release(current_range, compatible_release_rule):
     """
-    TODO: finish me. Consider the case of >=0.5,<=2.0,!=1.0  and ~=1.0
     :param current_range: e.g. SpecifierSet(">=1.6,<2.0")
     :param compatible_release_rule: A Specifier compatible release rule e.g. Specifier("~=1.5")
     :return: A SpecifierSet that's the result of combining current_range with compatible_release_rule
@@ -295,14 +294,26 @@ def enforce_compatible_release(current_range, compatible_release_rule):
     if len(current_range) == 1 and str(current_range) == str(compatible_release_rule):
         return current_range  # they're both ~=v for the same v so no change
 
-    v_list = list(Version(compatible_release_rule.version).release)
-    v_list[-1] = "*"
-    v_compatible = ".".join(str(e) for e in v_list)
-    v_lower = Version(v_compatible.replace("*", "0"))
-    v_upper = Version(v_compatible.replace("*", "999"))
-    temp_range = update_lower_bound(current_range, Specifier(f"~={str(v_lower)}"))  # TODO: make Specifier from v_lower
-    temp_range = update_upper_bound(temp_range, Specifier(f"~={str(v_upper)}"))     # TODO: make Specifier from v_upper
-    return temp_range  #TODO: this doesn't handle every case... like just replacing the upper/lower bounds with the ~=version rule
+    # Convert ~= to explicit bounds
+    v = Version(compatible_release_rule.version)
+    v_parts = list(v.release)
+    
+    # Calculate the upper bound for ~=
+    if len(v_parts) == 1:
+        upper_parts = [v_parts[0] + 1]
+    else:
+        upper_parts = v_parts[:-1]
+        upper_parts[-1] += 1
+    
+    # Create the explicit range
+    lower_bound = Specifier(f">={str(v)}")
+    upper_bound = Specifier(f"<{'.'.join(str(p) for p in upper_parts)}")
+    
+    # Combine with existing range
+    temp_range = update_lower_bound(current_range, lower_bound)
+    temp_range = update_upper_bound(temp_range, upper_bound)
+    
+    return temp_range
 
 
 def update_upper_bound(current_range, upper_bound):
