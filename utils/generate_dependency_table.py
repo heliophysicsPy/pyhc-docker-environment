@@ -643,6 +643,31 @@ def remove_wildcards(version_range_str):
     return ",".join(converted_specs)
 
 
+def normalize_compatible_releases(version_range_str):
+    """
+    Expand any ~=X[.Y[.Z]] specifiers into explicit >=X[.Y[.Z]] and <bump(X[.Y]).
+    Leaves other specifiers unchanged.
+    """
+    if not version_range_str:
+        return version_range_str
+    parts = [p.strip() for p in version_range_str.split(",") if p.strip()]
+    out = []
+    for p in parts:
+        if p.startswith("~="):
+            ver = p[2:].strip()
+            v = Version(ver)
+            r = list(v.release)
+            if len(r) == 1:
+                upper = [r[0] + 1]
+            else:
+                upper = r[:-1]
+                upper[-1] += 1
+            out.append(f">={v}")
+            out.append(f"<{'.'.join(str(x) for x in upper)}")
+        else:
+            out.append(p)
+    return ",".join(out)
+
 # Test the improved function
 def test_improved_remove_wildcards():
     """Test cases for the improved remove_wildcards function"""
@@ -747,6 +772,7 @@ def get_dependency_ranges_by_package(packages, use_installed=False):
                 name, version_range = match.groups()
                 name = name.lower()
                 version_range = remove_wildcards(version_range)  # TODO: BEWARE: We pretend wildcards don't exist when operator is !=.
+                version_range = normalize_compatible_releases(version_range)
                 dependencies[name] = determine_version_range(dependencies, name, version_range)
         dependencies[package.split('==')[0]] = f"=={package_version}"  # each top row package lists itself as dependency
         sorted_dependencies = {key: value for key, value in sorted(dependencies.items())}
@@ -773,7 +799,8 @@ def get_dependency_ranges_for_environment(env_packages, full_path_to_pipdeptree=
             if match:
                 name, version_range = match.groups()
                 name = name.lower()
-                version_range = remove_wildcards(version_range)  # TODO: BEWARE: We pretend wildcards don't exist when operator is !=.
+                version_range = remove_wildcards(version_range)
+                version_range = normalize_compatible_releases(version_range)
                 dependencies[name] = determine_version_range(dependencies, name, version_range)
     sorted_dependencies = {k: v for k, v in sorted(dependencies.items())}
     return sorted_dependencies
