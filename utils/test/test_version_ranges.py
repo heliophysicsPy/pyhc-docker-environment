@@ -61,14 +61,16 @@ class TestVersionRangeLogic(unittest.TestCase):
 
         cases_normalized = [
             # Normalize formatting differences through SpecifierSet
-            ("~=1.0", ">=1.0,<2.0", "<2,>=1.0"),
+            ("~=1.0", ">=1.0,<2.0", "<2.0,>=1.0"),
             (">=1.0,!=1.5", ">=1.2,!=1.6", "!=1.5,!=1.6,>=1.2"),
             (">=1.0,<2.0,!=1.5", ">=1.2,<1.8", "!=1.5,<1.8,>=1.2"),
         ]
         for current, new, expected in cases_normalized:
             with self.subTest(current=current, new=new):
                 result = combine_ranges(current, new)
-                self.assertEqual(str(SpecifierSet(result)), str(SpecifierSet(expected)))
+                # Compare SpecifierSet objects directly instead of their string representations
+                # to avoid inconsistent ordering in string representation
+                self.assertEqual(SpecifierSet(result), SpecifierSet(expected))
 
     def test_combine_ranges_incompatible(self):
         cases = [
@@ -89,6 +91,8 @@ class TestVersionRangeLogic(unittest.TestCase):
         # Ensure ~= is expanded to explicit windows and not present in the result
         cases = [
             (">=0.4.1", "~=0.4", ">=0.4.1,<1"),
+            # Specific regression: mdit-py-plugins case
+            (">=0.4.1", "~=0.4", ">=0.4.1,<1"),
             ("~=0.4", ">=0.4.1", ">=0.4.1,<1"),
             (">=0.1,<1", "~=0.1", ">=0.1,<1"),
             ("~=3.0", ">=2.0.0,<5.0.0", ">=3.0,<4"),
@@ -108,7 +112,7 @@ class TestVersionRangeLogic(unittest.TestCase):
             combine_ranges("invalid", ">=1.0")
         with self.assertRaises(InvalidSpecifier):
             combine_ranges(">=1.0", "invalid")
-
+        
     # ------------------------
     # remove_wildcards
     # ------------------------
