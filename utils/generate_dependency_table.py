@@ -769,7 +769,7 @@ def get_dependency_ranges_for_environment(env_packages, full_path_to_pipdeptree=
         output = subprocess.check_output(command, shell=True)
         output_str = output.decode('utf-8')
         for line in output_str.split("\n"):
-            match = re.match("^\s*-\s*(\S+)\s+\[required:\s+(.+),\s+installed:.+\]", line)
+            match = re.match(r"^\s*-\s*(\S+)\s+\[required:\s+(.+),\s+installed:.+\]", line)
             if match:
                 name, version_range = match.groups()
                 name = name.lower()
