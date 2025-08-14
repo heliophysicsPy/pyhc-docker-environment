@@ -233,7 +233,26 @@ def update_range(current_range, new_rule):
         return update_exclusions(current_range, new_rule)  # Add exclusion '!=v' if it's not already there
     elif op == "~=":
         if compatible_release_is_compatible(current_range, v):
-            return enforce_compatible_release(current_range, new_rule)  # TODO: v might update current_range's lower/upper bounds
+            # Always convert ~= to explicit bounds and combine
+            # ~=X.Y means >=X.Y,<X.(Y+1)
+            # ~=X.Y.Z means >=X.Y.Z,<X.(Y+1)
+            v_parts = list(v.release)
+            
+            # Lower bound is the version itself
+            lower_bound = Specifier(f">={str(v)}")
+            
+            # Upper bound calculation
+            if len(v_parts) == 1:
+                upper_parts = [v_parts[0] + 1]
+            else:
+                upper_parts = v_parts[:-1]
+                upper_parts[-1] += 1
+            upper_bound = Specifier(f"<{'.'.join(str(p) for p in upper_parts)}")
+            
+            # Update both bounds
+            temp_range = update_lower_bound(current_range, lower_bound)
+            temp_range = update_upper_bound(temp_range, upper_bound)
+            return temp_range
         else:
             return current_range
     elif op == ">" or op == ">=":
