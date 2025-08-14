@@ -61,7 +61,7 @@ class TestVersionRangeLogic(unittest.TestCase):
 
         cases_normalized = [
             # Normalize formatting differences through SpecifierSet
-            ("~=1.0", ">=1.0,<2.0", "<2.0,>=1.0"),
+            ("~=1.0", ">=1.0,<2.0", "<2,>=1.0"),
             (">=1.0,!=1.5", ">=1.2,!=1.6", "!=1.5,!=1.6,>=1.2"),
             (">=1.0,<2.0,!=1.5", ">=1.2,<1.8", "!=1.5,<1.8,>=1.2"),
         ]
