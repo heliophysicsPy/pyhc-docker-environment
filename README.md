@@ -43,7 +43,7 @@ dbprocessing | 0.1.0
 dmsp | 0.6.0
 enlilviz | 0.2.0
 EUVpy | 1.0.0
-fiasco | 0.6.0
+fiasco | 0.6.1
 gcmprocpy | 1.2.1
 geopack | 1.0.11
 georinex | 1.16.2
@@ -88,7 +88,7 @@ savic | 1.1.0
 sciencedates | 1.5.0
 SciQLop | 0.9.4
 SkyWinder | 0.0.3
-solarmach | 0.5.0
+solarmach | 0.5.1
 solo-epd-loader | 0.4.3
 space-packet-parser | 5.0.1
 spacepy | 0.7.0

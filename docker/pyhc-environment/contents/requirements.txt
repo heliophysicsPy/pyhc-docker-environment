@@ -3,7 +3,7 @@ about-time==4.2.1
 aiapy==0.10.1
 aidapy==0.0.4
 aioboto3
-aiobotocore==2.23.0
+aiobotocore==2.24.0
 aiofiles>=23.2.1
 aiohappyeyeballs>=2.5.0
 aiohttp>=3.9.2,<4.0.0,!=4.0.0a0,!=4.0.0a1
@@ -43,7 +43,7 @@ blinker>=1.9.0
 blosc2>=2.3.0
 bokeh>=1.1
 boto3>=1.35.26
-botocore>=1.38.23,<1.38.28
+botocore>=1.39.9,<1.39.12
 bottleneck
 cartopy>=0.24.0,<0.25.0
 ccsdspy==1.4.2
@@ -86,7 +86,7 @@ expression
 extension
 fastjsonschema>=2.15
 ffmpeg-python
-fiasco==0.6.0
+fiasco==0.6.1
 flask-cors
 flask-restful==0.3.8
 flask==1.1.2
@@ -120,10 +120,10 @@ hissw==2.3
 html5lib>=0.999
 httpcore>=1.0.4,<2.0.0
 httpx-ws>=0.7.1,<0.8.0
-httpx>=0.25.0
+httpx>=0.25.0,<1
 humanize>=4.4.0,<5.0.0
 hydra-core==0.11.3
-hypothesis==6.138.0
+hypothesis==6.138.2
 idna>=2.8,<4
 igrf==13.0.2
 imageio>=2.33,!=2.35.0
@@ -132,7 +132,7 @@ importlib-metadata>=4.13.0
 importlib-resources
 incremental
 iniconfig>=1
-ipykernel>=6.5.0
+ipykernel>=6.5.0,!=6.30.0
 ipympl
 ipython-pygments-lexers
 ipython>=7.23.1,<10
@@ -330,7 +330,7 @@ secretstorage>=3.2
 semantic-version>=2.8
 send2trash>=1.8.2
 sep
-setuptools-scm==8.3.1
+setuptools-scm==9.2.0
 setuptools>=66
 shapely>=2.0
 shiboken6==6.9.0
@@ -339,7 +339,7 @@ SkyWinder==0.0.3
 slack-sdk
 sniffio>=1.1
 snowballstemmer>=2.2
-solarmach==0.5.0
+solarmach==0.5.1
 solo-epd-loader==0.4.3
 sortedcontainers>=2.1.0,<3.0.0
 soupsieve>1.2
