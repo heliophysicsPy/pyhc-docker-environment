@@ -55,7 +55,7 @@ heliopy | 0.15.4
 hissw | 2.3
 igrf | 13.0.2
 iri2016 | 1.11.1
-irispy-lmsal | 0.3.1
+irispy-lmsal | 0.4.0
 kaipy | 1.1.2
 kamodo | 23.3.0
 lofarSun | 0.3.32
