@@ -45,7 +45,7 @@ enlilviz | 0.2.0
 EUVpy | 1.0.0
 fiasco | 0.6.1
 gcmprocpy | 1.2.1
-geopack | 1.0.11
+geopack | 1.0.12
 georinex | 1.16.2
 geospacelab | 0.11.4
 goesutils | 1.0.8
