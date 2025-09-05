@@ -90,7 +90,7 @@ SciQLop | 0.9.4
 SkyWinder | 0.0.3
 solarmach | 0.5.1
 solo-epd-loader | 0.4.3
-space-packet-parser | 5.0.1
+space-packet-parser | 6.0.0
 spacepy | 0.7.0
 speasy | 1.5.2
 spiceypy | 6.0.0

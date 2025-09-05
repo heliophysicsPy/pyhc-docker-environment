@@ -259,7 +259,7 @@ pyerfa>=2.0.1.1
 pyflct==0.3.1
 pygam
 pygithub
-pygments>=2.17
+pygments>=2.17,<3.0.0
 pyhc-core[tests]==0.0.6
 pyistp>=0.7.0
 pyjwt>=2.4.0,<3.0.0
@@ -313,6 +313,7 @@ requests-toolbelt>=0.7.1
 requests>=2.32.0,<3.0.0
 rfc3339-validator
 rfc3986-validator>=0.1.1
+rich>=13.0
 roman-numerals-py>=1.0.0
 rpds-py>=0.7.1
 s3fs
@@ -343,7 +344,7 @@ solarmach==0.5.1
 solo-epd-loader==0.4.3
 sortedcontainers>=2.1.0,<3.0.0
 soupsieve>1.2
-space-packet-parser==5.0.1
+space-packet-parser==6.0.0
 spacepy==0.7.0
 speasy==1.5.2
 sphinx-rtd-theme
