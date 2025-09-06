@@ -92,7 +92,7 @@ solarmach | 0.5.1
 solo-epd-loader | 0.4.3
 space-packet-parser | 6.0.0
 spacepy | 0.7.0
-speasy | 1.5.2
+speasy | 1.6.1
 spiceypy | 6.0.0
 sunkit-image | 0.6.1
 sunkit-instruments | 0.6.2
