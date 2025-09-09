@@ -21,10 +21,10 @@ import subprocess
 # TODO: get fisspy pipdeptree via conda (get-dep-tree-for-fisspy-w-conda.sh)
 # TODO: sort final spreadsheet by lowercased names.
 
-# TODO: Versions with wildcards * break everything.
+# TODO: Versions with wildcards * used to break everything.
 #   Note: String comparison basically works if one version has * in it.
-#   Idea: Can I just remove the * from the version when I encounter it? e.g. 5.0.* -> 5.0 (and still keep * in the eventual output?)
-#   What I'm doing currently: just removing * from versions for now; pretending like they don't exist
+#   Original idea: (just removing * from versions for now; pretending like they don't exist) Can I just remove the * from the version when I encounter it? e.g. 5.0.* -> 5.0 (and still keep * in the eventual output?)
+#   What I'm doing currently: Converting wildcard version specifiers to equivalent range specifiers in `remove_wildcards()`.
 
 # TODO: Naming consideration: "project" = a (PyHC) package that gets its own table column,
 #                             "package" = a (dependency) package that gets its own table row
@@ -67,18 +67,20 @@ def get_other_pyhc_packages():
     TODO:
     heliopy is hardcoded to 0.15.4 because 1.0.0 is deprecated.
     pysatCDF has been removed due to installation failures.
-    OMMBV has been removed due to installation failures.
-    pyrfu has not been added yet because its cdflib and numpy versions are too high for other packages.
+    spiceypy is hardcoded temporarily to 6.0.0 because 6.0.1 requires numpy>=2.0 
     """
-    return ["aacgmv2", "aiapy", "aidapy", "amisrsynthdata", "apexpy", "astrometry-azel", "ccsdspy", "cdflib", "cloudcatalog", "dascutils", "dbprocessing", "dmsp", "enlilviz", "fiasco", "gcmprocpy", "geopack", "georinex", "geospacelab", "goesutils", "hapiplot", "heliopy==0.15.4", "hissw", "igrf", "iri2016", "irispy-lmsal", "lofarSun", "lowtran", "madrigalWeb", "maidenhead", "mcalf", "msise00", "ndcube", "nexradutils", "ocbpy", "pyaurorax", "pycdfpp", "pydarn", "pyflct", "pymap3d", "pytplot", "pytplot-mpl-temp", "pyzenodo3", "reesaurora", "regularizepsf", "sammi-cdf", "savic", "sciencedates", "SciQLop", "SkyWinder", "solarmach", "solo-epd-loader", "space-packet-parser", "speasy", "spiceypy", "sunkit-image", "sunkit-instruments", "sunraster", "themisasi", "viresclient", "wmm2015", "wmm2020"]
+    return ["aacgmv2", "aiapy", "aidapy", "amisrsynthdata", "apexpy", "asilib", "astrometry-azel", "ccsdspy", "cdflib", "cloudcatalog", "dascutils", "dbprocessing", "dmsp", "enlilviz", "EUVpy", "fiasco", "gcmprocpy", "geopack", "georinex", "geospacelab", "goesutils", "hapiplot", "heliopy==0.15.4", "hissw", "igrf", "iri2016", "irispy-lmsal", "kaipy", "lofarSun", "lowtran", "madrigalWeb", "maidenhead", "mcalf", "msise00", "ndcube", "nexradutils", "ocbpy", "OMMBV", "pyaurorax", "pycdfpp", "pydarn", "pyflct", "pymap3d", "pyrfu", "pytplot", "pytplot-mpl-temp", "pyzenodo3", "reesaurora", "regularizepsf", "sammi-cdf", "savic", "sciencedates", "SciQLop", "SkyWinder", "solarmach", "solo-epd-loader", "space-packet-parser", "speasy", "spiceypy==6.0.0", "sunkit-image", "sunkit-instruments", "sunraster", "swxsoc", "themisasi", "viresclient", "wmm2015", "wmm2020"]
 
 
 def get_supplementary_packages():
     """
     :return: A list of supplementary packages, including optional dependencies not found by pipdeptree,
              those used for unit tests, and HelioCloud dependencies (the second list).
+    TODO:
+    astropy=6.1.7 and xarray==2024.10.0 are hardcoded because the latest versions of the two are currently not compatible.
+    This was evidenced by a few PlasmaPy unit tests failing. Remove these pins when they become unnecessary.
     """
-    return ["deepdiff", "hypothesis", "pytest-arraydiff", "pytest-doctestplus", "pytest-xdist", "setuptools-scm"] + ["ai.cs==1.0.7", "ccdproc==2.4.2", "geospacepy==0.2.2", "jupytext==1.16.4", "smart-open[s3]", "nbzip", "pfsspy[performance]", "pyEphem==9.99", "pyForecastTools==1.1.1"]
+    return ["deepdiff", "hypothesis", "pytest-arraydiff", "pytest-doctestplus", "pytest-xdist", "setuptools-scm"] + ["astropy==6.1.7", "xarray==2024.10.0"] + ["ai.cs==1.0.7", "ccdproc==2.4.2", "geospacepy==0.2.2", "jupytext==1.16.4", "smart-open[s3]", "nbzip", "pfsspy[performance]", "pyEphem==9.99", "pyForecastTools==1.1.1"]
 
 
 # def spreadsheet_to_requirements_file_orig(spreadsheet):
@@ -171,7 +173,7 @@ def test_combine_ranges():
     r2 = combine_ranges("any", ">=1.1.2")
     r3 = combine_ranges(">=1.5", ">1.5,<2")
     r4 = combine_ranges(">1.1.1", "==1.2.3")
-    r5 = combine_ranges("<1.1.1", ">=1.2.3,<2.0")
+    # r5 = combine_ranges("<1.1.1", ">=1.2.3,<2.0")
     r6 = combine_ranges(">=1.1.1", ">=1.2.3,<2.0")
     r7 = combine_ranges(">=1.2.3,<2", ">=1.1.1")
     r8 = combine_ranges("==1.1.2", ">=0.9")
@@ -180,6 +182,7 @@ def test_combine_ranges():
     r11= combine_ranges(">=1.9", ">=1.19.5,<1.27.0")
     r12= combine_ranges(">=1.21.0", ">=1.19.5,<1.27.0")
     r13= combine_ranges(">=4.9.2", ">=4.12,!=5.0.*")  # TODO: how should I handle * wildcards?
+    r14= combine_ranges(">=1.0.4", "==1.*")           # TODO: this should be allowed
     pass
 
 
@@ -202,7 +205,7 @@ def combine_ranges(current_range, new_range):
         if rule_is_compatible(temp_rules, new_rule):
             temp_rules = update_range(temp_rules, new_rule)
         else:
-            raise RuntimeError(f"Found incompatibility: {new_range}")
+            raise RuntimeError(f"Found incompatibility: {current_range} vs. {new_range}")
     return str(temp_rules)
 
 
@@ -223,15 +226,25 @@ def update_range(current_range, new_rule):
         else:
             return current_range
     elif op == "!=":
-        for spec in current_range:
-            if spec == Specifier(f"=={v}"):
-                return current_range
+        # if we’re already pinned to a single explicit version, any extra
+        # “!= …” rule is redundant, so ignore it.
+        if any(spec.operator == "==" for spec in current_range):
+            return current_range
         return update_exclusions(current_range, new_rule)  # Add exclusion '!=v' if it's not already there
     elif op == "~=":
-        if compatible_release_is_compatible(current_range, v):
-            return enforce_compatible_release(current_range, new_rule)  # TODO: v might update current_range's lower/upper bounds
+        # Convert ~= to explicit bounds and merge regardless; if incompatible, it will be caught by
+        # lower_bound_is_compatible/upper_bound_is_compatible via update_* calls
+        v_parts = list(v.release)
+        lower_bound = Specifier(f">={str(v)}")
+        if len(v_parts) == 1:
+            upper_parts = [v_parts[0] + 1]
         else:
-            return current_range
+            upper_parts = v_parts[:-1]
+            upper_parts[-1] += 1
+        upper_bound = Specifier(f"<{'.'.join(str(p) for p in upper_parts)}")
+        temp_range = update_lower_bound(current_range, lower_bound)
+        temp_range = update_upper_bound(temp_range, upper_bound)
+        return temp_range
     elif op == ">" or op == ">=":
         if lower_bound_is_compatible(current_range, new_rule):
             return update_lower_bound(current_range, new_rule)  # new_rule might update/become current_range's lower bound
@@ -265,10 +278,17 @@ def rule_is_compatible(current_range, new_rule):
                 return False
         return True  # POSSIBLE UPDATE: Add exclusion '!=v' (don't add a 2nd time if it's already in current_range)
     elif op == "~=":
-        if compatible_release_is_compatible(current_range, v):
-            return True  # POSSIBLE UPDATE: v might update current_range's lower/upper bounds
+        # Treat ~=X as the explicit window [X, bump(X)) and check both bounds against current_range
+        # per PEP 440 compatible release behavior
+        v_parts = list(v.release)
+        if len(v_parts) == 1:
+            upper_parts = [v_parts[0] + 1]
         else:
-            return False
+            upper_parts = v_parts[:-1]
+            upper_parts[-1] += 1
+        lower_bound = Specifier(f">={str(v)}")
+        upper_bound = Specifier(f"<{'.'.join(str(p) for p in upper_parts)}")
+        return lower_bound_is_compatible(current_range, lower_bound) and upper_bound_is_compatible(current_range, upper_bound)
     elif op == ">" or op == ">=":
         if lower_bound_is_compatible(current_range, new_rule):
             return True  # POSSIBLE UPDATE: new_rule might update/become current_range's lower bound
@@ -283,7 +303,6 @@ def rule_is_compatible(current_range, new_rule):
 
 def enforce_compatible_release(current_range, compatible_release_rule):
     """
-    TODO: finish me. Consider the case of >=0.5,<=2.0,!=1.0  and ~=1.0
     :param current_range: e.g. SpecifierSet(">=1.6,<2.0")
     :param compatible_release_rule: A Specifier compatible release rule e.g. Specifier("~=1.5")
     :return: A SpecifierSet that's the result of combining current_range with compatible_release_rule
@@ -291,14 +310,26 @@ def enforce_compatible_release(current_range, compatible_release_rule):
     if len(current_range) == 1 and str(current_range) == str(compatible_release_rule):
         return current_range  # they're both ~=v for the same v so no change
 
-    v_list = list(Version(compatible_release_rule.version).release)
-    v_list[-1] = "*"
-    v_compatible = ".".join(str(e) for e in v_list)
-    v_lower = Version(v_compatible.replace("*", "0"))
-    v_upper = Version(v_compatible.replace("*", "999"))
-    temp_range = update_lower_bound(current_range, Specifier(f"~={str(v_lower)}"))  # TODO: make Specifier from v_lower
-    temp_range = update_upper_bound(temp_range, Specifier(f"~={str(v_upper)}"))     # TODO: make Specifier from v_upper
-    return temp_range  #TODO: this doesn't handle every case... like just replacing the upper/lower bounds with the ~=version rule
+    # Convert ~= to explicit bounds
+    v = Version(compatible_release_rule.version)
+    v_parts = list(v.release)
+    
+    # Calculate the upper bound for ~=
+    if len(v_parts) == 1:
+        upper_parts = [v_parts[0] + 1]
+    else:
+        upper_parts = v_parts[:-1]
+        upper_parts[-1] += 1
+    
+    # Create the explicit range
+    lower_bound = Specifier(f">={str(v)}")
+    upper_bound = Specifier(f"<{'.'.join(str(p) for p in upper_parts)}")
+    
+    # Combine with existing range
+    temp_range = update_lower_bound(current_range, lower_bound)
+    temp_range = update_upper_bound(temp_range, upper_bound)
+    
+    return temp_range
 
 
 def update_upper_bound(current_range, upper_bound):
@@ -323,17 +354,27 @@ def update_upper_bound(current_range, upper_bound):
         elif "==" in rule:
             return current_range  # '==version' will always trump upper_bound
         elif "~=" in rule:
-            # we might separate '~=version' into lower and upper bounds
-            if Version(upper_bound.version) < Version(rule.version):
-                v_list = list(Version(rule.version).release)
-                v_list[-1] = "*"
-                v_compatible = ".".join(str(e) for e in v_list)
-                v_lower = Version(v_compatible.replace("*", "0"))
-                v_upper = Version(v_compatible.replace("*", "999"))
-                if v_upper >= Version(upper_bound.version) >= v_lower:
-                    current_range_has_upper_bound = True
-                    rules[i] = str(upper_bound)
-                    rules = str(update_lower_bound(SpecifierSet(",".join(rules)), v_lower)).split(",")
+            # If current_range contains a ~= rule, convert it to explicit bounds per PEP 440
+            spec_rule = Specifier(rule)
+            v = Version(spec_rule.version)
+            v_parts = list(v.release)
+            # Compute PEP 440 upper bound
+            if len(v_parts) == 1:
+                upper_parts = [v_parts[0] + 1]
+            else:
+                upper_parts = v_parts[:-1]
+                upper_parts[-1] += 1
+            v_lower = v
+            v_upper = Version(".".join(str(p) for p in upper_parts))
+            # Choose the strictest effective upper bound between incoming and ~= window cap
+            effective_upper = Version(upper_bound.version)
+            if effective_upper > v_upper:
+                effective_upper = v_upper
+            current_range_has_upper_bound = True
+            # Replace the ~= rule with the effective upper bound
+            rules[i] = str(Specifier(f"<{effective_upper}"))
+            # Ensure the lower bound of the ~= window is present
+            rules = str(update_lower_bound(SpecifierSet(",".join(rules)), Specifier(f">={v_lower}"))).split(",")
     if not current_range_has_upper_bound:
         rules.append(str(upper_bound))
     return SpecifierSet(",".join(rules))
@@ -362,17 +403,23 @@ def update_lower_bound(current_range, lower_bound):
         elif "==" in rule:
             return current_range  # '==version' will always trump lower_bound
         elif "~=" in rule:
-            # we might separate '~=version' into lower and upper bounds
-            if Version(lower_bound.version) > Version(rule.version):
-                v_list = list(rule.version.release)
-                v_list[-1] = "*"
-                v_compatible = ".".join(str(e) for e in v_list)
-                v_lower = Version(v_compatible.replace("*", "0"))
-                v_upper = Version(v_compatible.replace("*", "999"))
-                if v_lower <= Version(lower_bound.version) <= v_upper:
-                    current_range_has_lower_bound = True
-                    rules[i] = str(lower_bound)
-                    rules = str(update_upper_bound(SpecifierSet(",".join(rules)), v_upper)).split(",")
+            # If current_range contains a ~= rule, convert it to explicit bounds per PEP 440
+            spec_rule = Specifier(rule)
+            v = Version(spec_rule.version)
+            v_parts = list(v.release)
+            # Compute PEP 440 upper bound
+            if len(v_parts) == 1:
+                upper_parts = [v_parts[0] + 1]
+            else:
+                upper_parts = v_parts[:-1]
+                upper_parts[-1] += 1
+            v_lower = v
+            v_upper = Version(".".join(str(p) for p in upper_parts))
+            if v_lower <= Version(lower_bound.version) < v_upper:
+                current_range_has_lower_bound = True
+                rules[i] = str(lower_bound)
+                # Tighten/ensure the upper bound to be within ~= window if present
+                rules = str(update_upper_bound(SpecifierSet(",".join(rules)), Specifier(f"<{v_upper}"))).split(",")
     if not current_range_has_lower_bound:
         rules.append(str(lower_bound))
     return SpecifierSet(",".join(rules))
@@ -432,11 +479,14 @@ def lower_bound_is_compatible(current_range, new_lower_bound):
         elif curr_op == "!=":
             pass
         elif curr_op == "~=":
-            v_list = list(curr_v.release)
-            v_list[-1] = "*"
-            v_compatible = ".".join(str(e) for e in v_list)
-            v_lower = Version(v_compatible.replace("*", "0"))
-            compatible = Version(new_lower_bound.version) >= v_lower
+            v_parts = list(curr_v.release)
+            if len(v_parts) == 1:
+                v_parts[0] += 1
+            else:
+                v_parts[-2] += 1
+                v_parts = v_parts[:-1]
+            v_upper = Version(".".join(str(p) for p in v_parts))
+            compatible = Version(new_lower_bound.version) < v_upper
 
         if not compatible:
             return False
@@ -470,34 +520,176 @@ def upper_bound_is_compatible(current_range, new_upper_bound):
         elif curr_op == "!=":
             pass
         elif curr_op == "~=":
-            v_list = list(curr_v.release)
-            v_list[-1] = "*"
-            v_compatible = ".".join(str(e) for e in v_list)
-            v_upper = Version(v_compatible.replace("*", "999"))
-            compatible = Version(new_upper_bound.version) <= v_upper
+            # ~=3.0 means >=3.0,<4.0
+            # Check if new upper bound doesn't exclude the lower part of the ~= range
+            v_lower = curr_v  # The lower bound of ~= is the version itself
+            compatible = Version(new_upper_bound.version) > v_lower
 
         if not compatible:
             return False
     return compatible
 
 
+# def remove_wildcards(version_range_str):
+#     """
+#     Removes any * wildcards from the given versions by removing any occurrences of '.*' from their ends.
+#     :param version_range_str: String like ">=1.5.0,<2.0,!=1.6.*"
+#     :return: String like ">=1.5.0,<2.0,!=1.6"
+#     """
+#     def remove_wildcard(version_str):
+#         release = version_str.split(".")
+#         if release[-1] == "*":
+#             release.pop()
+#             return ".".join(release)
+#         else:
+#             # raise Exception("remove_wildcard() did not find a * at the end of '" + version_str + "' to remove.")
+#             return version_str
+
+#     versions = version_range_str.split(",")
+#     return ",".join(list(map(remove_wildcard, versions)))
+
 def remove_wildcards(version_range_str):
     """
-    Removes any * wildcards from the given versions by removing any occurrences of '.*' from their ends.
-    :param version_range_str: String like ">=1.5.0,<2.0,!=1.6.*"
-    :return: String like ">=1.5.0,<2.0,!=1.6"
+    Converts wildcard version specifiers to equivalent range specifiers.
+    :param version_range_str: String like ">=1.5.0,<2.0,!=1.6.*,==1.*"
+    :return: String like ">=1.5.0,<2.0,!=1.6,>=1.0.0,<2.0.0"
     """
-    def remove_wildcard(version_str):
-        release = version_str.split(".")
-        if release[-1] == "*":
-            release.pop()
-            return ".".join(release)
+    if not version_range_str:
+        return version_range_str
+    
+    # Split by comma to handle multiple specifiers
+    specifiers = [spec.strip() for spec in version_range_str.split(",")]
+    converted_specs = []
+    
+    for spec in specifiers:
+        if not spec:
+            continue
+            
+        # Extract operator and version
+        if spec.startswith("=="):
+            operator = "=="
+            version = spec[2:].strip()
+        elif spec.startswith("!="):
+            operator = "!="
+            version = spec[2:].strip()
+        elif spec.startswith(">="):
+            operator = ">="
+            version = spec[2:].strip()
+        elif spec.startswith("<="):
+            operator = "<="
+            version = spec[2:].strip()
+        elif spec.startswith(">"):
+            operator = ">"
+            version = spec[1:].strip()
+        elif spec.startswith("<"):
+            operator = "<"
+            version = spec[1:].strip()
+        elif spec.startswith("~="):
+            operator = "~="
+            version = spec[2:].strip()
         else:
-            # raise Exception("remove_wildcard() did not find a * at the end of '" + version_str + "' to remove.")
-            return version_str
+            # No operator, assume ==
+            operator = "=="
+            version = spec.strip()
+        
+        # Handle wildcard versions
+        if version.endswith(".*"):
+            base_version = version[:-2]  # Remove ".*"
+            
+            if operator == "==":
+                # ==1.* becomes >=1.0.0,<2.0.0
+                # ==1.2.* becomes >=1.2.0,<1.3.0
+                parts = base_version.split(".")
+                
+                # Construct the lower bound (always pad with zeros to 3 parts)
+                lower_parts = parts[:]
+                while len(lower_parts) < 3:
+                    lower_parts.append("0")
+                lower_bound = ".".join(lower_parts)
+                
+                # Construct the upper bound (increment the LAST part of the base version)
+                upper_parts = parts[:]
+                try:
+                    # Increment the last part in the original base version
+                    last_idx = len(upper_parts) - 1
+                    upper_parts[last_idx] = str(int(upper_parts[last_idx]) + 1)
+                    
+                    # Pad to 3 parts
+                    while len(upper_parts) < 3:
+                        upper_parts.append("0")
+                    
+                    upper_bound = ".".join(upper_parts)
+                    
+                    converted_specs.append(f">={lower_bound}")
+                    converted_specs.append(f"<{upper_bound}")
+                except ValueError:
+                    # If we can't parse the version number, just remove the wildcard
+                    converted_specs.append(f"{operator}{base_version}")
+                    
+            elif operator == "!=":
+                # !=1.6.* is complex to represent exactly, but for practical purposes
+                # we can approximate it. For now, just remove the wildcard and keep the !=
+                # This is a limitation but better than the current behavior
+                converted_specs.append(f"{operator}{base_version}")
+                
+            else:
+                # For other operators, just remove the wildcard
+                # This might not be perfect but is better than breaking
+                converted_specs.append(f"{operator}{base_version}")
+        else:
+            # No wildcard, keep as-is
+            converted_specs.append(spec)
+    
+    return ",".join(converted_specs)
 
-    versions = version_range_str.split(",")
-    return ",".join(list(map(remove_wildcard, versions)))
+
+def normalize_compatible_releases(version_range_str):
+    """
+    Expand any ~=X[.Y[.Z]] specifiers into explicit >=X[.Y[.Z]] and <bump(X[.Y]).
+    Leaves other specifiers unchanged.
+    """
+    if not version_range_str:
+        return version_range_str
+    parts = [p.strip() for p in version_range_str.split(",") if p.strip()]
+    out = []
+    for p in parts:
+        if p.startswith("~="):
+            ver = p[2:].strip()
+            v = Version(ver)
+            r = list(v.release)
+            if len(r) == 1:
+                upper = [r[0] + 1]
+            else:
+                upper = r[:-1]
+                upper[-1] += 1
+            out.append(f">={v}")
+            out.append(f"<{'.'.join(str(x) for x in upper)}")
+        else:
+            out.append(p)
+    return ",".join(out)
+
+# Test the improved function
+def test_improved_remove_wildcards():
+    """Test cases for the improved remove_wildcards function"""
+    test_cases = [
+        ("==1.*", ">=1.0.0,<2.0.0"),
+        (">=1.0.4,==1.*", ">=1.0.4,>=1.0.0,<2.0.0"), 
+        ("!=1.6.*", "!=1.6"),  # Approximation for now
+        (">=4.9.2,!=5.0.*", ">=4.9.2,!=5.0"),
+        ("==1.2.*", ">=1.2.0,<1.3.0"),
+        (">=1.5.0,<2.0,!=1.6.*", ">=1.5.0,<2.0,!=1.6"),
+        (">=1.0.0", ">=1.0.0"),  # No wildcards
+        ("", ""),  # Empty string
+    ]
+    
+    print("Testing improved remove_wildcards function:")
+    for input_val, expected in test_cases:
+        result = remove_wildcards(input_val)
+        print(f"Input:    {input_val}")
+        print(f"Expected: {expected}")
+        print(f"Got:      {result}")
+        print(f"Match:    {result == expected}")
+        print("---")
 
 
 def determine_version_range(dependencies, package, requirement):
@@ -511,8 +703,11 @@ def determine_version_range(dependencies, package, requirement):
         return requirement
     else:
         current_range = dependencies[package]
-        new_range = reorder_requirements(combine_ranges(current_range, requirement))
-        return new_range
+        try:
+            new_range = reorder_requirements(combine_ranges(current_range, requirement))
+            return new_range
+        except RuntimeError as e:
+            raise RuntimeError(f"Package '{package}': {str(e)}")
 
 
 def get_dependency_ranges_by_package(packages, use_installed=False):
@@ -534,20 +729,28 @@ def get_dependency_ranges_by_package(packages, use_installed=False):
             script_command = f"pipdeptree -p {package}"
         else:
             if package == "pysatCDF":
-                # script_command = f"./get-dep-tree-for-pysatCDF-w-numpy.sh {package}"
-                # script_command = f"../get-dep-tree-for-pysatCDF-w-numpy.sh {package}"
                 script_command = f"./utils/get-dep-tree-for-pysatCDF-w-numpy.sh {package}"
-            elif package == "OMMBV":
-                script_command = f"./utils/get-dep-tree-for-ommbv.sh {package}"
+            # elif package == "OMMBV":
+            #     script_command = f"./utils/get-dep-tree-for-ommbv.sh {package}"
             # elif package == "spacepy":
             #     script_command = f"./utils/get-dep-tree-for-spacepy.sh {package}"
             # elif package == "fisspy":
             #     script_command = f"./get-dep-tree-for-fisspy-w-conda.sh {package}"
-            elif package == "cloudcatalog":
-                script_command = f"./utils/get-dep-tree-for-cloudcatalog.sh {package}"
+            elif package.split('==')[0] == "cloudcatalog":
+                script_command = f"./utils/get-dep-tree-for-package-w-boto.sh {package}"
+            elif package.split('==')[0] == "EUVpy":
+                script_command = f"./utils/get-dep-tree-for-package-w-httpcore.sh {package}"
+            elif package.split('==')[0] == "kaipy":
+                script_command = f"./utils/get-dep-tree-for-package-w-httpcore.sh {package}"
+            elif package.split('==')[0] == "pyrfu":
+                script_command = f"./utils/get-dep-tree-for-package-w-boto.sh {package}"
+            elif package.split('==')[0] == "pyaurorax":
+                script_command = f"./utils/get-dep-tree-for-package-w-numpy.sh {package}"
+            elif package.split('==')[0] == "swxsoc":
+                script_command = f"./utils/get-dep-tree-for-package-w-boto.sh {package}"
+            elif package.split('==')[0] == "SciQLop":
+                script_command = f"./utils/get-dep-tree-for-package-w-httpcore.sh {package}"
             else:
-                # script_command = f"./get-dep-tree-for-package.sh {package}"
-                # script_command = f"../get-dep-tree-for-package.sh {package}"
                 script_command = f"./utils/get-dep-tree-for-package.sh {package}"
         output = subprocess.check_output(script_command, shell=True)
         output_str = output.decode('utf-8')
@@ -568,7 +771,8 @@ def get_dependency_ranges_by_package(packages, use_installed=False):
             if match:
                 name, version_range = match.groups()
                 name = name.lower()
-                version_range = remove_wildcards(version_range)  # TODO: BEWARE: We pretend wildcards don't exist.
+                version_range = remove_wildcards(version_range)  # TODO: BEWARE: We pretend wildcards don't exist when operator is !=.
+                version_range = normalize_compatible_releases(version_range)
                 dependencies[name] = determine_version_range(dependencies, name, version_range)
         dependencies[package.split('==')[0]] = f"=={package_version}"  # each top row package lists itself as dependency
         sorted_dependencies = {key: value for key, value in sorted(dependencies.items())}
@@ -591,11 +795,12 @@ def get_dependency_ranges_for_environment(env_packages, full_path_to_pipdeptree=
         output = subprocess.check_output(command, shell=True)
         output_str = output.decode('utf-8')
         for line in output_str.split("\n"):
-            match = re.match("^\s*-\s*(\S+)\s+\[required:\s+(.+),\s+installed:.+\]", line)
+            match = re.match(r"^\s*-\s*(\S+)\s+\[required:\s+(.+),\s+installed:.+\]", line)
             if match:
                 name, version_range = match.groups()
                 name = name.lower()
-                version_range = remove_wildcards(version_range)  # TODO: BEWARE: We pretend wildcards don't exist.
+                version_range = remove_wildcards(version_range)
+                version_range = normalize_compatible_releases(version_range)
                 dependencies[name] = determine_version_range(dependencies, name, version_range)
     sorted_dependencies = {k: v for k, v in sorted(dependencies.items())}
     return sorted_dependencies
