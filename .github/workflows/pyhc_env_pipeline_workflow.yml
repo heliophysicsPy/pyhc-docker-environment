@@ -24,7 +24,6 @@ jobs:
     - name: Install Pipeline Dependencies
       run: |
         pip install -r pipeline_requirements.txt
-        pip install --upgrade pip
 
     - name: Run Pipeline Script
       id: pipeline_check
