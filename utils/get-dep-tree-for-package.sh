@@ -12,7 +12,6 @@ python3 -m venv $TEMP_ENV_NAME
 source $TEMP_ENV_NAME/bin/activate
 
 # Install the given package and store its pipdeptree output
-PIP_INSTALL_OUTPUT_PIP=$(pip install --upgrade pip)
 PIP_INSTALL_OUTPUT_0=$(pip install wheel)
 PIP_INSTALL_OUTPUT_1=$(pip install $PACKAGE)
 PIP_INSTALL_OUTPUT_2=$(pip install -q pipdeptree==2.3.3)
