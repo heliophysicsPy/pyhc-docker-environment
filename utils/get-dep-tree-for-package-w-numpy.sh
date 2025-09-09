@@ -12,8 +12,11 @@ python3 -m venv $TEMP_ENV_NAME
 source $TEMP_ENV_NAME/bin/activate
 
 # Install the given package and store its pipdeptree output
+# (forcibly install opencv-python 4.10.0.82 to avoid numpy 2 conflict—numpy 2 required for Python >=3.9 starting v4.10.0.84)
+PIP_INSTALL_OUTPUT_numpy=$(pip install numpy==1.26.4)
+PIP_INSTALL_OUTPUT_opencv=$(pip install opencv-python==4.10.0.82)
 PIP_INSTALL_OUTPUT_0=$(pip install wheel)
-PIP_INSTALL_OUTPUT_1=$(pip install --use-pep517 $PACKAGE)  # note: added `--use-pep517` June 24, 2025 because some older packages started failing with a dot/underscore clash setuptools bug 
+PIP_INSTALL_OUTPUT_1=$(pip install $PACKAGE)
 PIP_INSTALL_OUTPUT_2=$(pip install -q pipdeptree==2.3.3)
 
 # Remove '==<version' from $PACKAGE if given (unnecessary now that we pass $BASE_PACKAGE to pipdeptree)

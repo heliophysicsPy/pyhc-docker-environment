@@ -12,8 +12,10 @@ python3 -m venv $TEMP_ENV_NAME
 source $TEMP_ENV_NAME/bin/activate
 
 # Install the given package and store its pipdeptree output
-# (forcibly install boto3==1.36.1 to avoid botocore conflict with pySPEDAS from Jan 30, 2025)
-PIP_INSTALL_OUTPUT_boto3=$(pip install boto3==1.36.1)
+# (forcibly install boto3 & botocore v1.39.9 to avoid botocore conflict between pySPEDAS/cloudcatalog/pyRFU/SWxSOC from March 6/July 3/Aug 15, 2025)
+PIP_INSTALL_OUTPUT_s3transfer=$(pip install s3transfer==0.13.0)
+PIP_INSTALL_OUTPUT_boto3=$(pip install boto3==1.39.9)
+PIP_INSTALL_OUTPUT_botocore=$(pip install botocore==1.39.9)
 PIP_INSTALL_OUTPUT_0=$(pip install wheel)
 PIP_INSTALL_OUTPUT_1=$(pip install $PACKAGE)
 PIP_INSTALL_OUTPUT_2=$(pip install -q pipdeptree==2.3.3)
