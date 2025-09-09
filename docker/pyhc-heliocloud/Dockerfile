@@ -39,10 +39,10 @@ RUN echo "cat /etc/motd" > /etc/profile.d/show_motd.sh
 COPY --chown=1000:1000 motd /etc/
 RUN chmod 644 /etc/motd
 
-# Copy notebooks and README to jovyan's home directory
+# Extract notebooks from tar archive and copy Welcome.ipynb to jovyan's home directory
 RUN mkdir -p /home/jovyan/notebooks && \
-    if [ -d "/app/notebooks" ]; then \
-        cp -r /app/notebooks/* /home/jovyan/notebooks/; \
+    if [ -f "/app/notebooks.tar.gz" ]; then \
+        tar -xzf /app/notebooks.tar.gz -C /home/jovyan/notebooks; \
     fi && \
     if [ -f "/app/Welcome.ipynb" ]; then \
         cp /app/Welcome.ipynb /home/jovyan/; \
