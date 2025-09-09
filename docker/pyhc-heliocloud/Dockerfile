@@ -44,8 +44,8 @@ RUN mkdir -p /home/jovyan/notebooks && \
     if [ -d "/app/notebooks" ]; then \
         cp -r /app/notebooks/* /home/jovyan/notebooks/; \
     fi && \
-    if [ -f "/app/README.md" ]; then \
-        cp /app/README.md /home/jovyan/; \
+    if [ -f "/app/Welcome.ipynb" ]; then \
+        cp /app/Welcome.ipynb /home/jovyan/; \
     fi
 
 # Cleanup environment files after their use
