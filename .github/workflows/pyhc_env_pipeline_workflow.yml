@@ -101,7 +101,7 @@ jobs:
       with:
         issue-number: 2
         body: |
-          Docker Hub images and GitHub repo have been updated by GitHub Actions.
+          Docker Hub images and GitHub repo for heliocloud-base have been updated by GitHub Actions.
 
           Updated: 
           ```
