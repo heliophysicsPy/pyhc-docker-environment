@@ -67,10 +67,10 @@ jobs:
         # Clone the target repo using a PAT with push permissions
         git clone https://${{ secrets.SCIENCE_PLATFORMS_PAT }}@github.com/heliophysicsPy/science-platforms-coordination.git coordination_repo
         cd coordination_repo
-        git checkout pyhc
+        git checkout heliocloud-base-w-pyhc
 
         # Use sed to update the 'FROM' line in the Dockerfile with the new version
-        sed -i "s|^FROM spolson/pyhc-environment:.*|FROM spolson/pyhc-environment:${{ steps.build_and_push.outputs.docker_version }}|" Dockerfile
+        sed -i "s|^FROM spolson/pyhc-heliocloud:.*|FROM spolson/pyhc-heliocloud:${{ steps.build_and_push.outputs.docker_version }}|" Dockerfile
 
         git config user.name 'github-actions[bot]'
         git config user.email 'github-actions[bot]@users.noreply.github.com'
@@ -80,7 +80,7 @@ jobs:
           echo "No changes to commit."
         else
           git commit -m "Update base image version to ${{ steps.build_and_push.outputs.docker_version }}"
-          git push origin pyhc
+          git push origin heliocloud-base-w-pyhc
         fi
 
     - name: Commit and Push Conflicted Spreadsheet
