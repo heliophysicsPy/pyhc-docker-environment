@@ -33,6 +33,18 @@ jobs:
       if: steps.pipeline_check.outputs.should_run == 'true'
       run: python utils/update_readme.py
 
+    - name: Free Disk Space for Docker Build
+      if: steps.pipeline_check.outputs.should_run == 'true'
+      uses: jlumbroso/free-disk-space@main
+      with:
+        tool-cache: false
+        android: true
+        dotnet: true
+        haskell: true
+        large-packages: true
+        docker-images: false  # Keep false since you need Docker
+        swap-storage: true
+
     - name: Build and Push Docker Images
       if: steps.pipeline_check.outputs.should_run == 'true'
       id: build_and_push # Assigning an ID to reference outputs
