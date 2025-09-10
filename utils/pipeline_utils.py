@@ -218,3 +218,24 @@ def specify_numpy_1_26_4(requirements_file_path):
     # Write the modified contents back to the file
     with open(requirements_file_path, 'w') as file:
         file.writelines(lines)
+
+
+def specify_urllib3_2_5_0(requirements_file_path):
+    """
+    This function takes a requirements.txt file as input, modifies the line for urllib3 to specify version 2.5.0,
+    and adds a comment after the line indicating the original specification and reason for the change.
+    """
+    # Read the contents of the file
+    with open(requirements_file_path, 'r') as file:
+        lines = file.readlines()
+
+    # Iterate through the lines and find the urllib3 package
+    for i, line in enumerate(lines):
+        if 'urllib3' in line:
+            original_line = line.strip()
+            lines[i] = f"urllib3==2.5.0  # was originally '{original_line}' but the speasy import was failing\n"
+
+    # Write the modified contents back to the file
+    with open(requirements_file_path, 'w') as file:
+        file.writelines(lines)
+
