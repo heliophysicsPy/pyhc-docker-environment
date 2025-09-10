@@ -123,7 +123,7 @@ httpx-ws>=0.7.1,<0.8.0
 httpx>=0.25.0,<1
 humanize>=4.4.0,<5.0.0
 hydra-core==0.11.3
-hypothesis==6.138.14
+hypothesis==6.138.15
 idna>=2.8,<4
 igrf==13.0.2
 imageio>=2.33,!=2.35.0
@@ -368,7 +368,7 @@ sunkit-image==0.6.1
 sunkit-instruments==0.6.2
 sunkit-magex
 sunpy==7.0.1
-sunraster==0.6.1
+sunraster==0.6.2
 supermag-api
 swxsoc==0.2.2
 sympy==1.5.1
