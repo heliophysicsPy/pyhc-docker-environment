@@ -1,11 +1,11 @@
-# PyHC Environment Pipeline
-[![Binder](https://binder.opensci.2i2c.cloud/badge_logo.svg)](https://binder.opensci.2i2c.cloud/v2/gh/heliophysicsPy/science-platforms-coordination/heliocloud-base-w-pyhc) (PyHC HelioCloud link)
+# PyHC Environment Pipeline (HelioCloud Base)
+[![Binder](https://binder.opensci.2i2c.cloud/badge_logo.svg)](https://binder.opensci.2i2c.cloud/v2/gh/heliophysicsPy/science-platforms-coordination/heliocloud-base-w-pyhc)
 
 ## Overview
-The PyHC Environment Pipeline automates the creation of a Docker image with a Python environment that comes pre-loaded with the latest versions of all published PyHC ([Python in Heliophysics Community](https://pyhc.org/projects)) packages. The GitHub Actions workflow rebuilds and pushes the Docker image to [Docker Hub](https://hub.docker.com/u/spolson) each time a PyHC package releases a new update. It also keeps the source files in this repo in-sync with what's in Docker Hub, and updates a Binder build.
+The PyHC Environment Pipeline automates the creation of a Docker image with a Python environment that comes pre-loaded with the latest versions of all published PyHC ([Python in Heliophysics Community](https://pyhc.org/projects)) packages. This version uses the HelioCloud base image, different from the `main` branch. The GitHub Actions workflow rebuilds and pushes the Docker image to [Docker Hub](https://hub.docker.com/u/spolson) each time a PyHC package releases a new update. It also keeps the source files in this repo in-sync with what's in Docker Hub, and updates a Binder build.
 
 ## Features
-- **Binder Deployment**: For ease of use, the `pyhc-environment` Docker image is deployed in Binder and continually updated (use the "launch binder" badge above to access it).
+- **Binder Deployment**: For ease of use, the `pyhc-heliocloud` Docker image is deployed in Binder and continually updated (use the "launch binder" badge above to access it).
 - **Automated Docker Builds**: Automatically builds the Docker image with an updated Python environment using GitHub Actions.
 - **Daily Updates**: Runs daily to check for and include the latest versions of PyHC packages.
 - **Docker Hub Hosting**: Docker image is readily available on Docker Hub for easy access and deployment.
@@ -13,15 +13,15 @@ The PyHC Environment Pipeline automates the creation of a Docker image with a Py
 
 ## Docker Image
 The pipeline creates and maintains the following Docker image:
-- [pyhc-environment](https://hub.docker.com/r/spolson/pyhc-environment)
+- [pyhc-heliocloud](https://hub.docker.com/r/spolson/pyhc-heliocloud)
 
 ## Usage
-Click the "launch binder" badge at the top of this README to launch the latest `pyhc-environment` in Binder.
+Click the "launch binder" badge at the top of this README to launch the latest `pyhc-heliocloud` in Binder.
 
 Alternatively, you may run the Docker image locally by pulling it from Docker Hub:
 
 ```bash
-docker pull spolson/pyhc-environment:vYYYY.MM.DD
+docker pull spolson/pyhc-heliocloud:vYYYY.MM.DD
 ```
 (Replace `vYYYY.MM.DD` with the actual image version.)
 
