@@ -73,9 +73,6 @@ if __name__ == '__main__':
             # Get Docker image names and update requirements.txt for each
             docker_image_names = get_docker_image_names(docker_folder_path)
             for image_name in docker_image_names:
-                # if image_name == "pyhc-heliocloud":  # Hack to support this requirements.txt file being next to the Dockerfile
-                #     docker_requirements_path = os.path.join(docker_folder_path, image_name, 'requirements.txt')
-                # else:
                 docker_requirements_path = os.path.join(docker_folder_path, image_name, 'contents', 'requirements.txt')
                 with open(docker_requirements_path, 'w') as file:
                     file.write(requirements_txt)
@@ -84,6 +81,7 @@ if __name__ == '__main__':
                 comment_out_pysatcdf(docker_requirements_path)
                 comment_out_kamodo(docker_requirements_path)
                 comment_out_pytplot_and_pytplot_mpl_temp(docker_requirements_path)
+                specify_urllib3_2_5_0(docker_requirements_path)
 
             print("::set-output name=should_run::true", flush=True)
             print("::set-output name=has_conflict::false", flush=True)
