@@ -220,7 +220,7 @@ notebook
 notebook-shim>=0.2,<0.3
 numba==0.60.0
 numcodecs>=0.14
-numexpr>=2.6.2
+numexpr>=2.12.1
 numpy>=1.26.4,<2.0.0,!=1.24.0
 nvidia-nccl-cu12
 ocbpy==0.6.0
