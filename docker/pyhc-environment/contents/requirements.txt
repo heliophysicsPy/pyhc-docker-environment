@@ -408,7 +408,7 @@ typing-extensions>=4.13.2
 tzdata>=2022.7
 ujson>=5.0,<6.0
 uncertainties>=3.2.2
-urllib3>=1.26.16,<3,!=2.2.0
+urllib3==2.5.0  # was originally 'urllib3>=1.26.16,<3,!=2.2.0' but the speasy import was failing
 viresclient==0.13.0
 wcwidth
 webencodings
