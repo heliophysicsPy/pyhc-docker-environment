@@ -66,6 +66,8 @@ if __name__ == '__main__':
 
         try:
             requirements_txt = spreadsheet_to_requirements_file(spreadsheet_path)
+            print("Generated requirements.txt file:", flush=True)
+            print(requirements_txt, flush=True)
 
             # Path to the docker folder in the repository
             docker_folder_path = os.path.join(os.path.dirname(__file__), 'docker')
