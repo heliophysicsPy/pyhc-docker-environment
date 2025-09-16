@@ -39,28 +39,28 @@ RUN echo "cat /etc/motd" > /etc/profile.d/show_motd.sh
 COPY --chown=1000:1000 motd /etc/
 RUN chmod 644 /etc/motd
 
-# Extract notebooks from tar archive and copy Welcome.ipynb to jovyan's home directory
-RUN mkdir -p /home/jovyan/notebooks && \
+# Extract notebooks from tar archive and copy Welcome.ipynb to user's home directory (default: /home/jovyan)
+RUN mkdir -p /home/$NB_USER/notebooks && \
     if [ -f "/app/notebooks.tar.gz" ]; then \
-        tar -xzf /app/notebooks.tar.gz -C /home/jovyan/notebooks; \
+        tar -xzf /app/notebooks.tar.gz -C /home/$NB_USER/notebooks; \
     fi && \
     if [ -f "/app/Welcome.ipynb" ]; then \
-        cp /app/Welcome.ipynb /home/jovyan/; \
+        cp /app/Welcome.ipynb /home/$NB_USER/; \
     fi
 
 # Cleanup environment files after their use
 RUN rm -rf /app/environment.yml /app/conda-lock.yml /app/requirements.txt /app/apt.txt /app/jupyter_notebook_config.py /app/motd /app/start /app/Dockerfile /app/contents
 
-RUN rm -rf /home/jovyan/environment.yml /home/jovyan/conda-lock.yml /home/jovyan/requirements.txt /home/jovyan/apt.txt /home/jovyan/jupyter_notebook_config.py /home/jovyan/motd /home/jovyan/start /home/jovyan/Dockerfile /home/jovyan/contents
+RUN rm -rf /home/$NB_USER/environment.yml /home/$NB_USER/conda-lock.yml /home/$NB_USER/requirements.txt /home/$NB_USER/apt.txt /home/$NB_USER/jupyter_notebook_config.py /home/$NB_USER/motd /home/$NB_USER/start /home/$NB_USER/Dockerfile /home/$NB_USER/contents
 
 # Set comprehensive permissions to allow package installation/modification (note: this recursive permission setting can take a long time... ~2 mins in GitHub Actions)
-RUN chown -R jovyan:users /app && \
-    chown -R jovyan:users /home/jovyan && \
-    chmod -R u+w /home/jovyan && \
-    chown -R jovyan:users /srv/conda && \
+RUN chown -R $NB_USER:users /app && \
+    chown -R $NB_USER:users /home/$NB_USER && \
+    chmod -R u+w /home/$NB_USER && \
+    chown -R $NB_USER:users /srv/conda && \
     chmod -R u+w /srv/conda
 
-WORKDIR /home/jovyan
+WORKDIR /home/$NB_USER
 
 # Make port 8888 available to the world outside this container
 EXPOSE 8888
