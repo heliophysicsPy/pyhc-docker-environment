@@ -29,7 +29,7 @@ docker pull spolson/pyhc-heliocloud:vYYYY.MM.DD
 Package | Version
 ---|---
 aacgmv2 | 2.7.0
-aiapy | 0.10.1
+aiapy | 0.10.2
 aidapy | 0.0.4
 amisrsynthdata | 1.1.8
 apexpy | 2.1.0
