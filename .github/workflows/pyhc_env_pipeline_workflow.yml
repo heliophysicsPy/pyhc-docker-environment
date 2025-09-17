@@ -58,11 +58,11 @@ jobs:
         git checkout pyhc
 
         # Use sed to update the 'FROM' line in the Dockerfile with the new version
-        sed -i "s|^FROM spolson/pyhc-environment:.*|FROM spolson/pyhc-environment:${{ steps.build_and_push.outputs.docker_version }}|" Dockerfile
+        sed -i "s|^FROM spolson/pyhc-environment:.*|FROM spolson/pyhc-environment:${{ steps.build_and_push.outputs.docker_version }}|" binder/Dockerfile
 
         git config user.name 'github-actions[bot]'
         git config user.email 'github-actions[bot]@users.noreply.github.com'
-        git add Dockerfile
+        git add binder/Dockerfile
 
         if [ -z "$(git status --porcelain)" ]; then
           echo "No changes to commit."
