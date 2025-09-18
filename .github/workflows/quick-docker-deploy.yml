@@ -1,0 +1,61 @@
+name: PyHC Environment Pipeline Workflow
+
+on:
+  schedule:
+    - cron: '0 7 * * *'  # Runs at midnight Mountain Time (UTC-7)
+  workflow_dispatch:
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Fetch LFS Files
+      run: git lfs pull
+
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.11'
+
+    - name: Install Pipeline Dependencies
+      run: |
+        pip install -r pipeline_requirements.txt
+
+    - name: Build and Push Docker Images
+      id: build_and_push
+      run: python utils/docker_operations.py ./docker ${{ secrets.DOCKER_HUB_USERNAME }} ${{ secrets.DOCKER_HUB_TOKEN }}
+
+    - name: Commit and Push Repo Changes
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git add .
+        git commit -m "Update Docker image requirements, spreadsheet, README" || exit 0
+        git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Update science-platforms-coordination to Trigger Binder Rebuild
+      run: |
+        # Clone the target repo using a PAT with push permissions
+        git clone https://${{ secrets.SCIENCE_PLATFORMS_PAT }}@github.com/heliophysicsPy/science-platforms-coordination.git coordination_repo
+        cd coordination_repo
+        git checkout pyhc
+
+        # Use sed to update the 'FROM' line in the Dockerfile with the new version
+        sed -i "s|^FROM spolson/pyhc-environment:.*|FROM spolson/pyhc-environment:${{ steps.build_and_push.outputs.docker_version }}|" binder/Dockerfile
+
+        git config user.name 'github-actions[bot]'
+        git config user.email 'github-actions[bot]@users.noreply.github.com'
+        git add binder/Dockerfile
+
+        if [ -z "$(git status --porcelain)" ]; then
+          echo "No changes to commit."
+        else
+          git commit -m "Update base image version to ${{ steps.build_and_push.outputs.docker_version }}"
+          git push origin pyhc
+        fi
