@@ -14,20 +14,24 @@ if mountpoint -q /home/jovyan 2>/dev/null; then
     # Create the branch-specific directory if it doesn't exist
     mkdir -p "${JUPYTERHUB_HOME}"
 
-    # Create symlinks from JupyterHub home to opt directory
+    # Copy files from opt directory to JupyterHub home (only if they don't already exist)
     for item in "${OPT_DIR}"/*; do
         if [ -e "$item" ] && [ "$(basename "$item")" != "start" ]; then
             item_name=$(basename "$item")
             target_path="${JUPYTERHUB_HOME}/${item_name}"
 
-            # Remove existing file/link if it exists
-            if [ -e "$target_path" ] || [ -L "$target_path" ]; then
-                rm -rf "$target_path"
+            # Only copy if the target doesn't already exist (preserves user changes)
+            if [ ! -e "$target_path" ]; then
+                if [ -d "$item" ]; then
+                    cp -r "$item" "$target_path"
+                    echo "Copied directory: ${item} -> ${target_path}"
+                else
+                    cp "$item" "$target_path"
+                    echo "Copied file: ${item} -> ${target_path}"
+                fi
+            else
+                echo "Skipped copy (file/directory exists): ${target_path}"
             fi
-
-            # Create symlink
-            ln -s "$item" "$target_path"
-            echo "Created symlink: ${target_path} -> ${item}"
         fi
     done
 else
@@ -45,7 +49,7 @@ else
                 rm -rf "$target_path"
             fi
 
-            # Create symlink
+            # Create symlink (Binder doesn't have persistent storage, so symlinks are fine)
             ln -s "$item" "$target_path"
             echo "Created symlink: ${target_path} -> ${item}"
         fi
