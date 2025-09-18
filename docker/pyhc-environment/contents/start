@@ -1,0 +1,55 @@
+#!/bin/bash -l
+
+# Setup files and directories for both Binder and JupyterHub compatibility
+BRANCH_NAME="pyhc"
+OPT_DIR="/opt/${BRANCH_NAME}"
+JUPYTERHUB_HOME="/home/jovyan/${BRANCH_NAME}"
+
+# Check if we're in JupyterHub environment by checking if the branch-specific home dir should exist
+# We can detect this by checking if /home/jovyan has persistent storage (is a mountpoint)
+if mountpoint -q /home/jovyan 2>/dev/null; then
+    # JupyterHub environment with persistent storage
+    echo "Detected JupyterHub environment with persistent storage"
+
+    # Create the branch-specific directory if it doesn't exist
+    mkdir -p "${JUPYTERHUB_HOME}"
+
+    # Create symlinks from JupyterHub home to opt directory
+    for item in "${OPT_DIR}"/*; do
+        if [ -e "$item" ] && [ "$(basename "$item")" != "start" ]; then
+            item_name=$(basename "$item")
+            target_path="${JUPYTERHUB_HOME}/${item_name}"
+
+            # Remove existing file/link if it exists
+            if [ -e "$target_path" ] || [ -L "$target_path" ]; then
+                rm -rf "$target_path"
+            fi
+
+            # Create symlink
+            ln -s "$item" "$target_path"
+            echo "Created symlink: ${target_path} -> ${item}"
+        fi
+    done
+else
+    # Binder environment (traditional setup)
+    echo "Detected Binder environment"
+
+    # Create symlinks directly in /home/jovyan for Binder compatibility
+    for item in "${OPT_DIR}"/*; do
+        if [ -e "$item" ] && [ "$(basename "$item")" != "start" ]; then
+            item_name=$(basename "$item")
+            target_path="/home/jovyan/${item_name}"
+
+            # Remove existing file/link if it exists
+            if [ -e "$target_path" ] || [ -L "$target_path" ]; then
+                rm -rf "$target_path"
+            fi
+
+            # Create symlink
+            ln -s "$item" "$target_path"
+            echo "Created symlink: ${target_path} -> ${item}"
+        fi
+    done
+fi
+
+exec "$@"

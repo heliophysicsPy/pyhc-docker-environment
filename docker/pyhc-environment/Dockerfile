@@ -37,12 +37,23 @@ RUN pip install --no-cache-dir git+https://github.com/nasa/Kamodo.git && \
 # Cleanup environment.yml and requirements.txt after their use
 RUN rm /app/environment.yml /app/requirements.txt
 
-# Copy notebooks to jovyan's home directory and set permissions
-RUN cp /app/import-test.ipynb /home/jovyan/import-test.ipynb && \
-    cp /app/unit-tests.ipynb /home/jovyan/unit-tests.ipynb && \
-    cp /app/Welcome.ipynb /home/jovyan/Welcome.ipynb && \
-    chown -R jovyan:users /home/jovyan && \
+# Create directory for repo content in /opt
+RUN mkdir -p /opt/pyhc
+
+# Copy notebooks to opt directory instead of jovyan's home
+RUN cp /app/import-test.ipynb /opt/pyhc/import-test.ipynb && \
+    cp /app/unit-tests.ipynb /opt/pyhc/unit-tests.ipynb && \
+    cp /app/Welcome.ipynb /opt/pyhc/Welcome.ipynb && \
+    chown -R jovyan:users /opt/pyhc && \
     chown -R jovyan:users /app
+
+# Copy start script to the branch-specific directory and make it executable
+RUN cp /app/start /opt/pyhc/start && \
+    chmod +x /opt/pyhc/start && \
+    chown jovyan:users /opt/pyhc/start
+
+# Clean up /home/jovyan since files will be symlinked from /opt
+RUN rm -rf /home/jovyan/*
 
 # Change ownership of the entire conda directory to allow package installation/modification (note: this recursive permission setting can take a long time... ~2 mins in GitHub Actions) 
 RUN chown -R jovyan:users /opt/conda && \
@@ -57,8 +68,14 @@ RUN /bin/bash -c "source activate pyhc-all && \
 # Set the working directory to jovyan's home for Binder compatibility
 WORKDIR /home/jovyan
 
+# Switch to jovyan user before running the start script (TODO: is this needed? Delete if not...)
+USER jovyan
+
 # Make port 8888 available to the world outside this container
 EXPOSE 8888
+
+# Use the branch-specific start script as entrypoint
+ENTRYPOINT ["/opt/pyhc/start"]
 
 # Run Jupyter notebook when the container launches
 CMD ["jupyter", "lab", "--ip='*'", "--port=8888", "--no-browser", "--allow-root"]
