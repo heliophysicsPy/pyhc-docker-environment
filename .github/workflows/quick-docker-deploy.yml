@@ -1,4 +1,4 @@
-name: PyHC Environment Pipeline Workflow
+name: Build and Deploy Docker Images (Skipping Pipeline)
 
 on:
   schedule:
