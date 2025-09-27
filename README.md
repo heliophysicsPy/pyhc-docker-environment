@@ -60,7 +60,7 @@ kaipy | 1.1.2
 kamodo | 23.3.0
 lofarSun | 0.3.32
 lowtran | 3.1.0
-madrigalWeb | 3.3.3
+madrigalWeb | 3.3.5
 maidenhead | 1.8.0
 mcalf | 1.0.0
 msise00 | 1.11.1

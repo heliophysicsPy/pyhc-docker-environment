@@ -161,7 +161,7 @@ jupyter-server>=2.4.0,<3
 jupyterlab-pygments
 jupyterlab-server>=2.27.1,<3
 jupyterlab-widgets>=3.0.15,<3.1
-jupyterlab>=4.4.5,<4.5,!=4.1.0
+jupyterlab>=4.4.8,<4.5,!=4.1.0
 kaipy==1.1.2
 # kamodo==23.3.0  # gets installed from GitHub instead
 keyring>=25.5.0
@@ -173,7 +173,7 @@ locket
 lofarSun==0.3.32
 lowtran==3.1.0
 lxml>=4.8.0
-madrigalWeb==3.3.3
+madrigalWeb==3.3.5
 madrigalweb>=3.3
 maidenhead==1.8.0
 mako
@@ -210,7 +210,7 @@ nexradutils==1.0.0
 notebook
 notebook-shim>=0.2,<0.3
 numba==0.60.0
-numexpr>=2.12.1
+numexpr>=2.13.0
 numpy>=1.26.4,<2.0.0,!=1.24.0
 nvidia-nccl-cu12
 ocbpy==0.6.0
