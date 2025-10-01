@@ -56,7 +56,7 @@ hissw | 2.3
 igrf | 13.0.2
 iri2016 | 1.11.1
 irispy-lmsal | 0.4.0
-kaipy | 1.1.2
+kaipy | 1.1.3
 kamodo | 23.3.0
 lofarSun | 0.3.32
 lowtran | 3.1.0
