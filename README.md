@@ -64,7 +64,7 @@ madrigalWeb | 3.3.5
 maidenhead | 1.8.0
 mcalf | 1.0.0
 msise00 | 1.11.1
-ndcube | 2.3.2
+ndcube | 2.3.3
 nexradutils | 1.0.0
 ocbpy | 0.6.0
 OMMBV | 1.1.0
