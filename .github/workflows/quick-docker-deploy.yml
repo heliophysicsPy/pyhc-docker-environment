@@ -1,8 +1,6 @@
 name: Build and Deploy Docker Images (Skipping Pipeline)
 
 on:
-  schedule:
-    - cron: '0 7 * * *'  # Runs at midnight Mountain Time (UTC-7)
   workflow_dispatch:
 
 jobs:
