@@ -736,6 +736,8 @@ def get_dependency_ranges_by_package(packages, use_installed=False):
             #     script_command = f"./utils/get-dep-tree-for-spacepy.sh {package}"
             # elif package == "fisspy":
             #     script_command = f"./get-dep-tree-for-fisspy-w-conda.sh {package}"
+            elif package.split('==')[0] == "asilib":
+                script_command = f"./utils/get-dep-tree-for-package-w-opencv-python.sh {package}"
             elif package.split('==')[0] == "cloudcatalog":
                 script_command = f"./utils/get-dep-tree-for-package-w-boto.sh {package}"
             elif package.split('==')[0] == "EUVpy":
@@ -745,7 +747,7 @@ def get_dependency_ranges_by_package(packages, use_installed=False):
             elif package.split('==')[0] == "pyrfu":
                 script_command = f"./utils/get-dep-tree-for-package-w-boto.sh {package}"
             elif package.split('==')[0] == "pyaurorax":
-                script_command = f"./utils/get-dep-tree-for-package-w-numpy.sh {package}"
+                script_command = f"./utils/get-dep-tree-for-package-w-opencv-python.sh {package}"
             elif package.split('==')[0] == "swxsoc":
                 script_command = f"./utils/get-dep-tree-for-package-w-boto.sh {package}"
             elif package.split('==')[0] == "SciQLop":
