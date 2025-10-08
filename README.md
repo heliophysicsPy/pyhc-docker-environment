@@ -33,7 +33,7 @@ aiapy | 0.10.2
 aidapy | 0.0.4
 amisrsynthdata | 1.1.8
 apexpy | 2.1.0
-asilib | 0.26.5
+asilib | 0.27.0
 astrometry-azel | 1.3.0
 ccsdspy | 1.4.2
 cdflib | 1.3.6
@@ -55,7 +55,7 @@ heliopy | 0.15.4
 hissw | 2.3
 igrf | 13.0.2
 iri2016 | 1.11.1
-irispy-lmsal | 0.4.0
+irispy-lmsal | 0.5.0
 kaipy | 1.1.3
 kamodo | 23.3.0
 lofarSun | 0.3.32
@@ -64,13 +64,13 @@ madrigalWeb | 3.3.5
 maidenhead | 1.8.0
 mcalf | 1.0.0
 msise00 | 1.11.1
-ndcube | 2.3.3
+ndcube | 2.3.4
 nexradutils | 1.0.0
 ocbpy | 0.6.0
 OMMBV | 1.1.0
 plasmapy | 2025.8.0
 pyaurorax | 1.20.0
-pycdfpp | 0.8.0
+pycdfpp | 0.8.2
 pydarn | 4.1.2
 pyflct | 0.3.1
 pyhc-core[tests] | 0.0.6
@@ -89,7 +89,7 @@ sciencedates | 1.5.0
 SciQLop | 0.10.0
 SkyWinder | 0.0.3
 solarmach | 0.5.1
-solo-epd-loader | 0.4.3
+solo-epd-loader | 0.4.4
 space-packet-parser | 6.0.0
 spacepy | 0.7.0
 speasy | 1.6.1
