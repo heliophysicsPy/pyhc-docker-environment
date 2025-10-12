@@ -43,7 +43,7 @@ dbprocessing | 0.1.0
 dmsp | 0.6.0
 enlilviz | 0.2.0
 EUVpy | 1.0.0
-fiasco | 0.6.1
+fiasco | 0.6.2
 gcmprocpy | 1.2.1
 geopack | 1.0.12
 georinex | 1.16.2

@@ -29,7 +29,7 @@ asdf>=3.3.0
 asilib==0.27.0
 asteval>=1.0
 astrometry-azel==1.3.0
-astropy-iers-data>=0.2025.4.28.0.37.27
+astropy-iers-data>=0.2025.9.29.0.35.48
 astropy==6.1.7
 astroquery
 asttokens>=2.1.0
@@ -86,7 +86,7 @@ expression
 extension
 fastjsonschema>=2.15
 ffmpeg-python
-fiasco==0.6.1
+fiasco==0.6.2
 flask-cors
 flask-restful==0.3.8
 flask==1.1.2
@@ -266,7 +266,7 @@ pyjwt>=2.4.0,<3.0.0
 pymap3d==3.2.0
 pynacl>=1.4.0
 pyopenssl
-pyparsing>=2.3.1
+pyparsing>=3
 pyproj>=3.7.0,<4.0.0
 pyqt5-qt5>=5.15.2,<5.16.0
 pyqt5-sip>=12.15,<13
