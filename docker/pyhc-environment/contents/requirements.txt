@@ -210,7 +210,7 @@ nexradutils==1.0.0
 notebook
 notebook-shim>=0.2,<0.3
 numba==0.60.0
-numexpr>=2.13.1
+numexpr>=2.14.1
 numpy>=1.26.4,<2.0.0,!=1.24.0
 nvidia-nccl-cu12
 ocbpy==0.6.0
@@ -318,7 +318,7 @@ rpds-py>=0.7.1
 s3fs
 s3transfer>=0.13.0,<0.14.0
 sammi-cdf==1.0.2
-savic==1.1.0
+savic==1.2.2
 sciencedates==1.5.0
 scikit-image>=0.20.0
 scikit-learn>=1.2.0
@@ -330,7 +330,7 @@ secretstorage>=3.2
 semantic-version>=2.8
 send2trash>=1.8.2
 sep
-setuptools-scm==9.2.0
+setuptools-scm==9.2.1
 setuptools>=66
 shapely>=2.0
 shiboken6==6.9.2
