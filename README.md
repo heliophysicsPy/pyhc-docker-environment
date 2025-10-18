@@ -84,7 +84,7 @@ pyzenodo3 | 1.0.2
 reesaurora | 1.0.5
 regularizepsf | 1.1.0
 sammi-cdf | 1.0.2
-savic | 1.2.5
+savic | 1.2.6
 sciencedates | 1.5.0
 SciQLop | 0.10.0
 SkyWinder | 0.0.3
