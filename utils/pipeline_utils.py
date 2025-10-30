@@ -8,6 +8,10 @@ __author__ = "Shawn Polson"
 import os
 import re
 import requests
+import collections
+from datetime import datetime, timedelta
+import pandas as pd
+from packaging.version import Version
 
 
 def fetch_latest_version_from_pypi(package_name):
@@ -217,3 +221,98 @@ def specify_numpy_1_26_4(requirements_file_path):
     # Write the modified contents back to the file
     with open(requirements_file_path, 'w') as file:
         file.writelines(lines)
+
+
+def get_spec0_packages():
+    """
+    Returns a list of SPEC 0 core packages with minimum supported versions based on current date.
+    SPEC 0 policy: Drop support for core package dependencies 2 years after their initial release.
+
+    :return: A list like ["numpy>=2.0.0", "scipy>=1.11.0", ...]
+    """
+    # SPEC 0 core packages
+    core_packages = [
+        "numpy",
+        "scipy",
+        "matplotlib",
+        "pandas",
+        "scikit-image",
+        "networkx",
+        "scikit-learn",
+        "xarray",
+        "ipython",
+        "zarr"
+    ]
+
+    # SPEC 0: Drop support 2 years after release
+    # So minimum supported version = oldest version whose drop_date hasn't passed yet
+    plus24 = timedelta(days=int(365 * 2))  # 2 year support window for core packages
+    current_date = datetime.now()
+
+    spec0_requirements = []
+
+    for package in core_packages:
+        print(f"Querying PyPI for {package} SPEC 0 minimum version...", end="", flush=True)
+
+        try:
+            # Query PyPI for package releases
+            response = requests.get(
+                f"https://pypi.org/simple/{package}",
+                headers={"Accept": "application/vnd.pypi.simple.v1+json"},
+            )
+            response.raise_for_status()
+            data = response.json()
+
+            # Collect release dates for each version
+            file_date = collections.defaultdict(list)
+            for f in data["files"]:
+                ver = f["filename"].split("-")[1]
+                try:
+                    version = Version(ver)
+                except:
+                    continue
+
+                # Skip pre-releases and patch versions (only consider X.Y.0)
+                if version.is_prerelease or version.micro != 0:
+                    continue
+
+                # Parse upload time
+                release_date = None
+                for format in ["%Y-%m-%dT%H:%M:%S.%fZ", "%Y-%m-%dT%H:%M:%SZ"]:
+                    try:
+                        release_date = datetime.strptime(f["upload-time"], format)
+                        break
+                    except:
+                        pass
+
+                if not release_date:
+                    continue
+
+                file_date[version].append(release_date)
+
+            # Get earliest release date for each version
+            release_dates = {v: min(file_date[v]) for v in file_date}
+
+            # Filter versions that are still within support window
+            # (drop_date must be in the future)
+            supported_versions = []
+            for ver, release_date in sorted(release_dates.items()):
+                drop_date = release_date + plus24
+                if drop_date >= current_date:
+                    supported_versions.append(ver)
+
+            # Get minimum supported version
+            if supported_versions:
+                min_version = min(supported_versions)
+                spec0_requirements.append(f"{package}>={min_version}")
+                print(f"OK (>={min_version})")
+            else:
+                # No version meets criteria, don't add constraint
+                print("OK (no constraint)")
+
+        except Exception as e:
+            print(f"FAILED ({e})")
+            # On error, continue without adding this package
+            continue
+
+    return spec0_requirements
