@@ -3,7 +3,7 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - python=3.12.12
+  - python=3.11.11
   - gcc_linux-64=14.2.*       # pulls in gcc_impl_linux-64 14.2.x (wmm2015/wmm2020 C code fails to compile with GCC>=15.1); added to help matplotlib wheel build
   - gxx_linux-64=14.2.*       # pulls in gxx_impl_linux-64 14.2.x (wmm2015/wmm2020 C code fails to compile with GCC>=15.1); added to help matplotlib wheel build
   - gfortran_linux-64=14.2.*  # pulls in gfortran_impl_linux-64 14.2.x; needed for ffnet dependency of spacepy
