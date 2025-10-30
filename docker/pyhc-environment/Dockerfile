@@ -31,7 +31,7 @@ RUN conda env create -f /app/environment.yml && \
 ENV PATH /opt/conda/envs/pyhc-all/bin:$PATH
 
 # Install PyHC packages with pip (Kamodo separately)
-RUN pip install --no-cache-dir git+https://github.com/nasa/Kamodo.git
+# RUN pip install --no-cache-dir git+https://github.com/nasa/Kamodo.git
 RUN pip install --use-pep517 --retries 5 --no-cache-dir -r /app/requirements.txt
 
 # Cleanup environment.yml and requirements.txt after their use
