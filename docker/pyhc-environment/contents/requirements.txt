@@ -1,7 +1,7 @@
 aacgmv2==2.7.0
 about-time==4.2.1
 aiapy==0.10.2
-aidapy==0.0.4
+# aidapy==0.0.4  # Can't be included until they remove heliopy dependency (or I fix heliopy install via monkeypatch)
 aioboto3
 aiobotocore==2.25.1
 aiofiles>=23.2.1
