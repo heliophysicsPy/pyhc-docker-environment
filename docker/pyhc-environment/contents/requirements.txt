@@ -12,7 +12,7 @@ aiosignal>=1.4.0
 alabaster>=0.7.14
 alembic
 alive-progress
-amisrsynthdata==1.1.8
+# amisrsynthdata==1.1.8  # Can't be included until they extend Python support to include 3.12
 aniso8601>=0.82
 antlr4-python3-runtime==4.7
 anyio>=4.4.0,<5.0.0
