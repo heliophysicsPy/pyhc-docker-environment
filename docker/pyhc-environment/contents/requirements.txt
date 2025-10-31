@@ -114,7 +114,7 @@ hapiclient==0.2.6
 hapiplot==0.2.2
 hatanaka
 heliopy-multid
-heliopy==0.15.4
+# heliopy==0.15.4  # Install fails using func removed in 3.12
 hissw==2.3
 html5lib>=0.999
 httpcore>=1.0.4,<2.0.0
