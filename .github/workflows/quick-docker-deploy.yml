@@ -21,7 +21,8 @@ jobs:
 
     - name: Install Pipeline Dependencies
       run: |
-        pip install -r pipeline_requirements.txt
+        pip install uv
+        uv pip install --system -r pipeline_requirements.txt
 
     - name: Build and Push Docker Images
       id: build_and_push
