@@ -257,7 +257,7 @@ pyflct==0.3.1
 pygam
 pygithub
 pygments>=2.17,<3.0.0
-pyhc-core[tests]==0.0.6
+# pyhc-core[tests]==0.0.6  # Seems to be causing dependency conflicts; why?
 pyistp>=0.7.2
 pyjwt>=2.4.0,<3.0.0
 pymap3d==3.2.0
