@@ -728,7 +728,9 @@ def get_dependency_ranges_by_package(packages, use_installed=False):
         if use_installed and package.lower() in installed_packages:
             script_command = f"pipdeptree -p {package}"
         else:
-            if package == "pysatCDF":
+            if package.startswith("git+"):
+                script_command = f"./utils/get-dep-tree-for-git-package.sh {package}"
+            elif package == "pysatCDF":
                 script_command = f"./utils/get-dep-tree-for-pysatCDF-w-numpy.sh {package}"
             # elif package == "OMMBV":
             #     script_command = f"./utils/get-dep-tree-for-ommbv.sh {package}"
