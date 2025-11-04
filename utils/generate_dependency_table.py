@@ -50,8 +50,12 @@ def get_core_pyhc_packages():
     """
     TODO: consider scraping this from projects_core.yml online?
     :return: A list of the core PyHC package names.
+
+    TODO:
+    kamodo has been removed due to dependency conflicts.
+    pyhc-core[tests] has been removed due to dependency conflicts (in v0.0.6).
     """
-    return ["hapiclient", "kamodo", "plasmapy", "pysat", "pyspedas", "spacepy", "sunpy", "pyhc-core[tests]"]
+    return ["hapiclient", "plasmapy", "pysat", "pyspedas", "spacepy", "sunpy"]
 
 
 def get_other_pyhc_packages():
@@ -65,11 +69,13 @@ def get_other_pyhc_packages():
     :return: A list of the other non-core PyHC package names.
 
     TODO:
+    aidapy has been removed because it depends on heliopy which is incompatible with Python 3.12 and deprecated.
+    amisrsynthdata has been removed until they add support for Python 3.12.
     heliopy has been removed due to incompatibility with Python 3.12 (it was originally hardcoded to 0.15.4 because 1.0.0 is deprecated)
     pysatCDF has been removed due to installation failures.
     spiceypy is hardcoded temporarily to 6.0.0 because 6.0.1 requires numpy>=2.0 
     """
-    return ["aacgmv2", "aiapy", "aidapy", "amisrsynthdata", "apexpy", "asilib", "astrometry-azel", "ccsdspy", "cdflib", "cloudcatalog", "dascutils", "dbprocessing", "dmsp", "enlilviz", "EUVpy", "fiasco", "gcmprocpy", "geopack", "georinex", "geospacelab", "goesutils", "hapiplot", "hissw", "igrf", "iri2016", "irispy-lmsal", "kaipy", "lofarSun", "lowtran", "madrigalWeb", "maidenhead", "mcalf", "msise00", "ndcube", "nexradutils", "ocbpy", "OMMBV", "pyaurorax", "pycdfpp", "pydarn", "pyflct", "pymap3d", "pyrfu", "pytplot", "pytplot-mpl-temp", "pyzenodo3", "reesaurora", "regularizepsf", "sammi-cdf", "savic", "sciencedates", "SciQLop", "SkyWinder", "solarmach", "solo-epd-loader", "space-packet-parser", "speasy", "spiceypy==6.0.0", "sunkit-image", "sunkit-instruments", "sunraster", "swxsoc", "themisasi", "viresclient", "wmm2015", "wmm2020"]
+    return ["aacgmv2", "aiapy", "apexpy", "asilib", "astrometry-azel", "ccsdspy", "cdflib", "cloudcatalog", "dascutils", "dbprocessing", "dmsp", "enlilviz", "EUVpy", "fiasco", "gcmprocpy", "geopack", "georinex", "geospacelab", "goesutils", "hapiplot", "hissw", "igrf", "iri2016", "irispy-lmsal", "kaipy", "lofarSun", "lowtran", "madrigalWeb", "maidenhead", "mcalf", "msise00", "ndcube", "nexradutils", "ocbpy", "OMMBV", "pyaurorax", "pycdfpp", "pydarn", "pyflct", "pymap3d", "pyrfu", "pytplot", "pytplot-mpl-temp", "pyzenodo3", "reesaurora", "regularizepsf", "sammi-cdf", "savic", "sciencedates", "SciQLop", "SkyWinder", "solarmach", "solo-epd-loader", "space-packet-parser", "speasy", "spiceypy==6.0.0", "sunkit-image", "sunkit-instruments", "sunraster", "swxsoc", "themisasi", "viresclient", "wmm2015", "wmm2020"]
 
 
 def get_supplementary_packages():
@@ -728,7 +734,9 @@ def get_dependency_ranges_by_package(packages, use_installed=False):
         if use_installed and package.lower() in installed_packages:
             script_command = f"pipdeptree -p {package}"
         else:
-            if package == "pysatCDF":
+            if package.startswith("git+"):
+                script_command = f"./utils/get-dep-tree-for-git-package.sh {package}"
+            elif package == "pysatCDF":
                 script_command = f"./utils/get-dep-tree-for-pysatCDF-w-numpy.sh {package}"
             # elif package == "OMMBV":
             #     script_command = f"./utils/get-dep-tree-for-ommbv.sh {package}"

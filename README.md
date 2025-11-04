@@ -30,8 +30,6 @@ Package | Version
 ---|---
 aacgmv2 | 2.7.0
 aiapy | 0.10.2
-aidapy | 0.0.4
-amisrsynthdata | 1.1.8
 apexpy | 2.1.0
 asilib | 0.27.0
 astrometry-azel | 1.3.0
@@ -51,13 +49,11 @@ geospacelab | 0.11.4
 goesutils | 1.0.8
 hapiclient | 0.2.6
 hapiplot | 0.2.2
-heliopy | 0.15.4
 hissw | 2.3
 igrf | 13.0.2
 iri2016 | 1.11.1
 irispy-lmsal | 0.5.0
 kaipy | 1.1.3
-kamodo | 23.3.0
 lofarSun | 0.3.32
 lowtran | 3.1.0
 madrigalWeb | 3.3.5
@@ -68,12 +64,11 @@ ndcube | 2.3.4
 nexradutils | 1.0.0
 ocbpy | 0.6.0
 OMMBV | 1.1.0
-plasmapy | 2025.8.0
+plasmapy | 2025.10.0
 pyaurorax | 1.20.0
 pycdfpp | 0.8.2
 pydarn | 4.1.2
 pyflct | 0.3.1
-pyhc-core[tests] | 0.0.6
 pymap3d | 3.2.0
 pyrfu | 2.4.17
 pysat | 3.2.2
@@ -96,8 +91,8 @@ speasy | 1.6.1
 spiceypy | 6.0.0
 sunkit-image | 0.6.1
 sunkit-instruments | 0.6.2
-sunpy | 7.0.2
-sunraster | 0.6.2
+sunpy | 7.0.3
+sunraster | 0.7.0
 swxsoc | 0.2.2
 themisasi | 1.2.0
 viresclient | 0.13.0

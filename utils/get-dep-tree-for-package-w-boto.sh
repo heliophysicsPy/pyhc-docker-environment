@@ -13,7 +13,7 @@ source $TEMP_ENV_NAME/bin/activate
 
 # Install the given package and store its pipdeptree output
 # (forcibly install boto3 & botocore v1.40.15 to avoid botocore conflict between pySPEDAS/cloudcatalog/pyRFU/SWxSOC from March 6/July 3/Aug 15/Oct 5, 2025)
-PIP_INSTALL_OUTPUT_s3transfer=$(pip install s3transfer==0.13.0)
+# PIP_INSTALL_OUTPUT_s3transfer=$(pip install s3transfer==0.13.0)
 PIP_INSTALL_OUTPUT_boto3=$(pip install boto3==1.40.15)
 PIP_INSTALL_OUTPUT_botocore=$(pip install botocore==1.40.15)
 PIP_INSTALL_OUTPUT_0=$(pip install wheel)
