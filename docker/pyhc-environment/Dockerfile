@@ -30,9 +30,12 @@ RUN conda env create -f /app/environment.yml && \
 # Add environment's bin directory to PATH for global access to commands
 ENV PATH /opt/conda/envs/pyhc-all/bin:$PATH
 
-# Install PyHC packages with pip (Kamodo separately)
-# RUN pip install --no-cache-dir git+https://github.com/nasa/Kamodo.git
-RUN pip install --use-pep517 --retries 5 --no-cache-dir -r /app/requirements.txt
+# Install uv for faster dependency resolution
+RUN pip install uv
+
+# Install PyHC packages with uv (Kamodo separately)
+# RUN pip install --no-cache-dir git+https://github.com/nasa/Kamodo.git  # TODO: fix conflicts, then incorporate into requirements.txt
+RUN uv pip install --system -r /app/requirements.txt
 
 # Cleanup environment.yml and requirements.txt after their use
 RUN rm /app/environment.yml /app/requirements.txt
