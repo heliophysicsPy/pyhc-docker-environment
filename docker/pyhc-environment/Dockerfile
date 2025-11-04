@@ -34,7 +34,7 @@ ENV PATH /opt/conda/envs/pyhc-all/bin:$PATH
 RUN pip install uv
 
 # Install PyHC packages with uv (Kamodo separately)
-# RUN pip install --no-cache-dir git+https://github.com/nasa/Kamodo.git
+# RUN pip install --no-cache-dir git+https://github.com/nasa/Kamodo.git  # TODO: fix conflicts, then incorporate into requirements.txt
 RUN uv pip install --system -r /app/requirements.txt
 
 # Cleanup environment.yml and requirements.txt after their use
