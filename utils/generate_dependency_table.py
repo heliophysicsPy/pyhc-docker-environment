@@ -17,7 +17,10 @@ import pandas as pd
 import re
 import subprocess
 
-from .pipeline_utils import get_spec0_packages
+try:
+    from utils.pipeline_utils import get_spec0_packages
+except ModuleNotFoundError:
+    from pipeline_utils import get_spec0_packages
 
 # Named fills for spreadsheet highlighting
 GREEN = PatternFill(start_color="00ff00", end_color="00ff00", fill_type="solid")
