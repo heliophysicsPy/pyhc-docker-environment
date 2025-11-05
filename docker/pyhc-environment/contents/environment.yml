@@ -3,7 +3,7 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - python=3.12.12
+  - conda-forge::python=3.12.9=h9e4cc4f_0_cpython  # pinned to build compatible with sqlite 3.48.0
   - gcc_linux-64=14.2.*       # pulls in gcc_impl_linux-64 14.2.x (wmm2015/wmm2020 C code fails to compile with GCC>=15.1); added to help matplotlib wheel build
   - gxx_linux-64=14.2.*       # pulls in gxx_impl_linux-64 14.2.x (wmm2015/wmm2020 C code fails to compile with GCC>=15.1); added to help matplotlib wheel build
   - gfortran_linux-64=14.2.*  # pulls in gfortran_impl_linux-64 14.2.x; needed for ffnet dependency of spacepy
@@ -11,8 +11,8 @@ dependencies:
   - jupyterlab=4.0.10  #=3.5.0
   - jupyterlab-git=0.50.0
   - jupyterhub-singleuser  # required for authenticated binderhubs
-  - sqlite=3.48.0     # version 3.49.1 breaks speasy import and sunpy unit tests
-  - libsqlite=3.48.0  # version 3.49.1 breaks speasy import and sunpy unit tests
+  - conda-forge::sqlite=3.48.0=h9eae976_1     # version 3.49.1 breaks speasy import and sunpy unit tests; pinning build to match libsqlite
+  - conda-forge::libsqlite=3.48.0=hee588c1_1  # version 3.49.1 breaks speasy import and sunpy unit tests; pinning build to match sqlite
   - pip
   # - pip:
   #   - aacgmv2>=2.6.2
