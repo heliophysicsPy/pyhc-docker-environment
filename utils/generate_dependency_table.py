@@ -872,12 +872,12 @@ def are_compatible(allowed_range, package_range):
 
 def is_spec0_compliant(package_name, version_range, spec0_requirements):
     """
-    Check if a package's version range meets SPEC 0 minimum version requirements.
+    Check if a package's version range is compatible with SPEC 0 requirements.
 
     :param package_name: String like "numpy"
     :param version_range: String like ">=1.5.0,<2.0" or None
-    :param spec0_requirements: Dict like {"numpy": Version("2.0.0"), "scipy": Version("1.11.0"), ...}
-    :return: Boolean or None (None if package not in SPEC 0, or if version_range is None)
+    :param spec0_requirements: Dict like {"numpy": ">=2.0.0", "scipy": ">=1.12.0", ...}
+    :return: Boolean or None (None if package not in SPEC 0)
     """
     spec0_key = package_name.lower()
     if spec0_key not in spec0_requirements:
@@ -887,55 +887,21 @@ def is_spec0_compliant(package_name, version_range, spec0_requirements):
         return False
 
     cleaned_range = version_range.strip()
-    if not cleaned_range or cleaned_range.lower() in ("any", "none"):
-        return False
+    if not cleaned_range or cleaned_range.lower() == "none":
+        return False  # No versions allowed
 
-    # Normalize range so ~= and wildcards expose an explicit lower bound
+    if cleaned_range.lower() == "any":
+        return True  # Any version includes SPEC 0 compliant versions
+
+    # Normalize range to handle wildcards, ~=, and other quirky specs
     normalized_range = normalize_compatible_releases(remove_wildcards(cleaned_range))
     normalized_range = reorder_requirements(normalized_range)
     if not normalized_range:
         return False
 
-    specifiers = []
-    try:
-        for part in [p.strip() for p in normalized_range.split(",") if p.strip()]:
-            specifiers.append(Specifier(part))
-    except Exception:
-        return False
-
-    spec0_min_version = spec0_requirements[spec0_key]
-    equal_versions = []
-    lower_bounds = []
-    for spec in specifiers:
-        try:
-            spec_version = Version(spec.version)
-        except InvalidVersion:
-            return False
-
-        if spec.operator == "==":
-            equal_versions.append(spec_version)
-        elif spec.operator in (">=", ">"):
-            lower_bounds.append((spec_version, spec.operator))
-
-    if equal_versions:
-        return min(equal_versions) >= spec0_min_version
-
-    if not lower_bounds:
-        return False
-
-    # Evaluate the strongest lower bound
-    def lower_bound_key(item):
-        version, operator = item
-        operator_rank = 1 if operator == ">" else 0
-        return (version, operator_rank)
-
-    strongest_version, strongest_op = max(lower_bounds, key=lower_bound_key)
-    if strongest_version > spec0_min_version:
-        return True
-    if strongest_version == spec0_min_version and strongest_op == ">=":
-        return True
-
-    return False
+    # Check if ranges are compatible (SPEC 0 requirement first, project range second)
+    spec0_specifier = spec0_requirements[spec0_key]
+    return are_compatible(spec0_specifier, normalized_range)
 
 
 def clean_dependencies(dependencies):
@@ -1165,11 +1131,8 @@ def generate_dependency_table_data(packages, core_env_packages=[]):
         if match:
             pkg_name = match.group(1).lower()
             version_spec = match.group(2).strip()
-            if version_spec.startswith(">="):
-                try:
-                    spec0_requirements[pkg_name] = Version(version_spec[2:])
-                except InvalidVersion:
-                    continue
+            if version_spec:
+                spec0_requirements[pkg_name] = version_spec
 
     table_data = {'core_dependencies': core_dependencies, 'other_dependencies': other_dependencies, 'project_data': {}}
     for project, project_dependencies in all_deps_by_project.items():
