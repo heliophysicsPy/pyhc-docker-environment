@@ -865,37 +865,66 @@ def is_spec0_compliant(package_name, version_range, spec0_requirements):
 
     :param package_name: String like "numpy"
     :param version_range: String like ">=1.5.0,<2.0" or None
-    :param spec0_requirements: Dict like {"numpy": ">=2.0.0", "scipy": ">=1.11.0", ...}
+    :param spec0_requirements: Dict like {"numpy": Version("2.0.0"), "scipy": Version("1.11.0"), ...}
     :return: Boolean or None (None if package not in SPEC 0, or if version_range is None)
     """
-    if package_name not in spec0_requirements or version_range is None:
-        return None  # Not a SPEC 0 package or no version constraint
+    spec0_key = package_name.lower()
+    if spec0_key not in spec0_requirements:
+        return None  # Not a SPEC 0 package
 
-    spec0_min_requirement = spec0_requirements[package_name]
+    if version_range is None or not isinstance(version_range, str):
+        return False
 
-    # Extract the minimum version from version_range using SpecifierSet
+    cleaned_range = version_range.strip()
+    if not cleaned_range or cleaned_range.lower() in ("any", "none"):
+        return False
+
+    # Normalize range so ~= and wildcards expose an explicit lower bound
+    normalized_range = normalize_compatible_releases(remove_wildcards(cleaned_range))
+    normalized_range = reorder_requirements(normalized_range)
+    if not normalized_range:
+        return False
+
+    specifiers = []
     try:
-        specifier_set = SpecifierSet(version_range)
-
-        # Find the lower bound (>= or > operators)
-        for spec in specifier_set:
-            if spec.operator in (">=", ">", "=="):
-                # Check if this version meets the SPEC 0 requirement
-                try:
-                    package_version = Version(spec.version)
-                    spec0_specifier = SpecifierSet(spec0_min_requirement)
-
-                    # If the package's minimum version satisfies SPEC 0's minimum, it's compliant
-                    if package_version in spec0_specifier:
-                        return True
-                except (InvalidVersion, ValueError):
-                    continue
-
-        # If we found constraints but none meet SPEC 0, it's non-compliant
-        return False
+        for part in [p.strip() for p in normalized_range.split(",") if p.strip()]:
+            specifiers.append(Specifier(part))
     except Exception:
-        # Couldn't parse the version range
         return False
+
+    spec0_min_version = spec0_requirements[spec0_key]
+    equal_versions = []
+    lower_bounds = []
+    for spec in specifiers:
+        try:
+            spec_version = Version(spec.version)
+        except InvalidVersion:
+            return False
+
+        if spec.operator == "==":
+            equal_versions.append(spec_version)
+        elif spec.operator in (">=", ">"):
+            lower_bounds.append((spec_version, spec.operator))
+
+    if equal_versions:
+        return min(equal_versions) >= spec0_min_version
+
+    if not lower_bounds:
+        return False
+
+    # Evaluate the strongest lower bound
+    def lower_bound_key(item):
+        version, operator = item
+        operator_rank = 1 if operator == ">" else 0
+        return (version, operator_rank)
+
+    strongest_version, strongest_op = max(lower_bounds, key=lower_bound_key)
+    if strongest_version > spec0_min_version:
+        return True
+    if strongest_version == spec0_min_version and strongest_op == ">=":
+        return True
+
+    return False
 
 
 def clean_dependencies(dependencies):
@@ -979,7 +1008,7 @@ def compare_requirements(env_dependencies, package_dependencies):  # TODO: delet
                 package_is_compatible = are_compatible(allowed_range, package_range)
                 compatibility[package][dep] = (package_is_compatible, package_range)
             else:
-                compatibility[package][dep] = (None, None)
+                compatibility[package][dep] = (None, None, None)
     return compatibility
 
 
@@ -1065,7 +1094,7 @@ def merge_dependencies(core_dependencies, other_dependencies):
 
 
 # TODO: Need func table_data_to_2D_array(table_data) that flattens table_data
-#       (biggest change: lots of {'package': (None, None)} cells where projects don't use that dependency).
+#       (biggest change: lots of {'package': (None, None, None)} cells where projects don't use that dependency).
 
 
 def generate_dependency_table_data(packages, core_env_packages=[]):
@@ -1123,9 +1152,13 @@ def generate_dependency_table_data(packages, core_env_packages=[]):
         # Parse "numpy>=2.0.0" into {"numpy": ">=2.0.0"}
         match = re.match(r'^([a-zA-Z0-9_-]+)(.*)$', req)
         if match:
-            pkg_name = match.group(1)
-            version_spec = match.group(2)
-            spec0_requirements[pkg_name] = version_spec
+            pkg_name = match.group(1).lower()
+            version_spec = match.group(2).strip()
+            if version_spec.startswith(">="):
+                try:
+                    spec0_requirements[pkg_name] = Version(version_spec[2:])
+                except InvalidVersion:
+                    continue
 
     table_data = {'core_dependencies': core_dependencies, 'other_dependencies': other_dependencies, 'project_data': {}}
     for project, project_dependencies in all_deps_by_project.items():
@@ -1157,7 +1190,7 @@ def generate_dependency_table_data(packages, core_env_packages=[]):
 def pad_table_project_data(table_data):
     """
     TODO: consider using collections.OrderedDict if order becomes a problem.
-    TODO: put a bunk "N/A" -> (None, None) <unlikely-separator-val> entry in project_data between core and other deps, if there are core deps
+    TODO: put a bunk "N/A" -> (None, None, None) <unlikely-separator-val> entry in project_data between core and other deps, if there are core deps
     :param table_data: The data structure returned from `generate_dependency_table_data()`
     :return: table_data but with its project_data padded with None data for dependencies that projects don't use.
     """
@@ -1169,20 +1202,20 @@ def pad_table_project_data(table_data):
     for project, dependency_data in project_data.items():
         if core_dependencies:
             # pad cells for core_dependencies,
-            # add {"N/A": (None, None)} as separator
+            # add {"N/A": (None, None, None)} as separator
             for package_name in core_dependencies.keys():
                 if package_name not in dependency_data:
-                    temp_data[project][package_name] = (None, None)
+                    temp_data[project][package_name] = (None, None, None)
             sorted_data = {k: v for k, v in sorted(temp_data[project].items())}
             temp_data[project] = sorted_data
-            temp_data[project]["N/A"] = (None, None)  # separator between core and other dependencies
+            temp_data[project]["N/A"] = (None, None, None)  # separator between core and other dependencies
 
         # pad for other_dependencies
         other_temp_data = {}
         for package_name in other_dependencies.keys():
             if package_name not in dependency_data:
-                #temp_data[project][package_name] = (None, None)
-                other_temp_data[package_name] = (None, None)
+                #temp_data[project][package_name] = (None, None, None)
+                other_temp_data[package_name] = (None, None, None)
             else:
                 other_temp_data[package_name] = dependency_data[package_name]
 
@@ -1326,11 +1359,8 @@ def excel_spreadsheet_from_table_data(table_data):
         else:
             # "N/A" means dependency conflict
             cell.value = "N/A"
-            # Orange if both conflict AND SPEC 0 non-compliant, red if just conflict
-            if spec0_compliant is False:
-                cell.fill = PatternFill(start_color="ffa500", end_color="ffa500", fill_type="solid")
-            else:
-                cell.fill = PatternFill(start_color="ff0000", end_color="ff0000", fill_type="solid")
+            # Always red for conflicts in the allowed range column
+            cell.fill = PatternFill(start_color="ff0000", end_color="ff0000", fill_type="solid")
 
     # Write project data to the worksheet one column at a time
     for j, (project, dependency_data) in enumerate(project_data.items(), start=3):
@@ -1392,5 +1422,3 @@ if __name__ == '__main__':
     table = excel_spreadsheet_from_table_data(table_data)
     table.save('PyHC-dependency-table-jan-4-2024(6).xlsx')
     print("done")
-
-
