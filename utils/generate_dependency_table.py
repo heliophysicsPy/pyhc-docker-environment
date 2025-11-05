@@ -19,6 +19,14 @@ import subprocess
 
 from utils.pipeline_utils import get_spec0_packages
 
+# Named fills for spreadsheet highlighting
+GREEN = PatternFill(start_color="00ff00", end_color="00ff00", fill_type="solid")
+YELLOW = PatternFill(start_color="ffff00", end_color="ffff00", fill_type="solid")
+ORANGE = PatternFill(start_color="ffa500", end_color="ffa500", fill_type="solid")
+RED = PatternFill(start_color="ff0000", end_color="ff0000", fill_type="solid")
+GRAY = PatternFill(start_color="aaaaaa", end_color="aaaaaa", fill_type="solid")
+DARK_GRAY = PatternFill(start_color="333333", end_color="333333", fill_type="solid")
+
 
 # TODO: get fisspy pipdeptree via conda (get-dep-tree-for-fisspy-w-conda.sh)
 # TODO: sort final spreadsheet by lowercased names.
@@ -1329,19 +1337,19 @@ def excel_spreadsheet_from_table_data(table_data):
             # Column 1 - Package
             cell = worksheet.cell(row=row, column=1)
             cell.value = package_name
-            cell.fill = PatternFill(start_color="aaaaaa", end_color="aaaaaa", fill_type="solid")
+            cell.fill = GRAY
 
             # Column 2 - Allowed Version Range (with SPEC 0 highlighting if applicable)
             cell = worksheet.cell(row=row, column=2)
             cell.value = version_range  # TODO: shouldn't ever be "N/A" but should I consider that case here anyway?
             # Keep gray background for core dependencies, but note SPEC 0 status is tracked
-            cell.fill = PatternFill(start_color="aaaaaa", end_color="aaaaaa", fill_type="solid")
+            cell.fill = GRAY
 
         # Add a dark gray separator before other dependencies
         cell = worksheet.cell(row=row+1, column=1)
-        cell.fill = PatternFill(start_color="333333", end_color="333333", fill_type="solid")
+        cell.fill = DARK_GRAY
         cell = worksheet.cell(row=row+1, column=2)
-        cell.fill = PatternFill(start_color="333333", end_color="333333", fill_type="solid")
+        cell.fill = DARK_GRAY
 
     # Write other environment dependencies to the first two columns of the worksheet
     for package_name, (row, version_range, spec0_compliant) in other_dependencies.items():
@@ -1355,12 +1363,12 @@ def excel_spreadsheet_from_table_data(table_data):
             cell.value = version_range
             # Yellow if SPEC 0 non-compliant, no color if compliant
             if spec0_compliant is False:
-                cell.fill = PatternFill(start_color="ffff00", end_color="ffff00", fill_type="solid")
+                cell.fill = YELLOW
         else:
             # "N/A" means dependency conflict
             cell.value = "N/A"
             # Always red for conflicts in the allowed range column
-            cell.fill = PatternFill(start_color="ff0000", end_color="ff0000", fill_type="solid")
+            cell.fill = RED
 
     # Write project data to the worksheet one column at a time
     for j, (project, dependency_data) in enumerate(project_data.items(), start=3):
@@ -1378,19 +1386,19 @@ def excel_spreadsheet_from_table_data(table_data):
                     # Only check SPEC 0 if the "Allowed Version Range" is NOT definitively compliant
                     if allowed_spec0_compliant is not True and spec0_compliant is False:
                         # Yellow: Compatible but SPEC 0 non-compliant
-                        cell.fill = PatternFill(start_color="ffff00", end_color="ffff00", fill_type="solid")
+                        cell.fill = YELLOW
                     else:
                         # Green: Compatible (and either SPEC 0 compliant or not a SPEC 0 package)
-                        cell.fill = PatternFill(start_color="00ff00", end_color="00ff00", fill_type="solid")
+                        cell.fill = GREEN
                 else:
                     # Red or Orange: Package is incompatible with allowed range
                     # Only check SPEC 0 if the "Allowed Version Range" is NOT definitively compliant
                     if allowed_spec0_compliant is not True and spec0_compliant is False:
                         # Orange: Incompatible AND SPEC 0 non-compliant
-                        cell.fill = PatternFill(start_color="ffa500", end_color="ffa500", fill_type="solid")
+                        cell.fill = ORANGE
                     else:
                         # Red: Incompatible (regardless of SPEC 0 status)
-                        cell.fill = PatternFill(start_color="ff0000", end_color="ff0000", fill_type="solid")
+                        cell.fill = RED
 
     return workbook
 
