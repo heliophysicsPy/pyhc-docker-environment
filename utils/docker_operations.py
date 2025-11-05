@@ -2,7 +2,7 @@ import subprocess
 import sys
 from datetime import datetime
 
-from .pipeline_utils import *
+from pipeline_utils import *
 
 
 def build_and_push_docker_images(docker_folder_path, docker_username, docker_token):

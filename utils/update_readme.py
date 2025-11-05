@@ -5,7 +5,7 @@ Extracts PyHC package versions from pyhc-environment's requirements.txt and puts
 import os
 import re
 
-from .generate_dependency_table import *
+from generate_dependency_table import *
 
 
 def extract_versions_from_requirements(requirements_path, package_names):
