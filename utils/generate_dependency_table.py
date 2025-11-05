@@ -17,6 +17,8 @@ import pandas as pd
 import re
 import subprocess
 
+from utils.pipeline_utils import get_spec0_packages
+
 
 # TODO: get fisspy pipdeptree via conda (get-dep-tree-for-fisspy-w-conda.sh)
 # TODO: sort final spreadsheet by lowercased names.
@@ -857,6 +859,45 @@ def are_compatible(allowed_range, package_range):
         return False
 
 
+def is_spec0_compliant(package_name, version_range, spec0_requirements):
+    """
+    Check if a package's version range meets SPEC 0 minimum version requirements.
+
+    :param package_name: String like "numpy"
+    :param version_range: String like ">=1.5.0,<2.0" or None
+    :param spec0_requirements: Dict like {"numpy": ">=2.0.0", "scipy": ">=1.11.0", ...}
+    :return: Boolean or None (None if package not in SPEC 0, or if version_range is None)
+    """
+    if package_name not in spec0_requirements or version_range is None:
+        return None  # Not a SPEC 0 package or no version constraint
+
+    spec0_min_requirement = spec0_requirements[package_name]
+
+    # Extract the minimum version from version_range using SpecifierSet
+    try:
+        specifier_set = SpecifierSet(version_range)
+
+        # Find the lower bound (>= or > operators)
+        for spec in specifier_set:
+            if spec.operator in (">=", ">", "=="):
+                # Check if this version meets the SPEC 0 requirement
+                try:
+                    package_version = Version(spec.version)
+                    spec0_specifier = SpecifierSet(spec0_min_requirement)
+
+                    # If the package's minimum version satisfies SPEC 0's minimum, it's compliant
+                    if package_version in spec0_specifier:
+                        return True
+                except (InvalidVersion, ValueError):
+                    continue
+
+        # If we found constraints but none meet SPEC 0, it's non-compliant
+        return False
+    except Exception:
+        # Couldn't parse the version range
+        return False
+
+
 def clean_dependencies(dependencies):
     """
     Given a dependencies dict, add a space before version ranges that start with '=',
@@ -1075,25 +1116,39 @@ def generate_dependency_table_data(packages, core_env_packages=[]):
     other_dependencies = {k: v for k, v in other_dependencies.items() if k not in core_dependencies}  # make unique
     all_dependencies = merge_dependencies(core_dependencies, other_dependencies)
 
+    # Parse SPEC 0 requirements once
+    spec0_reqs_list = get_spec0_packages()  # ["numpy>=2.0.0", "scipy>=1.11.0", ...]
+    spec0_requirements = {}
+    for req in spec0_reqs_list:
+        # Parse "numpy>=2.0.0" into {"numpy": ">=2.0.0"}
+        match = re.match(r'^([a-zA-Z0-9_-]+)(.*)$', req)
+        if match:
+            pkg_name = match.group(1)
+            version_spec = match.group(2)
+            spec0_requirements[pkg_name] = version_spec
+
     table_data = {'core_dependencies': core_dependencies, 'other_dependencies': other_dependencies, 'project_data': {}}
     for project, project_dependencies in all_deps_by_project.items():
         table_data['project_data'][project] = {}
         for package_name, version_range in project_dependencies.items():
             allowed_range = all_dependencies[package_name]
+            # Always check SPEC 0 compliance for the individual package's version range
+            spec0_compliant = is_spec0_compliant(package_name, version_range, spec0_requirements)
             if allowed_range is not None:
                 compatible = are_compatible(allowed_range, version_range)
-                table_data['project_data'][project][package_name] = (compatible, clean_range_str(version_range))
+                table_data['project_data'][project][package_name] = (compatible, spec0_compliant, clean_range_str(version_range))
             else:
-                table_data['project_data'][project][package_name] = (False, clean_range_str(version_range))
+                # Conflict: allowed_range is None, but we still check SPEC 0 compliance
+                table_data['project_data'][project][package_name] = (False, spec0_compliant, clean_range_str(version_range))
 
-    # Clean data and add row numbers
+    # Clean data and add row numbers (and SPEC 0 compliance for "Allowed Version Range" column)
     core_dependencies = clean_dependencies(table_data['core_dependencies'])
-    core_dependencies = {k: (i, v) for i, (k, v) in enumerate(core_dependencies.items(), start=2)}
+    core_dependencies = {k: (i, v, is_spec0_compliant(k, v, spec0_requirements)) for i, (k, v) in enumerate(core_dependencies.items(), start=2)}
     table_data['core_dependencies'] = core_dependencies
 
     start = len(table_data['core_dependencies']) + 3 if core_dependencies else 2
     other_dependencies = clean_dependencies(table_data['other_dependencies'])
-    other_dependencies = {k: (i, v) for i, (k, v) in enumerate(other_dependencies.items(), start=start)}
+    other_dependencies = {k: (i, v, is_spec0_compliant(k, v, spec0_requirements)) for i, (k, v) in enumerate(other_dependencies.items(), start=start)}
     table_data['other_dependencies'] = other_dependencies
 
     return table_data
@@ -1237,15 +1292,16 @@ def excel_spreadsheet_from_table_data(table_data):
     # Write data to the worksheet
     if core_dependencies:
         # Write core environment dependencies to the first two columns of the worksheet (shaded light gray)
-        for package_name, (row, version_range) in core_dependencies.items():
+        for package_name, (row, version_range, spec0_compliant) in core_dependencies.items():
             # Column 1 - Package
             cell = worksheet.cell(row=row, column=1)
             cell.value = package_name
             cell.fill = PatternFill(start_color="aaaaaa", end_color="aaaaaa", fill_type="solid")
 
-            # Column 2 - Allowed Version Range
+            # Column 2 - Allowed Version Range (with SPEC 0 highlighting if applicable)
             cell = worksheet.cell(row=row, column=2)
             cell.value = version_range  # TODO: shouldn't ever be "N/A" but should I consider that case here anyway?
+            # Keep gray background for core dependencies, but note SPEC 0 status is tracked
             cell.fill = PatternFill(start_color="aaaaaa", end_color="aaaaaa", fill_type="solid")
 
         # Add a dark gray separator before other dependencies
@@ -1255,23 +1311,56 @@ def excel_spreadsheet_from_table_data(table_data):
         cell.fill = PatternFill(start_color="333333", end_color="333333", fill_type="solid")
 
     # Write other environment dependencies to the first two columns of the worksheet
-    # TODO: consider doing this the cell-oriented way like we do for core_dependencies?
-    for package_name, (_, version_range) in other_dependencies.items():
-        row_data = [package_name, version_range if version_range is not None else "N/A"]
-        worksheet.append(row_data)
+    for package_name, (row, version_range, spec0_compliant) in other_dependencies.items():
+        # Column 1 - Package
+        cell = worksheet.cell(row=row, column=1)
+        cell.value = package_name
+
+        # Column 2 - Allowed Version Range (with SPEC 0 highlighting)
+        cell = worksheet.cell(row=row, column=2)
+        if version_range is not None:
+            cell.value = version_range
+            # Yellow if SPEC 0 non-compliant, no color if compliant
+            if spec0_compliant is False:
+                cell.fill = PatternFill(start_color="ffff00", end_color="ffff00", fill_type="solid")
+        else:
+            # "N/A" means dependency conflict
+            cell.value = "N/A"
+            # Orange if both conflict AND SPEC 0 non-compliant, red if just conflict
+            if spec0_compliant is False:
+                cell.fill = PatternFill(start_color="ffa500", end_color="ffa500", fill_type="solid")
+            else:
+                cell.fill = PatternFill(start_color="ff0000", end_color="ff0000", fill_type="solid")
 
     # Write project data to the worksheet one column at a time
     for j, (project, dependency_data) in enumerate(project_data.items(), start=3):
         worksheet.cell(row=1, column=j, value=project)  # column header
-        for package_name, (compatible, version_range) in dependency_data.items():
+        for package_name, (compatible, spec0_compliant, version_range) in dependency_data.items():
             row_num = all_dependencies[package_name][0]
+            allowed_spec0_compliant = all_dependencies[package_name][2]  # SPEC 0 status of "Allowed Version Range"
             cell = worksheet.cell(row=row_num, column=j)
             if compatible is not None:
                 cell.value = version_range
+
+                # Determine cell color based on compatibility and SPEC 0 compliance
                 if compatible:
-                    cell.fill = PatternFill(start_color="00ff00", end_color="00ff00", fill_type="solid")
+                    # Green or Yellow: Package is compatible with allowed range
+                    # Only check SPEC 0 if the "Allowed Version Range" is NOT definitively compliant
+                    if allowed_spec0_compliant is not True and spec0_compliant is False:
+                        # Yellow: Compatible but SPEC 0 non-compliant
+                        cell.fill = PatternFill(start_color="ffff00", end_color="ffff00", fill_type="solid")
+                    else:
+                        # Green: Compatible (and either SPEC 0 compliant or not a SPEC 0 package)
+                        cell.fill = PatternFill(start_color="00ff00", end_color="00ff00", fill_type="solid")
                 else:
-                    cell.fill = PatternFill(start_color="ff0000", end_color="ff0000", fill_type="solid")
+                    # Red or Orange: Package is incompatible with allowed range
+                    # Only check SPEC 0 if the "Allowed Version Range" is NOT definitively compliant
+                    if allowed_spec0_compliant is not True and spec0_compliant is False:
+                        # Orange: Incompatible AND SPEC 0 non-compliant
+                        cell.fill = PatternFill(start_color="ffa500", end_color="ffa500", fill_type="solid")
+                    else:
+                        # Red: Incompatible (regardless of SPEC 0 status)
+                        cell.fill = PatternFill(start_color="ff0000", end_color="ff0000", fill_type="solid")
 
     return workbook
 
