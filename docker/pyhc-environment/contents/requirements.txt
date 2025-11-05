@@ -39,7 +39,7 @@ bokeh>=1.1
 boto3>=1.35.26
 botocore>=1.40.46,<1.40.62
 cartopy>=0.24.0,<0.25.0
-ccsdspy==1.4.2
+ccsdspy==1.4.3
 cdasws>=1.7.24
 cdflib==1.3.6
 certifi>=2017.4.17
@@ -62,7 +62,7 @@ dascutils==2.3.0
 dask>=2023.2.0
 dbprocessing==0.1.0
 debugpy>=1.6.5
-decorator
+decorator>=4.3.2
 deepdiff==8.6.1
 defusedxml
 dill>=0.4.0
@@ -109,7 +109,7 @@ httpcore>=1.0.4,<2.0.0
 httpx-ws>=0.7.1,<0.8.0
 httpx>=0.25.0,<1
 humanize>=4.4.0,<5.0.0
-hypothesis==6.145.1
+hypothesis==6.146.0
 idna>=2.8,<4
 igrf==13.0.2
 imageio>=2.33,!=2.35.0
@@ -118,7 +118,7 @@ importlib-resources
 iniconfig>=1
 ipykernel>=6.5.0,!=6.30.0
 ipympl
-ipython-pygments-lexers
+ipython-pygments-lexers>=1.0.0
 ipython>=7.23.1,<10
 ipywidgets>=7.6.0,<9
 iri2016==1.11.1
@@ -127,7 +127,7 @@ isodate>=0.6.0
 jaraco.classes
 jaraco.context
 jaraco.functools
-jedi>=0.16
+jedi>=0.18.1
 jeepney>=0.6
 jinja2>=3.1
 jmespath>=0.7.1,<2.0.0
@@ -161,7 +161,7 @@ maidenhead==1.8.0
 mako
 markdown-it-py>=3.0,<4
 markupsafe>=2.0
-matplotlib-inline>=0.1
+matplotlib-inline>=0.1.5
 matplotlib>=3.9.0,<4.0,!=3.10.3,!=3.6.1,!=3.7.1
 mcalf==1.0.0
 mdit-py-plugins>=0.4.1,<1
@@ -336,12 +336,12 @@ sqlalchemy-utils>=0.37.8
 sqlalchemy>=1.4.0,<2
 sqlite-anyio>=0.2.3,<0.3.0
 sscws
-stack-data
+stack-data>=0.6.0
 streamtracer>=2.2.0
 sunkit-image==0.6.1
 sunkit-instruments==0.6.2
 sunkit-magex
-sunpy==7.0.2
+sunpy==7.0.3
 sunraster==0.7.0
 supermag-api
 swxsoc==0.2.2
