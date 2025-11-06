@@ -1,7 +1,7 @@
 aacgmv2==2.7.0
 about-time==4.2.1
 aiapy==0.10.2
-aioboto3
+aioboto3>=11.1.1
 aiobotocore==2.25.1
 aiofiles>=23.2.1
 aiohappyeyeballs>=2.5.0
@@ -94,7 +94,7 @@ gfz-api-client
 globus-sdk>=3.0
 goesutils==1.0.8
 graphemeu==0.7.2
-greenlet>=1,!=0.4.17
+greenlet>=1
 gridaurora
 gwcs>=0.24.0
 h11>=0.13,<0.15
@@ -257,7 +257,7 @@ pyside6-addons==6.9.2
 pyside6-essentials==6.9.2
 pyside6-qtads==4.4.0.3
 pyside6==6.9.2
-pyspedas==1.7.28
+pyspedas==2.0.4a1
 pytest-arraydiff==0.6.1
 pytest-doctestplus==1.5.0
 pytest-xdist==3.8.0
@@ -271,7 +271,7 @@ python-utils>=3.8.1
 pytz>=2020.1
 pyucalgarysrs==1.24.0
 pyvo>=1.5
-pywavelets
+pywavelets>=1.4.1
 pyyaml>=6.0.0
 pyzenodo3==1.0.2
 pyzmq>=25
@@ -290,8 +290,8 @@ rfc3986-validator>=0.1.1
 rich>=13.0
 roman-numerals-py>=1.0.0
 rpds-py>=0.7.1
-s3fs
-s3transfer>=0.13.0,<0.14.0
+s3fs>=2023.9.0
+s3transfer>=0.14.0,<0.15.0
 sammi-cdf==1.0.2
 savic==1.2.6
 sciencedates==1.5.0
@@ -331,9 +331,9 @@ sphinxcontrib-jquery>=4,<5
 sphinxcontrib-jsmath>=1.0.1
 sphinxcontrib-qthelp>=1.0.6
 sphinxcontrib-serializinghtml>=1.1.9
-spiceypy==6.0.0
+spiceypy==8.0.0
 sqlalchemy-utils>=0.37.8
-sqlalchemy>=1.4.0,<2
+sqlalchemy>=1.4.0,<3
 sqlite-anyio>=0.2.3,<0.3.0
 sscws
 stack-data>=0.6.0
@@ -341,7 +341,7 @@ streamtracer>=2.2.0
 sunkit-image==0.6.1
 sunkit-instruments==0.6.2
 sunkit-magex
-sunpy==7.0.2
+sunpy==7.0.3
 sunraster==0.7.0
 supermag-api
 swxsoc==0.2.2

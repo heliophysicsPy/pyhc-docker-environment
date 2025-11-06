@@ -72,7 +72,7 @@ pyflct | 0.3.1
 pymap3d | 3.2.0
 pyrfu | 2.4.17
 pysat | 3.2.2
-pyspedas | 1.7.28
+pyspedas | 2.0.4a1
 pytplot | 1.7.28
 pytplot-mpl-temp | 2.2.79
 pyzenodo3 | 1.0.2
@@ -88,7 +88,7 @@ solo-epd-loader | 0.4.4
 space-packet-parser | 6.0.0
 spacepy | 0.7.0
 speasy | 1.6.1
-spiceypy | 6.0.0
+spiceypy | 8.0.0
 sunkit-image | 0.6.1
 sunkit-instruments | 0.6.2
 sunpy | 7.0.3
