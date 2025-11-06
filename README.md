@@ -33,7 +33,7 @@ aiapy | 0.10.2
 apexpy | 2.1.0
 asilib | 0.27.0
 astrometry-azel | 1.3.0
-ccsdspy | 1.4.2
+ccsdspy | 1.4.3
 cdflib | 1.3.6
 cloudcatalog | 1.1.0
 dascutils | 2.3.0
@@ -88,7 +88,7 @@ solo-epd-loader | 0.4.4
 space-packet-parser | 6.0.0
 spacepy | 0.7.0
 speasy | 1.6.1
-spiceypy | 6.0.0
+spiceypy | 8.0.0
 sunkit-image | 0.6.1
 sunkit-instruments | 0.6.2
 sunpy | 7.0.3
