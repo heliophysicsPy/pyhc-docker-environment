@@ -33,6 +33,11 @@ jobs:
       if: steps.pipeline_check.outputs.should_run == 'true'
       run: python utils/update_readme.py
 
+    - name: Build and Push Docker Images
+      if: steps.pipeline_check.outputs.should_run == 'true'
+      id: build_and_push # Assigning an ID to reference outputs
+      run: python utils/docker_operations.py ./docker ${{ secrets.DOCKER_HUB_USERNAME }} ${{ secrets.DOCKER_HUB_TOKEN }}
+
     - name: Commit and Push Repo Changes (No Conflicts)
       if: steps.pipeline_check.outputs.should_run == 'true' && steps.pipeline_check.outputs.has_conflict != 'true'
       run: |
@@ -43,11 +48,6 @@ jobs:
         git push
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Build and Push Docker Images
-      if: steps.pipeline_check.outputs.should_run == 'true'
-      id: build_and_push # Assigning an ID to reference outputs
-      run: python utils/docker_operations.py ./docker ${{ secrets.DOCKER_HUB_USERNAME }} ${{ secrets.DOCKER_HUB_TOKEN }}
 
     - name: Update science-platforms-coordination to Trigger Binder Rebuild
       if: steps.pipeline_check.outputs.should_run == 'true' && steps.pipeline_check.outputs.has_conflict != 'true'
