@@ -1,7 +1,7 @@
 aacgmv2==2.7.0
 about-time==4.2.1
 aiapy==0.10.2
-aioboto3>=11.1.1
+aioboto3
 aiobotocore==2.25.1
 aiofiles>=23.2.1
 aiohappyeyeballs>=2.5.0
@@ -109,7 +109,7 @@ httpcore>=1.0.4,<2.0.0
 httpx-ws>=0.7.1,<0.8.0
 httpx>=0.25.0,<1
 humanize>=4.4.0,<5.0.0
-hypothesis==6.146.0
+hypothesis==6.147.0
 idna>=2.8,<4
 igrf==13.0.2
 imageio>=2.33,!=2.35.0
@@ -257,7 +257,7 @@ pyside6-addons==6.9.2
 pyside6-essentials==6.9.2
 pyside6-qtads==4.4.0.3
 pyside6==6.9.2
-pyspedas==2.0.4a1
+pyspedas==1.7.28
 pytest-arraydiff==0.6.1
 pytest-doctestplus==1.5.0
 pytest-xdist==3.8.0
@@ -271,7 +271,7 @@ python-utils>=3.8.1
 pytz>=2020.1
 pyucalgarysrs==1.24.0
 pyvo>=1.5
-pywavelets>=1.4.1
+pywavelets
 pyyaml>=6.0.0
 pyzenodo3==1.0.2
 pyzmq>=25
@@ -290,7 +290,7 @@ rfc3986-validator>=0.1.1
 rich>=13.0
 roman-numerals-py>=1.0.0
 rpds-py>=0.7.1
-s3fs>=2023.9.0
+s3fs
 s3transfer>=0.14.0,<0.15.0
 sammi-cdf==1.0.2
 savic==1.2.6
