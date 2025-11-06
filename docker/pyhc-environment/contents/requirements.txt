@@ -94,7 +94,7 @@ gfz-api-client
 globus-sdk>=3.0
 goesutils==1.0.8
 graphemeu==0.7.2
-greenlet>=1,!=0.4.17
+greenlet>=1
 gridaurora
 gwcs>=0.24.0
 h11>=0.13,<0.15
@@ -254,7 +254,8 @@ pyside6-addons==6.9.2
 pyside6-essentials==6.9.2
 pyside6-qtads==4.4.0.3
 pyside6==6.9.2
-pyspedas==2.0.4a1
+pyspedas
+pyspedas[all]==2.0.4a1
 pytest-arraydiff==0.6.1
 pytest-doctestplus==1.5.0
 pytest-xdist==3.8.0
@@ -330,7 +331,7 @@ sphinxcontrib-qthelp>=1.0.6
 sphinxcontrib-serializinghtml>=1.1.9
 spiceypy==8.0.0
 sqlalchemy-utils>=0.37.8
-sqlalchemy>=1.4.0,<2
+sqlalchemy>=1.4.0,<3
 sqlite-anyio>=0.2.3,<0.3.0
 sscws
 stack-data>=0.6.0
