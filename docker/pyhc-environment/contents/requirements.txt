@@ -288,7 +288,7 @@ rich>=13.0
 roman-numerals-py>=1.0.0
 rpds-py>=0.7.1
 s3fs>=2023.9.0
-s3transfer>=0.13.0,<0.14.0
+s3transfer>=0.14.0,<0.15.0
 sammi-cdf==1.0.2
 savic==1.2.6
 sciencedates==1.5.0
