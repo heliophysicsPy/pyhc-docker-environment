@@ -67,9 +67,8 @@ def get_core_pyhc_packages():
     TODO:
     kamodo has been removed due to dependency conflicts.
     pyhc-core[tests] has been removed due to dependency conflicts (in v0.0.6).
-    'pyspedas==2.0.4a1' has been hardcoded to test its compatibility in the environment with numpy>=2.0.
     """
-    return ["hapiclient", "plasmapy", "pysat", "pyspedas==2.0.4a1", "spacepy", "sunpy"]
+    return ["hapiclient", "plasmapy", "pysat", "pyspedas", "spacepy", "sunpy"]
 
 
 def get_other_pyhc_packages():
@@ -87,9 +86,9 @@ def get_other_pyhc_packages():
     amisrsynthdata has been removed until they add support for Python 3.12.
     heliopy has been removed due to incompatibility with Python 3.12 (it was originally hardcoded to 0.15.4 because 1.0.0 is deprecated)
     pysatCDF has been removed due to installation failures.
-    "pyrfu" has been temporarily removed to test numpy>=2.0 in the environment (add it back!)
+    spiceypy is hardcoded temporarily to 6.0.0 because 6.0.1 requires numpy>=2.0
     """
-    return ["aacgmv2", "aiapy", "apexpy", "asilib", "astrometry-azel", "ccsdspy", "cdflib", "cloudcatalog", "dascutils", "dbprocessing", "dmsp", "enlilviz", "EUVpy", "fiasco", "gcmprocpy", "geopack", "georinex", "geospacelab", "goesutils", "hapiplot", "hissw", "igrf", "iri2016", "irispy-lmsal", "kaipy", "lofarSun", "lowtran", "madrigalWeb", "maidenhead", "mcalf", "msise00", "ndcube", "nexradutils", "ocbpy", "OMMBV", "pyaurorax", "pycdfpp", "pydarn", "pyflct", "pymap3d", "pytplot", "pytplot-mpl-temp", "pyzenodo3", "reesaurora", "regularizepsf", "sammi-cdf", "savic", "sciencedates", "SciQLop", "SkyWinder", "solarmach", "solo-epd-loader", "space-packet-parser", "speasy", "spiceypy", "sunkit-image", "sunkit-instruments", "sunraster", "swxsoc", "themisasi", "viresclient", "wmm2015", "wmm2020"]
+    return ["aacgmv2", "aiapy", "apexpy", "asilib", "astrometry-azel", "ccsdspy", "cdflib", "cloudcatalog", "dascutils", "dbprocessing", "dmsp", "enlilviz", "EUVpy", "fiasco", "gcmprocpy", "geopack", "georinex", "geospacelab", "goesutils", "hapiplot", "hissw", "igrf", "iri2016", "irispy-lmsal", "kaipy", "lofarSun", "lowtran", "madrigalWeb", "maidenhead", "mcalf", "msise00", "ndcube", "nexradutils", "ocbpy", "OMMBV", "pyaurorax", "pycdfpp", "pydarn", "pyflct", "pymap3d", "pyrfu", "pytplot", "pytplot-mpl-temp", "pyzenodo3", "reesaurora", "regularizepsf", "sammi-cdf", "savic", "sciencedates", "SciQLop", "SkyWinder", "solarmach", "solo-epd-loader", "space-packet-parser", "speasy", "spiceypy==6.0.0", "sunkit-image", "sunkit-instruments", "sunraster", "swxsoc", "themisasi", "viresclient", "wmm2015", "wmm2020"]
 
 
 def get_supplementary_packages():
