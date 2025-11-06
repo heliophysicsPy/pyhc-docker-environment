@@ -67,9 +67,9 @@ def get_core_pyhc_packages():
     TODO:
     kamodo has been removed due to dependency conflicts.
     pyhc-core[tests] has been removed due to dependency conflicts (in v0.0.6).
-    'pyspedas==2.0.4a1' has been hardcoded to test its compatibility in the environment with numpy>=2.0.
+    'pyspedas[all]==2.0.4a1' has been hardcoded to test its compatibility in the environment with numpy>=2.0.
     """
-    return ["hapiclient", "plasmapy", "pysat", "pyspedas==2.0.4a1", "spacepy", "sunpy"]
+    return ["hapiclient", "plasmapy", "pysat", "pyspedas[all]==2.0.4a1", "spacepy", "sunpy"]
 
 
 def get_other_pyhc_packages():
