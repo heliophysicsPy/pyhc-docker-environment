@@ -318,7 +318,7 @@ solarmach==0.5.1
 solo-epd-loader==0.4.4
 sortedcontainers>=2.1.0,<3.0.0
 soupsieve>1.2
-space-packet-parser==6.0.0
+space-packet-parser==6.0.1
 spacepy==0.7.0
 speasy==1.6.1
 sphinx-rtd-theme
