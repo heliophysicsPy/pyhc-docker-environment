@@ -50,6 +50,7 @@ click>=8.1.3,<9.0.0
 cloudcatalog==1.1.0
 cloudpickle>=3.0.0
 cmasher
+colorama
 colorspacious>=1.1.0
 comm>=0.1.3
 configparser
@@ -109,14 +110,14 @@ httpcore>=1.0.4,<2.0.0
 httpx-ws>=0.7.1,<0.8.0
 httpx>=0.25.0,<1
 humanize>=4.4.0,<5.0.0
-hypothesis==6.147.0
+hypothesis==6.148.2
 idna>=2.8,<4
 igrf==13.0.2
 imageio>=2.33,!=2.35.0
 imagesize>=1.3
 importlib-resources
-iniconfig>=1
-ipykernel>=6.5.0,!=6.30.0
+iniconfig>=1.0.1
+ipykernel>=6.5.0,<7.0.0,!=6.30.0
 ipympl
 ipython-pygments-lexers>=1.0.0
 ipython>=7.23.1,<10
@@ -142,9 +143,9 @@ jupyter-lsp>=2.0.0
 jupyter-server-terminals>=0.4.4
 jupyter-server>=2.4.0,<3
 jupyterlab-pygments
-jupyterlab-server>=2.27.1,<3
+jupyterlab-server>=2.28.0,<3
 jupyterlab-widgets>=3.0.15,<3.1
-jupyterlab>=4.4.9,<4.5,!=4.1.0
+jupyterlab>=4.5.0rc0,<4.6,!=4.1.0
 kaipy==1.1.3
 keyring>=25.5.0
 kiwisolver>=1.3.1
@@ -298,7 +299,7 @@ sciencedates==1.5.0
 scikit-image>=0.20.0
 scikit-learn>=1.2.0
 scipy>=1.14.1,<1.15.0,!=1.10.0
-SciQLop==0.10.0
+SciQLop==0.10.1
 sciqlopplots==0.17.1
 seaborn
 secretstorage>=3.2
