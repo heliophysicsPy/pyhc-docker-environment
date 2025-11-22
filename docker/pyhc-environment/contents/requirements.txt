@@ -260,7 +260,7 @@ pyside6-qtads==4.4.0.3
 pyside6==6.9.2
 pyspedas==2.0.5
 pytest-arraydiff==0.6.1
-pytest-doctestplus==1.5.0
+pytest-doctestplus==1.6.0
 pytest-xdist==3.8.0
 pytest>=7.0.0
 python-casacore
@@ -299,7 +299,7 @@ sciencedates==1.5.0
 scikit-image>=0.20.0
 scikit-learn>=1.2.0
 scipy>=1.14.1,<1.15.0,!=1.10.0
-SciQLop==0.10.1
+SciQLop==0.10.2
 sciqlopplots==0.17.1
 seaborn
 secretstorage>=3.2
