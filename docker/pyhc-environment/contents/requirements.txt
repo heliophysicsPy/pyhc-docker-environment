@@ -41,7 +41,7 @@ botocore>=1.40.46,<1.40.62
 cartopy>=0.24.0,<0.25.0
 ccsdspy==1.4.3
 cdasws>=1.7.24
-cdflib==1.3.6
+cdflib==1.3.7
 certifi>=2017.4.17
 cffi>=2.0.0
 cftime
