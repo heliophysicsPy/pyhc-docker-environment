@@ -66,7 +66,7 @@ ocbpy | 0.6.0
 OMMBV | 1.1.0
 plasmapy | 2025.10.0
 pyaurorax | 1.20.0
-pycdfpp | 0.8.2
+pycdfpp | 0.8.3
 pydarn | 4.1.2
 pyflct | 0.3.1
 pymap3d | 3.2.0
