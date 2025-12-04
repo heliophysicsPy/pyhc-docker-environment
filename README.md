@@ -60,7 +60,7 @@ madrigalWeb | 3.3.5
 maidenhead | 1.8.0
 mcalf | 1.0.0
 msise00 | 1.11.1
-ndcube | 2.3.4
+ndcube | 2.3.5
 nexradutils | 1.0.0
 ocbpy | 0.6.0
 OMMBV | 1.1.0
@@ -83,7 +83,7 @@ savic | 1.2.7
 sciencedates | 1.5.0
 SciQLop | 0.10.3
 SkyWinder | 0.0.3
-solarmach | 0.5.1
+solarmach | 0.5.2
 solo-epd-loader | 0.4.4
 space-packet-parser | 6.0.1
 spacepy | 0.7.0

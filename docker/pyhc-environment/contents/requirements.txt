@@ -83,7 +83,7 @@ fiasco==0.6.2
 fonttools>=4.22.0
 fortranformat>=2
 frozenlist>=1.1.1
-fsspec==2025.10.0
+fsspec==2025.12.0
 future
 gcmprocpy==1.2.1
 geomag
@@ -110,7 +110,7 @@ httpcore>=1.0.4,<2.0.0
 httpx-ws>=0.7.1,<0.8.0
 httpx>=0.25.0,<1
 humanize>=4.4.0,<5.0.0
-hypothesis==6.148.5
+hypothesis==6.148.6
 idna>=2.8,<4
 igrf==13.0.2
 imageio>=2.33,!=2.35.0
@@ -183,7 +183,7 @@ nbclient>=0.5.0
 nbconvert>=6.4.4
 nbformat>=5.7
 ncompress
-ndcube==2.3.4
+ndcube==2.3.5
 ndindex
 nest-asyncio>=1.4
 netcdf4>=1.6.2
@@ -315,7 +315,7 @@ six>=1.9
 SkyWinder==0.0.3
 slack-sdk
 snowballstemmer>=2.2
-solarmach==0.5.1
+solarmach==0.5.2
 solo-epd-loader==0.4.4
 sortedcontainers>=2.1.0,<3.0.0
 soupsieve>=1.6.1
