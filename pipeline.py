@@ -24,13 +24,18 @@ from utils.pipeline_utils import *
 
 pipeline_updates_info = []
 
-def pipeline_should_run(packages_to_ignore=['heliopy', 'pytplot']):
+def pipeline_should_run(packages_to_ignore=['heliopy', 'pytplot'], skip_versions=None):
     """
     Step 1: Check if any PyHC packages have released updates. If not, the pipeline doesn't need to run (return False).
+
+    Args:
+        packages_to_ignore: List of package names to completely ignore.
+        skip_versions: Dict mapping package names (lowercase) to lists of versions to skip.
+                       Useful for skipping broken releases (e.g., {'sciqlop': ['0.10.4']}).
     """
     requirements_file_path = os.path.join(os.path.dirname(__file__), 'docker', 'pyhc-environment', 'contents', 'requirements.txt')
     all_packages = get_core_pyhc_packages() + get_other_pyhc_packages()
-    updates = check_for_package_updates(requirements_file_path, all_packages, packages_to_ignore)
+    updates = check_for_package_updates(requirements_file_path, all_packages, packages_to_ignore, skip_versions)
     if updates:
         print("Updates required for the following PyHC packages:", flush=True)
         for package, versions in updates.items():
@@ -46,7 +51,12 @@ def pipeline_should_run(packages_to_ignore=['heliopy', 'pytplot']):
 if __name__ == '__main__':
     has_conflict = False  # Initialize the conflict flag
 
-    if not pipeline_should_run():
+    # Skip specific broken versions that introduce dependency conflicts
+    skip_versions = {
+        'SciQLop': ['0.10.4'],  # v0.10.4 has dependency conflicts, wait for next release
+    }
+
+    if not pipeline_should_run(skip_versions=skip_versions):
         print("Pipeline will not run.", flush=True)
         print("::set-output name=should_run::false", flush=True)  # Tells GitHub Actions not to continue
     else:
