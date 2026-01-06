@@ -29,7 +29,7 @@ docker pull spolson/pyhc-environment:vYYYY.MM.DD
 Package | Version
 ---|---
 aacgmv2 | 2.7.0
-aiapy | 0.10.2
+aiapy | 0.11.0
 apexpy | 2.1.0
 asilib | 0.27.0
 astrometry-azel | 1.3.0
@@ -53,7 +53,7 @@ hissw | 2.3
 igrf | 13.0.2
 iri2016 | 1.11.1
 irispy-lmsal | 0.5.0
-kaipy | 1.1.3
+kaipy | 1.1.4
 lofarSun | 0.3.32
 lowtran | 3.1.0
 madrigalWeb | 3.3.5
@@ -65,9 +65,9 @@ nexradutils | 1.0.0
 ocbpy | 0.6.0
 OMMBV | 1.1.0
 plasmapy | 2025.10.0
-pyaurorax | 1.20.0
-pycdfpp | 0.8.3
-pydarn | 4.1.2
+pyaurorax | 1.21.0
+pycdfpp | 0.8.5
+pydarn | 4.2
 pyflct | 0.3.1
 pymap3d | 3.2.0
 pyrfu | 2.4.17
@@ -77,7 +77,7 @@ pytplot | 1.7.28
 pytplot-mpl-temp | 2.2.79
 pyzenodo3 | 1.0.2
 reesaurora | 1.0.5
-regularizepsf | 1.1.0
+regularizepsf | 1.1.1
 sammi-cdf | 1.0.2
 savic | 1.2.7
 sciencedates | 1.5.0
@@ -87,14 +87,14 @@ solarmach | 0.5.2
 solo-epd-loader | 0.4.4
 space-packet-parser | 6.0.1
 spacepy | 0.7.0
-speasy | 1.7.0
+speasy | 1.7.1
 spiceypy | 8.0.0
 sunkit-image | 0.6.1
 sunkit-instruments | 0.6.2
-sunpy | 7.0.3
+sunpy | 7.1.0
 sunraster | 0.7.0
 swxsoc | 0.2.2
 themisasi | 1.2.0
-viresclient | 0.13.0
+viresclient | 0.14.1
 wmm2015 | 1.1.1
 wmm2020 | 1.1.1
