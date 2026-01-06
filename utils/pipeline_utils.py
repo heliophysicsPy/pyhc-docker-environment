@@ -33,28 +33,33 @@ def strip_extras(package_name):
     return re.sub(r'\[.*?\]', '', package_name)
 
 
-def check_for_package_updates(requirements_path, package_names, ignore_list=None):
+def check_for_package_updates(requirements_path, package_names, ignore_list=None, skip_versions=None):
     """
     Check if the specified packages are up-to-date with PyPI.
 
-    This function compares the current environment's packages (as listed in the given 
-    requirements.txt file) against the latest versions on PyPI. If any package is not 
-    present in requirements.txt (i.e., newly added to the list of packages you want to 
-    track), it will be considered as "Not Installed" and treated as requiring an update 
+    This function compares the current environment's packages (as listed in the given
+    requirements.txt file) against the latest versions on PyPI. If any package is not
+    present in requirements.txt (i.e., newly added to the list of packages you want to
+    track), it will be considered as "Not Installed" and treated as requiring an update
     to add it to the environment.
 
     Args:
         requirements_path (str): The path to the requirements.txt file.
         package_names (list of str): The list of packages to check.
         ignore_list (list of str, optional): A list of package names to ignore.
+        skip_versions (dict, optional): A dict mapping package names (lowercase) to lists
+            of version strings to skip. If the latest PyPI version is in the skip list,
+            it won't be reported as an update. Useful for skipping broken releases.
 
     Returns:
-        dict: A dictionary mapping package names to a dict with 'current_version' and 
-              'latest_version' keys for packages that require updates. For newly introduced 
+        dict: A dictionary mapping package names to a dict with 'current_version' and
+              'latest_version' keys for packages that require updates. For newly introduced
               packages, 'current_version' will be set to "Not Installed".
     """
     if ignore_list is None:
         ignore_list = []
+    if skip_versions is None:
+        skip_versions = {}
     updates_required = {}
 
     with open(requirements_path, 'r') as file:
@@ -83,6 +88,13 @@ def check_for_package_updates(requirements_path, package_names, ignore_list=None
 
         # Fetch the latest version from PyPI using the stripped package name
         latest_version = fetch_latest_version_from_pypi(package_name_base)
+
+        # Check if this version should be skipped (e.g., known broken release)
+        # Normalize both sides to lowercase for case-insensitive matching
+        skip_versions_lower = {k.lower(): v for k, v in skip_versions.items()}
+        skip_list = skip_versions_lower.get(package_name_base.lower(), [])
+        if latest_version and latest_version in skip_list:
+            continue
 
         # If we have a latest_version from PyPI, determine if an update is needed.
         if latest_version:
