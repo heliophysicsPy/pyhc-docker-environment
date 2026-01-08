@@ -81,7 +81,7 @@ executing>=1.2.0
 expression
 fastjsonschema>=2.15
 ffmpeg-python
-fiasco==0.6.2
+fiasco==0.7.0
 fonttools>=4.22.0
 fortranformat>=2
 frozenlist>=1.1.1
@@ -262,9 +262,9 @@ pyside6==6.9.2
 pysocks
 pyspedas==2.0.5
 pytest-arraydiff==0.6.1
-pytest-doctestplus==1.6.0
+pytest-doctestplus==1.7.0
 pytest-xdist==3.8.0
-pytest>=7.0.0
+pytest>=7.0
 python-casacore
 python-dateutil>=2.9.0,<3.0.0
 python-json-logger>=2.0.4
@@ -293,7 +293,7 @@ rfc3986-validator>=0.1.1
 rich>=13.0
 roman-numerals-py>=1.0.0
 roman-numerals==4.1.0
-rpds-py>=0.7.1
+rpds-py>=0.25.0
 s3fs>=2023.9.0
 s3transfer>=0.14.0,<0.15.0
 sammi-cdf==1.0.2
@@ -334,7 +334,7 @@ sphinxcontrib-jquery>=4,<5
 sphinxcontrib-jsmath>=1.0.1
 sphinxcontrib-qthelp>=1.0.6
 sphinxcontrib-serializinghtml>=1.1.9
-spiceypy==8.0.0
+spiceypy==8.0.1
 sqlalchemy-utils>=0.37.8
 sqlalchemy>=1.4.0,<3
 sqlite-anyio>=0.2.3,<0.3.0
