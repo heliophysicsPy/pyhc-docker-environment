@@ -158,7 +158,7 @@ locket
 lofarSun==0.3.32
 lowtran==3.1.0
 lxml>=4.8.0
-madrigalWeb==3.3.5
+madrigalWeb==3.3.6
 madrigalweb>=3.3
 maidenhead==1.8.0
 mako
