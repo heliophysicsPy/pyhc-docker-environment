@@ -72,7 +72,7 @@ dill>=0.4.0
 diskcache
 dkist>=1.15.0
 dmsp==0.6.0
-docutils>=0.20,<0.22
+docutils>=0.21,<0.22
 drms
 enlilviz==0.2.0
 EUVpy==1.0.0
@@ -112,7 +112,7 @@ httpcore>=1.0.4,<2.0.0
 httpx-ws>=0.7.1,<0.8.0
 httpx>=0.25.0,<1
 humanize>=4.4.0,<5.0.0
-hypothesis==6.150.0
+hypothesis==6.150.1
 idna>=2.8,<4
 igrf==13.0.2
 imageio>=2.33,!=2.35.0
@@ -147,7 +147,7 @@ jupyter-server>=2.4.0,<3
 jupyterlab-pygments
 jupyterlab-server>=2.28.0,<3
 jupyterlab-widgets>=3.0.15,<3.1
-jupyterlab>=4.5.1,<4.6,!=4.1.0
+jupyterlab>=4.5.2,<4.6,!=4.1.0
 kaipy==1.1.4
 keyring>=25.5.0
 kiwisolver>=1.3.1
@@ -347,7 +347,7 @@ sunkit-magex
 sunpy==7.1.0
 sunraster==0.7.0
 supermag-api
-swxsoc==0.2.2
+swxsoc==0.2.3
 tables>=3.8.0
 termcolor>=2.0.1
 terminado>=0.8.3

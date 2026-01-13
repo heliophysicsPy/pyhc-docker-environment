@@ -93,7 +93,7 @@ sunkit-image | 0.6.1
 sunkit-instruments | 0.6.2
 sunpy | 7.1.0
 sunraster | 0.7.0
-swxsoc | 0.2.2
+swxsoc | 0.2.3
 themisasi | 1.2.0
 viresclient | 0.14.1
 wmm2015 | 1.1.1
