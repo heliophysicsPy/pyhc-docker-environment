@@ -72,7 +72,7 @@ pyflct | 0.3.1
 pymap3d | 3.2.0
 pyrfu | 2.4.17
 pysat | 3.2.2
-pyspedas | 2.0.5
+pyspedas | 2.0.6
 pytplot | 1.7.28
 pytplot-mpl-temp | 2.2.79
 pyzenodo3 | 1.0.2

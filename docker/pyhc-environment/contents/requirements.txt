@@ -112,7 +112,7 @@ httpcore>=1.0.4,<2.0.0
 httpx-ws>=0.7.1,<0.8.0
 httpx>=0.25.0,<1
 humanize>=4.4.0,<5.0.0
-hypothesis==6.150.1
+hypothesis==6.150.2
 idna>=2.8,<4
 igrf==13.0.2
 imageio>=2.33,!=2.35.0
@@ -260,7 +260,7 @@ pyside6-essentials==6.9.2
 pyside6-qtads==4.4.0.3
 pyside6==6.9.2
 pysocks
-pyspedas==2.0.5
+pyspedas==2.0.6
 pytest-arraydiff==0.6.1
 pytest-doctestplus==1.7.0
 pytest-xdist==3.8.0
