@@ -60,13 +60,13 @@ madrigalWeb | 3.3.6
 maidenhead | 1.8.0
 mcalf | 1.0.0
 msise00 | 1.11.1
-ndcube | 2.3.5
+ndcube | 2.4.0
 nexradutils | 1.0.0
 ocbpy | 0.6.0
 OMMBV | 1.1.0
 plasmapy | 2025.10.0
 pyaurorax | 1.21.0
-pycdfpp | 0.8.5
+pycdfpp | 0.8.6
 pydarn | 4.2
 pyflct | 0.3.1
 pymap3d | 3.2.0
