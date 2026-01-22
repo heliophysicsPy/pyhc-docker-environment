@@ -65,10 +65,9 @@ def get_core_pyhc_packages():
     :return: A list of the core PyHC package names.
 
     TODO:
-    kamodo has been removed due to dependency conflicts.
-    pyhc-core[tests] has been removed due to dependency conflicts (in v0.0.6).
+    kamodo has been removed until it supports Python>=3.12
     """
-    return ["hapiclient", "plasmapy", "pysat", "pyspedas", "spacepy", "sunpy"]
+    return ["hapiclient", "plasmapy", "pysat", "pyspedas", "spacepy", "sunpy", "pyhc-core[tests]"]
 
 
 def get_other_pyhc_packages():
