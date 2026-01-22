@@ -68,11 +68,11 @@ debugpy>=1.6.5
 decorator>=4.3.2
 deepdiff==8.6.1
 defusedxml
-dill>=0.4.0
+dill>=0.4.1
 diskcache
 dkist>=1.15.0
 dmsp==0.6.0
-docutils>=0.21,<0.22
+docutils>=0.21,<0.23
 drms
 enlilviz==0.2.0
 EUVpy==1.0.0
@@ -162,12 +162,12 @@ madrigalWeb==3.3.6
 madrigalweb>=3.3
 maidenhead==1.8.0
 mako
-markdown-it-py>=3.0,<4
+markdown-it-py>=4.0,<5
 markupsafe>=2.0
 matplotlib-inline>=0.1.5
 matplotlib>=3.9.0,<4.0,!=3.10.3,!=3.6.1,!=3.7.1
 mcalf==1.0.0
-mdit-py-plugins>=0.4.1,<1
+mdit-py-plugins>=0.5,<1
 mdurl>=0.1,<1
 mistune>=2.0.3,<4
 more-itertools
@@ -177,7 +177,7 @@ mpmath>=1.3
 msgpack
 msise00==1.11.1
 multidict>=6.0.0,<7.0
-multiprocess>=0.70.18
+multiprocess>=0.70.19
 myst-parser
 narwhals>=1.15.1
 natsort>=7.1.1
@@ -217,8 +217,8 @@ platformdirs>=3.0
 plotly
 pluggy>=1.5,<2
 portalocker
-pox>=0.3.6
-ppft>=1.7.7
+pox>=0.3.7
+ppft>=1.7.8
 progressbar
 progressbar2>=4.2.0,<5
 prometheus-client>=0.9
@@ -271,7 +271,7 @@ python-json-logger>=2.0.4
 python-utils>=3.8.1
 # pytplot-mpl-temp==2.2.79  # pySPEDAS controls PyTplot installation
 # pytplot==1.7.28  # pySPEDAS controls PyTplot installation
-pytz>=2020.1
+pytz
 pyucalgarysrs>=1.25.0,<2.0.0
 pyvo>=1.5
 pywavelets>=1.4.1
@@ -291,8 +291,7 @@ requests>=2.32.1,<3.0.0
 rfc3339-validator
 rfc3986-validator>=0.1.1
 rich>=13.0
-roman-numerals-py>=1.0.0
-roman-numerals==4.1.0
+roman-numerals>=1.0.0
 rpds-py>=0.25.0
 s3fs>=2023.9.0
 s3transfer>=0.14.0,<0.15.0
@@ -321,11 +320,11 @@ solarmach==0.5.2
 solo-epd-loader==0.4.4
 sortedcontainers>=2.1.0,<3.0.0
 soupsieve>=1.6.1
-space-packet-parser==6.0.1
+space-packet-parser==6.1.0
 spacepy==0.7.0
 speasy==1.7.1
 sphinx-rtd-theme
-sphinx>=7,<9
+sphinx>=8,<10
 sphinxcontrib-applehelp>=1.0.7
 sphinxcontrib-autoprogram
 sphinxcontrib-devhelp>=1.0.6
@@ -363,7 +362,6 @@ traitlets>=5.13.0,<6,!=5.2.1,!=5.2.2
 tscat-gui>=0.6.0,<0.7.0
 tscat>=0.4.0,<0.5.0
 typing-extensions>=4.13.2
-tzdata>=2022.7
 ujson>=5.0,<6.0
 uncertainties>=3.2.2
 urllib3>=1.26.16,<3,!=2.2.0
