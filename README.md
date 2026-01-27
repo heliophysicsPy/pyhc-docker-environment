@@ -52,7 +52,7 @@ hapiplot | 0.2.2
 hissw | 2.3
 igrf | 13.0.2
 iri2016 | 1.11.1
-irispy-lmsal | 0.5.0
+irispy-lmsal | 0.6.0
 kaipy | 1.1.4
 lofarSun | 0.3.32
 lowtran | 3.1.0
