@@ -73,7 +73,8 @@ if __name__ == '__main__':
         spec0_problems = find_spec0_problems(table_data)
         spec0_comment = ""
         if spec0_problems:
-            spec0_comment = "%0A".join(spec0_problems)
+            spec0_lines = ["SPEC 0 problems detected:", "```"] + spec0_problems + ["```"]
+            spec0_comment = "%0A".join(spec0_lines)
 
         table = excel_spreadsheet_from_table_data(table_data)
         table.save(spreadsheet_path)
