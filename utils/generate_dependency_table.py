@@ -941,7 +941,7 @@ def find_spec0_problems(table_data):
                 problems.append((project_name, package_name, project_req, spec0_req_text))
 
     problems = sorted(problems, key=lambda x: (x[0].lower(), x[1].lower()))
-    return [f"{project} requires {project_req} but SPEC 0 requires {spec0_req}"
+    return [f"{project}: requires {project_req} but SPEC 0 requires {spec0_req}"
             for project, _, project_req, spec0_req in problems]
 
 
