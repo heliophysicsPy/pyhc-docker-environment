@@ -70,6 +70,12 @@ if __name__ == '__main__':
         all_packages = get_core_pyhc_packages() + get_other_pyhc_packages() + get_supplementary_packages()
         table_data = generate_dependency_table_data(all_packages)
 
+        spec0_problems = find_spec0_problems(table_data)
+        spec0_comment = ""
+        if spec0_problems:
+            spec0_lines = ["SPEC 0 problems detected:"] + [f"- {problem}" for problem in spec0_problems]
+            spec0_comment = "%0A".join(spec0_lines)
+
         table = excel_spreadsheet_from_table_data(table_data)
         table.save(spreadsheet_path)
 
@@ -97,6 +103,7 @@ if __name__ == '__main__':
             print("::set-output name=has_conflict::false", flush=True)
             formatted_updates = '%0A'.join(pipeline_updates_info)
             print(f"::set-output name=package_updates::{formatted_updates}", flush=True)
+            print(f"::set-output name=spec0_comment::{spec0_comment}", flush=True)
             print("Updated all Docker images' requirements.", flush=True)
 
         except ValueError as e:

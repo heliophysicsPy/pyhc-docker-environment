@@ -95,6 +95,8 @@ jobs:
           ```
           ${{ steps.pipeline_check.outputs.package_updates }}
           ```
+          
+          ${{ steps.pipeline_check.outputs.spec0_comment }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

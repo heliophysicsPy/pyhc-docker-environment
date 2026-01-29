@@ -902,6 +902,49 @@ def is_spec0_compliant(package_name, version_range, spec0_requirements):
     return are_compatible(spec0_specifier, normalized_range)
 
 
+def _format_requirement_for_text(package_name, version_range):
+    """
+    Format a package requirement like "numpy>=2.0.0" for text output.
+    """
+    if version_range is None:
+        return package_name
+    cleaned = str(version_range).strip()
+    if not cleaned:
+        return package_name
+    return f"{package_name}{cleaned}"
+
+
+def find_spec0_problems(table_data):
+    """
+    Return a list of human-readable SPEC 0 incompatibilities found in table_data.
+    """
+    if not isinstance(table_data, dict):
+        return []
+    project_data = table_data.get("project_data")
+    spec0_requirements = table_data.get("spec0_requirements", {})
+    if not isinstance(project_data, dict) or not spec0_requirements:
+        return []
+
+    problems = []
+    for project, dependency_data in project_data.items():
+        project_name = project.split("==")[0] if isinstance(project, str) else str(project)
+        for package_name, values in dependency_data.items():
+            if not isinstance(values, tuple) or len(values) < 3:
+                continue
+            _, spec0_compliant, version_range = values
+            if spec0_compliant is False:
+                spec0_req = spec0_requirements.get(package_name.lower())
+                if not spec0_req:
+                    continue
+                project_req = _format_requirement_for_text(package_name, version_range)
+                spec0_req_text = _format_requirement_for_text(package_name, spec0_req)
+                problems.append((project_name, package_name, project_req, spec0_req_text))
+
+    problems = sorted(problems, key=lambda x: (x[0].lower(), x[1].lower()))
+    return [f"{project} requires {project_req} but SPEC 0 requires {spec0_req}"
+            for project, _, project_req, spec0_req in problems]
+
+
 def clean_dependencies(dependencies):
     """
     Given a dependencies dict, add a space before version ranges that start with '=',
@@ -1132,7 +1175,12 @@ def generate_dependency_table_data(packages, core_env_packages=[]):
             if version_spec:
                 spec0_requirements[pkg_name] = version_spec
 
-    table_data = {'core_dependencies': core_dependencies, 'other_dependencies': other_dependencies, 'project_data': {}}
+    table_data = {
+        'core_dependencies': core_dependencies,
+        'other_dependencies': other_dependencies,
+        'project_data': {},
+        'spec0_requirements': spec0_requirements
+    }
     for project, project_dependencies in all_deps_by_project.items():
         table_data['project_data'][project] = {}
         for package_name, version_range in project_dependencies.items():
