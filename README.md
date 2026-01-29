@@ -31,7 +31,7 @@ Package | Version
 aacgmv2 | 2.7.0
 aiapy | 0.11.0
 apexpy | 2.1.0
-asilib | 0.27.0
+asilib | 0.28.0
 astrometry-azel | 1.3.0
 ccsdspy | 1.4.3
 cdflib | 1.3.8
@@ -71,7 +71,7 @@ pydarn | 4.2
 pyflct | 0.3.1
 pyhc-core[tests] | 0.0.7
 pymap3d | 3.2.0
-pyrfu | 2.4.18
+pyrfu | 2.4.17
 pysat | 3.2.2
 pyspedas | 2.0.6
 pytplot | 1.7.28
