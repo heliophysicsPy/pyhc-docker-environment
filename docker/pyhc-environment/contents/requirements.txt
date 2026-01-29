@@ -254,7 +254,7 @@ pyqt5>=5.15.4
 pyqtgraph>=0.11.1
 pyqtwebengine-qt5>=5.15.0,<5.16.0
 pyqtwebengine>=5.15.2
-pyrfu==2.4.18
+pyrfu==2.4.16
 pysat==3.2.2
 pyshp>=2.3
 pyside6-addons==6.9.2
