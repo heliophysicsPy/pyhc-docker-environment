@@ -92,7 +92,7 @@ geomag
 geomagindices>=1.4.0
 geopack==1.0.12
 georinex==1.16.2
-geospacelab==0.11.4
+geospacelab==0.12.1
 gfz-api-client
 globus-sdk>=3.0
 goesutils==1.0.8
@@ -254,7 +254,7 @@ pyqt5>=5.15.4
 pyqtgraph>=0.11.1
 pyqtwebengine-qt5>=5.15.0,<5.16.0
 pyqtwebengine>=5.15.2
-pyrfu==2.4.18
+pyrfu==2.4.19
 pysat==3.2.2
 pyshp>=2.3
 pyside6-addons==6.9.2
@@ -262,7 +262,7 @@ pyside6-essentials==6.9.2
 pyside6-qtads==4.4.0.3
 pyside6==6.9.2
 pysocks
-pyspedas==2.0.6
+pyspedas==2.0.7
 pytest-arraydiff==0.6.1
 pytest-doctestplus==1.7.1
 pytest-xdist==3.8.0

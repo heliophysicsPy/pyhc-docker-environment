@@ -45,7 +45,7 @@ fiasco | 0.7.0
 gcmprocpy | 1.2.1
 geopack | 1.0.12
 georinex | 1.16.2
-geospacelab | 0.11.4
+geospacelab | 0.12.1
 goesutils | 1.0.8
 hapiclient | 0.2.6
 hapiplot | 0.2.2
@@ -71,9 +71,9 @@ pydarn | 4.2
 pyflct | 0.3.1
 pyhc-core[tests] | 0.0.7
 pymap3d | 3.2.0
-pyrfu | 2.4.18
+pyrfu | 2.4.19
 pysat | 3.2.2
-pyspedas | 2.0.6
+pyspedas | 2.0.7
 pytplot | 1.7.28
 pytplot-mpl-temp | 2.2.79
 pyzenodo3 | 1.0.2
