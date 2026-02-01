@@ -229,7 +229,7 @@ psutil>=5.7
 ptyprocess>=0.5
 pure-eval
 py-cpuinfo
-pyaurorax==1.21.0
+pyaurorax==1.22.0
 pycdfpp==0.8.6
 pycparser
 pycrdt-websocket>=0.15.4,<0.16.0
@@ -274,7 +274,7 @@ python-utils>=3.8.1
 # pytplot-mpl-temp==2.2.79  # pySPEDAS controls PyTplot installation
 # pytplot==1.7.28  # pySPEDAS controls PyTplot installation
 pytz
-pyucalgarysrs>=1.25.0,<2.0.0
+pyucalgarysrs>=1.26.0,<2.0.0
 pyvo>=1.5
 pywavelets>=1.4.1
 pyyaml>=6.0.0

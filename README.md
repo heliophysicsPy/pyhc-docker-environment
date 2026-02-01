@@ -65,7 +65,7 @@ nexradutils | 1.0.0
 ocbpy | 0.6.0
 OMMBV | 1.1.0
 plasmapy | 2025.10.0
-pyaurorax | 1.21.0
+pyaurorax | 1.22.0
 pycdfpp | 0.8.6
 pydarn | 4.2
 pyflct | 0.3.1
