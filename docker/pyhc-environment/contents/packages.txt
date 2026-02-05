@@ -1,11 +1,11 @@
 # ============================================
 # PyHC Environment Package List
 # ============================================
+# This file is the single source of truth for
+# which PyHC packages belong in the environment.
 # No versions by default (resolves to latest).
 # Only add version pins to block broken releases
 # or enforce compatibility constraints.
-# This file is the single source of truth for
-# which PyHC packages belong in the environment.
 # ============================================
 
 # --- Core Packages ---
@@ -93,9 +93,8 @@ setuptools-scm
 
 # --- Version Constraints ---
 # (for cross-cutting compatibility issues)
-numpy<2.0.0  # numpy 2.x breaks some packages
-astropy==6.1.7  # astropy/xarray compatibility
-xarray==2024.10.0  # astropy/xarray compatibility
+# astropy==6.1.7  # astropy/xarray compatibility
+# xarray==2024.10.0  # astropy/xarray compatibility  # TODO: astropy and xarray were pinned to fix PlasmaPy unit tests; if PlasmaPy tests work without these, delete them and close issue 36
 
 # --- Excluded Packages ---
 # kamodo  # Does not support Python>=3.12
