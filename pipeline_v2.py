@@ -238,11 +238,9 @@ def main():
     set_github_output("should_run", "true")
     set_github_output("change_reason", reason)
 
-    # Format changes for GitHub Actions output (URL-encoded newlines)
+    # Format changes for GitHub Actions output (preserve full list + newlines)
     if changes:
-        changes_formatted = "%0A".join(changes[:20])
-        if len(changes) > 20:
-            changes_formatted += f"%0A... and {len(changes) - 20} more"
+        changes_formatted = "\n".join(changes)
         set_github_output("package_changes", changes_formatted)
 
     print("Pipeline check complete. Ready for Docker build.")

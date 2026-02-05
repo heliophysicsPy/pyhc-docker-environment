@@ -34,12 +34,23 @@ def set_github_output(name: str, value: str) -> None:
     Uses the modern $GITHUB_OUTPUT file method, with fallback to
     the deprecated ::set-output syntax for local testing.
     """
+    if value is None:
+        value = ""
+    elif not isinstance(value, str):
+        value = str(value)
+
     github_output = os.environ.get("GITHUB_OUTPUT")
     if github_output:
         with open(github_output, "a") as f:
-            f.write(f"{name}={value}\n")
+            # Use multiline-safe format when needed
+            if "\n" in value:
+                f.write(f"{name}<<EOF\n{value}\nEOF\n")
+            else:
+                f.write(f"{name}={value}\n")
     else:
         # Fallback for local testing or older GitHub Actions syntax
+        if "\n" in value:
+            value = value.replace("\n", "%0A")
         print(f"::set-output name={name}::{value}")
 
 
