@@ -73,7 +73,7 @@ jobs:
     - name: Build and Push Docker Images
       if: steps.pipeline_check.outputs.should_run == 'true'
       id: build_and_push
-      run: python utils/docker_operations.py ./docker ${{ secrets.DOCKER_HUB_USERNAME }} ${{ secrets.DOCKER_HUB_TOKEN }}
+      run: python -m utils.docker_operations ./docker ${{ secrets.DOCKER_HUB_USERNAME }} ${{ secrets.DOCKER_HUB_TOKEN }}
 
     - name: Update Lockfile After Successful Build
       if: steps.pipeline_check.outputs.should_run == 'true'
