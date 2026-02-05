@@ -57,60 +57,105 @@ jobs:
         path: ${{ steps.generate_spreadsheet.outputs.spreadsheet_path }}
         retention-days: 30
 
-    - name: Run Pipeline V2 Check
-      id: pipeline_check
-      run: |
-        if [ "${{ github.event.inputs.force_build }}" == "true" ]; then
-          python pipeline_v2.py --force
-        else
-          python pipeline_v2.py
-        fi
+    # ============================================
+    # Option A: Auto-pin packages to latest PyPI versions
+    # ============================================
+    - name: Auto-pin packages to latest versions
+      id: auto_pin
+      run: python pipeline_v2.py --auto-pin
 
+    - name: Skip if no PyHC updates (unless forced)
+      if: steps.auto_pin.outputs.pyhc_packages_changed != 'true' && github.event.inputs.force_build != 'true'
+      run: |
+        echo "No PyHC package updates detected. Skipping build."
+        echo "Note: Transitive dependency changes don't trigger rebuilds."
+        echo "Use 'Force build' option to rebuild anyway."
+
+    # ============================================
+    # Dependency Resolution with Constraints
+    # ============================================
+    - name: Run uv compile (generate lockfile)
+      if: steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true'
+      id: compile
+      run: python pipeline_v2.py --compile
+      continue-on-error: true
+
+    - name: Post conflict to issue on failure
+      if: steps.compile.outcome == 'failure'
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        gh issue comment 2 --body "## Dependency Conflict Detected
+
+        Failed to resolve dependencies after auto-pinning to latest PyHC versions.
+
+        **Changed packages:**
+        \`\`\`
+        ${{ steps.auto_pin.outputs.changed_packages }}
+        \`\`\`
+
+        **Error details:** Check workflow logs for full error message.
+
+        **Workflow run:** ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+    - name: Fail workflow on compile error
+      if: steps.compile.outcome == 'failure'
+      run: |
+        echo "ERROR: Dependency resolution failed. See issue #2 for details."
+        exit 1
+
+    # ============================================
+    # Docker Build and Push
+    # ============================================
     - name: Build and Push Docker Images
-      if: steps.pipeline_check.outputs.should_run == 'true'
+      if: (steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && steps.compile.outcome == 'success'
       id: build_and_push
       run: python utils/docker_operations.py ./docker ${{ secrets.DOCKER_HUB_USERNAME }} ${{ secrets.DOCKER_HUB_TOKEN }}
 
     - name: Update Lockfile After Successful Build
-      if: steps.pipeline_check.outputs.should_run == 'true'
+      if: (steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && steps.compile.outcome == 'success'
       run: python pipeline_v2.py --post-build
 
     - name: Update README Table
-      if: steps.pipeline_check.outputs.should_run == 'true'
+      if: (steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && steps.compile.outcome == 'success'
       run: python utils/update_readme.py
 
+    # ============================================
+    # Commit and Push Changes
+    # ============================================
     - name: Commit and Push Repo Changes
-      if: steps.pipeline_check.outputs.should_run == 'true' || github.event.inputs.generate_spreadsheet == 'true'
+      if: (steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && steps.compile.outcome == 'success'
       run: |
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
-        # Add lockfile and README if build ran
-        if [ "${{ steps.pipeline_check.outputs.should_run }}" == "true" ]; then
-          git add resolved-versions.txt README.md
-        fi
+        # Add all changed files (packages.txt with new pins, lockfile, README)
+        git add packages.txt constraints.txt resolved-versions.txt README.md
 
-        # Add spreadsheet if generated
-        if [ "${{ github.event.inputs.generate_spreadsheet }}" == "true" ]; then
-          git add spreadsheets/
-        fi
+        # Build commit message
+        MSG="Update PyHC environment: auto-pin packages and rebuild"
 
-        # Build commit message based on what changed
-        if [ "${{ steps.pipeline_check.outputs.should_run }}" == "true" ] && [ "${{ github.event.inputs.generate_spreadsheet }}" == "true" ]; then
-          MSG="Update PyHC environment lockfile and README; add dependency spreadsheet"
-        elif [ "${{ steps.pipeline_check.outputs.should_run }}" == "true" ]; then
-          MSG="Update PyHC environment lockfile and README"
-        else
-          MSG="Add dependency spreadsheet"
-        fi
-
-        git commit -m "$MSG" || exit 0
+        git commit -m "$MSG" || echo "No changes to commit"
         git push
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+    - name: Commit spreadsheet if generated
+      if: github.event.inputs.generate_spreadsheet == 'true'
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git add spreadsheets/
+        git commit -m "Add dependency spreadsheet" || echo "No spreadsheet changes"
+        git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    # ============================================
+    # Trigger Binder Rebuild
+    # ============================================
     - name: Update science-platforms-coordination to Trigger Binder Rebuild
-      if: steps.pipeline_check.outputs.should_run == 'true'
+      if: (steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && steps.compile.outcome == 'success'
       run: |
         # Clone the target repo using a PAT with push permissions
         git clone https://${{ secrets.SCIENCE_PLATFORMS_PAT }}@github.com/heliophysicsPy/science-platforms-coordination.git coordination_repo
@@ -131,19 +176,20 @@ jobs:
           git push origin pyhc
         fi
 
+    # ============================================
+    # Notifications
+    # ============================================
     - name: Notify on Successful Push
-      if: steps.pipeline_check.outputs.should_run == 'true'
+      if: (steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && steps.compile.outcome == 'success'
       uses: peter-evans/create-or-update-comment@v4
       with:
         issue-number: 2
         body: |
           **[V2 Pipeline]** Docker Hub images and GitHub repo have been updated.
 
-          Reason: ${{ steps.pipeline_check.outputs.change_reason }}
-
-          Package changes:
+          **PyHC packages updated:**
           ```
-          ${{ steps.pipeline_check.outputs.package_changes }}
+          ${{ steps.auto_pin.outputs.changed_packages }}
           ```
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -392,3 +392,248 @@ def get_spec0_packages():
             continue
 
     return spec0_requirements
+
+
+# ============================================
+# Auto-Pin Functions (Option A Implementation)
+# ============================================
+
+
+def fetch_all_latest_versions(packages: list) -> dict:
+    """Fetch latest versions from PyPI for all packages.
+
+    Fails explicitly if any fetch fails (unlike v1's graceful fallback).
+
+    Args:
+        packages: List of package names to fetch versions for
+
+    Returns:
+        Dict mapping package name → latest version
+
+    Raises:
+        RuntimeError: If any PyPI fetch fails
+    """
+    # TODO: Consider parallelization to speed up fetching if this becomes slow
+    versions = {}
+    for pkg in packages:
+        latest = fetch_latest_version_from_pypi(pkg)
+        if latest is None:
+            raise RuntimeError(f"Failed to fetch latest version for '{pkg}' from PyPI")
+        versions[pkg] = latest
+    return versions
+
+
+def get_current_pyhc_pins(packages_file: str) -> dict:
+    """Extract current version pins from packages.txt.
+
+    Skips commented-out packages (excluded packages like kamodo, pysatCDF).
+
+    Args:
+        packages_file: Path to packages.txt
+
+    Returns:
+        Dict mapping package name (lowercase) → version (or None if unpinned).
+        Includes original package entry for preserving extras.
+    """
+    pins = {}
+    with open(packages_file, 'r') as f:
+        for line in f:
+            line = line.strip()
+            if not line or line.startswith('#'):
+                continue  # Skip comments and empty lines
+            # Parse "package==1.2.3" or "package[extras]==1.2.3" or just "package"
+            if '==' in line:
+                # Split only on first == to handle version correctly
+                name_part, version = line.split('==', 1)
+                # Remove inline comments from version
+                version = version.split('#')[0].strip()
+                # Extract base name (remove extras)
+                name = re.split(r'\[', name_part)[0].strip()
+                pins[name.lower()] = {
+                    'version': version,
+                    'original': line,
+                    'extras': '[' + name_part.split('[')[1] if '[' in name_part else ''
+                }
+            else:
+                # No version pin
+                # Remove inline comments
+                clean_line = line.split('#')[0].strip()
+                name = re.split(r'\[', clean_line)[0].strip()
+                extras = ''
+                if '[' in clean_line:
+                    extras = '[' + clean_line.split('[')[1].split(']')[0] + ']'
+                pins[name.lower()] = {
+                    'version': None,
+                    'original': line,
+                    'extras': extras
+                }
+    return pins
+
+
+def update_packages_txt_with_pins(packages_file: str, new_versions: dict) -> None:
+    """Update packages.txt with new version pins.
+
+    Preserves comments, extras, ordering, and section structure.
+
+    Args:
+        packages_file: Path to packages.txt
+        new_versions: Dict mapping package name → new version
+    """
+    # Normalize new_versions keys to lowercase for matching
+    versions_lower = {k.lower(): v for k, v in new_versions.items()}
+
+    with open(packages_file, 'r') as f:
+        lines = f.readlines()
+
+    new_lines = []
+    for line in lines:
+        stripped = line.strip()
+
+        # Preserve empty lines and comments as-is
+        if not stripped or stripped.startswith('#'):
+            new_lines.append(line)
+            continue
+
+        # Parse the package entry
+        # Handle inline comments
+        inline_comment = ''
+        if '#' in stripped:
+            parts = stripped.split('#', 1)
+            pkg_part = parts[0].strip()
+            inline_comment = '  # ' + parts[1].strip()
+        else:
+            pkg_part = stripped
+
+        # Extract package name and extras
+        if '==' in pkg_part:
+            name_with_extras = pkg_part.split('==')[0]
+        else:
+            name_with_extras = pkg_part
+
+        # Separate name from extras
+        if '[' in name_with_extras:
+            name = name_with_extras.split('[')[0]
+            extras = '[' + name_with_extras.split('[')[1]
+            if ']' not in extras:
+                extras += ']'
+        else:
+            name = name_with_extras
+            extras = ''
+
+        # Look up new version
+        name_lower = name.lower()
+        if name_lower in versions_lower:
+            new_version = versions_lower[name_lower]
+            # Construct new line with version pin
+            new_entry = f"{name}{extras}=={new_version}{inline_comment}\n"
+            new_lines.append(new_entry)
+        else:
+            # Package not in new_versions dict, keep as-is
+            new_lines.append(line)
+
+    with open(packages_file, 'w') as f:
+        f.writelines(new_lines)
+
+
+def parse_constraints(constraints_file: str) -> dict:
+    """Parse constraints.txt to extract blocked versions.
+
+    Args:
+        constraints_file: Path to constraints.txt
+
+    Returns:
+        Dict mapping package name (lowercase) → set of blocked versions
+    """
+    blocked = {}
+
+    if not os.path.exists(constraints_file):
+        return blocked
+
+    with open(constraints_file, 'r') as f:
+        for line in f:
+            line = line.strip()
+            if not line or line.startswith('#'):
+                continue
+
+            # Handle != constraints (e.g., "sciqlop!=0.10.4")
+            if '!=' in line:
+                parts = line.split('!=')
+                name = parts[0].strip().lower()
+                version = parts[1].split('#')[0].strip()  # Remove inline comments
+                if name not in blocked:
+                    blocked[name] = set()
+                blocked[name].add(version)
+
+    return blocked
+
+
+def auto_pin_packages_to_latest(packages_file: str, constraints_file: str = None) -> dict:
+    """Update packages.txt with latest PyPI versions, respecting constraints.
+
+    If a package's latest version is blocked by constraints.txt, the package
+    is skipped (keeps its current pin). This allows manually pinned versions
+    to persist until a newer non-blocked version is released.
+
+    Args:
+        packages_file: Path to packages.txt
+        constraints_file: Optional path to constraints.txt
+
+    Returns:
+        Dict of changed packages: {pkg: (old_version, new_version)}
+
+    Raises:
+        RuntimeError: If any PyPI fetch fails
+    """
+    # 0. Parse constraints to get blocked versions
+    if constraints_file is None:
+        constraints_file = os.path.join(os.path.dirname(packages_file), "constraints.txt")
+    blocked_versions = parse_constraints(constraints_file)
+    if blocked_versions:
+        print(f"Loaded constraints: {blocked_versions}")
+
+    # 1. Get current pins (skips commented-out packages)
+    old_pins = get_current_pyhc_pins(packages_file)
+
+    # 2. Fetch latest versions (fails explicitly on error)
+    packages = list(old_pins.keys())
+    print(f"Fetching latest versions for {len(packages)} packages from PyPI...")
+    latest_versions = fetch_all_latest_versions(packages)
+
+    # 3. Check constraints and determine final versions
+    final_versions = {}
+    skipped = []
+    for pkg, latest_ver in latest_versions.items():
+        blocked = blocked_versions.get(pkg, set())
+        if latest_ver in blocked:
+            # Latest version is blocked - keep current pin
+            current_ver = old_pins.get(pkg, {}).get('version')
+            if current_ver:
+                final_versions[pkg] = current_ver
+                skipped.append(f"{pkg}: latest {latest_ver} blocked, keeping {current_ver}")
+            else:
+                # No current pin and latest is blocked - skip entirely
+                skipped.append(f"{pkg}: latest {latest_ver} blocked, no current pin (will need manual intervention)")
+        else:
+            # Latest version is not blocked - use it
+            final_versions[pkg] = latest_ver
+
+    if skipped:
+        print("Skipped due to constraints:")
+        for msg in skipped:
+            print(f"  {msg}")
+
+    # 4. Calculate changes
+    changes = {}
+    for pkg, new_ver in final_versions.items():
+        old_ver = old_pins.get(pkg, {}).get('version')
+        if old_ver != new_ver:
+            changes[pkg] = (old_ver, new_ver)
+
+    # 5. Write updated packages.txt (preserves comments, extras, ordering)
+    if changes:
+        update_packages_txt_with_pins(packages_file, final_versions)
+        print(f"Updated {len(changes)} package(s) in {packages_file}")
+    else:
+        print("All packages already at latest versions")
+
+    return changes

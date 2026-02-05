@@ -34,11 +34,12 @@ ENV PATH /opt/conda/envs/pyhc-all/bin:$PATH
 RUN pip install uv
 
 # Install PyHC packages with uv
-# packages.txt contains just PyHC package names - uv resolves all transitive dependencies
-RUN uv pip install --system -r /app/packages.txt
+# packages.txt contains PyHC package names with version pins
+# constraints.txt blocks known-broken versions
+RUN uv pip install --system -c /app/constraints.txt -r /app/packages.txt
 
-# Cleanup environment.yml and packages.txt after their use
-RUN rm /app/environment.yml /app/packages.txt
+# Cleanup environment.yml, packages.txt, and constraints.txt after their use
+RUN rm /app/environment.yml /app/packages.txt /app/constraints.txt
 
 # Create directory for repo content in /opt
 RUN mkdir -p /opt/pyhc

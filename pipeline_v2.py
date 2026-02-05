@@ -11,10 +11,17 @@ Key differences from v1:
 - Change detection compares current resolution against lockfile
 - No more pipdeptree dependency resolution per-package
 
+Option A Enhancement (auto-pin):
+- All PyHC packages are pinned to latest PyPI versions
+- If latest versions can't resolve together, fail explicitly
+- constraints.txt blocks known-broken versions
+- Only triggers rebuild when PyHC packages have new versions (not transitive deps)
+
 __author__ = "Shawn Polson"
 """
 
 import argparse
+import json
 import os
 import shutil
 import subprocess
@@ -22,10 +29,16 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-from utils.pipeline_utils import set_github_output, parse_packages_txt, get_python_version
+from utils.pipeline_utils import (
+    set_github_output,
+    parse_packages_txt,
+    get_python_version,
+    auto_pin_packages_to_latest,
+)
 
 
-def run_uv_compile(packages_file: str, output_file: str, python_version: str = None) -> tuple[bool, str]:
+def run_uv_compile(packages_file: str, output_file: str, python_version: str = None,
+                   constraints_file: str = None) -> tuple[bool, str]:
     """
     Run uv pip compile to resolve dependencies.
 
@@ -33,6 +46,7 @@ def run_uv_compile(packages_file: str, output_file: str, python_version: str = N
         packages_file: Path to packages.txt
         output_file: Path to write resolved dependencies
         python_version: Python version to target (default: from environment.yml)
+        constraints_file: Optional path to constraints.txt for blocking versions
 
     Returns:
         Tuple of (success, error_message)
@@ -46,6 +60,10 @@ def run_uv_compile(packages_file: str, output_file: str, python_version: str = N
         "-o", output_file,
         "--python-version", python_version,
     ]
+
+    # Add constraints file if provided and exists
+    if constraints_file and os.path.exists(constraints_file):
+        cmd.extend(["-c", constraints_file])
 
     try:
         result = subprocess.run(cmd, capture_output=True, text=True, timeout=600)
@@ -78,7 +96,8 @@ def normalize_lockfile(content: str) -> list[str]:
     return sorted(lines)
 
 
-def check_for_changes(packages_file: str, lockfile_path: str, tmp_resolved_path: str) -> tuple[bool, str, list[str]]:
+def check_for_changes(packages_file: str, lockfile_path: str, tmp_resolved_path: str,
+                      constraints_file: str = None) -> tuple[bool, str, list[str]]:
     """
     Compare current resolution against last deployed lockfile.
 
@@ -86,12 +105,14 @@ def check_for_changes(packages_file: str, lockfile_path: str, tmp_resolved_path:
         packages_file: Path to packages.txt
         lockfile_path: Path to existing resolved-versions.txt
         tmp_resolved_path: Path to write new resolution for comparison
+        constraints_file: Optional path to constraints.txt
 
     Returns:
         Tuple of (should_run, reason, changes_list)
     """
     # Run uv to see what it would resolve TODAY
-    success, error = run_uv_compile(packages_file, tmp_resolved_path)
+    success, error = run_uv_compile(packages_file, tmp_resolved_path,
+                                    constraints_file=constraints_file)
 
     if not success:
         return True, f"resolution_failed: {error}", []
@@ -191,12 +212,23 @@ def main():
         action="store_true",
         help="Check for changes without triggering build"
     )
+    parser.add_argument(
+        "--auto-pin",
+        action="store_true",
+        help="Update packages.txt with latest PyPI versions (Option A)"
+    )
+    parser.add_argument(
+        "--compile",
+        action="store_true",
+        help="Run uv pip compile with constraints to generate lockfile"
+    )
     args = parser.parse_args()
 
     # Paths
     script_dir = os.path.dirname(os.path.abspath(__file__))
     packages_file = os.path.join(script_dir, "packages.txt")
     lockfile_path = os.path.join(script_dir, "resolved-versions.txt")
+    constraints_file = os.path.join(script_dir, "constraints.txt")
     tmp_resolved_path = "/tmp/new-resolved-versions.txt"
 
     # Handle spreadsheet generation mode
@@ -207,9 +239,47 @@ def main():
             set_github_output("spreadsheet_path", spreadsheet)
         return
 
-    # Check for changes
+    # Handle auto-pin mode (Option A)
+    if args.auto_pin:
+        print("Auto-pinning packages to latest PyPI versions...")
+        try:
+            changes = auto_pin_packages_to_latest(packages_file, constraints_file)
+        except RuntimeError as e:
+            print(f"ERROR: {e}")
+            set_github_output("pyhc_packages_changed", "false")
+            set_github_output("auto_pin_error", str(e))
+            sys.exit(1)
+
+        if changes:
+            print(f"\nPyHC packages updated: {len(changes)}")
+            for pkg, (old, new) in sorted(changes.items()):
+                old_str = old if old else "unpinned"
+                print(f"  {pkg}: {old_str} -> {new}")
+            set_github_output("pyhc_packages_changed", "true")
+            set_github_output("changed_packages", json.dumps(changes))
+        else:
+            print("No PyHC package updates found")
+            set_github_output("pyhc_packages_changed", "false")
+        return
+
+    # Handle compile mode (just run uv compile with constraints)
+    if args.compile:
+        print("Running uv pip compile with constraints...")
+        success, error = run_uv_compile(packages_file, tmp_resolved_path,
+                                        constraints_file=constraints_file)
+        if not success:
+            print(f"ERROR: Dependency resolution failed:\n{error}")
+            set_github_output("compile_success", "false")
+            set_github_output("compile_error", error)
+            sys.exit(1)
+        print("Dependency resolution succeeded")
+        set_github_output("compile_success", "true")
+        return
+
+    # Check for changes (legacy mode - compare lockfiles)
     print("Checking for package updates...")
-    should_run, reason, changes = check_for_changes(packages_file, lockfile_path, tmp_resolved_path)
+    should_run, reason, changes = check_for_changes(packages_file, lockfile_path,
+                                                     tmp_resolved_path, constraints_file)
 
     if args.force:
         should_run = True
