@@ -44,8 +44,7 @@ jobs:
     - name: Install uv
       run: pip install uv
 
-    - name: Install Pipeline Dependencies (for spreadsheet generation)
-      if: github.event.inputs.generate_spreadsheet == 'true'
+    - name: Install Pipeline Dependencies
       run: pip install -r pipeline_requirements.txt
 
     - name: Generate Dependency Spreadsheet
@@ -151,4 +150,3 @@ jobs:
           ```
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
