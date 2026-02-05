@@ -1,0 +1,105 @@
+# ============================================
+# PyHC Environment Package List
+# ============================================
+# No versions by default (resolves to latest).
+# Only add version pins to block broken releases
+# or enforce compatibility constraints.
+# This file is the single source of truth for
+# which PyHC packages belong in the environment.
+# ============================================
+
+# --- Core Packages ---
+hapiclient
+plasmapy
+pysat
+pyspedas
+spacepy
+sunpy
+pyhc-core[tests]
+
+# --- Other Packages ---
+aacgmv2
+aiapy
+apexpy
+asilib
+astrometry-azel
+ccsdspy
+cdflib
+cloudcatalog
+dascutils
+dbprocessing
+dmsp
+enlilviz
+EUVpy
+fiasco
+gcmprocpy
+geopack
+georinex
+geospacelab
+goesutils
+hapiplot
+hissw
+igrf
+iri2016
+irispy-lmsal
+kaipy
+lofarSun
+lowtran
+madrigalWeb
+maidenhead
+mcalf
+msise00
+ndcube
+nexradutils
+ocbpy
+OMMBV
+pyaurorax
+pycdfpp
+pydarn
+pyflct
+pymap3d
+pyrfu
+pytplot
+pytplot-mpl-temp
+pyzenodo3
+reesaurora
+regularizepsf
+sammi-cdf
+savic
+sciencedates
+SciQLop==0.10.3  # v0.10.4 has dependency conflicts
+SkyWinder
+solarmach
+solo-epd-loader
+space-packet-parser
+speasy
+spiceypy
+sunkit-image
+sunkit-instruments
+sunraster
+swxsoc
+themisasi
+viresclient
+wmm2015
+wmm2020
+
+# --- Supplementary Packages ---
+deepdiff
+hypothesis
+pytest-arraydiff
+pytest-doctestplus
+pytest-xdist
+setuptools-scm
+
+# --- Version Constraints ---
+# (for cross-cutting compatibility issues)
+numpy<2.0.0  # numpy 2.x breaks some packages
+astropy==6.1.7  # astropy/xarray compatibility
+xarray==2024.10.0  # astropy/xarray compatibility
+
+# --- Excluded Packages ---
+# kamodo  # Does not support Python>=3.12
+# pysatCDF  # pip install broken
+# amisrsynthdata  # No Python 3.12 support
+# heliopy  # Deprecated, incompatible with Python 3.12
+# aidapy  # Depends on heliopy which is deprecated

@@ -1,0 +1,117 @@
+name: PyHC Environment Pipeline V2 Workflow
+
+on:
+  schedule:
+    - cron: '0 14 * * *'  # Runs at 7 AM Mountain Time (UTC-7)
+  workflow_dispatch:
+    inputs:
+      force_build:
+        description: 'Force build even if no changes detected'
+        required: false
+        default: 'false'
+        type: boolean
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+      with:
+        ref: main-v2
+
+    - name: Fetch LFS Files
+      run: git lfs pull
+
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Install uv
+      run: pip install uv
+
+    - name: Run Pipeline V2 Check
+      id: pipeline_check
+      run: |
+        if [ "${{ github.event.inputs.force_build }}" == "true" ]; then
+          python pipeline_v2.py --force
+        else
+          python pipeline_v2.py
+        fi
+
+    - name: Update README Table
+      if: steps.pipeline_check.outputs.should_run == 'true'
+      run: python utils/update_readme.py
+
+    - name: Build and Push Docker Images
+      if: steps.pipeline_check.outputs.should_run == 'true'
+      id: build_and_push
+      run: python utils/docker_operations.py ./docker ${{ secrets.DOCKER_HUB_USERNAME }} ${{ secrets.DOCKER_HUB_TOKEN }}
+
+    - name: Update Lockfile After Successful Build
+      if: steps.pipeline_check.outputs.should_run == 'true'
+      run: python pipeline_v2.py --post-build
+
+    - name: Commit and Push Repo Changes
+      if: steps.pipeline_check.outputs.should_run == 'true'
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git add packages.txt resolved-versions.txt docker/pyhc-environment/contents/packages.txt README.md
+        git commit -m "Update PyHC environment packages and lockfile" || exit 0
+        git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Update science-platforms-coordination to Trigger Binder Rebuild
+      if: steps.pipeline_check.outputs.should_run == 'true'
+      run: |
+        # Clone the target repo using a PAT with push permissions
+        git clone https://${{ secrets.SCIENCE_PLATFORMS_PAT }}@github.com/heliophysicsPy/science-platforms-coordination.git coordination_repo
+        cd coordination_repo
+        git checkout pyhc
+
+        # Use sed to update the 'FROM' line in the Dockerfile with the new version
+        sed -i "s|^FROM spolson/pyhc-environment:.*|FROM spolson/pyhc-environment:${{ steps.build_and_push.outputs.docker_version }}|" binder/Dockerfile
+
+        git config user.name 'github-actions[bot]'
+        git config user.email 'github-actions[bot]@users.noreply.github.com'
+        git add binder/Dockerfile
+
+        if [ -z "$(git status --porcelain)" ]; then
+          echo "No changes to commit."
+        else
+          git commit -m "Update base image version to ${{ steps.build_and_push.outputs.docker_version }}"
+          git push origin pyhc
+        fi
+
+    - name: Notify on Successful Push
+      if: steps.pipeline_check.outputs.should_run == 'true'
+      uses: peter-evans/create-or-update-comment@v4
+      with:
+        issue-number: 2
+        body: |
+          **[V2 Pipeline]** Docker Hub images and GitHub repo have been updated.
+
+          Reason: ${{ steps.pipeline_check.outputs.change_reason }}
+
+          Package changes:
+          ```
+          ${{ steps.pipeline_check.outputs.package_changes }}
+          ```
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Notify on Build Failure
+      if: failure() && steps.pipeline_check.outputs.should_run == 'true'
+      uses: peter-evans/create-or-update-comment@v4
+      with:
+        issue-number: 2
+        body: |
+          **[V2 Pipeline]** Build failed! Check the [workflow run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details.
+
+          Reason for build attempt: ${{ steps.pipeline_check.outputs.change_reason }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
