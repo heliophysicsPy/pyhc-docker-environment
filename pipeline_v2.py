@@ -11,7 +11,7 @@ Key differences from v1:
 - Change detection compares current resolution against lockfile
 - No more pipdeptree dependency resolution per-package
 
-Option A Enhancement (auto-pin):
+Strict Latest-Pin Workflow (auto-pin):
 - All PyHC packages are pinned to latest PyPI versions
 - If latest versions can't resolve together, fail explicitly
 - constraints.txt blocks known-broken versions
@@ -215,7 +215,7 @@ def main():
     parser.add_argument(
         "--auto-pin",
         action="store_true",
-        help="Update packages.txt with latest PyPI versions (Option A)"
+        help="Update packages.txt with strict latest PyPI version pins for PyHC packages"
     )
     parser.add_argument(
         "--compile",
@@ -239,7 +239,7 @@ def main():
             set_github_output("spreadsheet_path", spreadsheet)
         return
 
-    # Handle auto-pin mode (Option A)
+    # Handle auto-pin mode (strict latest PyHC pinning)
     if args.auto_pin:
         print("Auto-pinning packages to latest PyPI versions...")
         try:

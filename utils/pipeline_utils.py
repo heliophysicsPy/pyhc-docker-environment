@@ -395,7 +395,7 @@ def get_spec0_packages():
 
 
 # ============================================
-# Auto-Pin Functions (Option A Implementation)
+# Auto-Pin Functions (Strict Latest-Pin Workflow)
 # ============================================
 
 
