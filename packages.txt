@@ -3,9 +3,6 @@
 # ============================================
 # This file is the single source of truth for
 # which PyHC packages belong in the environment.
-# No versions by default (resolves to latest).
-# Only add version pins to block broken releases
-# or enforce compatibility constraints.
 # ============================================
 
 # --- Core Packages ---
