@@ -68,7 +68,7 @@ jobs:
 
     - name: Update README Table
       if: steps.pipeline_check.outputs.should_run == 'true'
-      run: python utils/update_readme.py
+      run: python -m utils.update_readme
 
     - name: Build and Push Docker Images
       if: steps.pipeline_check.outputs.should_run == 'true'
