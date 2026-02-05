@@ -4,11 +4,10 @@
 # This file blocks known-broken package versions.
 # Uses standard pip constraint syntax.
 #
-# Format: package_name<version_to_block
-# Example: sciqlop<0.10.4  # Blocks 0.10.4+
+# Example: sciqlop!=0.10.4
 #
 # The auto-pin process will pin packages to latest
-# PyPI versions, and these constraints ensure
+# PyPI versions, except these constraints ensure
 # known-broken versions are never installed.
 # ============================================
 
