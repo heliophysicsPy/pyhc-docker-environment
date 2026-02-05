@@ -14,6 +14,52 @@ import pandas as pd
 from packaging.version import Version
 
 
+from .version_utils import (
+    parse_python_version_from_env_yml,
+    get_environment_yml_path,
+    get_python_version,
+)
+
+
+def set_github_output(name: str, value: str) -> None:
+    """Set a GitHub Actions output variable.
+
+    Uses the modern $GITHUB_OUTPUT file method, with fallback to
+    the deprecated ::set-output syntax for local testing.
+    """
+    github_output = os.environ.get("GITHUB_OUTPUT")
+    if github_output:
+        with open(github_output, "a") as f:
+            f.write(f"{name}={value}\n")
+    else:
+        # Fallback for local testing or older GitHub Actions syntax
+        print(f"::set-output name={name}::{value}")
+
+
+def parse_packages_txt(packages_path):
+    """Parse packages.txt and return list of PyHC package names.
+
+    Args:
+        packages_path: Path to packages.txt
+
+    Returns:
+        List of package names (without version specifiers)
+    """
+    packages = []
+    with open(packages_path, 'r') as file:
+        for line in file:
+            line = line.strip()
+            # Skip empty lines and comments
+            if not line or line.startswith('#'):
+                continue
+            # Extract package name (remove version specifiers and extras)
+            # Handle: "sunpy", "sunpy==1.0", "pyhc-core[tests]", "SciQLop==0.10.3"
+            package_name = re.split(r'[=<>!\[\s]', line)[0]
+            if package_name:
+                packages.append(package_name)
+    return packages
+
+
 def fetch_latest_version_from_pypi(package_name):
     """
     Fetch the latest version of a package from PyPI.

@@ -10,6 +10,11 @@ on:
         required: false
         default: 'false'
         type: boolean
+      generate_spreadsheet:
+        description: 'Generate dependency spreadsheet (for debugging/analysis)'
+        required: false
+        default: 'false'
+        type: boolean
 
 jobs:
   run-pipeline:
@@ -24,13 +29,37 @@ jobs:
     - name: Fetch LFS Files
       run: git lfs pull
 
-    - name: Set up Python 3.12
+    - name: Extract Python version from environment.yml
+      id: python_version
+      run: |
+        VERSION=$(python3 utils/version_utils.py)
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "Using Python version: $VERSION"
+
+    - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.12'
+        python-version: ${{ steps.python_version.outputs.version }}
 
     - name: Install uv
       run: pip install uv
+
+    - name: Install Pipeline Dependencies (for spreadsheet generation)
+      if: github.event.inputs.generate_spreadsheet == 'true'
+      run: pip install -r pipeline_requirements.txt
+
+    - name: Generate Dependency Spreadsheet
+      id: generate_spreadsheet
+      if: github.event.inputs.generate_spreadsheet == 'true'
+      run: python pipeline_v2.py --generate-spreadsheet
+
+    - name: Upload Spreadsheet Artifact
+      if: github.event.inputs.generate_spreadsheet == 'true'
+      uses: actions/upload-artifact@v4
+      with:
+        name: dependency-spreadsheet
+        path: ${{ steps.generate_spreadsheet.outputs.spreadsheet_path }}
+        retention-days: 30
 
     - name: Run Pipeline V2 Check
       id: pipeline_check
@@ -55,12 +84,31 @@ jobs:
       run: python pipeline_v2.py --post-build
 
     - name: Commit and Push Repo Changes
-      if: steps.pipeline_check.outputs.should_run == 'true'
+      if: steps.pipeline_check.outputs.should_run == 'true' || github.event.inputs.generate_spreadsheet == 'true'
       run: |
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-        git add packages.txt resolved-versions.txt docker/pyhc-environment/contents/packages.txt README.md
-        git commit -m "Update PyHC environment packages and lockfile" || exit 0
+
+        # Add lockfile and README if build ran
+        if [ "${{ steps.pipeline_check.outputs.should_run }}" == "true" ]; then
+          git add resolved-versions.txt README.md
+        fi
+
+        # Add spreadsheet if generated
+        if [ "${{ github.event.inputs.generate_spreadsheet }}" == "true" ]; then
+          git add spreadsheets/
+        fi
+
+        # Build commit message based on what changed
+        if [ "${{ steps.pipeline_check.outputs.should_run }}" == "true" ] && [ "${{ github.event.inputs.generate_spreadsheet }}" == "true" ]; then
+          MSG="Update PyHC environment lockfile and README; add dependency spreadsheet"
+        elif [ "${{ steps.pipeline_check.outputs.should_run }}" == "true" ]; then
+          MSG="Update PyHC environment lockfile and README"
+        else
+          MSG="Add dependency spreadsheet"
+        fi
+
+        git commit -m "$MSG" || exit 0
         git push
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -104,14 +152,3 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Notify on Build Failure
-      if: failure() && steps.pipeline_check.outputs.should_run == 'true'
-      uses: peter-evans/create-or-update-comment@v4
-      with:
-        issue-number: 2
-        body: |
-          **[V2 Pipeline]** Build failed! Check the [workflow run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) for details.
-
-          Reason for build attempt: ${{ steps.pipeline_check.outputs.change_reason }}
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

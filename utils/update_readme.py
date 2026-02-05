@@ -1,35 +1,52 @@
 """
-Extracts PyHC package versions from pyhc-environment's requirements.txt and puts them into a table in the README.
+Extracts PyHC package versions from resolved-versions.txt and puts them into a table in the README.
+
+V2: Reads package names from packages.txt and versions from resolved-versions.txt
 """
 
 import os
 import re
 
-from generate_dependency_table import *
+from pipeline_utils import parse_packages_txt
 
 
-def extract_versions_from_requirements(requirements_path, package_names):
+def extract_versions_from_lockfile(lockfile_path, package_names):
+    """Extract versions for specified packages from resolved-versions.txt.
+
+    Args:
+        lockfile_path: Path to resolved-versions.txt (uv pip compile output)
+        package_names: List of package names to look for
+
+    Returns:
+        Dict mapping package names to versions
+    """
     versions = {}
-    with open(requirements_path, 'r') as file:
-        requirements = file.readlines()
 
-    for package in package_names:
-        package_name, *version_specifier = package.split('==')
-        package_name = package_name.strip()
+    with open(lockfile_path, 'r') as file:
+        lockfile_content = file.read()
 
-        # If version is already specified, use it directly
-        if version_specifier:
-            versions[package_name] = version_specifier[0].strip()
-        else:
-            # Extract version from requirements.txt
-            for line in requirements:
-                # Regex to match the package name with optional extras at the start of the line or after a comment
-                match = re.match(rf"(^|\#\s*){re.escape(package_name.lower())}(\[.*\])?([><=]=?)", line.lower())
-                if match:
-                    version_match = re.search(r'([><=]=?\s*)([^#\s]+)', line)
-                    if version_match:
-                        versions[package_name] = version_match.group(2).strip()
-                        break
+    # Normalize package names for case-insensitive matching
+    # Also handle underscore/hyphen variations
+    def normalize(name):
+        return name.lower().replace('-', '_').replace('.', '_')
+
+    package_names_normalized = {normalize(p): p for p in package_names}
+
+    for line in lockfile_content.split('\n'):
+        line = line.strip()
+        # Skip empty lines, comments, and indented lines (dependency annotations)
+        if not line or line.startswith('#') or line.startswith(' '):
+            continue
+        # Match package==version format
+        match = re.match(r'^([a-zA-Z0-9_.-]+)==([^\s#]+)', line)
+        if match:
+            pkg_name, version = match.groups()
+            pkg_normalized = normalize(pkg_name)
+            if pkg_normalized in package_names_normalized:
+                # Use the original package name from packages.txt for display
+                original_name = package_names_normalized[pkg_normalized]
+                versions[original_name] = version
+
     return versions
 
 
@@ -58,12 +75,16 @@ def update_readme_with_table(readme_path, section_header, new_table):
 
 
 if __name__ == '__main__':
-    requirements_file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'docker', 'pyhc-environment', 'contents', 'requirements.txt')
-    pyhc_packages = get_core_pyhc_packages() + get_other_pyhc_packages()
+    repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-    package_versions = extract_versions_from_requirements(requirements_file_path, pyhc_packages)
+    # V2: Read package names from packages.txt and versions from resolved-versions.txt
+    packages_file_path = os.path.join(repo_root, 'packages.txt')
+    lockfile_path = os.path.join(repo_root, 'resolved-versions.txt')
+
+    pyhc_packages = parse_packages_txt(packages_file_path)
+    package_versions = extract_versions_from_lockfile(lockfile_path, pyhc_packages)
     md_table = versions_to_markdown_table(package_versions)
 
-    readme_file_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'README.md')
+    readme_file_path = os.path.join(repo_root, 'README.md')
     section_header = "## PyHC Package Versions in Current Environment"
     update_readme_with_table(readme_file_path, section_header, md_table)

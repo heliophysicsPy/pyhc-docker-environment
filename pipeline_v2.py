@@ -22,30 +22,24 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-
-def set_github_output(name: str, value: str) -> None:
-    """Set a GitHub Actions output variable."""
-    github_output = os.environ.get("GITHUB_OUTPUT")
-    if github_output:
-        with open(github_output, "a") as f:
-            f.write(f"{name}={value}\n")
-    else:
-        # Fallback for local testing or older GitHub Actions syntax
-        print(f"::set-output name={name}::{value}")
+from utils.pipeline_utils import set_github_output, parse_packages_txt, get_python_version
 
 
-def run_uv_compile(packages_file: str, output_file: str, python_version: str = "3.12") -> tuple[bool, str]:
+def run_uv_compile(packages_file: str, output_file: str, python_version: str = None) -> tuple[bool, str]:
     """
     Run uv pip compile to resolve dependencies.
 
     Args:
         packages_file: Path to packages.txt
         output_file: Path to write resolved dependencies
-        python_version: Python version to target
+        python_version: Python version to target (default: from environment.yml)
 
     Returns:
         Tuple of (success, error_message)
     """
+    if python_version is None:
+        python_version = get_python_version()
+
     cmd = [
         "uv", "pip", "compile",
         packages_file,
@@ -135,32 +129,28 @@ def check_for_changes(packages_file: str, lockfile_path: str, tmp_resolved_path:
     return False, "no_changes", []
 
 
-def copy_packages_to_docker_contents(packages_file: str, docker_contents_path: str) -> None:
-    """Copy packages.txt to Docker contents folder."""
-    dest = os.path.join(docker_contents_path, "packages.txt")
-    shutil.copy(packages_file, dest)
-    print(f"Copied {packages_file} to {dest}")
-
-
 def update_lockfile(tmp_resolved_path: str, lockfile_path: str) -> None:
     """Update the stored lockfile after successful build."""
     shutil.copy(tmp_resolved_path, lockfile_path)
     print(f"Updated lockfile at {lockfile_path}")
 
 
-def generate_spreadsheet():
+def generate_spreadsheet(packages_file=None):
     """
     Generate dependency spreadsheet using legacy v1 code.
     This is available for debugging/analysis but not part of normal v2 flow.
+
+    Args:
+        packages_file: Path to packages.txt (default: repo root packages.txt)
     """
     try:
         from utils.generate_dependency_table import (
-            get_core_pyhc_packages,
-            get_other_pyhc_packages,
-            get_supplementary_packages,
             generate_dependency_table_data,
             excel_spreadsheet_from_table_data,
         )
+
+        if packages_file is None:
+            packages_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "packages.txt")
 
         filename = f"PyHC-Dependency-Table-{datetime.now().strftime('%Y-%m-%d-%H-%M')}.xlsx"
         spreadsheet_folder = "spreadsheets"
@@ -168,7 +158,10 @@ def generate_spreadsheet():
             os.makedirs(spreadsheet_folder)
         spreadsheet_path = os.path.join(spreadsheet_folder, filename)
 
-        all_packages = get_core_pyhc_packages() + get_other_pyhc_packages() + get_supplementary_packages()
+        # Read packages from packages.txt (single source of truth)
+        all_packages = parse_packages_txt(packages_file)
+        print(f"Generating spreadsheet for {len(all_packages)} packages from {packages_file}")
+
         table_data = generate_dependency_table_data(all_packages)
         table = excel_spreadsheet_from_table_data(table_data)
         table.save(spreadsheet_path)
@@ -205,13 +198,13 @@ def main():
     packages_file = os.path.join(script_dir, "packages.txt")
     lockfile_path = os.path.join(script_dir, "resolved-versions.txt")
     tmp_resolved_path = "/tmp/new-resolved-versions.txt"
-    docker_contents_path = os.path.join(script_dir, "docker", "pyhc-environment", "contents")
 
     # Handle spreadsheet generation mode
     if args.generate_spreadsheet:
         spreadsheet = generate_spreadsheet()
         if spreadsheet:
             print(f"Spreadsheet saved to: {spreadsheet}")
+            set_github_output("spreadsheet_path", spreadsheet)
         return
 
     # Check for changes
@@ -240,9 +233,6 @@ def main():
         print("Dry run mode - not updating files.")
         set_github_output("should_run", "false")
         return
-
-    # Copy packages.txt to Docker contents
-    copy_packages_to_docker_contents(packages_file, docker_contents_path)
 
     # Set GitHub Actions outputs
     set_github_output("should_run", "true")

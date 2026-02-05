@@ -2,3 +2,6 @@ executable-paper/
 __pycache__/
 .hypothesis/
 temp_env_for_*/
+
+# packages.txt in docker contents is copied at build time from repo root
+docker/pyhc-environment/contents/packages.txt
