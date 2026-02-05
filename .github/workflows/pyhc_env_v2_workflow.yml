@@ -26,9 +26,6 @@ jobs:
       with:
         ref: main-v2
 
-    - name: Fetch LFS Files
-      run: git lfs pull
-
     - name: Extract Python version from environment.yml
       id: python_version
       run: |
