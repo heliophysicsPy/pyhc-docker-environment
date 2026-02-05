@@ -38,6 +38,7 @@ cdflib | 1.3.8
 cloudcatalog | 1.1.0
 dascutils | 2.3.0
 dbprocessing | 0.1.0
+deepdiff | 8.6.1
 dmsp | 0.6.0
 enlilviz | 0.2.0
 EUVpy | 1.0.0
@@ -50,6 +51,7 @@ goesutils | 1.0.8
 hapiclient | 0.2.6
 hapiplot | 0.2.2
 hissw | 2.3
+hypothesis | 6.151.5
 igrf | 13.0.2
 iri2016 | 1.11.1
 irispy-lmsal | 0.6.0
@@ -69,11 +71,14 @@ pyaurorax | 1.22.0
 pycdfpp | 0.8.6
 pydarn | 4.2
 pyflct | 0.3.1
-pyhc-core[tests] | 0.0.7
+pyhc-core | 0.0.7
 pymap3d | 3.2.0
-pyrfu | 2.4.19
+pyrfu | 2.4.17
 pysat | 3.2.2
-pyspedas | 2.0.7
+pyspedas | 1.7.28
+pytest-arraydiff | 0.6.1
+pytest-doctestplus | 1.7.1
+pytest-xdist | 3.8.0
 pytplot | 1.7.28
 pytplot-mpl-temp | 2.2.79
 pyzenodo3 | 1.0.2
@@ -83,6 +88,7 @@ sammi-cdf | 1.0.2
 savic | 1.2.7
 sciencedates | 1.5.0
 SciQLop | 0.10.3
+setuptools-scm | 9.2.2
 SkyWinder | 0.0.3
 solarmach | 0.5.2
 solo-epd-loader | 0.4.4
