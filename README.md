@@ -73,9 +73,9 @@ pydarn | 4.2
 pyflct | 0.3.1
 pyhc-core | 0.0.7
 pymap3d | 3.2.0
-pyrfu | 2.4.17
+pyrfu | 2.4.19
 pysat | 3.2.2
-pyspedas | 1.7.28
+pyspedas | 2.0.7
 pytest-arraydiff | 0.6.1
 pytest-doctestplus | 1.7.1
 pytest-xdist | 3.8.0
