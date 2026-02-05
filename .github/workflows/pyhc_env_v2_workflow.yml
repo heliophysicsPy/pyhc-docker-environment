@@ -66,10 +66,6 @@ jobs:
           python pipeline_v2.py
         fi
 
-    - name: Update README Table
-      if: steps.pipeline_check.outputs.should_run == 'true'
-      run: python utils/update_readme.py
-
     - name: Build and Push Docker Images
       if: steps.pipeline_check.outputs.should_run == 'true'
       id: build_and_push
@@ -78,6 +74,10 @@ jobs:
     - name: Update Lockfile After Successful Build
       if: steps.pipeline_check.outputs.should_run == 'true'
       run: python pipeline_v2.py --post-build
+
+    - name: Update README Table
+      if: steps.pipeline_check.outputs.should_run == 'true'
+      run: python utils/update_readme.py
 
     - name: Commit and Push Repo Changes
       if: steps.pipeline_check.outputs.should_run == 'true' || github.event.inputs.generate_spreadsheet == 'true'
