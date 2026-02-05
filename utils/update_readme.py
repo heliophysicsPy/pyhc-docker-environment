@@ -6,6 +6,11 @@ V2: Reads package names from packages.txt and versions from resolved-versions.tx
 
 import os
 import re
+import sys
+
+REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if REPO_ROOT not in sys.path:
+    sys.path.insert(0, REPO_ROOT)
 
 from utils.pipeline_utils import parse_packages_txt
 
@@ -75,16 +80,14 @@ def update_readme_with_table(readme_path, section_header, new_table):
 
 
 if __name__ == '__main__':
-    repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
     # V2: Read package names from packages.txt and versions from resolved-versions.txt
-    packages_file_path = os.path.join(repo_root, 'packages.txt')
-    lockfile_path = os.path.join(repo_root, 'resolved-versions.txt')
+    packages_file_path = os.path.join(REPO_ROOT, 'packages.txt')
+    lockfile_path = os.path.join(REPO_ROOT, 'resolved-versions.txt')
 
     pyhc_packages = parse_packages_txt(packages_file_path)
     package_versions = extract_versions_from_lockfile(lockfile_path, pyhc_packages)
     md_table = versions_to_markdown_table(package_versions)
 
-    readme_file_path = os.path.join(repo_root, 'README.md')
+    readme_file_path = os.path.join(REPO_ROOT, 'README.md')
     section_header = "## PyHC Package Versions in Current Environment"
     update_readme_with_table(readme_file_path, section_header, md_table)
