@@ -14,11 +14,18 @@ import pandas as pd
 from packaging.version import Version
 
 
-from .version_utils import (
-    parse_python_version_from_env_yml,
-    get_environment_yml_path,
-    get_python_version,
-)
+try:
+    from .version_utils import (
+        parse_python_version_from_env_yml,
+        get_environment_yml_path,
+        get_python_version,
+    )
+except ImportError:
+    from version_utils import (
+        parse_python_version_from_env_yml,
+        get_environment_yml_path,
+        get_python_version,
+    )
 
 
 def set_github_output(name: str, value: str) -> None:

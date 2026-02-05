@@ -4,7 +4,10 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
-from pipeline_utils import *
+try:
+    from .pipeline_utils import *
+except ImportError:
+    from pipeline_utils import *
 
 
 def copy_packages_to_contents(docker_folder_path, image_name, packages_file=None):

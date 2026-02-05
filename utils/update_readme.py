@@ -7,7 +7,10 @@ V2: Reads package names from packages.txt and versions from resolved-versions.tx
 import os
 import re
 
-from utils.pipeline_utils import parse_packages_txt
+try:
+    from .pipeline_utils import parse_packages_txt
+except ImportError:
+    from pipeline_utils import parse_packages_txt
 
 
 def extract_versions_from_lockfile(lockfile_path, package_names):
