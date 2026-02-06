@@ -179,9 +179,9 @@ def generate_spreadsheet(packages_file=None):
             os.makedirs(spreadsheet_folder)
         spreadsheet_path = os.path.join(spreadsheet_folder, filename)
 
-        # Read packages from packages.txt (single source of truth)
-        all_packages = parse_packages_txt(packages_file)
-        print(f"Generating spreadsheet for {len(all_packages)} packages from {packages_file}")
+        # Read exact entries (including extras and version pins) from packages.txt.
+        all_packages = parse_packages_txt(packages_file, preserve_specifiers=True)
+        print(f"Generating spreadsheet for {len(all_packages)} package entries from {packages_file}")
 
         table_data = generate_dependency_table_data(all_packages)
         table = excel_spreadsheet_from_table_data(table_data)

@@ -1416,29 +1416,6 @@ def excel_spreadsheet_from_table_data(table_data):
 
 
 if __name__ == '__main__':
-    # generate_requirements_file()
-    core_packages = get_core_pyhc_packages()
-    other_packages = get_other_pyhc_packages()
-    supplementary_packages = get_supplementary_packages()
-    # table_data = generate_dependency_table_data(other_packages, core_packages)  # segments spreadsheet (core/non-core)
-    all_packages = core_packages + other_packages + supplementary_packages
-    # all_packages = core_packages + supplementary_packages
-    table_data = generate_dependency_table_data(all_packages)
-
-    # Write table_data
-    import pickle
-    with open('PyHC-dependency-table-jan-4-2024(6).pkl', 'wb') as f:
-        pickle.dump(table_data, f)
-
-    # Read table_data
-    # import pickle
-    # with open('pyhc-dependency-table-jan-3-2024.pkl', 'rb') as f:
-    #     table_data = pickle.load(f)
-
-    # ----debug----
-    # table_data['project_data']['enlilviz']['numpy'] = (False, 'fake,<1.0.0')
-    # -------------
-
-    table = excel_spreadsheet_from_table_data(table_data)
-    table.save('PyHC-dependency-table-jan-4-2024(6).xlsx')
-    print("done")
+    # Legacy direct script mode is intentionally disabled for now.
+    # The workflow uses pipeline_v2.py --generate-spreadsheet.
+    pass

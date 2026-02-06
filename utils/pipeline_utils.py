@@ -54,14 +54,16 @@ def set_github_output(name: str, value: str) -> None:
         print(f"::set-output name={name}::{value}")
 
 
-def parse_packages_txt(packages_path):
-    """Parse packages.txt and return list of PyHC package names.
+def parse_packages_txt(packages_path, preserve_specifiers=False):
+    """Parse packages.txt and return package entries.
 
     Args:
         packages_path: Path to packages.txt
+        preserve_specifiers: If True, preserve extras/version pins. If False,
+            return only base package names.
 
     Returns:
-        List of package names (without version specifiers)
+        List of parsed package entries from packages.txt.
     """
     packages = []
     with open(packages_path, 'r') as file:
@@ -70,11 +72,19 @@ def parse_packages_txt(packages_path):
             # Skip empty lines and comments
             if not line or line.startswith('#'):
                 continue
-            # Extract package name (remove version specifiers and extras)
-            # Handle: "sunpy", "sunpy==1.0", "pyhc-core[tests]", "SciQLop==0.10.3"
-            package_name = re.split(r'[=<>!\[\s]', line)[0]
-            if package_name:
-                packages.append(package_name)
+            # Remove inline comments while preserving the package spec itself.
+            package_entry = line.split('#', 1)[0].strip()
+            if not package_entry:
+                continue
+
+            if preserve_specifiers:
+                # Keep exact package entry, e.g. "pyhc-core[tests]==0.0.7".
+                packages.append(package_entry)
+            else:
+                # Extract base package name, e.g. "pyhc-core".
+                package_name = re.split(r'[=<>!\[\s]', package_entry)[0]
+                if package_name:
+                    packages.append(package_name)
     return packages
 
 
