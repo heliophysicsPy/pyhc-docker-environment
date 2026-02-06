@@ -204,6 +204,8 @@ jobs:
           ${{ steps.auto_pin.outputs.changed_packages }}
           ```
 
+          ${{ steps.generate_spreadsheet.outputs.conflict_comment || '' }}
+
           ${{ steps.generate_spreadsheet.outputs.spec0_comment || '' }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1016,6 +1016,51 @@ def find_spec0_problems(table_data):
             for project, _, project_req, spec0_req in problems]
 
 
+def find_dependency_conflicts(table_data):
+    """
+    Return a list of human-readable dependency conflicts found in table_data.
+
+    A conflict exists when multiple PyHC packages have incompatible version
+    requirements for the same dependency, based on combining pip tree outputs.
+
+    Note: These conflicts are detected by simple range intersection and may be
+    more conservative than uv's actual resolver, which can sometimes find valid
+    resolutions that this analysis misses.
+    """
+    if not isinstance(table_data, dict):
+        return []
+
+    # Find packages with None (conflict) in other_dependencies
+    other_deps = table_data.get("other_dependencies", {})
+    conflicting_packages = {pkg for pkg, version in other_deps.items() if version is None}
+
+    if not conflicting_packages:
+        return []
+
+    project_data = table_data.get("project_data", {})
+    if not isinstance(project_data, dict):
+        return []
+
+    conflicts = []
+    for conflicting_pkg in sorted(conflicting_packages):
+        # Find which projects require this package and what their requirements are
+        involved_projects = []
+        for project, dependency_data in project_data.items():
+            project_name = project.split("==")[0] if isinstance(project, str) else str(project)
+            if conflicting_pkg in dependency_data:
+                values = dependency_data[conflicting_pkg]
+                if isinstance(values, tuple) and len(values) >= 3:
+                    version_range = values[2]  # Third element is version_range
+                    if version_range and version_range != "any":
+                        involved_projects.append(f"{project_name} requires {conflicting_pkg}{version_range}")
+
+        if involved_projects:
+            conflict_desc = f"Conflict for '{conflicting_pkg}': " + "; ".join(involved_projects)
+            conflicts.append(conflict_desc)
+
+    return conflicts
+
+
 def clean_dependencies(dependencies):
     """
     Given a dependencies dict, add a space before version ranges that start with '=',

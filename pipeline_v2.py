@@ -169,6 +169,7 @@ def generate_spreadsheet(packages_file=None):
             generate_dependency_table_data,
             excel_spreadsheet_from_table_data,
             find_spec0_problems,
+            find_dependency_conflicts,
         )
 
         if packages_file is None:
@@ -195,8 +196,29 @@ def generate_spreadsheet(packages_file=None):
 
         print(f"Using spreadsheet worker count: {max_workers}")
         table_data = generate_dependency_table_data(all_packages, max_workers=max_workers)
-        spec0_problems = find_spec0_problems(table_data)
 
+        # Check for dependency conflicts in spreadsheet
+        dependency_conflicts = find_dependency_conflicts(table_data)
+        if dependency_conflicts:
+            conflict_comment_lines = [
+                "**Dependency conflicts found in spreadsheet:**",
+                "```",
+                *dependency_conflicts,
+                "```",
+            ]
+            conflict_comment = "\n".join(conflict_comment_lines)
+            print(f"Found {len(dependency_conflicts)} dependency conflict(s) in spreadsheet:")
+            for conflict in dependency_conflicts:
+                print(f"  {conflict}")
+        else:
+            conflict_comment = ""
+            print("No dependency conflicts found in spreadsheet.")
+
+        set_github_output("conflict_comment", conflict_comment)
+        set_github_output("conflict_count", str(len(dependency_conflicts)))
+
+        # Check for SPEC 0 problems
+        spec0_problems = find_spec0_problems(table_data)
         if spec0_problems:
             spec0_comment_lines = [
                 "**SPEC 0 problems detected:**",
@@ -205,7 +227,9 @@ def generate_spreadsheet(packages_file=None):
                 "```",
             ]
             spec0_comment = "\n".join(spec0_comment_lines)
-            print(f"Detected {len(spec0_problems)} SPEC 0 problems.")
+            print(f"Detected {len(spec0_problems)} SPEC 0 problem(s):")
+            for problem in spec0_problems:
+                print(f"  {problem}")
         else:
             spec0_comment = ""
             print("No SPEC 0 problems detected.")
@@ -301,7 +325,11 @@ def main():
             set_github_output("compile_success", "false")
             set_github_output("compile_error", error)
             sys.exit(1)
-        print("Dependency resolution succeeded")
+        print("Dependency resolution succeeded. Resolved versions:")
+        print("-" * 50)
+        with open(tmp_resolved_path, "r") as f:
+            print(f.read())
+        print("-" * 50)
         set_github_output("compile_success", "true")
         return
 
