@@ -59,45 +59,45 @@ def generate_requirements_file():
     return requirements
 
 
-def get_core_pyhc_packages():
-    """
-    TODO: consider scraping this from projects_core.yml online?
-    :return: A list of the core PyHC package names.
+# def get_core_pyhc_packages():
+#     """
+#     TODO: consider scraping this from projects_core.yml online?
+#     :return: A list of the core PyHC package names.
 
-    TODO:
-    kamodo has been removed until it supports Python>=3.12
-    """
-    return ["hapiclient", "plasmapy", "pysat", "pyspedas", "spacepy", "sunpy", "pyhc-core[tests]"]
-
-
-def get_other_pyhc_packages():
-    """
-    TODO: consider scraping this from projects.yml online? Would have to account for unpublished packages.
-    Note, the following packages are missing because they are not in PyPI:
-    ACEmag, AFINO, Auroral Electrojet (AEindex), fisspy, geodata, GIMAmag (gima-magnetometer), hwm93 (archived 2022),
-    iri90 (archived 2022), POLAN (archived 2022), MGSutils (archived 2022), ncarglow, PyGemini, pyglow, PyGS,
-    python-magnetosphere, sami2py, scanning-doppler-interferometer (archived 2022), TomograPy.
-
-    :return: A list of the other non-core PyHC package names.
-
-    TODO:
-    aidapy has been removed because it depends on heliopy which is incompatible with Python 3.12 and deprecated.
-    amisrsynthdata has been removed until they add support for Python 3.12.
-    heliopy has been removed due to incompatibility with Python 3.12 (it was originally hardcoded to 0.15.4 because 1.0.0 is deprecated)
-    pysatCDF has been removed due to installation failures.
-    """
-    return ["aacgmv2", "aiapy", "apexpy", "asilib", "astrometry-azel", "ccsdspy", "cdflib", "cloudcatalog", "dascutils", "dbprocessing", "dmsp", "enlilviz", "EUVpy", "fiasco", "gcmprocpy", "geopack", "georinex", "geospacelab", "goesutils", "hapiplot", "hissw", "igrf", "iri2016", "irispy-lmsal", "kaipy", "lofarSun", "lowtran", "madrigalWeb", "maidenhead", "mcalf", "msise00", "ndcube", "nexradutils", "ocbpy", "OMMBV", "pyaurorax", "pycdfpp", "pydarn", "pyflct", "pymap3d", "pyrfu", "pytplot", "pytplot-mpl-temp", "pyzenodo3", "reesaurora", "regularizepsf", "sammi-cdf", "savic", "sciencedates", "SciQLop==0.10.3", "SkyWinder", "solarmach", "solo-epd-loader", "space-packet-parser", "speasy", "spiceypy", "sunkit-image", "sunkit-instruments", "sunraster", "swxsoc", "themisasi", "viresclient", "wmm2015", "wmm2020"]
+#     TODO:
+#     kamodo has been removed until it supports Python>=3.12
+#     """
+#     return ["hapiclient", "plasmapy", "pysat", "pyspedas", "spacepy", "sunpy", "pyhc-core[tests]"]
 
 
-def get_supplementary_packages():
-    """
-    :return: A list of supplementary packages, including optional dependencies not found by pipdeptree
-             and those used for unit tests.
-    TODO:
-    astropy=6.1.7 and xarray==2024.10.0 are hardcoded because the latest versions of the two are currently not compatible.
-    This was evidenced by a few PlasmaPy unit tests failing. Remove these pins when they become unnecessary.
-    """
-    return ["deepdiff", "hypothesis", "pytest-arraydiff", "pytest-doctestplus", "pytest-xdist", "setuptools-scm"] + ["astropy==6.1.7", "xarray==2024.10.0"]
+# def get_other_pyhc_packages():
+#     """
+#     TODO: consider scraping this from projects.yml online? Would have to account for unpublished packages.
+#     Note, the following packages are missing because they are not in PyPI:
+#     ACEmag, AFINO, Auroral Electrojet (AEindex), fisspy, geodata, GIMAmag (gima-magnetometer), hwm93 (archived 2022),
+#     iri90 (archived 2022), POLAN (archived 2022), MGSutils (archived 2022), ncarglow, PyGemini, pyglow, PyGS,
+#     python-magnetosphere, sami2py, scanning-doppler-interferometer (archived 2022), TomograPy.
+
+#     :return: A list of the other non-core PyHC package names.
+
+#     TODO:
+#     aidapy has been removed because it depends on heliopy which is incompatible with Python 3.12 and deprecated.
+#     amisrsynthdata has been removed until they add support for Python 3.12.
+#     heliopy has been removed due to incompatibility with Python 3.12 (it was originally hardcoded to 0.15.4 because 1.0.0 is deprecated)
+#     pysatCDF has been removed due to installation failures.
+#     """
+#     return ["aacgmv2", "aiapy", "apexpy", "asilib", "astrometry-azel", "ccsdspy", "cdflib", "cloudcatalog", "dascutils", "dbprocessing", "dmsp", "enlilviz", "EUVpy", "fiasco", "gcmprocpy", "geopack", "georinex", "geospacelab", "goesutils", "hapiplot", "hissw", "igrf", "iri2016", "irispy-lmsal", "kaipy", "lofarSun", "lowtran", "madrigalWeb", "maidenhead", "mcalf", "msise00", "ndcube", "nexradutils", "ocbpy", "OMMBV", "pyaurorax", "pycdfpp", "pydarn", "pyflct", "pymap3d", "pyrfu", "pytplot", "pytplot-mpl-temp", "pyzenodo3", "reesaurora", "regularizepsf", "sammi-cdf", "savic", "sciencedates", "SciQLop==0.10.3", "SkyWinder", "solarmach", "solo-epd-loader", "space-packet-parser", "speasy", "spiceypy", "sunkit-image", "sunkit-instruments", "sunraster", "swxsoc", "themisasi", "viresclient", "wmm2015", "wmm2020"]
+
+
+# def get_supplementary_packages():
+#     """
+#     :return: A list of supplementary packages, including optional dependencies not found by pipdeptree
+#              and those used for unit tests.
+#     TODO:
+#     astropy=6.1.7 and xarray==2024.10.0 are hardcoded because the latest versions of the two are currently not compatible.
+#     This was evidenced by a few PlasmaPy unit tests failing. Remove these pins when they become unnecessary.
+#     """
+#     return ["deepdiff", "hypothesis", "pytest-arraydiff", "pytest-doctestplus", "pytest-xdist", "setuptools-scm"] + ["astropy==6.1.7", "xarray==2024.10.0"]
 
 
 # def spreadsheet_to_requirements_file_orig(spreadsheet):
