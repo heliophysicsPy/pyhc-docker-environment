@@ -168,6 +168,7 @@ def generate_spreadsheet(packages_file=None):
         from utils.generate_dependency_table import (
             generate_dependency_table_data,
             excel_spreadsheet_from_table_data,
+            find_spec0_problems,
         )
 
         if packages_file is None:
@@ -194,6 +195,24 @@ def generate_spreadsheet(packages_file=None):
 
         print(f"Using spreadsheet worker count: {max_workers}")
         table_data = generate_dependency_table_data(all_packages, max_workers=max_workers)
+        spec0_problems = find_spec0_problems(table_data)
+
+        if spec0_problems:
+            spec0_comment_lines = [
+                "**SPEC 0 problems detected:**",
+                "```",
+                *spec0_problems,
+                "```",
+            ]
+            spec0_comment = "\n".join(spec0_comment_lines)
+            print(f"Detected {len(spec0_problems)} SPEC 0 problems.")
+        else:
+            spec0_comment = ""
+            print("No SPEC 0 problems detected.")
+
+        set_github_output("spec0_comment", spec0_comment)
+        set_github_output("spec0_problem_count", str(len(spec0_problems)))
+
         table = excel_spreadsheet_from_table_data(table_data)
         table.save(spreadsheet_path)
 
