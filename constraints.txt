@@ -1,14 +1,16 @@
 # ============================================
 # PyHC Environment Version Constraints
 # ============================================
-# This file blocks known-broken package versions.
-# Uses standard pip constraint syntax.
+# This file controls which package versions are
+# acceptable. Uses standard pip constraint syntax.
 #
-# Example: sciqlop!=0.10.4
+# Common constraint types:
+#   package!=X.Y.Z   Avoid specific broken version
+#   package<X.Y.Z    Stay below threshold
+#   package==X.Y.Z   Freeze at exact version
 #
-# The auto-pin process will pin packages to latest
-# PyPI versions, except these constraints ensure
-# known-broken versions are never installed.
+# The auto-pin process will pin packages to the
+# latest PyPI versions that satisfy these constraints.
 # ============================================
 
 # SciQLop v0.10.4 has unresolvable dependency conflicts

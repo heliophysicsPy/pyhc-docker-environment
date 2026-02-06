@@ -99,6 +99,18 @@ class TestParseConstraints(unittest.TestCase):
         finally:
             os.unlink(path)
 
+    def test_parse_exact_version_constraint(self):
+        """Test parsing == constraints (freeze at exact version)."""
+        path = self._write_constraints("scipy==1.10.0\n")
+        try:
+            constraints = parse_constraints(path)
+            self.assertIn("scipy", constraints)
+            self.assertIn("1.10.0", constraints["scipy"])
+            self.assertNotIn("1.10.1", constraints["scipy"])
+            self.assertNotIn("1.9.0", constraints["scipy"])
+        finally:
+            os.unlink(path)
+
     def test_parse_compound_constraint(self):
         """Test parsing compound constraints like >=1.0,<2.0."""
         path = self._write_constraints("xarray>=2024.1.0,<2025.0.0\n")
@@ -240,6 +252,19 @@ class TestFindHighestSatisfyingVersion(unittest.TestCase):
         constraint = SpecifierSet(">=1.0,<2.5")
         result = find_highest_satisfying_version("pkg", constraint)
 
+        self.assertEqual(result, "2.0.0")
+
+    @patch("pipeline_utils.fetch_all_versions_from_pypi")
+    def test_find_highest_with_exact_version_constraint(self, mock_fetch):
+        """Test finding version with == constraint (freeze behavior)."""
+        mock_fetch.return_value = [
+            "1.0.0", "1.5.0", "2.0.0", "2.5.0", "3.0.0"
+        ]
+
+        constraint = SpecifierSet("==2.0.0")
+        result = find_highest_satisfying_version("pkg", constraint)
+
+        # Only 2.0.0 satisfies ==2.0.0
         self.assertEqual(result, "2.0.0")
 
     @patch("pipeline_utils.fetch_all_versions_from_pypi")
@@ -395,6 +420,34 @@ beta==2.0.0
         with open(packages_path) as f:
             content = f.read()
         self.assertIn("pyrfu==2.4.17", content)
+
+    @patch("pipeline_utils.find_highest_satisfying_version")
+    @patch("pipeline_utils.fetch_all_latest_versions")
+    def test_auto_pin_freezes_at_exact_version_constraint(self, mock_fetch_latest, mock_find_highest):
+        """Test that == constraint freezes package at exact version."""
+        packages_content = "frozen-pkg==1.5.0\n"
+        constraints_content = "frozen-pkg==1.5.0\n"  # Freeze at this exact version
+        packages_path, constraints_path = self._create_temp_files(
+            packages_content, constraints_content
+        )
+
+        # Latest on PyPI is 2.0.0, but we're frozen at 1.5.0
+        mock_fetch_latest.return_value = {"frozen-pkg": "2.0.0"}
+        mock_find_highest.return_value = "1.5.0"  # Only 1.5.0 satisfies ==1.5.0
+
+        changes = auto_pin_packages_to_latest(packages_path, constraints_path)
+
+        # Should call find_highest since latest (2.0.0) doesn't satisfy ==1.5.0
+        mock_find_highest.assert_called_once()
+
+        # No changes since we're already at the frozen version
+        self.assertEqual(len(changes), 0)
+
+        # Verify file still has frozen version
+        with open(packages_path) as f:
+            content = f.read()
+        self.assertIn("frozen-pkg==1.5.0", content)
+        self.assertNotIn("frozen-pkg==2.0.0", content)
 
     @patch("pipeline_utils.find_highest_satisfying_version")
     @patch("pipeline_utils.fetch_all_latest_versions")
