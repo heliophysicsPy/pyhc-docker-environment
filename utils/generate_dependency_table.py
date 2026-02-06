@@ -1054,7 +1054,7 @@ def reorder_requirements(range_str):
     :return: Reordered String like ">=1.5.0,<2.0,!=1.6"
     """
     if range_str:
-        rules = range_str.split(",")
+        rules = [rule.strip() for rule in range_str.split(",") if rule.strip()]
         lower_bound = None
         upper_bound = None
         remaining = []
