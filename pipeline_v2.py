@@ -183,7 +183,7 @@ def generate_spreadsheet(packages_file=None):
         all_packages = parse_packages_txt(packages_file, preserve_specifiers=True)
         print(f"Generating spreadsheet for {len(all_packages)} package entries from {packages_file}")
 
-        workers_str = os.environ.get("PYHC_SPREADSHEET_WORKERS", "1")
+        workers_str = os.environ.get("PYHC_SPREADSHEET_WORKERS", "2")
         try:
             max_workers = max(1, int(workers_str))
         except ValueError as exc:

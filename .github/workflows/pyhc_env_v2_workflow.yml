@@ -18,7 +18,7 @@ on:
       spreadsheet_workers:
         description: 'Number of workers for spreadsheet generation'
         required: false
-        default: '1'
+        default: '2'
         type: string
 
 jobs:
@@ -61,7 +61,7 @@ jobs:
       id: generate_spreadsheet
       if: github.event.inputs.generate_spreadsheet == 'true'
       env:
-        PYHC_SPREADSHEET_WORKERS: ${{ github.event.inputs.spreadsheet_workers || '1' }}
+        PYHC_SPREADSHEET_WORKERS: ${{ github.event.inputs.spreadsheet_workers || '2' }}
         PIP_DISABLE_PIP_VERSION_CHECK: '1'
       run: python pipeline_v2.py --generate-spreadsheet
 
