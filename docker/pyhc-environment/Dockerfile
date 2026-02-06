@@ -72,7 +72,7 @@ RUN /bin/bash -c "source activate pyhc-all && \
 # Set the working directory to jovyan's home for Binder compatibility
 WORKDIR /home/jovyan
 
-# Switch to jovyan user before running the start script (TODO: is this needed? Delete if not...)
+# Switch to jovyan user before running the start script (TODO: is this needed? Delete if not)
 USER jovyan
 
 # Make port 8888 available to the world outside this container
