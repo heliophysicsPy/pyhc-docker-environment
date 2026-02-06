@@ -13,6 +13,5 @@
 # latest PyPI versions that satisfy these constraints.
 # ============================================
 
-# SciQLop v0.10.4 has unresolvable dependency conflicts
+# SciQLop v0.10.4 had unresolvable dependency conflicts in v1 of pipeline; doesn't seem to now
 # sciqlop!=0.10.4
-pyrfu<2.4.18
