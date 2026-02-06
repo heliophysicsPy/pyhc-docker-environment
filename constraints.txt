@@ -13,3 +13,4 @@
 
 # SciQLop v0.10.4 has unresolvable dependency conflicts
 # sciqlop!=0.10.4
+pyrfu<2.4.18
