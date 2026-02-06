@@ -58,7 +58,7 @@ jobs:
         retention-days: 30
 
     # ============================================
-    # Option A: Auto-pin packages to latest PyPI versions
+    # Auto-pin packages to latest PyPI versions
     # ============================================
     - name: Auto-pin packages to latest versions
       id: auto_pin
