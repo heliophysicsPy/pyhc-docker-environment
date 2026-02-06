@@ -46,7 +46,7 @@ fiasco | 0.7.0
 gcmprocpy | 1.2.1
 geopack | 1.0.12
 georinex | 1.16.2
-geospacelab | 0.12.1
+geospacelab | 0.12.3
 goesutils | 1.0.8
 hapiclient | 0.2.6
 hapiplot | 0.2.2

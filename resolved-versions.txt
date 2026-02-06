@@ -389,7 +389,7 @@ geopack==1.0.12
     #   pyspedas
 georinex==1.16.2
     # via -r packages.txt
-geospacelab==0.12.1
+geospacelab==0.12.3
     # via -r packages.txt
 gfz-api-client==0.1.0
     # via kaipy
