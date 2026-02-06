@@ -22,9 +22,10 @@ def run_tests():
     loader = unittest.TestLoader()
     start_dir = os.path.dirname(os.path.abspath(__file__))
     
-    # Load only the lean version-range tests aligned with current implementation
+    # Load lean tests aligned with current implementation.
     suite = unittest.TestSuite()
     suite.addTests(loader.discover(start_dir, pattern='test_version_ranges.py'))
+    suite.addTests(loader.discover(start_dir, pattern='test_uv_tree_parser.py'))
     
     runner = unittest.TextTestRunner(verbosity=2)
     result = runner.run(suite)

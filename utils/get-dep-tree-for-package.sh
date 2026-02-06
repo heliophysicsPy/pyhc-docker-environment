@@ -1,31 +1,22 @@
 #!/bin/bash
 
+set -euo pipefail
+
 PACKAGE=$1
-BASE_PACKAGE=$(echo "$PACKAGE" | sed 's/\[.*\]//')  # remove bracketed extras
-BASE_PACKAGE=$(echo "$BASE_PACKAGE" | sed 's/==.*//')  # remove ==version
+BASE_PACKAGE=$(echo "$PACKAGE" | sed 's/\[.*\]//')
+BASE_PACKAGE=$(echo "$BASE_PACKAGE" | sed -E 's/[<>=!].*$//')
 
-# Create a new virtual environment
-TEMP_ENV_NAME="temp_env_for_$PACKAGE"
-python3 -m venv $TEMP_ENV_NAME
+TEMP_DIR=$(mktemp -d)
+cleanup() {
+  popd >/dev/null 2>&1 || true
+  rm -rf "$TEMP_DIR"
+}
+trap cleanup EXIT
 
-# Activate the virtual environment
-source $TEMP_ENV_NAME/bin/activate
+pushd "$TEMP_DIR" >/dev/null
 
-# Install the given package and store its pipdeptree output
-PIP_INSTALL_OUTPUT_0=$(pip install wheel)
-PIP_INSTALL_OUTPUT_1=$(pip install --use-pep517 $PACKAGE)  # note: added `--use-pep517` June 24, 2025 because some older packages started failing with a dot/underscore clash setuptools bug 
-PIP_INSTALL_OUTPUT_2=$(pip install -q pipdeptree==2.3.3)
+uv venv --quiet .venv
+uv pip install --quiet --python .venv/bin/python "$PACKAGE"
+uv pip tree --python .venv/bin/python --show-version-specifiers --package "$BASE_PACKAGE"
 
-# Remove '==<version' from $PACKAGE if given (unnecessary now that we pass $BASE_PACKAGE to pipdeptree)
-PACKAGE=$(echo "$PACKAGE" | sed 's/==.*//')
-PIPTREE_OUTPUT=$(pipdeptree -p $BASE_PACKAGE)
-
-# Deactivate the virtual environment
-deactivate
-
-# Delete the virtual environment
-rm -rf $TEMP_ENV_NAME/
-
-# Return the pipdeptree output
-# exit 0
-echo "$PIPTREE_OUTPUT"
+popd >/dev/null

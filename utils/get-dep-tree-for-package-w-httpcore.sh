@@ -1,33 +1,24 @@
 #!/bin/bash
 
+set -euo pipefail
+
 PACKAGE=$1
-BASE_PACKAGE=$(echo "$PACKAGE" | sed 's/\[.*\]//')  # remove bracketed extras
-BASE_PACKAGE=$(echo "$BASE_PACKAGE" | sed 's/==.*//')  # remove ==version
+BASE_PACKAGE=$(echo "$PACKAGE" | sed 's/\[.*\]//')
+BASE_PACKAGE=$(echo "$BASE_PACKAGE" | sed -E 's/[<>=!].*$//')
 
-# Create a new virtual environment
-TEMP_ENV_NAME="temp_env_for_$PACKAGE"
-python3 -m venv $TEMP_ENV_NAME
+TEMP_DIR=$(mktemp -d)
+cleanup() {
+  popd >/dev/null 2>&1 || true
+  rm -rf "$TEMP_DIR"
+}
+trap cleanup EXIT
 
-# Activate the virtual environment
-source $TEMP_ENV_NAME/bin/activate
+pushd "$TEMP_DIR" >/dev/null
 
-# Install the given package and store its pipdeptree output
-# (forcibly install httpcore 1.0.8 to avoid h11>=0.16 conflict from April 28, 2025 reported in GitHub Actions)
-PIP_INSTALL_OUTPUT_httpcore=$(pip install httpcore==1.0.8)
-PIP_INSTALL_OUTPUT_0=$(pip install wheel)
-PIP_INSTALL_OUTPUT_1=$(pip install $PACKAGE)
-PIP_INSTALL_OUTPUT_2=$(pip install -q pipdeptree==2.3.3)
+uv venv --quiet .venv
+# Force httpcore 1.0.8 to avoid known h11 conflict.
+uv pip install --quiet --python .venv/bin/python "httpcore==1.0.8"
+uv pip install --quiet --python .venv/bin/python "$PACKAGE"
+uv pip tree --python .venv/bin/python --show-version-specifiers --package "$BASE_PACKAGE"
 
-# Remove '==<version' from $PACKAGE if given (unnecessary now that we pass $BASE_PACKAGE to pipdeptree)
-PACKAGE=$(echo "$PACKAGE" | sed 's/==.*//')
-PIPTREE_OUTPUT=$(pipdeptree -p $BASE_PACKAGE)
-
-# Deactivate the virtual environment
-deactivate
-
-# Delete the virtual environment
-rm -rf $TEMP_ENV_NAME/
-
-# Return the pipdeptree output
-# exit 0
-echo "$PIPTREE_OUTPUT"
+popd >/dev/null

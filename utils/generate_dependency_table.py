@@ -14,7 +14,9 @@ from packaging.version import Version
 from packaging.version import InvalidVersion
 import pandas as pd
 
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import re
+import shlex
 import subprocess
 
 try:
@@ -727,7 +729,96 @@ def determine_version_range(dependencies, package, requirement):
             raise RuntimeError(f"Package '{package}': {str(e)}")
 
 
-def get_dependency_ranges_by_package(packages, use_installed=False):
+def get_base_package_name(package):
+    """
+    Extract the base package name from a package specifier.
+    Examples:
+      - "sunpy==7.1.0" -> "sunpy"
+      - "pyhc-core[tests]==0.0.7" -> "pyhc-core"
+    """
+    package = package.strip()
+    return re.split(r"[=<>!\[\s]", package)[0]
+
+
+def parse_uv_tree_output(package, output_str):
+    """
+    Parse `uv pip tree --show-version-specifiers` output.
+    Returns:
+      (package_version, dependencies)
+    where dependencies is Dict like {"numpy": ">=2.0,<3.0", ...}
+    """
+    lines = [line.strip() for line in output_str.splitlines() if line.strip()]
+    if not lines:
+        raise RuntimeError(
+            f"Failed to parse dependency tree for package '{package}': empty output."
+        )
+
+    root_match = re.match(r"^([A-Za-z0-9_.-]+)\s+v([^\s]+)$", lines[0])
+    if not root_match:
+        raise RuntimeError(
+            f"Failed to parse version for package '{package}'. "
+            f"The first line of uv pip tree output did not match '<name> v<version>'.\n"
+            f"Output:\n{output_str}"
+        )
+    package_version = root_match.group(2)
+
+    dependencies = {}
+    dep_pattern = re.compile(
+        r"^[│\s├└─]*([A-Za-z0-9_.-]+)\s+v[^\s]+\s+\[(required|requires):\s+(.+?)\]\s*$"
+    )
+    for line in lines[1:]:
+        match = dep_pattern.match(line)
+        if not match:
+            continue
+        name = match.group(1).lower()
+        version_range = match.group(3).strip()
+        if version_range == "*":
+            version_range = "any"
+        else:
+            version_range = ",".join(part.strip() for part in version_range.split(","))
+        version_range = remove_wildcards(version_range)
+        version_range = normalize_compatible_releases(version_range)
+        dependencies[name] = determine_version_range(dependencies, name, version_range)
+    return package_version, dependencies
+
+
+def _build_dependency_tree_command(package, use_installed, installed_packages):
+    base_package = get_base_package_name(package)
+    base_package_lower = base_package.lower()
+
+    if use_installed and base_package_lower in installed_packages:
+        return f"uv pip tree --show-version-specifiers --package {shlex.quote(base_package)}"
+
+    if package.startswith("git+"):
+        return f"./utils/get-dep-tree-for-git-package.sh {shlex.quote(package)}"
+    if base_package == "pysatCDF":
+        return f"./utils/get-dep-tree-for-pysatCDF-w-numpy.sh {shlex.quote(package)}"
+    # if base_package == "OMMBV":
+    #     return f"./utils/get-dep-tree-for-ommbv.sh {shlex.quote(package)}"
+    # if base_package == "spacepy":
+    #     return f"./utils/get-dep-tree-for-spacepy.sh {shlex.quote(package)}"
+    # if base_package == "fisspy":
+    #     return f"./get-dep-tree-for-fisspy-w-conda.sh {shlex.quote(package)}"
+    if base_package in {"asilib", "pyaurorax"}:
+        return f"./utils/get-dep-tree-for-package-w-opencv-python.sh {shlex.quote(package)}"
+    if base_package in {"cloudcatalog", "pyrfu", "swxsoc"}:
+        return f"./utils/get-dep-tree-for-package-w-boto.sh {shlex.quote(package)}"
+    if base_package in {"EUVpy", "kaipy", "SciQLop"}:
+        return f"./utils/get-dep-tree-for-package-w-httpcore.sh {shlex.quote(package)}"
+    return f"./utils/get-dep-tree-for-package.sh {shlex.quote(package)}"
+
+
+def _get_package_dependencies(package, use_installed, installed_packages):
+    command = _build_dependency_tree_command(package, use_installed, installed_packages)
+    output_str = subprocess.check_output(command, shell=True, text=True)
+    package_version, dependencies = parse_uv_tree_output(package, output_str)
+    dependencies[get_base_package_name(package)] = f"=={package_version}"
+    sorted_dependencies = {key: value for key, value in sorted(dependencies.items())}
+    package_w_version = f"{package}=={package_version}" if "==" not in package else package
+    return package_w_version, sorted_dependencies
+
+
+def get_dependency_ranges_by_package(packages, use_installed=False, max_workers=1):
     """
     TODO: rename func to "get_dependency_ranges/requirements_for_packages()"?
     TODO: go back to "by project" wording?
@@ -735,70 +826,50 @@ def get_dependency_ranges_by_package(packages, use_installed=False):
     Pre-installed package versions get used when use_installed is True, otherwise the latest package versions get used.
     :param packages: List of packages like ['hapiclient', 'sunpy'] that may not be compatible together
     :param use_installed A Boolean for whether to try to use pre-installed package versions
+    :param max_workers: Number of worker threads to use when extracting package trees.
     :return: Dict like {'hapiclient': {'package1': '>=1.0'}, 'sunpy': {...}} (dependencies sorted alphabetically)
     """
-    installed_packages = get_packages_installed_in_environment()
+    if max_workers < 1:
+        max_workers = 1
+
+    installed_packages = set(get_packages_installed_in_environment())
     all_dependencies = {}
     total_packages = len(packages)  # for progress tracking output
-    for i, package in enumerate(packages, start=1):
-        print(f"Processing package: {package} ({i}/{total_packages})", flush=True)  # progress tracking output
-        if use_installed and package.lower() in installed_packages:
-            script_command = f"pipdeptree -p {package}"
-        else:
-            if package.startswith("git+"):
-                script_command = f"./utils/get-dep-tree-for-git-package.sh {package}"
-            elif package == "pysatCDF":
-                script_command = f"./utils/get-dep-tree-for-pysatCDF-w-numpy.sh {package}"
-            # elif package == "OMMBV":
-            #     script_command = f"./utils/get-dep-tree-for-ommbv.sh {package}"
-            # elif package == "spacepy":
-            #     script_command = f"./utils/get-dep-tree-for-spacepy.sh {package}"
-            # elif package == "fisspy":
-            #     script_command = f"./get-dep-tree-for-fisspy-w-conda.sh {package}"
-            elif package.split('==')[0] == "asilib":
-                script_command = f"./utils/get-dep-tree-for-package-w-opencv-python.sh {package}"
-            elif package.split('==')[0] == "cloudcatalog":
-                script_command = f"./utils/get-dep-tree-for-package-w-boto.sh {package}"
-            elif package.split('==')[0] == "EUVpy":
-                script_command = f"./utils/get-dep-tree-for-package-w-httpcore.sh {package}"
-            elif package.split('==')[0] == "kaipy":
-                script_command = f"./utils/get-dep-tree-for-package-w-httpcore.sh {package}"
-            elif package.split('==')[0] == "pyrfu":
-                script_command = f"./utils/get-dep-tree-for-package-w-boto.sh {package}"
-            elif package.split('==')[0] == "pyaurorax":
-                script_command = f"./utils/get-dep-tree-for-package-w-opencv-python.sh {package}"
-            elif package.split('==')[0] == "swxsoc":
-                script_command = f"./utils/get-dep-tree-for-package-w-boto.sh {package}"
-            elif package.split('==')[0] == "SciQLop":
-                script_command = f"./utils/get-dep-tree-for-package-w-httpcore.sh {package}"
-            else:
-                script_command = f"./utils/get-dep-tree-for-package.sh {package}"
-        output = subprocess.check_output(script_command, shell=True)
-        output_str = output.decode('utf-8')
-        try:
-            package_version = output_str.split('\n', 1)[0].split('==')[1]
-        except IndexError:
-            package_version = ""
-            # Handle case where package_version is empty
-            raise RuntimeError(
-                f"Failed to parse version for package '{package}'. "
-                f"The first line of pipdeptree output did not contain '==<version>'.\n"
-                f"Output:\n{output_str}"
-            )
-        dependencies = {}
-        for line in output_str.split("\n"):
-            # match = re.match("^\s*-\s*(\S+)\s+\[required:\s+(.+),\s+installed:.+\]", line)
-            match = re.match(r"\s*.*?(\S+)\s+\[required:\s+(.+?),\s+installed:.+?\]", line)
-            if match:
-                name, version_range = match.groups()
-                name = name.lower()
-                version_range = remove_wildcards(version_range)  # TODO: BEWARE: We pretend wildcards don't exist when operator is !=.
-                version_range = normalize_compatible_releases(version_range)
-                dependencies[name] = determine_version_range(dependencies, name, version_range)
-        dependencies[package.split('==')[0]] = f"=={package_version}"  # each top row package lists itself as dependency
-        sorted_dependencies = {key: value for key, value in sorted(dependencies.items())}
-        package_w_version = f"{package}=={package_version}" if "==" not in package else package
-        all_dependencies[package_w_version] = sorted_dependencies  # If I include the package version here it'll end up in the spreadsheet
+
+    def _process_single_package(index, package):
+        print(
+            f"Processing package: {package} ({index}/{total_packages})",
+            flush=True,
+        )
+        package_w_version, dependencies = _get_package_dependencies(
+            package, use_installed, installed_packages
+        )
+        return index, package_w_version, dependencies
+
+    indexed_packages = list(enumerate(packages, start=1))
+    if max_workers == 1:
+        for index, package in indexed_packages:
+            _, package_w_version, dependencies = _process_single_package(index, package)
+            all_dependencies[package_w_version] = dependencies
+        return all_dependencies
+
+    ordered_results = {}
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        future_to_package = {
+            executor.submit(_process_single_package, index, package): (index, package)
+            for index, package in indexed_packages
+        }
+        for future in as_completed(future_to_package):
+            index, package = future_to_package[future]
+            try:
+                _, package_w_version, dependencies = future.result()
+            except Exception as e:
+                raise RuntimeError(f"Failed to process package '{package}': {e}") from e
+            ordered_results[index] = (package_w_version, dependencies)
+
+    for index in sorted(ordered_results):
+        package_w_version, dependencies = ordered_results[index]
+        all_dependencies[package_w_version] = dependencies
     return all_dependencies
 
 
@@ -806,23 +877,23 @@ def get_dependency_ranges_for_environment(env_packages, full_path_to_pipdeptree=
     """
     TODO: rename func to "find_common_environment_dependency_ranges/requirements()"
     :param env_packages: List of packages like ['hapiclient', 'sunpy'] expected to already be installed in the env
-    :param full_path_to_pipdeptree: E.g. "/Users/shpo9723/opt/anaconda3/envs/pyhc-deps-1/bin/pipdeptree"
+    :param full_path_to_pipdeptree: Optional command override. If provided, this should point to a
+                                    `uv pip tree --show-version-specifiers` compatible command prefix.
     :return: Dict like {'package1': '>=1.0', 'package2': '<23.0', ...} (sorted alphabetically)
     """
-    pipdeptree_path = full_path_to_pipdeptree if full_path_to_pipdeptree else "pipdeptree"
+    uv_tree_command = (
+        full_path_to_pipdeptree
+        if full_path_to_pipdeptree
+        else "uv pip tree --show-version-specifiers"
+    )
     dependencies = {}
     for package in env_packages:
-        command = f"{pipdeptree_path} -p {package}"
-        output = subprocess.check_output(command, shell=True)
-        output_str = output.decode('utf-8')
-        for line in output_str.split("\n"):
-            match = re.match(r"^\s*-\s*(\S+)\s+\[required:\s+(.+),\s+installed:.+\]", line)
-            if match:
-                name, version_range = match.groups()
-                name = name.lower()
-                version_range = remove_wildcards(version_range)
-                version_range = normalize_compatible_releases(version_range)
-                dependencies[name] = determine_version_range(dependencies, name, version_range)
+        base_package = get_base_package_name(package)
+        command = f"{uv_tree_command} --package {shlex.quote(base_package)}"
+        output_str = subprocess.check_output(command, shell=True, text=True)
+        _, package_dependencies = parse_uv_tree_output(package, output_str)
+        for name, version_range in package_dependencies.items():
+            dependencies[name] = determine_version_range(dependencies, name, version_range)
     sorted_dependencies = {k: v for k, v in sorted(dependencies.items())}
     return sorted_dependencies
 
@@ -983,7 +1054,7 @@ def reorder_requirements(range_str):
     :return: Reordered String like ">=1.5.0,<2.0,!=1.6"
     """
     if range_str:
-        rules = range_str.split(",")
+        rules = [rule.strip() for rule in range_str.split(",") if rule.strip()]
         lower_bound = None
         upper_bound = None
         remaining = []
@@ -1115,7 +1186,7 @@ def merge_dependencies(core_dependencies, other_dependencies):
 #       (biggest change: lots of {'package': (None, None, None)} cells where projects don't use that dependency).
 
 
-def generate_dependency_table_data(packages, core_env_packages=[]):
+def generate_dependency_table_data(packages, core_env_packages=[], max_workers=1):
     """
     Generates a data structure that can populate a dependency conflict table.
     :param packages: A list of PyHC packages ["package1", "package2", ...] that may have dependency conflicts
@@ -1134,8 +1205,15 @@ def generate_dependency_table_data(packages, core_env_packages=[]):
                          }
              with version range data cleaned for Excel.
     """
-    core_deps_by_project = get_dependency_ranges_by_package(core_env_packages, use_installed=True)
-    other_deps_by_project = get_dependency_ranges_by_package(packages)
+    core_deps_by_project = get_dependency_ranges_by_package(
+        core_env_packages,
+        use_installed=True,
+        max_workers=max_workers,
+    )
+    other_deps_by_project = get_dependency_ranges_by_package(
+        packages,
+        max_workers=max_workers,
+    )
     all_deps_by_project = {**core_deps_by_project, **other_deps_by_project}
 
     # import pickle  # TODO: delete pickling

@@ -183,7 +183,17 @@ def generate_spreadsheet(packages_file=None):
         all_packages = parse_packages_txt(packages_file, preserve_specifiers=True)
         print(f"Generating spreadsheet for {len(all_packages)} package entries from {packages_file}")
 
-        table_data = generate_dependency_table_data(all_packages)
+        workers_str = os.environ.get("PYHC_SPREADSHEET_WORKERS", "2")
+        try:
+            max_workers = max(1, int(workers_str))
+        except ValueError as exc:
+            raise ValueError(
+                f"Invalid PYHC_SPREADSHEET_WORKERS value '{workers_str}'. "
+                "Expected a positive integer."
+            ) from exc
+
+        print(f"Using spreadsheet worker count: {max_workers}")
+        table_data = generate_dependency_table_data(all_packages, max_workers=max_workers)
         table = excel_spreadsheet_from_table_data(table_data)
         table.save(spreadsheet_path)
 

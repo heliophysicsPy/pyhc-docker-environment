@@ -15,6 +15,11 @@ on:
         required: false
         default: 'false'
         type: boolean
+      spreadsheet_workers:
+        description: 'Number of workers for spreadsheet generation'
+        required: false
+        default: '2'
+        type: string
 
 jobs:
   run-pipeline:
@@ -23,8 +28,6 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v4
-      with:
-        ref: main-v2
 
     - name: Extract Python version from environment.yml
       id: python_version
@@ -44,9 +47,22 @@ jobs:
     - name: Install Pipeline Dependencies
       run: pip install -r pipeline_requirements.txt
 
+    # ============================================
+    # Auto-pin packages to latest PyPI versions
+    # ============================================
+    - name: Auto-pin packages to latest versions
+      id: auto_pin
+      run: python pipeline_v2.py --auto-pin
+
+    # ============================================
+    # Optional Spreadsheet Generation (uses latest pinned packages)
+    # ============================================
     - name: Generate Dependency Spreadsheet
       id: generate_spreadsheet
       if: github.event.inputs.generate_spreadsheet == 'true'
+      env:
+        PYHC_SPREADSHEET_WORKERS: ${{ github.event.inputs.spreadsheet_workers || '2' }}
+        PIP_DISABLE_PIP_VERSION_CHECK: '1'
       run: python pipeline_v2.py --generate-spreadsheet
 
     - name: Upload Spreadsheet Artifact
@@ -56,13 +72,6 @@ jobs:
         name: dependency-spreadsheet
         path: ${{ steps.generate_spreadsheet.outputs.spreadsheet_path }}
         retention-days: 30
-
-    # ============================================
-    # Auto-pin packages to latest PyPI versions
-    # ============================================
-    - name: Auto-pin packages to latest versions
-      id: auto_pin
-      run: python pipeline_v2.py --auto-pin
 
     - name: Skip if no PyHC updates (unless forced)
       if: steps.auto_pin.outputs.pyhc_packages_changed != 'true' && github.event.inputs.force_build != 'true'

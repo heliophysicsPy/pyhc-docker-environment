@@ -1,35 +1,24 @@
 #!/bin/bash
 
+set -euo pipefail
+
 PACKAGE=$1
-BASE_PACKAGE=$(echo "$PACKAGE" | sed 's/\[.*\]//')  # remove bracketed extras
-BASE_PACKAGE=$(echo "$BASE_PACKAGE" | sed 's/==.*//')  # remove ==version
+BASE_PACKAGE=$(echo "$PACKAGE" | sed 's/\[.*\]//')
+BASE_PACKAGE=$(echo "$BASE_PACKAGE" | sed -E 's/[<>=!].*$//')
 
-# Create a new virtual environment
-TEMP_ENV_NAME="temp_env_for_$PACKAGE"
-python3 -m venv $TEMP_ENV_NAME
+TEMP_DIR=$(mktemp -d)
+cleanup() {
+  popd >/dev/null 2>&1 || true
+  rm -rf "$TEMP_DIR"
+}
+trap cleanup EXIT
 
-# Activate the virtual environment
-source $TEMP_ENV_NAME/bin/activate
+pushd "$TEMP_DIR" >/dev/null
 
-# Install the given package and store its pipdeptree output
-# (forcibly install boto3 & botocore v1.40.46 to avoid botocore conflict between pySPEDAS/cloudcatalog/pyRFU/SWxSOC from March 6/July 3/Aug 15/Oct 5/Nov 5, 2025)
-# PIP_INSTALL_OUTPUT_s3transfer=$(pip install s3transfer==0.13.0)
-PIP_INSTALL_OUTPUT_boto3=$(pip install boto3==1.40.46)
-PIP_INSTALL_OUTPUT_botocore=$(pip install botocore==1.40.46)
-PIP_INSTALL_OUTPUT_0=$(pip install wheel)
-PIP_INSTALL_OUTPUT_1=$(pip install $PACKAGE)
-PIP_INSTALL_OUTPUT_2=$(pip install -q pipdeptree==2.3.3)
+uv venv --quiet .venv
+# Force boto3/botocore to avoid known botocore conflict during tree extraction.
+uv pip install --quiet --python .venv/bin/python "boto3==1.40.46" "botocore==1.40.46"
+uv pip install --quiet --python .venv/bin/python "$PACKAGE"
+uv pip tree --python .venv/bin/python --show-version-specifiers --package "$BASE_PACKAGE"
 
-# Remove '==<version' from $PACKAGE if given (unnecessary now that we pass $BASE_PACKAGE to pipdeptree)
-PACKAGE=$(echo "$PACKAGE" | sed 's/==.*//')
-PIPTREE_OUTPUT=$(pipdeptree -p $BASE_PACKAGE)
-
-# Deactivate the virtual environment
-deactivate
-
-# Delete the virtual environment
-rm -rf $TEMP_ENV_NAME/
-
-# Return the pipdeptree output
-# exit 0
-echo "$PIPTREE_OUTPUT"
+popd >/dev/null
