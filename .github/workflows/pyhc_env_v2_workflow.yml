@@ -54,25 +54,6 @@ jobs:
       id: auto_pin
       run: python pipeline_v2.py --auto-pin
 
-    # ============================================
-    # Optional Spreadsheet Generation (uses latest pinned packages)
-    # ============================================
-    - name: Generate Dependency Spreadsheet
-      id: generate_spreadsheet
-      if: github.event_name != 'workflow_dispatch' || github.event.inputs.generate_spreadsheet != 'false'
-      env:
-        PYHC_SPREADSHEET_WORKERS: ${{ github.event.inputs.spreadsheet_workers || '2' }}
-        PIP_DISABLE_PIP_VERSION_CHECK: '1'
-      run: python pipeline_v2.py --generate-spreadsheet
-
-    - name: Upload Spreadsheet Artifact
-      if: github.event_name != 'workflow_dispatch' || github.event.inputs.generate_spreadsheet != 'false'
-      uses: actions/upload-artifact@v4
-      with:
-        name: dependency-spreadsheet
-        path: ${{ steps.generate_spreadsheet.outputs.spreadsheet_path }}
-        retention-days: 30
-
     - name: Skip if no PyHC updates (unless forced)
       if: steps.auto_pin.outputs.pyhc_packages_changed != 'true' && github.event.inputs.force_build != 'true'
       run: |
@@ -88,6 +69,26 @@ jobs:
       id: compile
       run: python pipeline_v2.py --compile
       continue-on-error: true
+
+    # ============================================
+    # Optional Spreadsheet Generation (for diagnostics and analysis)
+    # Runs only when updates/force would run pipeline, regardless of compile success.
+    # ============================================
+    - name: Generate Dependency Spreadsheet
+      id: generate_spreadsheet
+      if: (steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && (github.event_name != 'workflow_dispatch' || github.event.inputs.generate_spreadsheet != 'false')
+      env:
+        PYHC_SPREADSHEET_WORKERS: ${{ github.event.inputs.spreadsheet_workers || '2' }}
+        PIP_DISABLE_PIP_VERSION_CHECK: '1'
+      run: python pipeline_v2.py --generate-spreadsheet
+
+    - name: Upload Spreadsheet Artifact
+      if: (steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && (github.event_name != 'workflow_dispatch' || github.event.inputs.generate_spreadsheet != 'false')
+      uses: actions/upload-artifact@v4
+      with:
+        name: dependency-spreadsheet
+        path: ${{ steps.generate_spreadsheet.outputs.spreadsheet_path }}
+        retention-days: 30
 
     - name: Post conflict to issue on failure
       if: steps.compile.outcome == 'failure'
@@ -113,7 +114,11 @@ jobs:
     - name: Fail workflow on compile error
       if: steps.compile.outcome == 'failure'
       run: |
-        echo "ERROR: Dependency resolution failed. See issue #2 for details."
+        if [ "${{ github.event_name != 'workflow_dispatch' || github.event.inputs.generate_spreadsheet != 'false' }}" = "true" ]; then
+          echo "ERROR: Dependency resolution failed. See issue #2 and this run's spreadsheet artifact for details."
+        else
+          echo "ERROR: Dependency resolution failed. See issue #2 for details."
+        fi
         exit 1
 
     # ============================================
@@ -153,7 +158,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Commit spreadsheet if generated
-      if: github.event_name != 'workflow_dispatch' || github.event.inputs.generate_spreadsheet != 'false'
+      if: (steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && (github.event_name != 'workflow_dispatch' || github.event.inputs.generate_spreadsheet != 'false') && steps.compile.outcome == 'success'
       run: |
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
