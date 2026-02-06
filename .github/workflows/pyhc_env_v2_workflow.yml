@@ -28,8 +28,6 @@ jobs:
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v4
-      with:
-        ref: main-v2
 
     - name: Extract Python version from environment.yml
       id: python_version
