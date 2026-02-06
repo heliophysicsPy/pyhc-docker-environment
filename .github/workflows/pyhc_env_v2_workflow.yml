@@ -11,9 +11,9 @@ on:
         default: 'false'
         type: boolean
       generate_spreadsheet:
-        description: 'Generate dependency spreadsheet (for debugging/analysis)'
+        description: 'Generate dependency spreadsheet (set false to skip)'
         required: false
-        default: 'false'
+        default: 'true'
         type: boolean
       spreadsheet_workers:
         description: 'Number of workers for spreadsheet generation'
@@ -59,14 +59,14 @@ jobs:
     # ============================================
     - name: Generate Dependency Spreadsheet
       id: generate_spreadsheet
-      if: github.event.inputs.generate_spreadsheet == 'true'
+      if: github.event_name != 'workflow_dispatch' || github.event.inputs.generate_spreadsheet != 'false'
       env:
         PYHC_SPREADSHEET_WORKERS: ${{ github.event.inputs.spreadsheet_workers || '2' }}
         PIP_DISABLE_PIP_VERSION_CHECK: '1'
       run: python pipeline_v2.py --generate-spreadsheet
 
     - name: Upload Spreadsheet Artifact
-      if: github.event.inputs.generate_spreadsheet == 'true'
+      if: github.event_name != 'workflow_dispatch' || github.event.inputs.generate_spreadsheet != 'false'
       uses: actions/upload-artifact@v4
       with:
         name: dependency-spreadsheet
@@ -153,12 +153,16 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Commit spreadsheet if generated
-      if: github.event.inputs.generate_spreadsheet == 'true'
+      if: github.event_name != 'workflow_dispatch' || github.event.inputs.generate_spreadsheet != 'false'
       run: |
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
         git add spreadsheets/
-        git commit -m "Add dependency spreadsheet" || echo "No spreadsheet changes"
+        MSG="Add dependency spreadsheet"
+        if [ "${{ steps.generate_spreadsheet.outputs.conflict_count }}" != "0" ]; then
+          MSG="Add dependency conflict spreadsheet"
+        fi
+        git commit -m "$MSG" || echo "No spreadsheet changes"
         git push
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
