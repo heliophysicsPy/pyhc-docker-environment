@@ -15,6 +15,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from generate_dependency_table import (
     parse_uv_tree_output,
     get_dependency_ranges_by_package,
+    find_dependency_conflicts,
 )
 
 
@@ -184,6 +185,68 @@ class TestGetDependencyRangesByPackageParallel(unittest.TestCase):
             get_dependency_ranges_by_package(["explode==1.0.0"], max_workers=4)
 
         self.assertIn("explode==1.0.0", str(exc.exception))
+
+
+class TestFindDependencyConflicts(unittest.TestCase):
+    def test_detects_conflicts_from_tuple_dependency_shape(self):
+        table_data = {
+            "core_dependencies": {},
+            "other_dependencies": {
+                "botocore": (45, None, None),
+                "requests": (12, ">=2.0", None),
+            },
+            "project_data": {
+                "pyspedas==2.0.7": {
+                    "botocore": (False, None, ">=1.40.46,<1.40.62"),
+                },
+                "cloudcatalog==1.1.0": {
+                    "botocore": (False, None, ">=1.42.43"),
+                },
+            },
+        }
+
+        conflicts = find_dependency_conflicts(table_data)
+
+        self.assertEqual(len(conflicts), 1)
+        self.assertIn("Conflict for 'botocore':", conflicts[0])
+        self.assertIn("pyspedas requires botocore>=1.40.46,<1.40.62", conflicts[0])
+        self.assertIn("cloudcatalog requires botocore>=1.42.43", conflicts[0])
+
+    def test_detects_conflicts_from_legacy_dependency_shape(self):
+        table_data = {
+            "core_dependencies": {},
+            "other_dependencies": {
+                "botocore": None,
+            },
+            "project_data": {
+                "pyspedas==2.0.7": {
+                    "botocore": ">=1.40.46,<1.40.62",
+                },
+                "cloudcatalog==1.1.0": {
+                    "botocore": ">=1.42.43",
+                },
+            },
+        }
+
+        conflicts = find_dependency_conflicts(table_data)
+
+        self.assertEqual(len(conflicts), 1)
+        self.assertIn("Conflict for 'botocore':", conflicts[0])
+        self.assertIn("pyspedas requires botocore>=1.40.46,<1.40.62", conflicts[0])
+        self.assertIn("cloudcatalog requires botocore>=1.42.43", conflicts[0])
+
+    def test_returns_empty_when_no_conflict_markers(self):
+        table_data = {
+            "core_dependencies": {"numpy": (2, ">=1.0", True)},
+            "other_dependencies": {"requests": (3, ">=2.0", None)},
+            "project_data": {
+                "alpha==1.0.0": {"numpy": (True, True, ">=1.0")},
+                "beta==2.0.0": {"requests": (True, None, ">=2.0")},
+            },
+        }
+
+        conflicts = find_dependency_conflicts(table_data)
+        self.assertEqual(conflicts, [])
 
 
 if __name__ == "__main__":

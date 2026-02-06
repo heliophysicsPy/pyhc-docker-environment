@@ -1030,9 +1030,21 @@ def find_dependency_conflicts(table_data):
     if not isinstance(table_data, dict):
         return []
 
-    # Find packages with None (conflict) in other_dependencies
-    other_deps = table_data.get("other_dependencies", {})
-    conflicting_packages = {pkg for pkg, version in other_deps.items() if version is None}
+    # Find packages with None version range (conflict) in core_dependencies and other_dependencies.
+    # After generate_dependency_table_data(), these are tuples:
+    #   (row_number, version_range, spec0_compliant)
+    # Keep compatibility with legacy shapes where values were direct range strings/None.
+    conflicting_packages = set()
+
+    for deps_key in ["core_dependencies", "other_dependencies"]:
+        deps = table_data.get(deps_key, {})
+        for pkg, val in deps.items():
+            if isinstance(val, tuple):
+                version_range = val[1] if len(val) >= 2 else None
+            else:
+                version_range = val
+            if version_range is None or pd.isna(version_range):
+                conflicting_packages.add(pkg)
 
     if not conflicting_packages:
         return []
@@ -1049,10 +1061,17 @@ def find_dependency_conflicts(table_data):
             project_name = project.split("==")[0] if isinstance(project, str) else str(project)
             if conflicting_pkg in dependency_data:
                 values = dependency_data[conflicting_pkg]
-                if isinstance(values, tuple) and len(values) >= 3:
-                    version_range = values[2]  # Third element is version_range
-                    if version_range and version_range != "any":
-                        involved_projects.append(f"{project_name} requires {conflicting_pkg}{version_range}")
+                if isinstance(values, tuple):
+                    if len(values) >= 3:
+                        version_range = values[2]  # Third element is project requirement range.
+                    elif len(values) >= 2:
+                        version_range = values[1]
+                    else:
+                        version_range = None
+                else:
+                    version_range = values
+                if version_range and str(version_range).lower() != "any":
+                    involved_projects.append(f"{project_name} requires {conflicting_pkg}{version_range}")
 
         if involved_projects:
             conflict_desc = f"Conflict for '{conflicting_pkg}': " + "; ".join(involved_projects)
