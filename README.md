@@ -73,7 +73,7 @@ pydarn | 4.2
 pyflct | 0.3.1
 pyhc-core | 0.0.7
 pymap3d | 3.2.0
-pyrfu | 2.4.19
+pyrfu | 2.4.17
 pysat | 3.2.2
 pyspedas | 2.0.7
 pytest-arraydiff | 0.6.1
@@ -87,7 +87,7 @@ regularizepsf | 1.1.1
 sammi-cdf | 1.0.2
 savic | 1.2.7
 sciencedates | 1.5.0
-SciQLop | 0.10.3
+SciQLop | 0.10.4
 setuptools-scm | 9.2.2
 SkyWinder | 0.0.3
 solarmach | 0.5.2
