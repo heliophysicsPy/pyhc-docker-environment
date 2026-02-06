@@ -71,7 +71,7 @@ regularizepsf==1.1.1
 sammi-cdf==1.0.2
 savic==1.2.7
 sciencedates==1.5.0
-SciQLop==0.10.4  # v0.10.4 blocked in constraints.txt
+SciQLop==0.10.4
 SkyWinder==0.0.3
 solarmach==0.5.2
 solo-epd-loader==0.4.4
