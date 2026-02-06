@@ -71,7 +71,7 @@ pyaurorax | 1.22.0
 pycdfpp | 0.8.6
 pydarn | 4.2
 pyflct | 0.3.1
-pyhc-core | 0.0.7
+pyhc-core[tests] | 0.0.7
 pymap3d | 3.2.0
 pyrfu | 2.4.19
 pysat | 3.2.2
