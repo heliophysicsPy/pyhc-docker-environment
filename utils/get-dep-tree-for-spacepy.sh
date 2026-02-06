@@ -1,30 +1,21 @@
 #!/bin/bash
 
+set -euo pipefail
+
 PACKAGE=$1
+BASE_PACKAGE=$(echo "$PACKAGE" | sed 's/\[.*\]//')
+BASE_PACKAGE=$(echo "$BASE_PACKAGE" | sed -E 's/[<>=!].*$//')
 
-# Create a new virtual environment (carefully consider python version?)
-TEMP_ENV_NAME="temp_env_for_$PACKAGE"
-python3.10 -m venv $TEMP_ENV_NAME
+TEMP_DIR=$(mktemp -d)
+cleanup() {
+  rm -rf "$TEMP_DIR"
+}
+trap cleanup EXIT
 
-# Activate the virtual environment
-source $TEMP_ENV_NAME/bin/activate
+VENV_PATH="$TEMP_DIR/.venv"
+PYTHON_BIN="$VENV_PATH/bin/python"
 
-# Install the given package and store its pipdeptree output
-PIP_INSTALL_OUTPUT_0=$(pip install wheel)
-PIP_INSTALL_OUTPUT_1=$(pip install --no-cache-dir numpy==1.24.3)
-PIP_INSTALL_OUTPUT_2=$(pip install --no-cache-dir $PACKAGE --no-build-isolation)
-PIP_INSTALL_OUTPUT_3=$(pip install -q pipdeptree==2.3.3)
-
-# Remove '==<version' from $PACKAGE if given
-PACKAGE=$(echo "$PACKAGE" | sed 's/==.*//')
-PIPTREE_OUTPUT=$(pipdeptree -p $PACKAGE)
-
-# Deactivate the virtual environment
-deactivate
-
-# Delete the virtual environment
-rm -rf $TEMP_ENV_NAME/
-
-# Return the pipdeptree output
-# exit 0
-echo "$PIPTREE_OUTPUT"
+uv venv --quiet --python 3.10 "$VENV_PATH"
+uv pip install --quiet --python "$PYTHON_BIN" --no-build-isolation "numpy==1.24.3"
+uv pip install --quiet --python "$PYTHON_BIN" --no-build-isolation "$PACKAGE"
+uv pip tree --python "$PYTHON_BIN" --show-version-specifiers --package "$BASE_PACKAGE"
