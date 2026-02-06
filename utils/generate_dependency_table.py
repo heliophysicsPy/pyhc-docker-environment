@@ -791,20 +791,20 @@ def _build_dependency_tree_command(package, use_installed, installed_packages):
 
     if package.startswith("git+"):
         return f"./utils/get-dep-tree-for-git-package.sh {shlex.quote(package)}"
-    if base_package == "pysatCDF":
-        return f"./utils/get-dep-tree-for-pysatCDF-w-numpy.sh {shlex.quote(package)}"
+#    if base_package == "pysatCDF":
+#        return f"./utils/get-dep-tree-for-pysatCDF-w-numpy.sh {shlex.quote(package)}"
     # if base_package == "OMMBV":
     #     return f"./utils/get-dep-tree-for-ommbv.sh {shlex.quote(package)}"
     # if base_package == "spacepy":
     #     return f"./utils/get-dep-tree-for-spacepy.sh {shlex.quote(package)}"
     # if base_package == "fisspy":
     #     return f"./get-dep-tree-for-fisspy-w-conda.sh {shlex.quote(package)}"
-    if base_package in {"asilib", "pyaurorax"}:
-        return f"./utils/get-dep-tree-for-package-w-opencv-python.sh {shlex.quote(package)}"
-    if base_package in {"cloudcatalog", "pyrfu", "swxsoc"}:
-        return f"./utils/get-dep-tree-for-package-w-boto.sh {shlex.quote(package)}"
-    if base_package in {"EUVpy", "kaipy", "SciQLop"}:
-        return f"./utils/get-dep-tree-for-package-w-httpcore.sh {shlex.quote(package)}"
+#    if base_package in {"asilib", "pyaurorax"}:
+#        return f"./utils/get-dep-tree-for-package-w-opencv-python.sh {shlex.quote(package)}"
+#    if base_package in {"cloudcatalog", "pyrfu", "swxsoc"}:
+#        return f"./utils/get-dep-tree-for-package-w-boto.sh {shlex.quote(package)}"
+#    if base_package in {"EUVpy", "kaipy", "SciQLop"}:
+#        return f"./utils/get-dep-tree-for-package-w-httpcore.sh {shlex.quote(package)}"
     return f"./utils/get-dep-tree-for-package.sh {shlex.quote(package)}"
 
 
