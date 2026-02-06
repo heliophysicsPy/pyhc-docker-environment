@@ -13,6 +13,17 @@ except ImportError:
     from pipeline_utils import parse_packages_txt
 
 
+def _extract_display_name(package_entry):
+    """Return package name for README display, preserving extras but not version pins."""
+    return re.split(r'(?:===|==|~=|!=|<=|>=|<|>)', package_entry, maxsplit=1)[0].strip()
+
+
+def _normalize_for_lockfile_match(name):
+    """Normalize for lockfile matching: strip extras and normalize separators/case."""
+    name_no_extras = re.sub(r'\[.*\]', '', name).strip()
+    return name_no_extras.lower().replace('-', '_').replace('.', '_')
+
+
 def extract_versions_from_lockfile(lockfile_path, package_names):
     """Extract versions for specified packages from resolved-versions.txt.
 
@@ -28,12 +39,11 @@ def extract_versions_from_lockfile(lockfile_path, package_names):
     with open(lockfile_path, 'r') as file:
         lockfile_content = file.read()
 
-    # Normalize package names for case-insensitive matching
-    # Also handle underscore/hyphen variations
-    def normalize(name):
-        return name.lower().replace('-', '_').replace('.', '_')
-
-    package_names_normalized = {normalize(p): p for p in package_names}
+    package_names_normalized = {}
+    for package_name in package_names:
+        key = _normalize_for_lockfile_match(package_name)
+        if key and key not in package_names_normalized:
+            package_names_normalized[key] = package_name
 
     for line in lockfile_content.split('\n'):
         line = line.strip()
@@ -44,7 +54,7 @@ def extract_versions_from_lockfile(lockfile_path, package_names):
         match = re.match(r'^([a-zA-Z0-9_.-]+)==([^\s#]+)', line)
         if match:
             pkg_name, version = match.groups()
-            pkg_normalized = normalize(pkg_name)
+            pkg_normalized = _normalize_for_lockfile_match(pkg_name)
             if pkg_normalized in package_names_normalized:
                 # Use the original package name from packages.txt for display
                 original_name = package_names_normalized[pkg_normalized]
@@ -84,7 +94,8 @@ if __name__ == '__main__':
     packages_file_path = os.path.join(repo_root, 'packages.txt')
     lockfile_path = os.path.join(repo_root, 'resolved-versions.txt')
 
-    pyhc_packages = parse_packages_txt(packages_file_path)
+    package_entries = parse_packages_txt(packages_file_path, preserve_specifiers=True)
+    pyhc_packages = [_extract_display_name(entry) for entry in package_entries]
     package_versions = extract_versions_from_lockfile(lockfile_path, pyhc_packages)
     md_table = versions_to_markdown_table(package_versions)
 
