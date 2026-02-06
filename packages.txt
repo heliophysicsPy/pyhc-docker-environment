@@ -1,8 +1,15 @@
 # ============================================
 # PyHC Environment Package List
 # ============================================
-# This file is the single source of truth for
-# which PyHC packages belong in the environment.
+# This file contains all PyHC packages pinned
+# to their latest versions that satisfy the
+# constraints in constraints.txt.
+#
+# The auto-pin step updates these versions
+# automatically. Do not edit versions manually
+# unless temporarily testing something.
+#
+# See constraints.txt for blocked versions.
 # ============================================
 
 # --- Core Packages ---
@@ -87,11 +94,6 @@ pytest-arraydiff==0.6.1
 pytest-doctestplus==1.7.1
 pytest-xdist==3.8.0
 setuptools-scm==9.2.2
-
-# --- Version Constraints ---
-# (for cross-cutting compatibility issues)
-# astropy==6.1.7  # astropy/xarray compatibility
-# xarray==2024.10.0  # astropy/xarray compatibility  # TODO: astropy and xarray were pinned to fix PlasmaPy unit tests; if PlasmaPy tests work without these, delete them and close issue 36
 
 # --- Excluded Packages ---
 # kamodo  # Does not support Python>=3.12

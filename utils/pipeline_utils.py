@@ -12,6 +12,7 @@ import collections
 from datetime import datetime, timedelta
 import pandas as pd
 from packaging.version import Version
+from packaging.specifiers import SpecifierSet, InvalidSpecifier
 
 
 try:
@@ -100,6 +101,65 @@ def fetch_latest_version_from_pypi(package_name):
     except requests.RequestException as e:
         print(f"Error fetching package {package_name} from PyPI: {e}")
         return None
+
+
+def fetch_all_versions_from_pypi(package_name: str) -> list:
+    """
+    Fetch all available versions of a package from PyPI.
+
+    Args:
+        package_name: Name of the package to query
+
+    Returns:
+        List of version strings, or None if fetch fails
+    """
+    try:
+        response = requests.get(f"https://pypi.org/pypi/{package_name}/json")
+        response.raise_for_status()
+        data = response.json()
+        return list(data['releases'].keys())
+    except requests.RequestException as e:
+        print(f"Error fetching versions for {package_name} from PyPI: {e}")
+        return None
+
+
+def find_highest_satisfying_version(package_name: str, constraint: SpecifierSet) -> str:
+    """
+    Find the highest version of a package that satisfies the given constraint.
+
+    Args:
+        package_name: Name of the package to query
+        constraint: SpecifierSet defining version constraints
+
+    Returns:
+        Highest version string that satisfies the constraint, or None if:
+        - PyPI fetch fails
+        - No version satisfies the constraint
+    """
+    all_versions = fetch_all_versions_from_pypi(package_name)
+    if all_versions is None:
+        return None
+
+    # Filter to valid, non-prerelease versions that satisfy the constraint
+    valid_versions = []
+    for v in all_versions:
+        try:
+            parsed = Version(v)
+            # Skip pre-releases and dev releases
+            if parsed.is_prerelease or parsed.is_devrelease:
+                continue
+            # Check if version satisfies constraint
+            if v in constraint:
+                valid_versions.append(parsed)
+        except Exception:
+            # Skip versions that can't be parsed
+            continue
+
+    if not valid_versions:
+        return None
+
+    # Return highest valid version
+    return str(max(valid_versions))
 
 
 def strip_extras(package_name):
@@ -546,18 +606,21 @@ def update_packages_txt_with_pins(packages_file: str, new_versions: dict) -> Non
 
 
 def parse_constraints(constraints_file: str) -> dict:
-    """Parse constraints.txt to extract blocked versions.
+    """Parse constraints.txt to extract version constraints.
+
+    Supports all pip constraint operators: ==, !=, <, <=, >, >=, ~=
+    and compound constraints like "pkg!=1.0,<2.0".
 
     Args:
         constraints_file: Path to constraints.txt
 
     Returns:
-        Dict mapping package name (lowercase) → set of blocked versions
+        Dict mapping package name (lowercase) → SpecifierSet object
     """
-    blocked = {}
+    constraints = {}
 
     if not os.path.exists(constraints_file):
-        return blocked
+        return constraints
 
     with open(constraints_file, 'r') as f:
         for line in f:
@@ -565,24 +628,50 @@ def parse_constraints(constraints_file: str) -> dict:
             if not line or line.startswith('#'):
                 continue
 
-            # Handle != constraints (e.g., "sciqlop!=0.10.4")
-            if '!=' in line:
-                parts = line.split('!=')
-                name = parts[0].strip().lower()
-                version = parts[1].split('#')[0].strip()  # Remove inline comments
-                if name not in blocked:
-                    blocked[name] = set()
-                blocked[name].add(version)
+            # Remove inline comments
+            line = line.split('#')[0].strip()
+            if not line:
+                continue
 
-    return blocked
+            # Parse package name and specifier
+            # Match package name (can include - and _), then version specifier
+            match = re.match(r'^([a-zA-Z0-9_-]+)(.*)', line)
+            if not match:
+                print(f"Warning: Could not parse constraint line: {line}")
+                continue
+
+            name = match.group(1).lower()
+            specifier_str = match.group(2).strip()
+
+            if not specifier_str:
+                # No version specifier, skip
+                continue
+
+            try:
+                specifier = SpecifierSet(specifier_str)
+                if name in constraints:
+                    # Combine with existing constraints
+                    constraints[name] = constraints[name] & specifier
+                else:
+                    constraints[name] = specifier
+            except InvalidSpecifier as e:
+                print(f"Warning: Invalid specifier '{specifier_str}' for {name}: {e}")
+                continue
+
+    return constraints
 
 
 def auto_pin_packages_to_latest(packages_file: str, constraints_file: str = None) -> dict:
-    """Update packages.txt with latest PyPI versions, respecting constraints.
+    """Update packages.txt with latest PyPI versions that satisfy constraints.
 
-    If a package's latest version is blocked by constraints.txt, the package
-    is skipped (keeps its current pin). This allows manually pinned versions
-    to persist until a newer non-blocked version is released.
+    For each package:
+    - If no constraint exists, use the latest PyPI version
+    - If latest version satisfies constraints, use it
+    - If latest version doesn't satisfy constraints, find the highest version that does
+
+    This ensures packages.txt always contains the latest allowable versions.
+
+    Supports all constraint operators: ==, !=, <, <=, >, >=, ~=
 
     Args:
         packages_file: Path to packages.txt
@@ -592,14 +681,14 @@ def auto_pin_packages_to_latest(packages_file: str, constraints_file: str = None
         Dict of changed packages: {pkg: (old_version, new_version)}
 
     Raises:
-        RuntimeError: If any PyPI fetch fails
+        RuntimeError: If any PyPI fetch fails or no valid version exists for a constrained package
     """
-    # 0. Parse constraints to get blocked versions
+    # 0. Parse constraints to get version specifiers
     if constraints_file is None:
         constraints_file = os.path.join(os.path.dirname(packages_file), "constraints.txt")
-    blocked_versions = parse_constraints(constraints_file)
-    if blocked_versions:
-        print(f"Loaded constraints: {blocked_versions}")
+    version_constraints = parse_constraints(constraints_file)
+    if version_constraints:
+        print(f"Loaded constraints: {dict((k, str(v)) for k, v in version_constraints.items())}")
 
     # 1. Get current pins (skips commented-out packages)
     old_pins = get_current_pyhc_pins(packages_file)
@@ -611,25 +700,27 @@ def auto_pin_packages_to_latest(packages_file: str, constraints_file: str = None
 
     # 3. Check constraints and determine final versions
     final_versions = {}
-    skipped = []
+    constrained_updates = []
     for pkg, latest_ver in latest_versions.items():
-        blocked = blocked_versions.get(pkg, set())
-        if latest_ver in blocked:
-            # Latest version is blocked - keep current pin
-            current_ver = old_pins.get(pkg, {}).get('version')
-            if current_ver:
-                final_versions[pkg] = current_ver
-                skipped.append(f"{pkg}: latest {latest_ver} blocked, keeping {current_ver}")
-            else:
-                # No current pin and latest is blocked - skip entirely
-                skipped.append(f"{pkg}: latest {latest_ver} blocked, no current pin (will need manual intervention)")
+        constraint = version_constraints.get(pkg)
+        if constraint is not None and latest_ver not in constraint:
+            # Latest version doesn't satisfy constraint - find highest valid version
+            print(f"  {pkg}: latest {latest_ver} blocked by '{constraint}', searching for valid version...")
+            valid_ver = find_highest_satisfying_version(pkg, constraint)
+            if valid_ver is None:
+                raise RuntimeError(
+                    f"No version of '{pkg}' satisfies constraint '{constraint}'. "
+                    f"Latest version is {latest_ver}. Please update constraints.txt."
+                )
+            final_versions[pkg] = valid_ver
+            constrained_updates.append(f"{pkg}: using {valid_ver} (latest {latest_ver} blocked by '{constraint}')")
         else:
-            # Latest version is not blocked - use it
+            # Latest version satisfies constraints (or no constraint exists) - use it
             final_versions[pkg] = latest_ver
 
-    if skipped:
-        print("Skipped due to constraints:")
-        for msg in skipped:
+    if constrained_updates:
+        print("Packages pinned to non-latest due to constraints:")
+        for msg in constrained_updates:
             print(f"  {msg}")
 
     # 4. Calculate changes
@@ -644,6 +735,6 @@ def auto_pin_packages_to_latest(packages_file: str, constraints_file: str = None
         update_packages_txt_with_pins(packages_file, final_versions)
         print(f"Updated {len(changes)} package(s) in {packages_file}")
     else:
-        print("All packages already at latest versions")
+        print("All packages already at latest compatible versions")
 
     return changes

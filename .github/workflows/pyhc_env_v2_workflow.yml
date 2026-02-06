@@ -103,7 +103,10 @@ jobs:
         ${{ steps.auto_pin.outputs.changed_packages }}
         \`\`\`
 
-        **Error details:** Check workflow logs for full error message.
+        **Error details:**
+        \`\`\`
+        ${{ steps.compile.outputs.compile_error }}
+        \`\`\`
 
         **Workflow run:** ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
 
