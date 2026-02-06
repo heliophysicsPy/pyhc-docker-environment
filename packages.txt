@@ -11,7 +11,7 @@ plasmapy==2025.10.0
 pysat==3.2.2
 pyspedas==2.0.7
 spacepy==0.7.0
-sunpy==7.0.0
+sunpy==7.1.0
 pyhc-core[tests]==0.0.7
 
 # --- Other Packages ---
