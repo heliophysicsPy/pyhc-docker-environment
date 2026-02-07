@@ -1252,7 +1252,7 @@ pyqtwebengine==5.15.7
     # via pytplot
 pyqtwebengine-qt5==5.15.18
     # via pyqtwebengine
-pyrfu==2.4.19
+pyrfu==2.4.20
     # via -r packages.txt
 pysat==3.2.2
     # via
@@ -1594,7 +1594,7 @@ send2trash==2.1.0
     # via jupyter-server
 sep==1.4.1
     # via regularizepsf
-setuptools==80.10.2
+setuptools==81.0.0
     # via
     #   jupyterlab
     #   obspy
@@ -1856,7 +1856,7 @@ viresclient==0.14.1
     # via -r packages.txt
 virtualenv==20.36.1
     # via nox
-wcwidth==0.5.3
+wcwidth==0.6.0
     # via prompt-toolkit
 webcolors==25.10.0
     # via jsonschema
