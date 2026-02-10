@@ -8,20 +8,18 @@
 # The auto-pin step updates these versions
 # automatically. Do not edit versions manually
 # unless temporarily testing something.
-#
-# See constraints.txt for blocked versions.
 # ============================================
 
 # --- Core Packages ---
+pyhc-core[tests]==0.0.7
 hapiclient==0.2.6
 plasmapy==2025.10.0
 pysat==3.2.2
 pyspedas==2.0.7
 spacepy==0.7.0
 sunpy==7.1.0
-pyhc-core[tests]==0.0.7
 
-# --- Other Packages ---
+# --- Community Packages ---
 aacgmv2==2.7.0
 aiapy==0.11.0
 apexpy==2.1.0
@@ -86,14 +84,6 @@ themisasi==1.2.0
 viresclient==0.14.1
 wmm2015==1.1.1
 wmm2020==1.1.1
-
-# --- Supplementary Packages ---
-deepdiff==8.6.1
-hypothesis==6.151.5
-pytest-arraydiff==0.6.1
-pytest-doctestplus==1.7.1
-pytest-xdist==3.8.0
-setuptools-scm==9.2.2
 
 # --- Excluded Packages ---
 # kamodo  # Does not support Python>=3.12
