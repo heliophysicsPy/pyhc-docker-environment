@@ -23,8 +23,6 @@ from pipeline_utils import (
     find_highest_satisfying_version,
     auto_pin_packages_to_latest,
     get_current_pyhc_pins,
-    parse_direct_requirements_from_lockfile,
-    detect_package_set_changes,
     update_packages_txt_with_pins,
 )
 
@@ -584,91 +582,6 @@ numpy==1.24.0
             self.assertNotIn("SciQLop", pins)
         finally:
             os.unlink(path)
-
-
-class TestPackageSetChangeDetection(unittest.TestCase):
-    """Tests for lockfile direct requirement parsing and package set drift checks."""
-
-    def setUp(self):
-        self.temp_dir = tempfile.mkdtemp()
-
-    def tearDown(self):
-        import shutil
-        if os.path.exists(self.temp_dir):
-            shutil.rmtree(self.temp_dir)
-
-    def _write_file(self, filename: str, content: str) -> str:
-        path = os.path.join(self.temp_dir, filename)
-        with open(path, "w") as f:
-            f.write(content)
-        return path
-
-    def test_parse_direct_requirements_from_lockfile(self):
-        """Direct requirements should be those with '-r ...packages.txt' in via blocks."""
-        lockfile_content = """alpha==1.0.0
-    # via
-    #   -r docker/pyhc-environment/contents/packages.txt
-beta==2.0.0
-    # via
-    #   alpha
-gamma==3.0.0
-    # via
-    #   -r packages.txt
-"""
-        lockfile_path = self._write_file("resolved-versions.txt", lockfile_content)
-
-        direct = parse_direct_requirements_from_lockfile(lockfile_path)
-        self.assertEqual(direct, {"alpha": "1.0.0", "gamma": "3.0.0"})
-
-    def test_detect_package_set_changes_add_remove_and_ignore_version_only_edits(self):
-        """Add/remove should be detected; same-name version edits should not appear as set changes."""
-        packages_content = """alpha==1.1.0
-gamma==3.0.0
-"""
-        lockfile_content = """alpha==1.0.0
-    # via
-    #   -r docker/pyhc-environment/contents/packages.txt
-beta==2.0.0
-    # via
-    #   -r docker/pyhc-environment/contents/packages.txt
-"""
-        packages_path = self._write_file("packages.txt", packages_content)
-        lockfile_path = self._write_file("resolved-versions.txt", lockfile_content)
-
-        changes = detect_package_set_changes(packages_path, lockfile_path)
-
-        self.assertEqual(changes["added"], {"gamma": "3.0.0"})
-        self.assertEqual(changes["removed"], {"beta": "2.0.0"})
-        self.assertNotIn("alpha", changes["added"])
-        self.assertNotIn("alpha", changes["removed"])
-
-    def test_detect_package_set_changes_version_only_edit_is_noop(self):
-        """If package names match, set change detector should report no changes."""
-        packages_content = "alpha==1.1.0\n"
-        lockfile_content = """alpha==1.0.0
-    # via
-    #   -r docker/pyhc-environment/contents/packages.txt
-"""
-        packages_path = self._write_file("packages.txt", packages_content)
-        lockfile_path = self._write_file("resolved-versions.txt", lockfile_content)
-
-        changes = detect_package_set_changes(packages_path, lockfile_path)
-
-        self.assertEqual(changes["added"], {})
-        self.assertEqual(changes["removed"], {})
-
-    def test_detect_package_set_changes_missing_lockfile_marks_all_added(self):
-        """Missing lockfile should trigger a run by marking all current packages as added."""
-        packages_content = """alpha==1.0.0
-beta
-"""
-        packages_path = self._write_file("packages.txt", packages_content)
-        lockfile_path = os.path.join(self.temp_dir, "missing-resolved-versions.txt")
-
-        changes = detect_package_set_changes(packages_path, lockfile_path)
-
-        self.assertEqual(changes["removed"], {})
-        self.assertEqual(changes["added"], {"alpha": "1.0.0", "beta": None})
 
 
 class TestUpdatePackagesTxtWithPins(unittest.TestCase):
