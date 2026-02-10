@@ -21,7 +21,7 @@ uv venv --quiet .venv
 # Prefer boto pins from current compile output when available, then fall back to
 # repo lockfile. This keeps per-package extraction aligned with current solver choices.
 LOCKFILE_PRIMARY="/tmp/new-resolved-versions.txt"
-LOCKFILE_FALLBACK="$SCRIPT_DIR/../resolved-versions.txt"
+LOCKFILE_FALLBACK="$SCRIPT_DIR/../docker/pyhc-environment/contents/resolved-versions.txt"
 
 extract_pin() {
   local pkg="$1"

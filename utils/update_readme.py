@@ -1,7 +1,8 @@
 """
-Extracts PyHC package versions from resolved-versions.txt and puts them into a table in the README.
+Extracts PyHC package versions from docker/pyhc-environment/contents/resolved-versions.txt
+and puts them into a table in the README.
 
-V2: Reads package names from packages.txt and versions from resolved-versions.txt
+V2: Reads package names and lockfile versions from docker/pyhc-environment/contents
 """
 
 import os
@@ -25,7 +26,7 @@ def _normalize_for_lockfile_match(name):
 
 
 def extract_versions_from_lockfile(lockfile_path, package_names):
-    """Extract versions for specified packages from resolved-versions.txt.
+    """Extract versions for specified packages from the persisted lockfile.
 
     Args:
         lockfile_path: Path to resolved-versions.txt (uv pip compile output)
@@ -90,9 +91,10 @@ def update_readme_with_table(readme_path, section_header, new_table):
 if __name__ == '__main__':
     repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-    # V2: Read package names from packages.txt and versions from resolved-versions.txt
-    packages_file_path = os.path.join(repo_root, 'packages.txt')
-    lockfile_path = os.path.join(repo_root, 'resolved-versions.txt')
+    # V2 canonical file paths under docker/pyhc-environment/contents
+    contents_dir = os.path.join(repo_root, 'docker', 'pyhc-environment', 'contents')
+    packages_file_path = os.path.join(contents_dir, 'packages.txt')
+    lockfile_path = os.path.join(contents_dir, 'resolved-versions.txt')
 
     package_entries = parse_packages_txt(packages_file_path, preserve_specifiers=True)
     pyhc_packages = [_extract_display_name(entry) for entry in package_entries]

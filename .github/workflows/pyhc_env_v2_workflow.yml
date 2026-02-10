@@ -146,8 +146,8 @@ jobs:
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
-        # Add all changed files (packages.txt with new pins, lockfile, README)
-        git add packages.txt constraints.txt resolved-versions.txt README.md
+        # Add all changed files (packages/constraints/lockfile + README)
+        git add docker/pyhc-environment/contents/packages.txt docker/pyhc-environment/contents/constraints.txt docker/pyhc-environment/contents/resolved-versions.txt README.md
 
         # Build commit message
         MSG="Update PyHC environment: auto-pin packages and rebuild"

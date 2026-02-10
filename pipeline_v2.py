@@ -36,6 +36,13 @@ from utils.pipeline_utils import (
     auto_pin_packages_to_latest,
 )
 
+REPO_ROOT = Path(__file__).resolve().parent
+PYHC_ENV_CONTENTS_DIR = REPO_ROOT / "docker" / "pyhc-environment" / "contents"
+PACKAGES_FILE = str(PYHC_ENV_CONTENTS_DIR / "packages.txt")
+CONSTRAINTS_FILE = str(PYHC_ENV_CONTENTS_DIR / "constraints.txt")
+LOCKFILE_PATH = str(PYHC_ENV_CONTENTS_DIR / "resolved-versions.txt")
+TMP_RESOLVED_PATH = "/tmp/new-resolved-versions.txt"
+
 
 def run_uv_compile(packages_file: str, output_file: str, python_version: str = None,
                    constraints_file: str = None) -> tuple[bool, str]:
@@ -162,7 +169,7 @@ def generate_spreadsheet(packages_file=None):
     This is available for debugging/analysis but not part of normal v2 flow.
 
     Args:
-        packages_file: Path to packages.txt (default: repo root packages.txt)
+        packages_file: Path to packages.txt (default: docker/pyhc-environment/contents/packages.txt)
     """
     try:
         from utils.generate_dependency_table import (
@@ -173,7 +180,7 @@ def generate_spreadsheet(packages_file=None):
         )
 
         if packages_file is None:
-            packages_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "packages.txt")
+            packages_file = PACKAGES_FILE
 
         filename = f"PyHC-Dependency-Table-{datetime.now().strftime('%Y-%m-%d-%H-%M')}.xlsx"
         spreadsheet_folder = "spreadsheets"
@@ -277,12 +284,11 @@ def main():
     )
     args = parser.parse_args()
 
-    # Paths
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    packages_file = os.path.join(script_dir, "packages.txt")
-    lockfile_path = os.path.join(script_dir, "resolved-versions.txt")
-    constraints_file = os.path.join(script_dir, "constraints.txt")
-    tmp_resolved_path = "/tmp/new-resolved-versions.txt"
+    # Canonical file paths
+    packages_file = PACKAGES_FILE
+    lockfile_path = LOCKFILE_PATH
+    constraints_file = CONSTRAINTS_FILE
+    tmp_resolved_path = TMP_RESOLVED_PATH
 
     # Handle spreadsheet generation mode
     if args.generate_spreadsheet:
@@ -378,9 +384,8 @@ def post_build_update_lockfile():
     Call this after successful Docker build to update the lockfile.
     Can be called from GitHub Actions or manually.
     """
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    lockfile_path = os.path.join(script_dir, "resolved-versions.txt")
-    tmp_resolved_path = "/tmp/new-resolved-versions.txt"
+    lockfile_path = LOCKFILE_PATH
+    tmp_resolved_path = TMP_RESOLVED_PATH
 
     if os.path.exists(tmp_resolved_path):
         update_lockfile(tmp_resolved_path, lockfile_path)

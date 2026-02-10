@@ -1,100 +1,99 @@
 # ============================================
 # PyHC Environment Package List
 # ============================================
-# This file is the single source of truth for
-# which PyHC packages belong in the environment.
-# No versions by default (resolves to latest).
-# Only add version pins to block broken releases
-# or enforce compatibility constraints.
+# This file contains all PyHC packages pinned
+# to their latest versions that satisfy the
+# constraints in constraints.txt.
+#
+# The auto-pin step updates these versions
+# automatically. Do not edit versions manually
+# unless temporarily testing something.
+#
+# See constraints.txt for blocked versions.
 # ============================================
 
 # --- Core Packages ---
-hapiclient
-plasmapy
-pysat
-pyspedas
-spacepy
-sunpy
-pyhc-core[tests]
+hapiclient==0.2.6
+plasmapy==2025.10.0
+pysat==3.2.2
+pyspedas==2.0.7
+spacepy==0.7.0
+sunpy==7.1.0
+pyhc-core[tests]==0.0.7
 
 # --- Other Packages ---
-aacgmv2
-aiapy
-apexpy
-asilib
-astrometry-azel
-ccsdspy
-cdflib
-cloudcatalog
-dascutils
-dbprocessing
-dmsp
-enlilviz
-EUVpy
-fiasco
-gcmprocpy
-geopack
-georinex
-geospacelab
-goesutils
-hapiplot
-hissw
-igrf
-iri2016
-irispy-lmsal
-kaipy
-lofarSun
-lowtran
-madrigalWeb
-maidenhead
-mcalf
-msise00
-ndcube
-nexradutils
-ocbpy
-OMMBV
-pyaurorax
-pycdfpp
-pydarn
-pyflct
-pymap3d
-pyrfu
-pytplot
-pytplot-mpl-temp
-pyzenodo3
-reesaurora
-regularizepsf
-sammi-cdf
-savic
-sciencedates
-SciQLop==0.10.3  # v0.10.4 has dependency conflicts
-SkyWinder
-solarmach
-solo-epd-loader
-space-packet-parser
-speasy
-spiceypy
-sunkit-image
-sunkit-instruments
-sunraster
-swxsoc
-themisasi
-viresclient
-wmm2015
-wmm2020
+aacgmv2==2.7.0
+aiapy==0.11.0
+apexpy==2.1.0
+asilib==0.29.2
+astrometry-azel==1.3.0
+ccsdspy==1.4.3
+cdflib==1.3.8
+cloudcatalog==1.1.0
+dascutils==2.3.0
+dbprocessing==0.1.0
+dmsp==0.6.0
+enlilviz==0.2.0
+EUVpy==1.0.0
+fiasco==0.7.0
+gcmprocpy==1.2.1
+geopack==1.0.12
+georinex==1.16.2
+geospacelab==0.12.3
+goesutils==1.0.8
+hapiplot==0.2.2
+hissw==2.3
+igrf==13.0.2
+iri2016==1.11.1
+irispy-lmsal==0.6.0
+kaipy==1.1.4
+lofarSun==0.3.32
+lowtran==3.1.0
+madrigalWeb==3.3.6
+maidenhead==1.8.0
+mcalf==1.0.0
+msise00==1.11.1
+ndcube==2.4.0
+nexradutils==1.0.0
+ocbpy==0.6.0
+OMMBV==1.1.0
+pyaurorax==1.22.0
+pycdfpp==0.8.6
+pydarn==4.2
+pyflct==0.3.1
+pymap3d==3.2.0
+pyrfu==2.4.20
+pytplot==1.7.28
+pytplot-mpl-temp==2.2.79
+pyzenodo3==1.0.2
+reesaurora==1.0.5
+regularizepsf==1.1.1
+sammi-cdf==1.0.2
+savic==1.2.7
+sciencedates==1.5.0
+SciQLop==0.10.4
+SkyWinder==0.0.3
+solarmach==0.5.2
+solo-epd-loader==0.4.4
+space-packet-parser==6.1.0
+speasy==1.7.1
+spiceypy==8.0.1
+sunkit-image==0.6.1
+sunkit-instruments==0.6.2
+sunraster==0.7.0
+swxsoc==0.2.3
+themisasi==1.2.0
+viresclient==0.14.1
+wmm2015==1.1.1
+wmm2020==1.1.1
 
 # --- Supplementary Packages ---
-deepdiff
-hypothesis
-pytest-arraydiff
-pytest-doctestplus
-pytest-xdist
-setuptools-scm
-
-# --- Version Constraints ---
-# (for cross-cutting compatibility issues)
-# astropy==6.1.7  # astropy/xarray compatibility
-# xarray==2024.10.0  # astropy/xarray compatibility  # TODO: astropy and xarray were pinned to fix PlasmaPy unit tests; if PlasmaPy tests work without these, delete them and close issue 36
+deepdiff==8.6.1
+hypothesis==6.151.5
+pytest-arraydiff==0.6.1
+pytest-doctestplus==1.7.1
+pytest-xdist==3.8.0
+setuptools-scm==9.2.2
 
 # --- Excluded Packages ---
 # kamodo  # Does not support Python>=3.12

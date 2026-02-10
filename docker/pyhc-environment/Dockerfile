@@ -38,8 +38,8 @@ RUN pip install uv
 # constraints.txt blocks known-broken versions
 RUN uv pip install --system -c /app/constraints.txt -r /app/packages.txt
 
-# Cleanup environment.yml, packages.txt, and constraints.txt after their use
-RUN rm /app/environment.yml /app/packages.txt /app/constraints.txt
+# Cleanup environment.yml and pipeline input files after their use
+RUN rm /app/environment.yml /app/packages.txt /app/constraints.txt /app/resolved-versions.txt
 
 # Create directory for repo content in /opt
 RUN mkdir -p /opt/pyhc

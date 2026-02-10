@@ -15,4 +15,4 @@ dependencies:
   - conda-forge::libsqlite=3.48.0=hee588c1_1  # version 3.49.1 breaks speasy import and sunpy unit tests; pinning build to match sqlite
   - pip
   # - pip:
-  #   - pyhc-core[tests]==0.0.7  # Note: pip packages are defined in repo's packages.txt now
+  #   - pyhc-core[tests]==0.0.7  # Note: pip packages are defined in packages.txt now
