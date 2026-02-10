@@ -21,7 +21,6 @@ __author__ = "Shawn Polson"
 """
 
 import argparse
-import json
 import os
 import shutil
 import subprocess
@@ -42,6 +41,16 @@ PACKAGES_FILE = str(PYHC_ENV_CONTENTS_DIR / "packages.txt")
 CONSTRAINTS_FILE = str(PYHC_ENV_CONTENTS_DIR / "constraints.txt")
 LOCKFILE_PATH = str(PYHC_ENV_CONTENTS_DIR / "resolved-versions.txt")
 TMP_RESOLVED_PATH = "/tmp/new-resolved-versions.txt"
+
+
+def format_changed_packages(changes: dict[str, tuple[str | None, str]]) -> str:
+    """Format auto-pin changes for GitHub issue comments and workflow logs."""
+    lines = []
+    for pkg, versions in sorted(changes.items(), key=lambda item: item[0].lower()):
+        old, new = versions
+        old_version = old if old else "unpinned"
+        lines.append(f"{pkg}: {old_version} → {new}")
+    return "\n".join(lines)
 
 
 def run_uv_compile(packages_file: str, output_file: str, python_version: str = None,
@@ -315,7 +324,7 @@ def main():
                 old_str = old if old else "unpinned"
                 print(f"  {pkg}: {old_str} -> {new}")
             set_github_output("pyhc_packages_changed", "true")
-            set_github_output("changed_packages", json.dumps(changes))
+            set_github_output("changed_packages", format_changed_packages(changes))
         else:
             print("No PyHC package updates found")
             set_github_output("pyhc_packages_changed", "false")
