@@ -33,6 +33,7 @@ from utils.pipeline_utils import (
     parse_packages_txt,
     get_python_version,
     auto_pin_packages_to_latest,
+    detect_package_set_changes,
 )
 
 REPO_ROOT = Path(__file__).resolve().parent
@@ -43,13 +44,29 @@ LOCKFILE_PATH = str(PYHC_ENV_CONTENTS_DIR / "resolved-versions.txt")
 TMP_RESOLVED_PATH = "/tmp/new-resolved-versions.txt"
 
 
-def format_changed_packages(changes: dict[str, tuple[str | None, str]]) -> str:
-    """Format auto-pin changes for GitHub issue comments and workflow logs."""
+def format_changed_packages(
+    version_changes: dict[str, tuple[str | None, str]],
+    package_set_changes: dict[str, dict[str, str | None]] | None = None,
+) -> str:
+    """Format package change lines for GitHub issue comments and workflow logs."""
     lines = []
-    for pkg, versions in sorted(changes.items(), key=lambda item: item[0].lower()):
+    for pkg, versions in sorted(version_changes.items(), key=lambda item: item[0].lower()):
         old, new = versions
         old_version = old if old else "unpinned"
         lines.append(f"{pkg}: {old_version} → {new}")
+
+    if package_set_changes:
+        added = package_set_changes.get("added", {})
+        removed = package_set_changes.get("removed", {})
+
+        for pkg in sorted(added):
+            added_version = added[pkg] if added[pkg] else "unpinned"
+            lines.append(f"{pkg}: added {added_version}")
+
+        for pkg in sorted(removed):
+            removed_version = removed[pkg] if removed[pkg] else "unknown"
+            lines.append(f"{pkg}: {removed_version} → removed")
+
     return "\n".join(lines)
 
 
@@ -311,23 +328,59 @@ def main():
     if args.auto_pin:
         print("Auto-pinning packages to latest PyPI versions...")
         try:
-            changes = auto_pin_packages_to_latest(packages_file, constraints_file)
+            version_changes = auto_pin_packages_to_latest(packages_file, constraints_file)
         except RuntimeError as e:
             print(f"ERROR: {e}")
             set_github_output("pyhc_packages_changed", "false")
             set_github_output("auto_pin_error", str(e))
             sys.exit(1)
 
-        if changes:
-            print(f"\nPyHC packages updated: {len(changes)}")
-            for pkg, (old, new) in sorted(changes.items()):
+        package_set_changes = detect_package_set_changes(packages_file, lockfile_path)
+        added_packages = package_set_changes.get("added", {})
+        removed_packages = package_set_changes.get("removed", {})
+        added_names = set(added_packages.keys())
+
+        # Avoid duplicate reporting for newly added packages that were auto-pinned
+        # from unpinned/placeholder entries.
+        display_version_changes = {
+            pkg: versions for pkg, versions in version_changes.items() if pkg not in added_names
+        }
+
+        has_version_changes = bool(display_version_changes)
+        has_package_set_changes = bool(added_packages or removed_packages)
+        should_run = has_version_changes or has_package_set_changes
+
+        if should_run:
+            if has_version_changes:
+                print(f"\nPyHC packages updated: {len(display_version_changes)}")
+            for pkg, (old, new) in sorted(display_version_changes.items()):
                 old_str = old if old else "unpinned"
                 print(f"  {pkg}: {old_str} -> {new}")
+
+            if added_packages or removed_packages:
+                print("\nDetected package list changes in packages.txt:")
+                for pkg in sorted(added_packages):
+                    version = added_packages[pkg] if added_packages[pkg] else "unpinned"
+                    print(f"  {pkg}: added {version}")
+                for pkg in sorted(removed_packages):
+                    version = removed_packages[pkg] if removed_packages[pkg] else "unknown"
+                    print(f"  {pkg}: {version} -> removed")
+
             set_github_output("pyhc_packages_changed", "true")
-            set_github_output("changed_packages", format_changed_packages(changes))
+            set_github_output(
+                "changed_packages",
+                format_changed_packages(display_version_changes, package_set_changes),
+            )
+            if has_version_changes and has_package_set_changes:
+                set_github_output("change_reason", "pyhc_versions_updated+packages_added_removed")
+            elif has_version_changes:
+                set_github_output("change_reason", "pyhc_versions_updated")
+            else:
+                set_github_output("change_reason", "packages_added_removed")
         else:
             print("No PyHC package updates found")
             set_github_output("pyhc_packages_changed", "false")
+            set_github_output("change_reason", "no_changes")
         return
 
     # Handle compile mode (just run uv compile with constraints)
