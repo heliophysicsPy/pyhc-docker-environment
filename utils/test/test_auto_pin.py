@@ -24,6 +24,7 @@ from pipeline_utils import (
     auto_pin_packages_to_latest,
     get_current_pyhc_pins,
     update_packages_txt_with_pins,
+    detect_package_changes,
 )
 
 
@@ -635,6 +636,205 @@ requests==2.28.0
             self.assertIn("# blocked version", result)
         finally:
             os.unlink(path)
+
+
+class TestDetectPackageChanges(unittest.TestCase):
+    """Tests for detect_package_changes() function."""
+
+    def _create_test_repo(self):
+        """Create a temporary git repo with an initial packages.txt."""
+        import subprocess
+        self.temp_dir = tempfile.mkdtemp()
+
+        # Initialize git repo
+        subprocess.run(["git", "init"], cwd=self.temp_dir, check=True, capture_output=True)
+        subprocess.run(["git", "config", "user.email", "test@test.com"],
+                      cwd=self.temp_dir, check=True, capture_output=True)
+        subprocess.run(["git", "config", "user.name", "Test"],
+                      cwd=self.temp_dir, check=True, capture_output=True)
+
+        return self.temp_dir
+
+    def _cleanup_test_repo(self):
+        """Clean up temporary test repo."""
+        import shutil
+        if hasattr(self, 'temp_dir') and os.path.exists(self.temp_dir):
+            shutil.rmtree(self.temp_dir)
+
+    def tearDown(self):
+        self._cleanup_test_repo()
+
+    def test_detects_added_packages(self):
+        """Test that newly added packages are detected."""
+        import subprocess
+        repo_dir = self._create_test_repo()
+
+        packages_path = os.path.join(repo_dir, "packages.txt")
+
+        # Create initial packages.txt and commit
+        with open(packages_path, "w") as f:
+            f.write("alpha==1.0.0\nbeta==2.0.0\n")
+        subprocess.run(["git", "add", "packages.txt"], cwd=repo_dir, check=True, capture_output=True)
+        subprocess.run(["git", "commit", "-m", "Initial commit"], cwd=repo_dir, check=True, capture_output=True)
+
+        # Add a new package (not committed yet)
+        with open(packages_path, "w") as f:
+            f.write("alpha==1.0.0\nbeta==2.0.0\ngamma==3.0.0\n")
+
+        added, removed = detect_package_changes(packages_path)
+
+        self.assertEqual(added, {"gamma"})
+        self.assertEqual(removed, set())
+
+    def test_detects_removed_packages(self):
+        """Test that removed packages are detected."""
+        import subprocess
+        repo_dir = self._create_test_repo()
+
+        packages_path = os.path.join(repo_dir, "packages.txt")
+
+        # Create initial packages.txt and commit
+        with open(packages_path, "w") as f:
+            f.write("alpha==1.0.0\nbeta==2.0.0\ngamma==3.0.0\n")
+        subprocess.run(["git", "add", "packages.txt"], cwd=repo_dir, check=True, capture_output=True)
+        subprocess.run(["git", "commit", "-m", "Initial commit"], cwd=repo_dir, check=True, capture_output=True)
+
+        # Remove a package (not committed yet)
+        with open(packages_path, "w") as f:
+            f.write("alpha==1.0.0\nbeta==2.0.0\n")
+
+        added, removed = detect_package_changes(packages_path)
+
+        self.assertEqual(added, set())
+        self.assertEqual(removed, {"gamma"})
+
+    def test_no_changes_when_only_versions_change(self):
+        """Test that version-only changes don't trigger set changes."""
+        import subprocess
+        repo_dir = self._create_test_repo()
+
+        packages_path = os.path.join(repo_dir, "packages.txt")
+
+        # Create initial packages.txt and commit
+        with open(packages_path, "w") as f:
+            f.write("alpha==1.0.0\nbeta==2.0.0\n")
+        subprocess.run(["git", "add", "packages.txt"], cwd=repo_dir, check=True, capture_output=True)
+        subprocess.run(["git", "commit", "-m", "Initial commit"], cwd=repo_dir, check=True, capture_output=True)
+
+        # Change versions only (not committed yet)
+        with open(packages_path, "w") as f:
+            f.write("alpha==1.1.0\nbeta==2.1.0\n")
+
+        added, removed = detect_package_changes(packages_path)
+
+        self.assertEqual(added, set())
+        self.assertEqual(removed, set())
+
+    def test_handles_new_file_no_previous_commit(self):
+        """Test behavior when packages.txt is new (no previous commit)."""
+        import subprocess
+        repo_dir = self._create_test_repo()
+
+        packages_path = os.path.join(repo_dir, "packages.txt")
+
+        # Create packages.txt without committing
+        with open(packages_path, "w") as f:
+            f.write("alpha==1.0.0\nbeta==2.0.0\n")
+
+        added, removed = detect_package_changes(packages_path)
+
+        # All packages should show as added since there's no previous version
+        self.assertEqual(added, {"alpha", "beta"})
+        self.assertEqual(removed, set())
+
+    def test_handles_commented_packages(self):
+        """Test that commented-out packages are handled correctly."""
+        import subprocess
+        repo_dir = self._create_test_repo()
+
+        packages_path = os.path.join(repo_dir, "packages.txt")
+
+        # Create initial packages.txt and commit
+        with open(packages_path, "w") as f:
+            f.write("alpha==1.0.0\nbeta==2.0.0\n")
+        subprocess.run(["git", "add", "packages.txt"], cwd=repo_dir, check=True, capture_output=True)
+        subprocess.run(["git", "commit", "-m", "Initial commit"], cwd=repo_dir, check=True, capture_output=True)
+
+        # Comment out beta (should show as removed)
+        with open(packages_path, "w") as f:
+            f.write("alpha==1.0.0\n# beta==2.0.0  # disabled\n")
+
+        added, removed = detect_package_changes(packages_path)
+
+        self.assertEqual(added, set())
+        self.assertEqual(removed, {"beta"})
+
+    def test_handles_package_with_extras(self):
+        """Test that packages with extras are normalized correctly."""
+        import subprocess
+        repo_dir = self._create_test_repo()
+
+        packages_path = os.path.join(repo_dir, "packages.txt")
+
+        # Create initial packages.txt with extras and commit
+        with open(packages_path, "w") as f:
+            f.write("pyhc-core[tests]==0.0.6\n")
+        subprocess.run(["git", "add", "packages.txt"], cwd=repo_dir, check=True, capture_output=True)
+        subprocess.run(["git", "commit", "-m", "Initial commit"], cwd=repo_dir, check=True, capture_output=True)
+
+        # Change extras shouldn't be detected as add/remove
+        with open(packages_path, "w") as f:
+            f.write("pyhc-core[tests,docs]==0.0.7\n")
+
+        added, removed = detect_package_changes(packages_path)
+
+        # The base package name is the same, so no set changes
+        self.assertEqual(added, set())
+        self.assertEqual(removed, set())
+
+    def test_case_insensitive_comparison(self):
+        """Test that package names are compared case-insensitively."""
+        import subprocess
+        repo_dir = self._create_test_repo()
+
+        packages_path = os.path.join(repo_dir, "packages.txt")
+
+        # Create initial packages.txt with mixed case
+        with open(packages_path, "w") as f:
+            f.write("SciQLop==0.10.3\nPyHC-core==0.0.6\n")
+        subprocess.run(["git", "add", "packages.txt"], cwd=repo_dir, check=True, capture_output=True)
+        subprocess.run(["git", "commit", "-m", "Initial commit"], cwd=repo_dir, check=True, capture_output=True)
+
+        # Change case shouldn't be detected as add/remove
+        with open(packages_path, "w") as f:
+            f.write("sciqlop==0.10.4\npyhc-core==0.0.7\n")
+
+        added, removed = detect_package_changes(packages_path)
+
+        self.assertEqual(added, set())
+        self.assertEqual(removed, set())
+
+    def test_detects_both_additions_and_removals(self):
+        """Test that both additions and removals are detected in same change."""
+        import subprocess
+        repo_dir = self._create_test_repo()
+
+        packages_path = os.path.join(repo_dir, "packages.txt")
+
+        # Create initial packages.txt and commit
+        with open(packages_path, "w") as f:
+            f.write("alpha==1.0.0\nbeta==2.0.0\n")
+        subprocess.run(["git", "add", "packages.txt"], cwd=repo_dir, check=True, capture_output=True)
+        subprocess.run(["git", "commit", "-m", "Initial commit"], cwd=repo_dir, check=True, capture_output=True)
+
+        # Replace beta with gamma (not committed yet)
+        with open(packages_path, "w") as f:
+            f.write("alpha==1.0.0\ngamma==3.0.0\n")
+
+        added, removed = detect_package_changes(packages_path)
+
+        self.assertEqual(added, {"gamma"})
+        self.assertEqual(removed, {"beta"})
 
 
 if __name__ == "__main__":

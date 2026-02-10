@@ -1,10 +1,15 @@
-name: PyHC Environment Pipeline V2 Workflow
+name: PyHC Environment Pipeline Workflow
 
 on:
   schedule:
     - cron: '0 14 * * *'  # Runs at 7 AM Mountain Time (UTC-7)
   workflow_dispatch:
     inputs:
+      skip_checks:
+        description: 'Skip auto-pin and compile (quick deploy mode)'
+        required: false
+        default: 'false'
+        type: boolean
       force_build:
         description: 'Force build even if no changes detected'
         required: false
@@ -57,10 +62,11 @@ jobs:
     # ============================================
     - name: Auto-pin packages to latest versions
       id: auto_pin
+      if: github.event.inputs.skip_checks != 'true'
       run: python pipeline_v2.py --auto-pin
 
-    - name: Skip if no PyHC updates (unless forced)
-      if: steps.auto_pin.outputs.pyhc_packages_changed != 'true' && github.event.inputs.force_build != 'true'
+    - name: Skip if no PyHC updates (unless forced or quick deploy)
+      if: github.event.inputs.skip_checks != 'true' && steps.auto_pin.outputs.pyhc_packages_changed != 'true' && github.event.inputs.force_build != 'true'
       run: |
         echo "No PyHC package updates detected. Skipping build."
         echo "Note: Transitive dependency changes don't trigger rebuilds."
@@ -70,7 +76,7 @@ jobs:
     # Dependency Resolution with Constraints
     # ============================================
     - name: Run uv compile (generate lockfile)
-      if: steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true'
+      if: github.event.inputs.skip_checks != 'true' && (steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true')
       id: compile
       run: python pipeline_v2.py --compile
       continue-on-error: true
@@ -78,17 +84,18 @@ jobs:
     # ============================================
     # Optional Spreadsheet Generation (for diagnostics and analysis)
     # Runs only when updates/force would run pipeline, regardless of compile success.
+    # Skipped in quick deploy mode.
     # ============================================
     - name: Generate Dependency Spreadsheet
       id: generate_spreadsheet
-      if: (steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && (github.event_name != 'workflow_dispatch' || github.event.inputs.generate_spreadsheet != 'false')
+      if: github.event.inputs.skip_checks != 'true' && (steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && (github.event_name != 'workflow_dispatch' || github.event.inputs.generate_spreadsheet != 'false')
       env:
         PYHC_SPREADSHEET_WORKERS: ${{ github.event.inputs.spreadsheet_workers || '2' }}
         PIP_DISABLE_PIP_VERSION_CHECK: '1'
       run: python pipeline_v2.py --generate-spreadsheet
 
     - name: Upload Spreadsheet Artifact
-      if: (steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && (github.event_name != 'workflow_dispatch' || github.event.inputs.generate_spreadsheet != 'false')
+      if: github.event.inputs.skip_checks != 'true' && (steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && (github.event_name != 'workflow_dispatch' || github.event.inputs.generate_spreadsheet != 'false')
       uses: actions/upload-artifact@v4
       with:
         name: dependency-spreadsheet
@@ -96,7 +103,7 @@ jobs:
         retention-days: 30
 
     - name: Post conflict to issue on failure
-      if: steps.compile.outcome == 'failure'
+      if: github.event.inputs.skip_checks != 'true' && steps.compile.outcome == 'failure'
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
@@ -117,7 +124,7 @@ jobs:
         **Workflow run:** ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
 
     - name: Fail workflow on compile error
-      if: steps.compile.outcome == 'failure'
+      if: github.event.inputs.skip_checks != 'true' && steps.compile.outcome == 'failure'
       run: |
         if [ "${{ github.event_name != 'workflow_dispatch' || github.event.inputs.generate_spreadsheet != 'false' }}" = "true" ]; then
           echo "ERROR: Dependency resolution failed. See issue #2 and this run's spreadsheet artifact for details."
@@ -130,32 +137,37 @@ jobs:
     # Docker Build and Push
     # ============================================
     - name: Build and Push Docker Images
-      if: (steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && steps.compile.outcome == 'success'
+      if: github.event.inputs.skip_checks == 'true' || ((steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && steps.compile.outcome == 'success')
       id: build_and_push
       run: python utils/docker_operations.py ./docker ${{ secrets.DOCKER_HUB_USERNAME }} ${{ secrets.DOCKER_HUB_TOKEN }} "${{ github.event.inputs.docker_tag_suffix || '' }}"
 
     - name: Update Lockfile After Successful Build
-      if: (steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && steps.compile.outcome == 'success'
+      if: github.event.inputs.skip_checks != 'true' && (steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && steps.compile.outcome == 'success'
       run: python pipeline_v2.py --post-build
 
     - name: Update README Table
-      if: (steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && steps.compile.outcome == 'success'
+      if: github.event.inputs.skip_checks == 'true' || ((steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && steps.compile.outcome == 'success')
       run: python utils/update_readme.py
 
     # ============================================
     # Commit and Push Changes
     # ============================================
     - name: Commit and Push Repo Changes
-      if: (steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && steps.compile.outcome == 'success'
+      if: github.event.inputs.skip_checks == 'true' || ((steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && steps.compile.outcome == 'success')
       run: |
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
-        # Add all changed files (packages/constraints/lockfile + README)
-        git add docker/pyhc-environment/contents/packages.txt docker/pyhc-environment/contents/constraints.txt docker/pyhc-environment/contents/resolved-versions.txt README.md
-
-        # Build commit message
-        MSG="Update PyHC environment: auto-pin packages and rebuild"
+        # Add files based on mode
+        if [ "${{ github.event.inputs.skip_checks }}" = "true" ]; then
+          # Quick deploy: only add README (no lockfile changes)
+          git add README.md
+          MSG="Quick deploy: rebuild Docker images"
+        else
+          # Normal mode: add all changed files (packages/constraints/lockfile + README)
+          git add docker/pyhc-environment/contents/packages.txt docker/pyhc-environment/contents/constraints.txt docker/pyhc-environment/contents/resolved-versions.txt README.md
+          MSG="Update PyHC environment: auto-pin packages and rebuild"
+        fi
 
         git commit -m "$MSG" || echo "No changes to commit"
         git push
@@ -163,7 +175,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Commit spreadsheet if generated
-      if: (steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && (github.event_name != 'workflow_dispatch' || github.event.inputs.generate_spreadsheet != 'false') && steps.compile.outcome == 'success'
+      if: github.event.inputs.skip_checks != 'true' && (steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && (github.event_name != 'workflow_dispatch' || github.event.inputs.generate_spreadsheet != 'false') && steps.compile.outcome == 'success'
       run: |
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
@@ -181,7 +193,7 @@ jobs:
     # Trigger Binder Rebuild
     # ============================================
     - name: Update science-platforms-coordination to Trigger Binder Rebuild
-      if: (steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && steps.compile.outcome == 'success'
+      if: github.event.inputs.skip_checks == 'true' || ((steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && steps.compile.outcome == 'success')
       run: |
         # Clone the target repo using a PAT with push permissions
         git clone https://${{ secrets.SCIENCE_PLATFORMS_PAT }}@github.com/heliophysicsPy/science-platforms-coordination.git coordination_repo
@@ -206,16 +218,18 @@ jobs:
     # Notifications
     # ============================================
     - name: Notify on Successful Push
-      if: (steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && steps.compile.outcome == 'success'
+      if: github.event.inputs.skip_checks == 'true' || ((steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && steps.compile.outcome == 'success')
       uses: peter-evans/create-or-update-comment@v4
       with:
         issue-number: 2
         body: |
-          **[V2 Pipeline]** Docker Hub images and GitHub repo have been updated.
+          **[Pipeline]** Docker Hub images and GitHub repo have been updated.
+
+          ${{ github.event.inputs.skip_checks == 'true' && '**Mode:** Quick deploy (skipped checks)' || '' }}
 
           **PyHC packages updated:**
           ```
-          ${{ steps.auto_pin.outputs.changed_packages }}
+          ${{ steps.auto_pin.outputs.changed_packages || 'N/A (quick deploy mode)' }}
           ```
 
           ${{ steps.generate_spreadsheet.outputs.conflict_comment || '' }}

@@ -10,6 +10,36 @@ The PyHC Environment Pipeline automates the creation of a Docker image with a Py
 - **Daily Updates**: Runs daily to check for and include the latest versions of PyHC packages.
 - **Docker Hub Hosting**: Docker image is readily available on Docker Hub for easy access and deployment.
 - **Dependency Spreadsheet**: An intermediate step of the pipeline is to generate an Excel spreadsheet showing a matrix of allowed version range requirements.
+- **Package Change Detection**: Triggers rebuild when PyHC packages are added/removed (not just version updates).
+- **Constraint Management**: Uses `constraints.txt` to block known-broken versions.
+
+## Workflow Parameters
+
+The pipeline workflow supports the following manual trigger parameters:
+
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `skip_checks` | Skip auto-pin and compile (quick deploy mode) | `false` |
+| `force_build` | Force build even if no changes detected | `false` |
+| `generate_spreadsheet` | Generate dependency spreadsheet | `true` |
+| `spreadsheet_workers` | Number of workers for spreadsheet generation | `2` |
+| `docker_tag_suffix` | Optional suffix appended to date tag (e.g., `-temp`) | `` |
+
+### Trigger Behavior
+
+The pipeline triggers a Docker rebuild when any of the following conditions are met:
+- **PyHC package version update**: A PyHC package has a newer version on PyPI
+- **Package set change**: A package is added to or removed from `packages.txt`
+- **Force build**: The `force_build` parameter is set to `true`
+- **Quick deploy**: The `skip_checks` parameter is set to `true` (skips validation)
+
+### Quick Deploy Mode
+
+Use `skip_checks=true` for emergency deployments when you need to rebuild the Docker image without running the full validation pipeline. This mode:
+- Skips auto-pin (fetching latest versions from PyPI)
+- Skips dependency resolution (uv compile)
+- Skips spreadsheet generation
+- Goes directly to Docker build with current `packages.txt` content
 
 ## Docker Image
 The pipeline creates and maintains the following Docker image:

@@ -33,6 +33,7 @@ from utils.pipeline_utils import (
     parse_packages_txt,
     get_python_version,
     auto_pin_packages_to_latest,
+    detect_package_changes,
 )
 
 REPO_ROOT = Path(__file__).resolve().parent
@@ -310,21 +311,51 @@ def main():
     # Handle auto-pin mode (strict latest PyHC pinning)
     if args.auto_pin:
         print("Auto-pinning packages to latest PyPI versions...")
+
+        # First, detect package set changes (additions/removals) before auto-pin modifies the file
+        # We detect against HEAD, so this captures changes that were manually made to packages.txt
+        added_packages, removed_packages = detect_package_changes(packages_file)
+        has_set_changes = bool(added_packages or removed_packages)
+
+        if has_set_changes:
+            print(f"\nPackage set changes detected:")
+            for pkg in sorted(added_packages):
+                print(f"  + {pkg} (added)")
+            for pkg in sorted(removed_packages):
+                print(f"  - {pkg} (removed)")
+
         try:
-            changes = auto_pin_packages_to_latest(packages_file, constraints_file)
+            version_changes = auto_pin_packages_to_latest(packages_file, constraints_file)
         except RuntimeError as e:
             print(f"ERROR: {e}")
             set_github_output("pyhc_packages_changed", "false")
             set_github_output("auto_pin_error", str(e))
             sys.exit(1)
 
-        if changes:
-            print(f"\nPyHC packages updated: {len(changes)}")
-            for pkg, (old, new) in sorted(changes.items()):
-                old_str = old if old else "unpinned"
-                print(f"  {pkg}: {old_str} -> {new}")
+        has_version_changes = bool(version_changes)
+
+        if has_version_changes or has_set_changes:
+            # Build combined change summary
+            change_lines = []
+
+            if version_changes:
+                print(f"\nPyHC packages updated: {len(version_changes)}")
+                for pkg, (old, new) in sorted(version_changes.items()):
+                    old_str = old if old else "unpinned"
+                    print(f"  {pkg}: {old_str} -> {new}")
+                    change_lines.append(f"{pkg}: {old_str} → {new}")
+
+            if added_packages:
+                for pkg in sorted(added_packages):
+                    if pkg not in version_changes:  # Avoid duplicates
+                        change_lines.append(f"{pkg}: added")
+
+            if removed_packages:
+                for pkg in sorted(removed_packages):
+                    change_lines.append(f"{pkg}: removed")
+
             set_github_output("pyhc_packages_changed", "true")
-            set_github_output("changed_packages", format_changed_packages(changes))
+            set_github_output("changed_packages", "\n".join(change_lines))
         else:
             print("No PyHC package updates found")
             set_github_output("pyhc_packages_changed", "false")

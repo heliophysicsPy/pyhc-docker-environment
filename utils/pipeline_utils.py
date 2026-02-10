@@ -7,6 +7,7 @@ __author__ = "Shawn Polson"
 
 import os
 import re
+import subprocess
 import requests
 import collections
 from datetime import datetime, timedelta
@@ -738,3 +739,63 @@ def auto_pin_packages_to_latest(packages_file: str, constraints_file: str = None
         print("All packages already at latest compatible versions")
 
     return changes
+
+
+def detect_package_changes(packages_file: str) -> tuple[set[str], set[str]]:
+    """Detect packages added/removed from packages.txt vs last git commit.
+
+    Uses git to compare the current packages.txt against HEAD to identify
+    changes to the package set (names only, not versions). This allows
+    triggering rebuilds when packages are added to or removed from PyHC.
+
+    Args:
+        packages_file: Path to packages.txt
+
+    Returns:
+        Tuple of (added_packages, removed_packages) where each is a set
+        of lowercase package names.
+    """
+    # Current package names (lowercase, no versions/extras)
+    current = set(name.lower() for name in
+                  parse_packages_txt(packages_file, preserve_specifiers=False))
+
+    # Get the relative path from the repo root for git
+    # Try to find the repo root by looking for .git directory
+    repo_root = os.path.dirname(packages_file)
+    while repo_root and not os.path.exists(os.path.join(repo_root, '.git')):
+        parent = os.path.dirname(repo_root)
+        if parent == repo_root:  # Hit filesystem root
+            repo_root = os.path.dirname(packages_file)
+            break
+        repo_root = parent
+
+    # Get relative path from repo root
+    rel_path = os.path.relpath(packages_file, repo_root)
+
+    # Previous package names from git HEAD
+    try:
+        result = subprocess.run(
+            ["git", "show", f"HEAD:{rel_path}"],
+            capture_output=True,
+            text=True,
+            check=True,
+            cwd=repo_root
+        )
+        # Parse the previous content
+        previous = set()
+        for line in result.stdout.split('\n'):
+            line = line.strip()
+            if not line or line.startswith('#'):
+                continue
+            # Extract base package name (before any specifiers)
+            name = re.split(r'[=<>!\[\s]', line.split('#')[0].strip())[0]
+            if name:
+                previous.add(name.lower())
+    except subprocess.CalledProcessError:
+        # File doesn't exist in HEAD (new file) or git error
+        previous = set()
+
+    added = current - previous
+    removed = previous - current
+
+    return added, removed
