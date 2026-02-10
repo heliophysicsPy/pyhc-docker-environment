@@ -20,6 +20,11 @@ on:
         required: false
         default: '2'
         type: string
+      docker_tag_suffix:
+        description: 'Optional suffix appended to date tag (e.g., -temp)'
+        required: false
+        default: ''
+        type: string
 
 jobs:
   run-pipeline:
@@ -127,7 +132,7 @@ jobs:
     - name: Build and Push Docker Images
       if: (steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && steps.compile.outcome == 'success'
       id: build_and_push
-      run: python utils/docker_operations.py ./docker ${{ secrets.DOCKER_HUB_USERNAME }} ${{ secrets.DOCKER_HUB_TOKEN }}
+      run: python utils/docker_operations.py ./docker ${{ secrets.DOCKER_HUB_USERNAME }} ${{ secrets.DOCKER_HUB_TOKEN }} "${{ github.event.inputs.docker_tag_suffix || '' }}"
 
     - name: Update Lockfile After Successful Build
       if: (steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && steps.compile.outcome == 'success'
