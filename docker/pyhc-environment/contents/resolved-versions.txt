@@ -263,7 +263,7 @@ contourpy==1.3.3
     #   sunpy
 coverage==7.13.4
     # via pytest-cov
-cryptography==46.0.4
+cryptography==46.0.5
     # via
     #   globus-sdk
     #   pyjwt
@@ -295,9 +295,7 @@ decorator==5.2.1
     #   ipython
     #   obspy
 deepdiff==8.6.1
-    # via
-    #   -r docker/pyhc-environment/contents/packages.txt
-    #   pyhc-core
+    # via pyhc-core
 defusedxml==0.7.1
     # via nbconvert
 dependency-groups==1.3.1
@@ -473,7 +471,6 @@ hvpy==1.1.0
     # via sunpy
 hypothesis==6.151.5
     # via
-    #   -r docker/pyhc-environment/contents/packages.txt
     #   plasmapy
     #   pytest-astropy
 idna==3.11
@@ -1034,7 +1031,6 @@ packaging==26.0
     #   qtconsole
     #   qtpy
     #   scikit-image
-    #   setuptools-scm
     #   speasy
     #   sphinx
     #   streamtracer
@@ -1309,9 +1305,7 @@ pytest==9.0.2
     #   pytest-xdist
     #   sunpy
 pytest-arraydiff==0.6.1
-    # via
-    #   -r docker/pyhc-environment/contents/packages.txt
-    #   pytest-astropy
+    # via pytest-astropy
 pytest-asdf-plugin==0.1.2
     # via sunpy
 pytest-astropy==0.11.0
@@ -1327,9 +1321,7 @@ pytest-cov==7.0.0
 pytest-datadir==1.8.0
     # via pytest-regressions
 pytest-doctestplus==1.7.1
-    # via
-    #   -r docker/pyhc-environment/contents/packages.txt
-    #   pytest-astropy
+    # via pytest-astropy
 pytest-filter-subpackage==0.2.0
     # via
     #   plasmapy
@@ -1347,9 +1339,7 @@ pytest-remotedata==0.4.1
 pytest-rerunfailures==16.1
     # via plasmapy
 pytest-xdist==3.8.0
-    # via
-    #   -r docker/pyhc-environment/contents/packages.txt
-    #   plasmapy
+    # via plasmapy
 python-casacore==3.7.1
     # via lofarsun
 python-dateutil==2.9.0.post0
@@ -1600,9 +1590,6 @@ setuptools==82.0.0
     # via
     #   jupyterlab
     #   obspy
-    #   setuptools-scm
-setuptools-scm==9.2.2
-    # via -r docker/pyhc-environment/contents/packages.txt
 shapely==2.1.2
     # via cartopy
 shiboken6==6.9.2
@@ -1852,7 +1839,7 @@ urllib3==2.6.3
     #   requests
     #   savic
     #   speasy
-uv==0.10.1
+uv==0.10.2
     # via nox
 viresclient==0.14.1
     # via -r docker/pyhc-environment/contents/packages.txt
