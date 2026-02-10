@@ -94,8 +94,8 @@ pytest-xdist==3.8.0
 setuptools-scm==9.2.2
 
 # --- Excluded Packages ---
-# kamodo  # Does not support Python>=3.12
-# pysatCDF  # pip install broken
 # amisrsynthdata  # No Python 3.12 support
-# heliopy  # Deprecated, incompatible with Python 3.12
-# aidapy  # Depends on heliopy which is deprecated
+# kamodo          # No Python 3.12 support
+# pysatCDF        # pip install broken
+# heliopy         # Deprecated, incompatible with Python 3.12
+# aidapy          # Depends on heliopy which is deprecated
