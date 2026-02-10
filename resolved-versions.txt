@@ -102,7 +102,7 @@ asdf-wcs-schemas==0.5.0
     # via
     #   dkist
     #   gwcs
-asilib==0.29.0
+asilib==0.29.2
     # via -r packages.txt
 asteval==1.0.8
     # via lmfit
@@ -140,7 +140,7 @@ astropy==7.2.0
     #   tscat
 astropy-healpix==1.1.3
     # via reproject
-astropy-iers-data==0.2026.2.2.0.48.1
+astropy-iers-data==0.2026.2.9.0.50.33
     # via astropy
 astroquery==0.4.11
     # via speasy
@@ -261,7 +261,7 @@ contourpy==1.3.3
     #   bokeh
     #   matplotlib
     #   sunpy
-coverage==7.13.3
+coverage==7.13.4
     # via pytest-cov
 cryptography==46.0.4
     # via
@@ -773,7 +773,7 @@ msise00==1.11.1
     # via
     #   -r packages.txt
     #   reesaurora
-mt-metadata==1.0.1
+mt-metadata==1.0.2
     # via mth5
 mth5==0.6.1
     # via pyhc-core
@@ -846,7 +846,7 @@ notebook-shim==0.2.4
     #   jupyterlab
     #   notebook
     #   sciqlop
-nox==2025.11.12
+nox==2026.2.9
     # via plasmapy
 numba==0.63.1
     # via pyrfu
@@ -1086,7 +1086,7 @@ parfive==2.3.1
     #   dkist
     #   sunpy
     #   swxsoc
-parso==0.8.5
+parso==0.8.6
     # via jedi
 partd==1.4.2
     # via dask
@@ -1320,6 +1320,7 @@ pytest-astropy-header==0.2.2
     # via pytest-astropy
 pytest-cov==7.0.0
     # via
+    #   asilib
     #   plasmapy
     #   pysat
     #   pytest-astropy
@@ -1339,7 +1340,7 @@ pytest-mpl==0.18.0
     # via sunpy
 pytest-ordering==0.6
     # via pysat
-pytest-regressions==2.9.1
+pytest-regressions==2.10.0
     # via plasmapy
 pytest-remotedata==0.4.1
     # via pytest-astropy
@@ -1355,6 +1356,7 @@ python-dateutil==2.9.0.post0
     # via
     #   aiobotocore
     #   arrow
+    #   asilib
     #   astrometry-azel
     #   botocore
     #   cdasws
@@ -1594,7 +1596,7 @@ send2trash==2.1.0
     # via jupyter-server
 sep==1.4.1
     # via regularizepsf
-setuptools==81.0.0
+setuptools==82.0.0
     # via
     #   jupyterlab
     #   obspy
@@ -1690,7 +1692,7 @@ sqlalchemy-utils==0.42.1
     # via tscat
 sqlalchemy2-stubs==0.0.2a38
     # via sqlalchemy
-sqlite-anyio==0.2.3
+sqlite-anyio==0.2.5
     # via pycrdt-websocket
 sscws==2.4.6
     # via geospacelab
@@ -1850,7 +1852,7 @@ urllib3==2.6.3
     #   requests
     #   savic
     #   speasy
-uv==0.10.0
+uv==0.10.1
     # via nox
 viresclient==0.14.1
     # via -r packages.txt
@@ -1912,7 +1914,7 @@ xarray==2026.1.0
     #   viresclient
     #   wmm2015
     #   wmm2020
-xgboost==3.1.3
+xgboost==3.2.0
     # via savic
 xyzservices==2025.11.0
     # via bokeh
