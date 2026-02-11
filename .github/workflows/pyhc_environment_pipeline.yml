@@ -2,7 +2,7 @@ name: PyHC Environment Pipeline Workflow
 
 on:
   schedule:
-    - cron: '0 14 * * *'  # Runs at 7 AM Mountain Time (UTC-7)
+    - cron: '0 7 * * *'  # Runs at midnight Mountain Time (UTC-7)
   workflow_dispatch:
     inputs:
       skip_checks:
