@@ -10,8 +10,6 @@ The PyHC Environment Pipeline automates the creation of a Docker image with a Py
 - **Daily Updates**: Runs daily to check for and include the latest versions of PyHC packages.
 - **Docker Hub Hosting**: Docker image is readily available on Docker Hub for easy access and deployment.
 - **Dependency Spreadsheet**: An intermediate step of the pipeline is to generate an Excel spreadsheet showing a matrix of allowed version range requirements.
-- **Package Change Detection**: Triggers rebuild when PyHC packages are added/removed (not just version updates).
-- **Constraint Management**: Uses `constraints.txt` to block known-broken versions.
 
 ## Workflow Parameters
 
