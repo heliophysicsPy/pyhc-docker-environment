@@ -471,7 +471,7 @@ humanize==4.15.0
     #   speasy
 hvpy==1.1.0
     # via sunpy
-hypothesis==6.151.5
+hypothesis==6.151.6
     # via
     #   -r docker/pyhc-environment/contents/packages.txt
     #   plasmapy
@@ -1095,7 +1095,7 @@ pathspec==1.0.4
     # via mypy
 pexpect==4.9.0
     # via ipython
-pillow==12.1.0
+pillow==12.1.1
     # via
     #   bokeh
     #   glymur

@@ -87,7 +87,7 @@ wmm2020==1.1.1
 
 # --- Supplementary Packages ---
 deepdiff==8.6.1
-hypothesis==6.151.5
+hypothesis==6.151.6
 pytest-arraydiff==0.6.1
 pytest-doctestplus==1.7.1
 pytest-xdist==3.8.0

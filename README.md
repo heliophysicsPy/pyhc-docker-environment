@@ -79,7 +79,7 @@ goesutils | 1.0.8
 hapiclient | 0.2.6
 hapiplot | 0.2.2
 hissw | 2.3
-hypothesis | 6.151.5
+hypothesis | 6.151.6
 igrf | 13.0.2
 iri2016 | 1.11.1
 irispy-lmsal | 0.6.0
