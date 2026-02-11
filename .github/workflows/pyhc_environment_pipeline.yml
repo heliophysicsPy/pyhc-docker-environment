@@ -63,7 +63,7 @@ jobs:
     - name: Auto-pin packages to latest versions
       id: auto_pin
       if: github.event.inputs.skip_checks != 'true'
-      run: python pipeline_v2.py --auto-pin
+      run: python pipeline.py --auto-pin
 
     - name: Skip if no PyHC updates (unless forced or quick deploy)
       if: github.event.inputs.skip_checks != 'true' && steps.auto_pin.outputs.pyhc_packages_changed != 'true' && github.event.inputs.force_build != 'true'
@@ -78,7 +78,7 @@ jobs:
     - name: Run uv compile (generate lockfile)
       if: github.event.inputs.skip_checks != 'true' && (steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true')
       id: compile
-      run: python pipeline_v2.py --compile
+      run: python pipeline.py --compile
       continue-on-error: true
 
     # ============================================
@@ -92,7 +92,7 @@ jobs:
       env:
         PYHC_SPREADSHEET_WORKERS: ${{ github.event.inputs.spreadsheet_workers || '2' }}
         PIP_DISABLE_PIP_VERSION_CHECK: '1'
-      run: python pipeline_v2.py --generate-spreadsheet
+      run: python pipeline.py --generate-spreadsheet
 
     - name: Upload Spreadsheet Artifact
       if: github.event.inputs.skip_checks != 'true' && (steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && (github.event_name != 'workflow_dispatch' || github.event.inputs.generate_spreadsheet != 'false')
@@ -143,7 +143,7 @@ jobs:
 
     - name: Update Lockfile After Successful Build
       if: github.event.inputs.skip_checks != 'true' && (steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && steps.compile.outcome == 'success'
-      run: python pipeline_v2.py --post-build
+      run: python pipeline.py --post-build
 
     - name: Update README Table
       if: github.event.inputs.skip_checks == 'true' || ((steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && steps.compile.outcome == 'success')

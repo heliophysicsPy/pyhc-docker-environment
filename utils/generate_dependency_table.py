@@ -1559,5 +1559,5 @@ def excel_spreadsheet_from_table_data(table_data):
 
 if __name__ == '__main__':
     # Legacy direct script mode is intentionally disabled for now.
-    # The workflow uses pipeline_v2.py --generate-spreadsheet.
+    # The workflow uses pipeline.py --generate-spreadsheet.
     pass
