@@ -223,13 +223,13 @@ jobs:
       with:
         issue-number: 2
         body: |
-          **[Pipeline]** Docker Hub images and GitHub repo have been updated.
+          Docker Hub images and GitHub repo have been updated.
 
           ${{ github.event.inputs.skip_checks == 'true' && '**Mode:** Quick deploy (skipped checks)' || '' }}
 
           **PyHC packages updated:**
           ```
-          ${{ steps.auto_pin.outputs.changed_packages || 'N/A (quick deploy mode)' }}
+          ${{ github.event.inputs.skip_checks == 'true' && 'N/A (quick deploy mode)' || steps.auto_pin.outputs.changed_packages || 'None' }}
           ```
 
           ${{ steps.generate_spreadsheet.outputs.conflict_comment || '' }}
