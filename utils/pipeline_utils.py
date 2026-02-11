@@ -7,7 +7,6 @@ __author__ = "Shawn Polson"
 
 import os
 import re
-import subprocess
 import requests
 import collections
 from datetime import datetime, timedelta
@@ -541,6 +540,117 @@ def get_current_pyhc_pins(packages_file: str) -> dict:
     return pins
 
 
+def parse_direct_requirements_from_lockfile(lockfile_path: str) -> dict:
+    """Extract direct package requirements from a uv lockfile.
+
+    A package is considered direct when its ``# via`` metadata includes
+    ``-r ...packages.txt`` (supports both single-line and block-style formats).
+
+    Args:
+        lockfile_path: Path to resolved-versions.txt
+
+    Returns:
+        Dict mapping direct package name (lowercase) -> version.
+    """
+    direct_requirements = {}
+
+    if not os.path.exists(lockfile_path):
+        return direct_requirements
+
+    current_pkg = None
+    current_ver = None
+    current_is_direct = False
+
+    def finalize_current():
+        if current_pkg and current_is_direct:
+            direct_requirements[current_pkg] = current_ver
+
+    with open(lockfile_path, "r") as f:
+        for raw_line in f:
+            line = raw_line.rstrip("\n")
+            stripped = line.strip()
+
+            if not stripped:
+                continue
+
+            # New package entry line: "name==version"
+            if not line.startswith((" ", "\t")) and not stripped.startswith("#"):
+                finalize_current()
+                current_pkg = None
+                current_ver = None
+                current_is_direct = False
+
+                match = re.match(r"^([A-Za-z0-9][A-Za-z0-9._-]*)==([^\s#]+)$", stripped)
+                if match:
+                    current_pkg = match.group(1).lower()
+                    current_ver = match.group(2)
+                continue
+
+            if not current_pkg:
+                continue
+
+            # Supports:
+            #   "    # via -r docker/.../packages.txt"
+            #   "    #   -r docker/.../packages.txt"
+            via_match = re.match(r"^\s*#\s*(?:via\s+)?-r\s+(.+)$", line)
+            if via_match:
+                requirement_source = via_match.group(1).strip()
+                if re.search(r"(^|[\\/])packages\.txt$", requirement_source):
+                    current_is_direct = True
+
+    finalize_current()
+    return direct_requirements
+
+
+def detect_package_set_changes(packages_file: str, lockfile_path: str) -> dict:
+    """Detect package additions/removals between packages.txt and lockfile direct deps.
+
+    This compares package *names only* (case-insensitive, extras stripped).
+    Version-only edits for packages that exist in both files are intentionally ignored.
+
+    Args:
+        packages_file: Path to packages.txt
+        lockfile_path: Path to resolved-versions.txt
+
+    Returns:
+        Dict with two keys:
+            - "added": {package_name: current_version_or_None}
+            - "removed": {package_name: lockfile_version_or_None}
+    """
+    current_pins = get_current_pyhc_pins(packages_file)
+
+    def normalize_name(name: str) -> str:
+        return re.sub(r"[-_.]+", "-", name).lower()
+
+    current_by_norm = {normalize_name(name): name for name in current_pins}
+    current_norm_names = set(current_by_norm.keys())
+
+    # If lockfile doesn't exist, treat all current packages as added so pipeline runs.
+    if not os.path.exists(lockfile_path):
+        return {
+            "added": {name: current_pins[name].get("version") for name in sorted(current_pins)},
+            "removed": {},
+        }
+
+    lockfile_direct = parse_direct_requirements_from_lockfile(lockfile_path)
+    lockfile_by_norm = {normalize_name(name): name for name in lockfile_direct}
+    lockfile_norm_names = set(lockfile_by_norm.keys())
+
+    added_norm = sorted(current_norm_names - lockfile_norm_names)
+    removed_norm = sorted(lockfile_norm_names - current_norm_names)
+
+    return {
+        "added": {
+            current_by_norm[norm_name]: current_pins[current_by_norm[norm_name]].get("version")
+            for norm_name in added_norm
+        },
+        "removed": {
+            lockfile_by_norm[norm_name]: lockfile_direct.get(lockfile_by_norm[norm_name])
+            for norm_name in removed_norm
+        },
+    }
+
+
 def update_packages_txt_with_pins(packages_file: str, new_versions: dict) -> None:
     """Update packages.txt with new version pins.
 
@@ -739,63 +849,3 @@ def auto_pin_packages_to_latest(packages_file: str, constraints_file: str = None
         print("All packages already at latest compatible versions")
 
     return changes
-
-
-def detect_package_changes(packages_file: str) -> tuple[set[str], set[str]]:
-    """Detect packages added/removed from packages.txt vs last git commit.
-
-    Uses git to compare the current packages.txt against HEAD to identify
-    changes to the package set (names only, not versions). This allows
-    triggering rebuilds when packages are added to or removed from PyHC.
-
-    Args:
-        packages_file: Path to packages.txt
-
-    Returns:
-        Tuple of (added_packages, removed_packages) where each is a set
-        of lowercase package names.
-    """
-    # Current package names (lowercase, no versions/extras)
-    current = set(name.lower() for name in
-                  parse_packages_txt(packages_file, preserve_specifiers=False))
-
-    # Get the relative path from the repo root for git
-    # Try to find the repo root by looking for .git directory
-    repo_root = os.path.dirname(packages_file)
-    while repo_root and not os.path.exists(os.path.join(repo_root, '.git')):
-        parent = os.path.dirname(repo_root)
-        if parent == repo_root:  # Hit filesystem root
-            repo_root = os.path.dirname(packages_file)
-            break
-        repo_root = parent
-
-    # Get relative path from repo root
-    rel_path = os.path.relpath(packages_file, repo_root)
-
-    # Previous package names from git HEAD
-    try:
-        result = subprocess.run(
-            ["git", "show", f"HEAD:{rel_path}"],
-            capture_output=True,
-            text=True,
-            check=True,
-            cwd=repo_root
-        )
-        # Parse the previous content
-        previous = set()
-        for line in result.stdout.split('\n'):
-            line = line.strip()
-            if not line or line.startswith('#'):
-                continue
-            # Extract base package name (before any specifiers)
-            name = re.split(r'[=<>!\[\s]', line.split('#')[0].strip())[0]
-            if name:
-                previous.add(name.lower())
-    except subprocess.CalledProcessError:
-        # File doesn't exist in HEAD (new file) or git error
-        previous = set()
-
-    added = current - previous
-    removed = previous - current
-
-    return added, removed
