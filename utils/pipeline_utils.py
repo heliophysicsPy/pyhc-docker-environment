@@ -472,7 +472,7 @@ def get_spec0_packages():
 def fetch_all_latest_versions(packages: list) -> dict:
     """Fetch latest versions from PyPI for all packages.
 
-    Fails explicitly if any fetch fails (unlike v1's graceful fallback).
+    Fails explicitly if any fetch fails.
 
     Args:
         packages: List of package names to fetch versions for

@@ -116,7 +116,7 @@ def update_lockfile(tmp_resolved_path: str, lockfile_path: str) -> None:
 
 def generate_spreadsheet(packages_file=None):
     """
-    Generate dependency spreadsheet using legacy v1 code.
+    Generate dependency spreadsheet using legacy pipdeptree parsing code.
     This is available for debugging/analysis but not part of the normal workflow.
 
     Args:
@@ -211,7 +211,7 @@ def main():
     parser.add_argument(
         "--generate-spreadsheet",
         action="store_true",
-        help="Generate dependency spreadsheet using legacy v1 code (for debugging)"
+        help="Generate dependency spreadsheet using legacy pipdeptree parsing code (for analysis/debugging)"
     )
     parser.add_argument(
         "--auto-pin",
