@@ -99,7 +99,7 @@ pydarn | 4.2
 pyflct | 0.3.1
 pyhc-core[tests] | 0.0.7
 pymap3d | 3.2.0
-pyrfu | 2.4.20
+pyrfu | 2.4.17
 pysat | 3.2.2
 pyspedas | 2.0.8
 pytplot | 1.7.28
