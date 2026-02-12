@@ -66,11 +66,10 @@ cdflib | 1.3.8
 cloudcatalog | 1.1.0
 dascutils | 2.3.0
 dbprocessing | 0.1.0
-deepdiff | 8.6.1
 dmsp | 0.6.0
 enlilviz | 0.2.0
 EUVpy | 1.0.0
-fiasco | 0.7.0
+fiasco | 0.8.0
 gcmprocpy | 1.2.1
 geopack | 1.0.12
 georinex | 1.16.2
@@ -79,7 +78,6 @@ goesutils | 1.0.8
 hapiclient | 0.2.6
 hapiplot | 0.2.2
 hissw | 2.3
-hypothesis | 6.151.6
 igrf | 13.0.2
 iri2016 | 1.11.1
 irispy-lmsal | 0.6.0
@@ -103,10 +101,7 @@ pyhc-core[tests] | 0.0.7
 pymap3d | 3.2.0
 pyrfu | 2.4.20
 pysat | 3.2.2
-pyspedas | 2.0.7
-pytest-arraydiff | 0.6.1
-pytest-doctestplus | 1.7.1
-pytest-xdist | 3.8.0
+pyspedas | 2.0.8
 pytplot | 1.7.28
 pytplot-mpl-temp | 2.2.79
 pyzenodo3 | 1.0.2
@@ -129,6 +124,6 @@ sunpy | 7.1.0
 sunraster | 0.7.0
 swxsoc | 0.2.3
 themisasi | 1.2.0
-viresclient | 0.14.1
+viresclient | 0.15.0
 wmm2015 | 1.1.1
 wmm2020 | 1.1.1

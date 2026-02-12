@@ -15,7 +15,7 @@ pyhc-core[tests]==0.0.7
 hapiclient==0.2.6
 plasmapy==2025.10.0
 pysat==3.2.2
-pyspedas==2.0.7
+pyspedas==2.0.8
 spacepy==0.7.0
 sunpy==7.1.0
 
@@ -33,7 +33,7 @@ dbprocessing==0.1.0
 dmsp==0.6.0
 enlilviz==0.2.0
 EUVpy==1.0.0
-fiasco==0.7.0
+fiasco==0.8.0
 gcmprocpy==1.2.1
 geopack==1.0.12
 georinex==1.16.2
@@ -81,7 +81,7 @@ sunkit-instruments==0.6.2
 sunraster==0.7.0
 swxsoc==0.2.3
 themisasi==1.2.0
-viresclient==0.14.1
+viresclient==0.15.0
 wmm2015==1.1.1
 wmm2020==1.1.1
 
