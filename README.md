@@ -11,6 +11,34 @@ The PyHC Environment Pipeline automates the creation of a Docker image with a Py
 - **Docker Hub Hosting**: Docker image is readily available on Docker Hub for easy access and deployment.
 - **Dependency Spreadsheet**: An intermediate step of the pipeline is to generate an Excel spreadsheet showing a matrix of allowed version range requirements.
 
+## Workflow Parameters
+
+The pipeline workflow supports the following manual trigger parameters:
+
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `skip_checks` | Skip auto-pin and compile (quick deploy mode) | `false` |
+| `force_build` | Force build even if no changes detected | `false` |
+| `generate_spreadsheet` | Generate dependency spreadsheet | `true` |
+| `spreadsheet_workers` | Number of workers for spreadsheet generation | `2` |
+| `docker_tag_suffix` | Optional suffix appended to date tag (e.g., `-temp`) | `` |
+
+### Trigger Behavior
+
+The pipeline triggers a Docker rebuild when any of the following conditions are met:
+- **PyHC package version update**: A PyHC package has a newer version on PyPI
+- **Package set change**: A package is added to or removed from `packages.txt`
+- **Force build**: The `force_build` parameter is set to `true`
+- **Quick deploy**: The `skip_checks` parameter is set to `true` (skips validation)
+
+### Quick Deploy Mode
+
+Use `skip_checks=true` for emergency deployments when you need to rebuild the Docker image without running the full validation pipeline. This mode:
+- Skips auto-pin (fetching latest versions from PyPI)
+- Skips dependency resolution (uv compile)
+- Skips spreadsheet generation
+- Goes directly to Docker build with current `packages.txt` content
+
 ## Docker Image
 The pipeline creates and maintains the following Docker image:
 - [pyhc-environment](https://hub.docker.com/r/spolson/pyhc-environment)
@@ -31,7 +59,7 @@ Package | Version
 aacgmv2 | 2.7.0
 aiapy | 0.11.0
 apexpy | 2.1.0
-asilib | 0.29.0
+asilib | 0.29.2
 astrometry-azel | 1.3.0
 ccsdspy | 1.4.3
 cdflib | 1.3.8
@@ -41,11 +69,11 @@ dbprocessing | 0.1.0
 dmsp | 0.6.0
 enlilviz | 0.2.0
 EUVpy | 1.0.0
-fiasco | 0.7.0
+fiasco | 0.8.0
 gcmprocpy | 1.2.1
 geopack | 1.0.12
 georinex | 1.16.2
-geospacelab | 0.12.1
+geospacelab | 0.12.3
 goesutils | 1.0.8
 hapiclient | 0.2.6
 hapiplot | 0.2.2
@@ -71,9 +99,9 @@ pydarn | 4.2
 pyflct | 0.3.1
 pyhc-core[tests] | 0.0.7
 pymap3d | 3.2.0
-pyrfu | 2.4.19
+pyrfu | 2.4.20
 pysat | 3.2.2
-pyspedas | 2.0.7
+pyspedas | 2.0.8
 pytplot | 1.7.28
 pytplot-mpl-temp | 2.2.79
 pyzenodo3 | 1.0.2
@@ -82,7 +110,7 @@ regularizepsf | 1.1.1
 sammi-cdf | 1.0.2
 savic | 1.2.7
 sciencedates | 1.5.0
-SciQLop | 0.10.3
+SciQLop | 0.10.4
 SkyWinder | 0.0.3
 solarmach | 0.5.2
 solo-epd-loader | 0.4.4
@@ -96,6 +124,6 @@ sunpy | 7.1.0
 sunraster | 0.7.0
 swxsoc | 0.2.3
 themisasi | 1.2.0
-viresclient | 0.14.1
+viresclient | 0.15.0
 wmm2015 | 1.1.1
 wmm2020 | 1.1.1

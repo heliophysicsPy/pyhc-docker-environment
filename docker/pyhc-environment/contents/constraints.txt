@@ -1,0 +1,16 @@
+# ============================================
+# PyHC Environment Version Constraints
+# ============================================
+# This file controls which package versions are
+# acceptable. Uses standard pip constraint syntax.
+#
+# Common constraint types:
+#   package!=X.Y.Z   Avoid specific broken version
+#   package<X.Y.Z    Stay below threshold
+#   package==X.Y.Z   Freeze at exact version
+#
+# The auto-pin process will pin packages to the
+# latest PyPI versions that satisfy these constraints.
+# ============================================
+
+

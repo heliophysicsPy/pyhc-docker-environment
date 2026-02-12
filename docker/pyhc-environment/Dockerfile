@@ -33,12 +33,13 @@ ENV PATH /opt/conda/envs/pyhc-all/bin:$PATH
 # Install uv for faster dependency resolution
 RUN pip install uv
 
-# Install PyHC packages with uv (Kamodo separately)
-# RUN pip install --no-cache-dir git+https://github.com/nasa/Kamodo.git  # TODO: fix conflicts, then incorporate into requirements.txt
-RUN uv pip install --system -r /app/requirements.txt
+# Install PyHC packages with uv
+# packages.txt contains PyHC package names with version pins
+# constraints.txt blocks known-broken versions
+RUN uv pip install --system -c /app/constraints.txt -r /app/packages.txt
 
-# Cleanup environment.yml and requirements.txt after their use
-RUN rm /app/environment.yml /app/requirements.txt
+# Cleanup environment.yml and pipeline input files after their use
+RUN rm /app/environment.yml /app/packages.txt /app/constraints.txt /app/resolved-versions.txt
 
 # Create directory for repo content in /opt
 RUN mkdir -p /opt/pyhc
@@ -71,7 +72,7 @@ RUN /bin/bash -c "source activate pyhc-all && \
 # Set the working directory to jovyan's home for Binder compatibility
 WORKDIR /home/jovyan
 
-# Switch to jovyan user before running the start script (TODO: is this needed? Delete if not...)
+# Switch to jovyan user before running the start script (TODO: is this needed? Delete if not)
 USER jovyan
 
 # Make port 8888 available to the world outside this container

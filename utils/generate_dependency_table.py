@@ -14,7 +14,9 @@ from packaging.version import Version
 from packaging.version import InvalidVersion
 import pandas as pd
 
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import re
+import shlex
 import subprocess
 
 try:
@@ -59,45 +61,45 @@ def generate_requirements_file():
     return requirements
 
 
-def get_core_pyhc_packages():
-    """
-    TODO: consider scraping this from projects_core.yml online?
-    :return: A list of the core PyHC package names.
+# def get_core_pyhc_packages():
+#     """
+#     TODO: consider scraping this from projects_core.yml online?
+#     :return: A list of the core PyHC package names.
 
-    TODO:
-    kamodo has been removed until it supports Python>=3.12
-    """
-    return ["hapiclient", "plasmapy", "pysat", "pyspedas", "spacepy", "sunpy", "pyhc-core[tests]"]
-
-
-def get_other_pyhc_packages():
-    """
-    TODO: consider scraping this from projects.yml online? Would have to account for unpublished packages.
-    Note, the following packages are missing because they are not in PyPI:
-    ACEmag, AFINO, Auroral Electrojet (AEindex), fisspy, geodata, GIMAmag (gima-magnetometer), hwm93 (archived 2022),
-    iri90 (archived 2022), POLAN (archived 2022), MGSutils (archived 2022), ncarglow, PyGemini, pyglow, PyGS,
-    python-magnetosphere, sami2py, scanning-doppler-interferometer (archived 2022), TomograPy.
-
-    :return: A list of the other non-core PyHC package names.
-
-    TODO:
-    aidapy has been removed because it depends on heliopy which is incompatible with Python 3.12 and deprecated.
-    amisrsynthdata has been removed until they add support for Python 3.12.
-    heliopy has been removed due to incompatibility with Python 3.12 (it was originally hardcoded to 0.15.4 because 1.0.0 is deprecated)
-    pysatCDF has been removed due to installation failures.
-    """
-    return ["aacgmv2", "aiapy", "apexpy", "asilib", "astrometry-azel", "ccsdspy", "cdflib", "cloudcatalog", "dascutils", "dbprocessing", "dmsp", "enlilviz", "EUVpy", "fiasco", "gcmprocpy", "geopack", "georinex", "geospacelab", "goesutils", "hapiplot", "hissw", "igrf", "iri2016", "irispy-lmsal", "kaipy", "lofarSun", "lowtran", "madrigalWeb", "maidenhead", "mcalf", "msise00", "ndcube", "nexradutils", "ocbpy", "OMMBV", "pyaurorax", "pycdfpp", "pydarn", "pyflct", "pymap3d", "pyrfu", "pytplot", "pytplot-mpl-temp", "pyzenodo3", "reesaurora", "regularizepsf", "sammi-cdf", "savic", "sciencedates", "SciQLop==0.10.3", "SkyWinder", "solarmach", "solo-epd-loader", "space-packet-parser", "speasy", "spiceypy", "sunkit-image", "sunkit-instruments", "sunraster", "swxsoc", "themisasi", "viresclient", "wmm2015", "wmm2020"]
+#     TODO:
+#     kamodo has been removed until it supports Python>=3.12
+#     """
+#     return ["hapiclient", "plasmapy", "pysat", "pyspedas", "spacepy", "sunpy", "pyhc-core[tests]"]
 
 
-def get_supplementary_packages():
-    """
-    :return: A list of supplementary packages, including optional dependencies not found by pipdeptree
-             and those used for unit tests.
-    TODO:
-    astropy=6.1.7 and xarray==2024.10.0 are hardcoded because the latest versions of the two are currently not compatible.
-    This was evidenced by a few PlasmaPy unit tests failing. Remove these pins when they become unnecessary.
-    """
-    return ["deepdiff", "hypothesis", "pytest-arraydiff", "pytest-doctestplus", "pytest-xdist", "setuptools-scm"] + ["astropy==6.1.7", "xarray==2024.10.0"]
+# def get_other_pyhc_packages():
+#     """
+#     TODO: consider scraping this from projects.yml online? Would have to account for unpublished packages.
+#     Note, the following packages are missing because they are not in PyPI:
+#     ACEmag, AFINO, Auroral Electrojet (AEindex), fisspy, geodata, GIMAmag (gima-magnetometer), hwm93 (archived 2022),
+#     iri90 (archived 2022), POLAN (archived 2022), MGSutils (archived 2022), ncarglow, PyGemini, pyglow, PyGS,
+#     python-magnetosphere, sami2py, scanning-doppler-interferometer (archived 2022), TomograPy.
+
+#     :return: A list of the other non-core PyHC package names.
+
+#     TODO:
+#     aidapy has been removed because it depends on heliopy which is incompatible with Python 3.12 and deprecated.
+#     amisrsynthdata has been removed until they add support for Python 3.12.
+#     heliopy has been removed due to incompatibility with Python 3.12 (it was originally hardcoded to 0.15.4 because 1.0.0 is deprecated)
+#     pysatCDF has been removed due to installation failures.
+#     """
+#     return ["aacgmv2", "aiapy", "apexpy", "asilib", "astrometry-azel", "ccsdspy", "cdflib", "cloudcatalog", "dascutils", "dbprocessing", "dmsp", "enlilviz", "EUVpy", "fiasco", "gcmprocpy", "geopack", "georinex", "geospacelab", "goesutils", "hapiplot", "hissw", "igrf", "iri2016", "irispy-lmsal", "kaipy", "lofarSun", "lowtran", "madrigalWeb", "maidenhead", "mcalf", "msise00", "ndcube", "nexradutils", "ocbpy", "OMMBV", "pyaurorax", "pycdfpp", "pydarn", "pyflct", "pymap3d", "pyrfu", "pytplot", "pytplot-mpl-temp", "pyzenodo3", "reesaurora", "regularizepsf", "sammi-cdf", "savic", "sciencedates", "SciQLop==0.10.3", "SkyWinder", "solarmach", "solo-epd-loader", "space-packet-parser", "speasy", "spiceypy", "sunkit-image", "sunkit-instruments", "sunraster", "swxsoc", "themisasi", "viresclient", "wmm2015", "wmm2020"]
+
+
+# def get_supplementary_packages():
+#     """
+#     :return: A list of supplementary packages, including optional dependencies not found by pipdeptree
+#              and those used for unit tests.
+#     TODO:
+#     astropy=6.1.7 and xarray==2024.10.0 are hardcoded because the latest versions of the two are currently not compatible.
+#     This was evidenced by a few PlasmaPy unit tests failing. Remove these pins when they become unnecessary.
+#     """
+#     return ["deepdiff", "hypothesis", "pytest-arraydiff", "pytest-doctestplus", "pytest-xdist", "setuptools-scm"] + ["astropy==6.1.7", "xarray==2024.10.0"]
 
 
 # def spreadsheet_to_requirements_file_orig(spreadsheet):
@@ -727,7 +729,96 @@ def determine_version_range(dependencies, package, requirement):
             raise RuntimeError(f"Package '{package}': {str(e)}")
 
 
-def get_dependency_ranges_by_package(packages, use_installed=False):
+def get_base_package_name(package):
+    """
+    Extract the base package name from a package specifier.
+    Examples:
+      - "sunpy==7.1.0" -> "sunpy"
+      - "pyhc-core[tests]==0.0.7" -> "pyhc-core"
+    """
+    package = package.strip()
+    return re.split(r"[=<>!\[\s]", package)[0]
+
+
+def parse_uv_tree_output(package, output_str):
+    """
+    Parse `uv pip tree --show-version-specifiers` output.
+    Returns:
+      (package_version, dependencies)
+    where dependencies is Dict like {"numpy": ">=2.0,<3.0", ...}
+    """
+    lines = [line.strip() for line in output_str.splitlines() if line.strip()]
+    if not lines:
+        raise RuntimeError(
+            f"Failed to parse dependency tree for package '{package}': empty output."
+        )
+
+    root_match = re.match(r"^([A-Za-z0-9_.-]+)\s+v([^\s]+)$", lines[0])
+    if not root_match:
+        raise RuntimeError(
+            f"Failed to parse version for package '{package}'. "
+            f"The first line of uv pip tree output did not match '<name> v<version>'.\n"
+            f"Output:\n{output_str}"
+        )
+    package_version = root_match.group(2)
+
+    dependencies = {}
+    dep_pattern = re.compile(
+        r"^[│\s├└─]*([A-Za-z0-9_.-]+)\s+v[^\s]+\s+\[(required|requires):\s+(.+?)\]\s*$"
+    )
+    for line in lines[1:]:
+        match = dep_pattern.match(line)
+        if not match:
+            continue
+        name = match.group(1).lower()
+        version_range = match.group(3).strip()
+        if version_range == "*":
+            version_range = "any"
+        else:
+            version_range = ",".join(part.strip() for part in version_range.split(","))
+        version_range = remove_wildcards(version_range)
+        version_range = normalize_compatible_releases(version_range)
+        dependencies[name] = determine_version_range(dependencies, name, version_range)
+    return package_version, dependencies
+
+
+def _build_dependency_tree_command(package, use_installed, installed_packages):
+    base_package = get_base_package_name(package)
+    base_package_lower = base_package.lower()
+
+    if use_installed and base_package_lower in installed_packages:
+        return f"uv pip tree --show-version-specifiers --package {shlex.quote(base_package)}"
+
+    if package.startswith("git+"):
+        return f"./utils/get-dep-tree-for-git-package.sh {shlex.quote(package)}"
+#    if base_package == "pysatCDF":
+#        return f"./utils/get-dep-tree-for-pysatCDF-w-numpy.sh {shlex.quote(package)}"
+    # if base_package == "OMMBV":
+    #     return f"./utils/get-dep-tree-for-ommbv.sh {shlex.quote(package)}"
+    # if base_package == "spacepy":
+    #     return f"./utils/get-dep-tree-for-spacepy.sh {shlex.quote(package)}"
+    # if base_package == "fisspy":
+    #     return f"./get-dep-tree-for-fisspy-w-conda.sh {shlex.quote(package)}"
+#    if base_package in {"asilib", "pyaurorax"}:
+#        return f"./utils/get-dep-tree-for-package-w-opencv-python.sh {shlex.quote(package)}"
+    if base_package in {"cloudcatalog", "pyrfu", "swxsoc"}:
+        return f"./utils/get-dep-tree-for-package-w-boto.sh {shlex.quote(package)}"
+#    if base_package in {"EUVpy", "kaipy", "SciQLop"}:
+#        return f"./utils/get-dep-tree-for-package-w-httpcore.sh {shlex.quote(package)}"
+    return f"./utils/get-dep-tree-for-package.sh {shlex.quote(package)}"
+
+
+def _get_package_dependencies(package, use_installed, installed_packages):
+    command = _build_dependency_tree_command(package, use_installed, installed_packages)
+    output_str = subprocess.check_output(command, shell=True, text=True)
+    package_version, dependencies = parse_uv_tree_output(package, output_str)
+    dependencies[get_base_package_name(package)] = f"=={package_version}"
+    sorted_dependencies = {key: value for key, value in sorted(dependencies.items())}
+    package_w_version = f"{package}=={package_version}" if "==" not in package else package
+    return package_w_version, sorted_dependencies
+
+
+def get_dependency_ranges_by_package(packages, use_installed=False, max_workers=1):
     """
     TODO: rename func to "get_dependency_ranges/requirements_for_packages()"?
     TODO: go back to "by project" wording?
@@ -735,70 +826,50 @@ def get_dependency_ranges_by_package(packages, use_installed=False):
     Pre-installed package versions get used when use_installed is True, otherwise the latest package versions get used.
     :param packages: List of packages like ['hapiclient', 'sunpy'] that may not be compatible together
     :param use_installed A Boolean for whether to try to use pre-installed package versions
+    :param max_workers: Number of worker threads to use when extracting package trees.
     :return: Dict like {'hapiclient': {'package1': '>=1.0'}, 'sunpy': {...}} (dependencies sorted alphabetically)
     """
-    installed_packages = get_packages_installed_in_environment()
+    if max_workers < 1:
+        max_workers = 1
+
+    installed_packages = set(get_packages_installed_in_environment())
     all_dependencies = {}
     total_packages = len(packages)  # for progress tracking output
-    for i, package in enumerate(packages, start=1):
-        print(f"Processing package: {package} ({i}/{total_packages})", flush=True)  # progress tracking output
-        if use_installed and package.lower() in installed_packages:
-            script_command = f"pipdeptree -p {package}"
-        else:
-            if package.startswith("git+"):
-                script_command = f"./utils/get-dep-tree-for-git-package.sh {package}"
-            elif package == "pysatCDF":
-                script_command = f"./utils/get-dep-tree-for-pysatCDF-w-numpy.sh {package}"
-            # elif package == "OMMBV":
-            #     script_command = f"./utils/get-dep-tree-for-ommbv.sh {package}"
-            # elif package == "spacepy":
-            #     script_command = f"./utils/get-dep-tree-for-spacepy.sh {package}"
-            # elif package == "fisspy":
-            #     script_command = f"./get-dep-tree-for-fisspy-w-conda.sh {package}"
-            elif package.split('==')[0] == "asilib":
-                script_command = f"./utils/get-dep-tree-for-package-w-opencv-python.sh {package}"
-            elif package.split('==')[0] == "cloudcatalog":
-                script_command = f"./utils/get-dep-tree-for-package-w-boto.sh {package}"
-            elif package.split('==')[0] == "EUVpy":
-                script_command = f"./utils/get-dep-tree-for-package-w-httpcore.sh {package}"
-            elif package.split('==')[0] == "kaipy":
-                script_command = f"./utils/get-dep-tree-for-package-w-httpcore.sh {package}"
-            elif package.split('==')[0] == "pyrfu":
-                script_command = f"./utils/get-dep-tree-for-package-w-boto.sh {package}"
-            elif package.split('==')[0] == "pyaurorax":
-                script_command = f"./utils/get-dep-tree-for-package-w-opencv-python.sh {package}"
-            elif package.split('==')[0] == "swxsoc":
-                script_command = f"./utils/get-dep-tree-for-package-w-boto.sh {package}"
-            elif package.split('==')[0] == "SciQLop":
-                script_command = f"./utils/get-dep-tree-for-package-w-httpcore.sh {package}"
-            else:
-                script_command = f"./utils/get-dep-tree-for-package.sh {package}"
-        output = subprocess.check_output(script_command, shell=True)
-        output_str = output.decode('utf-8')
-        try:
-            package_version = output_str.split('\n', 1)[0].split('==')[1]
-        except IndexError:
-            package_version = ""
-            # Handle case where package_version is empty
-            raise RuntimeError(
-                f"Failed to parse version for package '{package}'. "
-                f"The first line of pipdeptree output did not contain '==<version>'.\n"
-                f"Output:\n{output_str}"
-            )
-        dependencies = {}
-        for line in output_str.split("\n"):
-            # match = re.match("^\s*-\s*(\S+)\s+\[required:\s+(.+),\s+installed:.+\]", line)
-            match = re.match(r"\s*.*?(\S+)\s+\[required:\s+(.+?),\s+installed:.+?\]", line)
-            if match:
-                name, version_range = match.groups()
-                name = name.lower()
-                version_range = remove_wildcards(version_range)  # TODO: BEWARE: We pretend wildcards don't exist when operator is !=.
-                version_range = normalize_compatible_releases(version_range)
-                dependencies[name] = determine_version_range(dependencies, name, version_range)
-        dependencies[package.split('==')[0]] = f"=={package_version}"  # each top row package lists itself as dependency
-        sorted_dependencies = {key: value for key, value in sorted(dependencies.items())}
-        package_w_version = f"{package}=={package_version}" if "==" not in package else package
-        all_dependencies[package_w_version] = sorted_dependencies  # If I include the package version here it'll end up in the spreadsheet
+
+    def _process_single_package(index, package):
+        print(
+            f"Processing package: {package} ({index}/{total_packages})",
+            flush=True,
+        )
+        package_w_version, dependencies = _get_package_dependencies(
+            package, use_installed, installed_packages
+        )
+        return index, package_w_version, dependencies
+
+    indexed_packages = list(enumerate(packages, start=1))
+    if max_workers == 1:
+        for index, package in indexed_packages:
+            _, package_w_version, dependencies = _process_single_package(index, package)
+            all_dependencies[package_w_version] = dependencies
+        return all_dependencies
+
+    ordered_results = {}
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        future_to_package = {
+            executor.submit(_process_single_package, index, package): (index, package)
+            for index, package in indexed_packages
+        }
+        for future in as_completed(future_to_package):
+            index, package = future_to_package[future]
+            try:
+                _, package_w_version, dependencies = future.result()
+            except Exception as e:
+                raise RuntimeError(f"Failed to process package '{package}': {e}") from e
+            ordered_results[index] = (package_w_version, dependencies)
+
+    for index in sorted(ordered_results):
+        package_w_version, dependencies = ordered_results[index]
+        all_dependencies[package_w_version] = dependencies
     return all_dependencies
 
 
@@ -806,23 +877,23 @@ def get_dependency_ranges_for_environment(env_packages, full_path_to_pipdeptree=
     """
     TODO: rename func to "find_common_environment_dependency_ranges/requirements()"
     :param env_packages: List of packages like ['hapiclient', 'sunpy'] expected to already be installed in the env
-    :param full_path_to_pipdeptree: E.g. "/Users/shpo9723/opt/anaconda3/envs/pyhc-deps-1/bin/pipdeptree"
+    :param full_path_to_pipdeptree: Optional command override. If provided, this should point to a
+                                    `uv pip tree --show-version-specifiers` compatible command prefix.
     :return: Dict like {'package1': '>=1.0', 'package2': '<23.0', ...} (sorted alphabetically)
     """
-    pipdeptree_path = full_path_to_pipdeptree if full_path_to_pipdeptree else "pipdeptree"
+    uv_tree_command = (
+        full_path_to_pipdeptree
+        if full_path_to_pipdeptree
+        else "uv pip tree --show-version-specifiers"
+    )
     dependencies = {}
     for package in env_packages:
-        command = f"{pipdeptree_path} -p {package}"
-        output = subprocess.check_output(command, shell=True)
-        output_str = output.decode('utf-8')
-        for line in output_str.split("\n"):
-            match = re.match(r"^\s*-\s*(\S+)\s+\[required:\s+(.+),\s+installed:.+\]", line)
-            if match:
-                name, version_range = match.groups()
-                name = name.lower()
-                version_range = remove_wildcards(version_range)
-                version_range = normalize_compatible_releases(version_range)
-                dependencies[name] = determine_version_range(dependencies, name, version_range)
+        base_package = get_base_package_name(package)
+        command = f"{uv_tree_command} --package {shlex.quote(base_package)}"
+        output_str = subprocess.check_output(command, shell=True, text=True)
+        _, package_dependencies = parse_uv_tree_output(package, output_str)
+        for name, version_range in package_dependencies.items():
+            dependencies[name] = determine_version_range(dependencies, name, version_range)
     sorted_dependencies = {k: v for k, v in sorted(dependencies.items())}
     return sorted_dependencies
 
@@ -945,6 +1016,70 @@ def find_spec0_problems(table_data):
             for project, _, project_req, spec0_req in problems]
 
 
+def find_dependency_conflicts(table_data):
+    """
+    Return a list of human-readable dependency conflicts found in table_data.
+
+    A conflict exists when multiple PyHC packages have incompatible version
+    requirements for the same dependency, based on combining pip tree outputs.
+
+    Note: These conflicts are detected by simple range intersection and may be
+    more conservative than uv's actual resolver, which can sometimes find valid
+    resolutions that this analysis misses.
+    """
+    if not isinstance(table_data, dict):
+        return []
+
+    # Find packages with None version range (conflict) in core_dependencies and other_dependencies.
+    # After generate_dependency_table_data(), these are tuples:
+    #   (row_number, version_range, spec0_compliant)
+    # Keep compatibility with legacy shapes where values were direct range strings/None.
+    conflicting_packages = set()
+
+    for deps_key in ["core_dependencies", "other_dependencies"]:
+        deps = table_data.get(deps_key, {})
+        for pkg, val in deps.items():
+            if isinstance(val, tuple):
+                version_range = val[1] if len(val) >= 2 else None
+            else:
+                version_range = val
+            if version_range is None or pd.isna(version_range):
+                conflicting_packages.add(pkg)
+
+    if not conflicting_packages:
+        return []
+
+    project_data = table_data.get("project_data", {})
+    if not isinstance(project_data, dict):
+        return []
+
+    conflicts = []
+    for conflicting_pkg in sorted(conflicting_packages):
+        # Find which projects require this package and what their requirements are
+        involved_projects = []
+        for project, dependency_data in project_data.items():
+            project_name = project.split("==")[0] if isinstance(project, str) else str(project)
+            if conflicting_pkg in dependency_data:
+                values = dependency_data[conflicting_pkg]
+                if isinstance(values, tuple):
+                    if len(values) >= 3:
+                        version_range = values[2]  # Third element is project requirement range.
+                    elif len(values) >= 2:
+                        version_range = values[1]
+                    else:
+                        version_range = None
+                else:
+                    version_range = values
+                if version_range and str(version_range).lower() != "any":
+                    involved_projects.append(f"{project_name} requires {conflicting_pkg}{version_range}")
+
+        if involved_projects:
+            conflict_desc = f"Conflict for '{conflicting_pkg}': " + "; ".join(involved_projects)
+            conflicts.append(conflict_desc)
+
+    return conflicts
+
+
 def clean_dependencies(dependencies):
     """
     Given a dependencies dict, add a space before version ranges that start with '=',
@@ -983,7 +1118,7 @@ def reorder_requirements(range_str):
     :return: Reordered String like ">=1.5.0,<2.0,!=1.6"
     """
     if range_str:
-        rules = range_str.split(",")
+        rules = [rule.strip() for rule in range_str.split(",") if rule.strip()]
         lower_bound = None
         upper_bound = None
         remaining = []
@@ -1115,7 +1250,7 @@ def merge_dependencies(core_dependencies, other_dependencies):
 #       (biggest change: lots of {'package': (None, None, None)} cells where projects don't use that dependency).
 
 
-def generate_dependency_table_data(packages, core_env_packages=[]):
+def generate_dependency_table_data(packages, core_env_packages=[], max_workers=1):
     """
     Generates a data structure that can populate a dependency conflict table.
     :param packages: A list of PyHC packages ["package1", "package2", ...] that may have dependency conflicts
@@ -1134,8 +1269,15 @@ def generate_dependency_table_data(packages, core_env_packages=[]):
                          }
              with version range data cleaned for Excel.
     """
-    core_deps_by_project = get_dependency_ranges_by_package(core_env_packages, use_installed=True)
-    other_deps_by_project = get_dependency_ranges_by_package(packages)
+    core_deps_by_project = get_dependency_ranges_by_package(
+        core_env_packages,
+        use_installed=True,
+        max_workers=max_workers,
+    )
+    other_deps_by_project = get_dependency_ranges_by_package(
+        packages,
+        max_workers=max_workers,
+    )
     all_deps_by_project = {**core_deps_by_project, **other_deps_by_project}
 
     # import pickle  # TODO: delete pickling
@@ -1416,29 +1558,6 @@ def excel_spreadsheet_from_table_data(table_data):
 
 
 if __name__ == '__main__':
-    # generate_requirements_file()
-    core_packages = get_core_pyhc_packages()
-    other_packages = get_other_pyhc_packages()
-    supplementary_packages = get_supplementary_packages()
-    # table_data = generate_dependency_table_data(other_packages, core_packages)  # segments spreadsheet (core/non-core)
-    all_packages = core_packages + other_packages + supplementary_packages
-    # all_packages = core_packages + supplementary_packages
-    table_data = generate_dependency_table_data(all_packages)
-
-    # Write table_data
-    import pickle
-    with open('PyHC-dependency-table-jan-4-2024(6).pkl', 'wb') as f:
-        pickle.dump(table_data, f)
-
-    # Read table_data
-    # import pickle
-    # with open('pyhc-dependency-table-jan-3-2024.pkl', 'rb') as f:
-    #     table_data = pickle.load(f)
-
-    # ----debug----
-    # table_data['project_data']['enlilviz']['numpy'] = (False, 'fake,<1.0.0')
-    # -------------
-
-    table = excel_spreadsheet_from_table_data(table_data)
-    table.save('PyHC-dependency-table-jan-4-2024(6).xlsx')
-    print("done")
+    # Legacy direct script mode is intentionally disabled for now.
+    # The workflow uses pipeline.py --generate-spreadsheet.
+    pass

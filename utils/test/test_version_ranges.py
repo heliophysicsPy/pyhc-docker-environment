@@ -81,6 +81,9 @@ class TestVersionRangeLogic(unittest.TestCase):
             ("!=1.0", "==1.0"),
             (">1.0,<2.0", ">3.0,<4.0"),
             (">=1.0,<=1.5", ">=2.0,<=3.0"),
+            ("<1.0", ">=1.0"),   # boundary touch, empty intersection
+            (">1.0", "<=1.0"),   # boundary touch, empty intersection
+            ("==1.2.3", "!=1.2.3"),
         ]
         for current, new in cases:
             with self.subTest(current=current, new=new):
@@ -112,6 +115,15 @@ class TestVersionRangeLogic(unittest.TestCase):
             combine_ranges("invalid", ">=1.0")
         with self.assertRaises(InvalidSpecifier):
             combine_ranges(">=1.0", "invalid")
+
+    def test_exclusion_behavior_with_pinned_version(self):
+        # Exclusions should be no-op when already pinned to a single version.
+        self.assertEqual(combine_ranges("==1.2.3", "!=1.4.0").lstrip(), "==1.2.3")
+
+    def test_duplicate_exclusion_is_not_duplicated(self):
+        result = combine_ranges(">=1.0,!=1.5", "!=1.5")
+        # Compare via SpecifierSet to normalize ordering/format.
+        self.assertEqual(SpecifierSet(result), SpecifierSet(">=1.0,!=1.5"))
         
     # ------------------------
     # remove_wildcards
@@ -125,6 +137,9 @@ class TestVersionRangeLogic(unittest.TestCase):
             ("==1.2.*", ">=1.2.0,<1.3.0"),
             (">=1.5.0,<2.0,!=1.6.*", ">=1.5.0,<2.0,!=1.6"),
             (">=1.0.0", ">=1.0.0"),
+            ("<=1.*", "<=1"),
+            (">2.*", ">2"),
+            ("==foo.*", "==foo"),
             ("", ""),
         ]
         for input_val, expected in cases:
@@ -140,6 +155,9 @@ class TestVersionRangeLogic(unittest.TestCase):
         self.assertEqual(reorder_requirements("!=1.5,>=1.0,<2.0"), ">=1.0,<2.0,!=1.5")
         self.assertEqual(clean_range_str("<2.0,!=1.6,>=1.5.0"), ">=1.5.0,<2.0,!=1.6")
         self.assertEqual(clean_range_str("!=1.5,>=1.0,<2.0"), ">=1.0,<2.0,!=1.5")
+        # Inputs with spaces and trailing comma should still normalize predictably.
+        self.assertEqual(clean_range_str(" <2.0, >=1.0"), ">=1.0,<2.0")
+        self.assertEqual(clean_range_str(">=1.0,<2.0,"), ">=1.0,<2.0")
 
     # ------------------------
     # determine_version_range
@@ -150,6 +168,12 @@ class TestVersionRangeLogic(unittest.TestCase):
         self.assertEqual(determine_version_range(deps, "package1", ">=1.2"), ">=1.2")
         # Just ensure it returns a string (combined/cleaned), not throwing
         self.assertIsInstance(determine_version_range(deps, "package1", ">=1.0"), str)
+
+    def test_determine_version_range_error_contains_package_name(self):
+        deps = {"numpy": "<1.0"}
+        with self.assertRaises(RuntimeError) as exc:
+            determine_version_range(deps, "numpy", ">=2.0")
+        self.assertIn("Package 'numpy':", str(exc.exception))
 
     # ------------------------
     # are_compatible

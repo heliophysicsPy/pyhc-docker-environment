@@ -1,0 +1,310 @@
+name: PyHC Environment Pipeline Workflow
+
+on:
+  schedule:
+    - cron: '0 7 * * *'  # Runs at midnight Mountain Time (UTC-7)
+  workflow_dispatch:
+    inputs:
+      skip_checks:
+        description: 'Skip auto-pin and compile (quick deploy mode)'
+        required: false
+        default: 'false'
+        type: boolean
+      force_build:
+        description: 'Force build even if no changes detected'
+        required: false
+        default: 'false'
+        type: boolean
+      generate_spreadsheet:
+        description: 'Generate dependency spreadsheet (set false to skip)'
+        required: false
+        default: 'true'
+        type: boolean
+      spreadsheet_workers:
+        description: 'Number of workers for spreadsheet generation'
+        required: false
+        default: '2'
+        type: string
+      docker_tag_suffix:
+        description: 'Optional suffix appended to date tag (e.g., -temp)'
+        required: false
+        default: ''
+        type: string
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Extract Python version from environment.yml
+      id: python_version
+      run: |
+        VERSION=$(python3 utils/version_utils.py)
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "Using Python version: $VERSION"
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ steps.python_version.outputs.version }}
+
+    - name: Install uv
+      run: pip install uv
+
+    - name: Install Pipeline Dependencies
+      run: pip install -r pipeline_requirements.txt
+
+    # ============================================
+    # Auto-pin packages to latest PyPI versions
+    # ============================================
+    - name: Auto-pin packages to latest versions
+      id: auto_pin
+      if: github.event.inputs.skip_checks != 'true'
+      run: python pipeline.py --auto-pin
+
+    - name: No-op notice when no PyHC updates (downstream conditions handle skipping)
+      if: github.event.inputs.skip_checks != 'true' && steps.auto_pin.outputs.pyhc_packages_changed != 'true' && github.event.inputs.force_build != 'true'
+      run: |
+        echo "No PyHC package updates detected. Skipping build."
+        echo "Note: Transitive dependency changes don't trigger rebuilds."
+        echo "Use 'Force build' option to rebuild anyway."
+
+    # ============================================
+    # Dependency Resolution with Constraints
+    # ============================================
+    - name: Run uv compile (generate lockfile)
+      if: github.event.inputs.skip_checks != 'true' && (steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true')
+      id: compile
+      run: python pipeline.py --compile
+      continue-on-error: true
+
+    # ============================================
+    # Optional Spreadsheet Generation (for diagnostics and analysis)
+    # Runs only when updates/force would run pipeline, regardless of compile success.
+    # Skipped in quick deploy mode.
+    # ============================================
+    - name: Generate Dependency Spreadsheet
+      id: generate_spreadsheet
+      if: github.event.inputs.skip_checks != 'true' && (steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && (github.event_name != 'workflow_dispatch' || github.event.inputs.generate_spreadsheet != 'false')
+      env:
+        PYHC_SPREADSHEET_WORKERS: ${{ github.event.inputs.spreadsheet_workers || '2' }}
+        PIP_DISABLE_PIP_VERSION_CHECK: '1'
+      run: python pipeline.py --generate-spreadsheet
+
+    - name: Upload Spreadsheet Artifact
+      if: github.event.inputs.skip_checks != 'true' && (steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && (github.event_name != 'workflow_dispatch' || github.event.inputs.generate_spreadsheet != 'false')
+      uses: actions/upload-artifact@v4
+      with:
+        name: dependency-spreadsheet
+        path: ${{ steps.generate_spreadsheet.outputs.spreadsheet_path }}
+        retention-days: 30
+
+    - name: Post conflict to issue on failure
+      if: github.event.inputs.skip_checks != 'true' && steps.compile.outcome == 'failure'
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        gh issue comment 2 --body "## Dependency Conflict Detected
+
+        Failed to resolve dependencies after auto-pinning to latest PyHC versions.
+
+        **Changed packages:**
+        \`\`\`
+        ${{ steps.auto_pin.outputs.changed_packages }}
+        \`\`\`
+
+        **Error details:**
+        \`\`\`
+        ${{ steps.compile.outputs.compile_error }}
+        \`\`\`
+
+        **Workflow run:** ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+    - name: Fail workflow on compile error
+      if: github.event.inputs.skip_checks != 'true' && steps.compile.outcome == 'failure'
+      run: |
+        if [ "${{ github.event_name != 'workflow_dispatch' || github.event.inputs.generate_spreadsheet != 'false' }}" = "true" ]; then
+          echo "ERROR: Dependency resolution failed. See issue #2 and this run's spreadsheet artifact for details."
+        else
+          echo "ERROR: Dependency resolution failed. See issue #2 for details."
+        fi
+        exit 1
+
+    # ============================================
+    # Docker Build and Push
+    # ============================================
+    - name: Build and Push Docker Images
+      if: github.event.inputs.skip_checks == 'true' || ((steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && steps.compile.outcome == 'success')
+      id: build_and_push
+      run: python utils/docker_operations.py ./docker ${{ secrets.DOCKER_HUB_USERNAME }} ${{ secrets.DOCKER_HUB_TOKEN }} "${{ github.event.inputs.docker_tag_suffix || '' }}"
+
+    - name: Update Lockfile After Successful Build
+      if: github.event.inputs.skip_checks != 'true' && (steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && steps.compile.outcome == 'success'
+      run: python pipeline.py --post-build
+
+    - name: Update README Table
+      if: github.event.inputs.skip_checks == 'true' || ((steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && steps.compile.outcome == 'success')
+      run: python utils/update_readme.py
+
+    # ============================================
+    # Commit and Push Changes
+    # ============================================
+    - name: Commit and Push Repo Changes
+      id: commit_repo_changes
+      if: github.event.inputs.skip_checks == 'true' || ((steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && steps.compile.outcome == 'success')
+      run: |
+        set -euo pipefail
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        echo "repo_commit_made=false" >> "$GITHUB_OUTPUT"
+
+        push_with_rebase_retry() {
+          local attempt=1
+          local max_attempts=3
+
+          while [ "${attempt}" -le "${max_attempts}" ]; do
+            if git push origin "${BRANCH_NAME}"; then
+              return 0
+            fi
+
+            if [ "${attempt}" -eq "${max_attempts}" ]; then
+              echo "Push failed after ${max_attempts} attempts."
+              return 1
+            fi
+
+            echo "Push attempt ${attempt} failed. Rebasing and retrying..."
+            git pull --rebase origin "${BRANCH_NAME}"
+            attempt=$((attempt + 1))
+          done
+        }
+
+        # Quick deploy mode keeps the existing simple commit message.
+        if [ "${{ github.event.inputs.skip_checks }}" = "true" ]; then
+          git add README.md
+          MSG="Quick deploy: rebuild Docker images"
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          git commit -m "$MSG"
+          push_with_rebase_retry
+          echo "repo_commit_made=true" >> "$GITHUB_OUTPUT"
+          exit 0
+        fi
+
+        # Normal mode: stage lockfile/package/README updates and spreadsheet (if generated).
+        git add docker/pyhc-environment/contents/packages.txt docker/pyhc-environment/contents/constraints.txt docker/pyhc-environment/contents/resolved-versions.txt README.md
+
+        if [ -n "${SPREADSHEET_PATH}" ] && [ -d "spreadsheets" ]; then
+          git add spreadsheets/
+        fi
+
+        STAGED_FILES="$(git diff --cached --name-only)"
+        if [ -z "${STAGED_FILES}" ]; then
+          echo "No changes to commit"
+          exit 0
+        fi
+
+        if echo "${STAGED_FILES}" | grep -q '^README.md$'; then
+          README_UPDATED="yes"
+        else
+          README_UPDATED="no"
+        fi
+
+        if echo "${STAGED_FILES}" | grep -q '^spreadsheets/'; then
+          SPREADSHEET_COMMITTED="yes"
+        else
+          SPREADSHEET_COMMITTED="no"
+        fi
+
+        if [ -n "${CHANGED_PACKAGES}" ]; then
+          PKG_SUMMARY="${CHANGED_PACKAGES}"
+        else
+          PKG_SUMMARY="None"
+        fi
+
+        if [ -n "${SPREADSHEET_PATH}" ]; then
+          CONFLICT_SUMMARY="${CONFLICT_COUNT:-0}"
+          SPEC0_SUMMARY="${SPEC0_COUNT:-0}"
+        else
+          CONFLICT_SUMMARY="N/A"
+          SPEC0_SUMMARY="N/A"
+        fi
+
+        COMMIT_BODY=$(cat <<EOF
+        PyHC package changes:
+        ${PKG_SUMMARY}
+
+        Docker tag pushed: ${DOCKER_TAG}
+        Spreadsheet committed: ${SPREADSHEET_COMMITTED}
+        Dependency conflicts in spreadsheet: ${CONFLICT_SUMMARY}
+        SPEC 0 problems in spreadsheet: ${SPEC0_SUMMARY}
+        README updated: ${README_UPDATED}
+        EOF
+        )
+
+        git commit -m "Update PyHC environment" -m "${COMMIT_BODY}"
+        push_with_rebase_retry
+        echo "repo_commit_made=true" >> "$GITHUB_OUTPUT"
+
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BRANCH_NAME: ${{ github.ref_name }}
+        CHANGED_PACKAGES: ${{ steps.auto_pin.outputs.changed_packages || '' }}
+        DOCKER_TAG: ${{ steps.build_and_push.outputs.docker_version || '' }}
+        SPREADSHEET_PATH: ${{ steps.generate_spreadsheet.outputs.spreadsheet_path || '' }}
+        CONFLICT_COUNT: ${{ steps.generate_spreadsheet.outputs.conflict_count || '' }}
+        SPEC0_COUNT: ${{ steps.generate_spreadsheet.outputs.spec0_problem_count || '' }}
+
+    # ============================================
+    # Trigger Binder Rebuild
+    # ============================================
+    - name: Update science-platforms-coordination to Trigger Binder Rebuild
+      if: github.event.inputs.skip_checks == 'true' || ((steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && steps.compile.outcome == 'success')
+      run: |
+        # Clone the target repo using a PAT with push permissions
+        git clone https://${{ secrets.SCIENCE_PLATFORMS_PAT }}@github.com/heliophysicsPy/science-platforms-coordination.git coordination_repo
+        cd coordination_repo
+        git checkout pyhc
+
+        # Use sed to update the 'FROM' line in the Dockerfile with the new version
+        sed -i "s|^FROM spolson/pyhc-environment:.*|FROM spolson/pyhc-environment:${{ steps.build_and_push.outputs.docker_version }}|" binder/Dockerfile
+
+        git config user.name 'github-actions[bot]'
+        git config user.email 'github-actions[bot]@users.noreply.github.com'
+        git add binder/Dockerfile
+
+        if [ -z "$(git status --porcelain)" ]; then
+          echo "No changes to commit."
+        else
+          git commit -m "Update base image version to ${{ steps.build_and_push.outputs.docker_version }}"
+          git push origin pyhc
+        fi
+
+    # ============================================
+    # Notifications
+    # ============================================
+    - name: Notify on Successful Push
+      if: github.event.inputs.skip_checks == 'true' || ((steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && steps.compile.outcome == 'success')
+      uses: peter-evans/create-or-update-comment@v4
+      with:
+        issue-number: 2
+        body: |
+          ${{ steps.commit_repo_changes.outputs.repo_commit_made == 'true' && 'Docker Hub images and GitHub repo have been updated.' || 'Docker Hub images have been updated. No repository file changes were committed.' }}
+
+          ${{ github.event.inputs.skip_checks == 'true' && '**Mode:** Quick deploy (skipped checks)' || '' }}
+
+          **PyHC packages updated:**
+          ```
+          ${{ github.event.inputs.skip_checks == 'true' && 'N/A (quick deploy mode)' || steps.auto_pin.outputs.changed_packages || 'None' }}
+          ```
+
+          ${{ steps.generate_spreadsheet.outputs.conflict_comment || '' }}
+
+          ${{ steps.generate_spreadsheet.outputs.spec0_comment || '' }}
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

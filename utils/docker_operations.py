@@ -1,12 +1,44 @@
 import subprocess
 import sys
+import re
 from datetime import datetime
 
-from pipeline_utils import *
+try:
+    from .pipeline_utils import *
+except ImportError:
+    from pipeline_utils import *
 
 
-def build_and_push_docker_images(docker_folder_path, docker_username, docker_token):
+def normalize_tag_suffix(tag_suffix):
+    """Normalize and validate an optional docker tag suffix."""
+    if not tag_suffix:
+        return ""
+
+    normalized = tag_suffix.strip()
+    if not normalized:
+        return ""
+
+    # Allow only Docker tag-safe suffix characters.
+    if not re.fullmatch(r"[A-Za-z0-9._-]+", normalized):
+        raise ValueError(
+            "Invalid tag suffix. Use only letters, numbers, '.', '_' or '-'. "
+            "Examples: temp, -temp."
+        )
+
+    return normalized
+
+
+def build_and_push_docker_images(docker_folder_path, docker_username, docker_token, tag_suffix=""):
+    """Build and push Docker images to Docker Hub.
+
+    Args:
+        docker_folder_path: Path to the docker folder containing image subdirectories.
+        docker_username: Docker Hub username.
+        docker_token: Docker Hub access token.
+    """
     today = datetime.now().strftime("%Y.%m.%d")
+    normalized_suffix = normalize_tag_suffix(tag_suffix)
+    version_tag = f"v{today}{normalized_suffix}"
     docker_image_names = get_docker_image_names(docker_folder_path)
 
     try:
@@ -15,7 +47,7 @@ def build_and_push_docker_images(docker_folder_path, docker_username, docker_tok
         subprocess.run(login_command, shell=True, check=True)
 
         for image_name in docker_image_names:
-            date_tag = f"{docker_username}/{image_name}:v{today}"
+            date_tag = f"{docker_username}/{image_name}:{version_tag}"
             latest_tag = f"{docker_username}/{image_name}:latest"
 
             # Build the Docker image with the date-based tag
@@ -52,24 +84,25 @@ def build_and_push_docker_images(docker_folder_path, docker_username, docker_tok
         # If we reach this point, we have successfully built and pushed today's images.
         # Set the output variable to the date-based version tag (e.g., v2024.12.19).
         # This assumes all images use the same date tag.
-        print(f"::set-output name=docker_version::v{today}")
+        set_github_output("docker_version", version_tag)
 
     except subprocess.CalledProcessError as e:
         print(f"Error during Docker operations: {e}", flush=True)
-        print("::set-output name=should_run::false", flush=True)
+        set_github_output("should_run", "false")
         sys.exit(1)  # Exit the script with an error status
     except Exception as e:
         print(f"Unhandled exception: {e}", flush=True)
-        print("::set-output name=should_run::false", flush=True)
+        set_github_output("should_run", "false")
         sys.exit(1)  # Exit the script with an error status
 
 
 if __name__ == '__main__':
-    if len(sys.argv) != 4:
-        print("Usage: docker_operations.py <docker_folder_path> <docker_username> <docker_token>")
+    if len(sys.argv) not in {4, 5}:
+        print("Usage: docker_operations.py <docker_folder_path> <docker_username> <docker_token> [tag_suffix]")
         sys.exit(1)
 
     docker_folder = sys.argv[1]  # Path to the docker folder in the repository
     username = sys.argv[2]       # Docker Hub username
     token = sys.argv[3]          # Docker Hub token
-    build_and_push_docker_images(docker_folder, username, token)
+    suffix = sys.argv[4] if len(sys.argv) == 5 else ""
+    build_and_push_docker_images(docker_folder, username, token, suffix)

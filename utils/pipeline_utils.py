@@ -12,6 +12,81 @@ import collections
 from datetime import datetime, timedelta
 import pandas as pd
 from packaging.version import Version
+from packaging.specifiers import SpecifierSet, InvalidSpecifier
+
+
+try:
+    from .version_utils import (
+        parse_python_version_from_env_yml,
+        get_environment_yml_path,
+        get_python_version,
+    )
+except ImportError:
+    from version_utils import (
+        parse_python_version_from_env_yml,
+        get_environment_yml_path,
+        get_python_version,
+    )
+
+
+def set_github_output(name: str, value: str) -> None:
+    """Set a GitHub Actions output variable.
+
+    Uses the modern $GITHUB_OUTPUT file method, with fallback to
+    the deprecated ::set-output syntax for local testing.
+    """
+    if value is None:
+        value = ""
+    elif not isinstance(value, str):
+        value = str(value)
+
+    github_output = os.environ.get("GITHUB_OUTPUT")
+    if github_output:
+        with open(github_output, "a") as f:
+            # Use multiline-safe format when needed
+            if "\n" in value:
+                f.write(f"{name}<<EOF\n{value}\nEOF\n")
+            else:
+                f.write(f"{name}={value}\n")
+    else:
+        # Fallback for local testing or older GitHub Actions syntax
+        if "\n" in value:
+            value = value.replace("\n", "%0A")
+        print(f"::set-output name={name}::{value}")
+
+
+def parse_packages_txt(packages_path, preserve_specifiers=False):
+    """Parse packages.txt and return package entries.
+
+    Args:
+        packages_path: Path to packages.txt
+        preserve_specifiers: If True, preserve extras/version pins. If False,
+            return only base package names.
+
+    Returns:
+        List of parsed package entries from packages.txt.
+    """
+    packages = []
+    with open(packages_path, 'r') as file:
+        for line in file:
+            line = line.strip()
+            # Skip empty lines and comments
+            if not line or line.startswith('#'):
+                continue
+            # Remove inline comments while preserving the package spec itself.
+            package_entry = line.split('#', 1)[0].strip()
+            if not package_entry:
+                continue
+
+            if preserve_specifiers:
+                # Keep exact package entry, e.g. "pyhc-core[tests]==0.0.7".
+                packages.append(package_entry)
+            else:
+                # Extract base package name, e.g. "pyhc-core".
+                package_name = re.split(r'[=<>!\[\s]', package_entry)[0]
+                if package_name:
+                    packages.append(package_name)
+    return packages
 
 
 def fetch_latest_version_from_pypi(package_name):
@@ -26,6 +101,65 @@ def fetch_latest_version_from_pypi(package_name):
     except requests.RequestException as e:
         print(f"Error fetching package {package_name} from PyPI: {e}")
         return None
+
+
+def fetch_all_versions_from_pypi(package_name: str) -> list:
+    """
+    Fetch all available versions of a package from PyPI.
+
+    Args:
+        package_name: Name of the package to query
+
+    Returns:
+        List of version strings, or None if fetch fails
+    """
+    try:
+        response = requests.get(f"https://pypi.org/pypi/{package_name}/json")
+        response.raise_for_status()
+        data = response.json()
+        return list(data['releases'].keys())
+    except requests.RequestException as e:
+        print(f"Error fetching versions for {package_name} from PyPI: {e}")
+        return None
+
+
+def find_highest_satisfying_version(package_name: str, constraint: SpecifierSet) -> str:
+    """
+    Find the highest version of a package that satisfies the given constraint.
+
+    Args:
+        package_name: Name of the package to query
+        constraint: SpecifierSet defining version constraints
+
+    Returns:
+        Highest version string that satisfies the constraint, or None if:
+        - PyPI fetch fails
+        - No version satisfies the constraint
+    """
+    all_versions = fetch_all_versions_from_pypi(package_name)
+    if all_versions is None:
+        return None
+
+    # Filter to valid, non-prerelease versions that satisfy the constraint
+    valid_versions = []
+    for v in all_versions:
+        try:
+            parsed = Version(v)
+            # Skip pre-releases and dev releases
+            if parsed.is_prerelease or parsed.is_devrelease:
+                continue
+            # Check if version satisfies constraint
+            if v in constraint:
+                valid_versions.append(parsed)
+        except Exception:
+            # Skip versions that can't be parsed
+            continue
+
+    if not valid_versions:
+        return None
+
+    # Return highest valid version
+    return str(max(valid_versions))
 
 
 def strip_extras(package_name):
@@ -328,3 +462,390 @@ def get_spec0_packages():
             continue
 
     return spec0_requirements
+
+
+# ============================================
+# Auto-Pin Functions (Strict Latest-Pin Workflow)
+# ============================================
+
+
+def fetch_all_latest_versions(packages: list) -> dict:
+    """Fetch latest versions from PyPI for all packages.
+
+    Fails explicitly if any fetch fails.
+
+    Args:
+        packages: List of package names to fetch versions for
+
+    Returns:
+        Dict mapping package name → latest version
+
+    Raises:
+        RuntimeError: If any PyPI fetch fails
+    """
+    # TODO: Consider parallelization to speed up fetching if this becomes slow
+    versions = {}
+    for pkg in packages:
+        latest = fetch_latest_version_from_pypi(pkg)
+        if latest is None:
+            raise RuntimeError(f"Failed to fetch latest version for '{pkg}' from PyPI")
+        versions[pkg] = latest
+    return versions
+
+
+def get_current_pyhc_pins(packages_file: str) -> dict:
+    """Extract current version pins from packages.txt.
+
+    Skips commented-out packages (excluded packages like kamodo, pysatCDF).
+
+    Args:
+        packages_file: Path to packages.txt
+
+    Returns:
+        Dict mapping package name (lowercase) → version (or None if unpinned).
+        Includes original package entry for preserving extras.
+    """
+    pins = {}
+    with open(packages_file, 'r') as f:
+        for line in f:
+            line = line.strip()
+            if not line or line.startswith('#'):
+                continue  # Skip comments and empty lines
+            # Parse "package==1.2.3" or "package[extras]==1.2.3" or just "package"
+            if '==' in line:
+                # Split only on first == to handle version correctly
+                name_part, version = line.split('==', 1)
+                # Remove inline comments from version
+                version = version.split('#')[0].strip()
+                # Extract base name (remove extras)
+                name = re.split(r'\[', name_part)[0].strip()
+                pins[name.lower()] = {
+                    'version': version,
+                    'original': line,
+                    'extras': '[' + name_part.split('[')[1] if '[' in name_part else ''
+                }
+            else:
+                # No version pin
+                # Remove inline comments
+                clean_line = line.split('#')[0].strip()
+                name = re.split(r'\[', clean_line)[0].strip()
+                extras = ''
+                if '[' in clean_line:
+                    extras = '[' + clean_line.split('[')[1].split(']')[0] + ']'
+                pins[name.lower()] = {
+                    'version': None,
+                    'original': line,
+                    'extras': extras
+                }
+    return pins
+
+
+def parse_direct_requirements_from_lockfile(lockfile_path: str) -> dict:
+    """Extract direct package requirements from a uv lockfile.
+
+    A package is considered direct when its ``# via`` metadata includes
+    ``-r ...packages.txt`` (supports both single-line and block-style formats).
+
+    Args:
+        lockfile_path: Path to resolved-versions.txt
+
+    Returns:
+        Dict mapping direct package name (lowercase) -> version.
+    """
+    direct_requirements = {}
+
+    if not os.path.exists(lockfile_path):
+        return direct_requirements
+
+    current_pkg = None
+    current_ver = None
+    current_is_direct = False
+
+    def finalize_current():
+        if current_pkg and current_is_direct:
+            direct_requirements[current_pkg] = current_ver
+
+    with open(lockfile_path, "r") as f:
+        for raw_line in f:
+            line = raw_line.rstrip("\n")
+            stripped = line.strip()
+
+            if not stripped:
+                continue
+
+            # New package entry line: "name==version"
+            if not line.startswith((" ", "\t")) and not stripped.startswith("#"):
+                finalize_current()
+                current_pkg = None
+                current_ver = None
+                current_is_direct = False
+
+                match = re.match(r"^([A-Za-z0-9][A-Za-z0-9._-]*)==([^\s#]+)$", stripped)
+                if match:
+                    current_pkg = match.group(1).lower()
+                    current_ver = match.group(2)
+                continue
+
+            if not current_pkg:
+                continue
+
+            # Supports:
+            #   "    # via -r docker/.../packages.txt"
+            #   "    #   -r docker/.../packages.txt"
+            via_match = re.match(r"^\s*#\s*(?:via\s+)?-r\s+(.+)$", line)
+            if via_match:
+                requirement_source = via_match.group(1).strip()
+                if re.search(r"(^|[\\/])packages\.txt$", requirement_source):
+                    current_is_direct = True
+
+    finalize_current()
+    return direct_requirements
+
+
+def detect_package_set_changes(packages_file: str, lockfile_path: str) -> dict:
+    """Detect package additions/removals between packages.txt and lockfile direct deps.
+
+    This compares package *names only* (case-insensitive, extras stripped).
+    Version-only edits for packages that exist in both files are intentionally ignored.
+
+    Args:
+        packages_file: Path to packages.txt
+        lockfile_path: Path to resolved-versions.txt
+
+    Returns:
+        Dict with two keys:
+            - "added": {package_name: current_version_or_None}
+            - "removed": {package_name: lockfile_version_or_None}
+    """
+    current_pins = get_current_pyhc_pins(packages_file)
+
+    def normalize_name(name: str) -> str:
+        return re.sub(r"[-_.]+", "-", name).lower()
+
+    current_by_norm = {normalize_name(name): name for name in current_pins}
+    current_norm_names = set(current_by_norm.keys())
+
+    # If lockfile doesn't exist, treat all current packages as added so pipeline runs.
+    if not os.path.exists(lockfile_path):
+        return {
+            "added": {name: current_pins[name].get("version") for name in sorted(current_pins)},
+            "removed": {},
+        }
+
+    lockfile_direct = parse_direct_requirements_from_lockfile(lockfile_path)
+    lockfile_by_norm = {normalize_name(name): name for name in lockfile_direct}
+    lockfile_norm_names = set(lockfile_by_norm.keys())
+
+    added_norm = sorted(current_norm_names - lockfile_norm_names)
+    removed_norm = sorted(lockfile_norm_names - current_norm_names)
+
+    return {
+        "added": {
+            current_by_norm[norm_name]: current_pins[current_by_norm[norm_name]].get("version")
+            for norm_name in added_norm
+        },
+        "removed": {
+            lockfile_by_norm[norm_name]: lockfile_direct.get(lockfile_by_norm[norm_name])
+            for norm_name in removed_norm
+        },
+    }
+
+
+def update_packages_txt_with_pins(packages_file: str, new_versions: dict) -> None:
+    """Update packages.txt with new version pins.
+
+    Preserves comments, extras, ordering, and section structure.
+
+    Args:
+        packages_file: Path to packages.txt
+        new_versions: Dict mapping package name → new version
+    """
+    # Normalize new_versions keys to lowercase for matching
+    versions_lower = {k.lower(): v for k, v in new_versions.items()}
+
+    with open(packages_file, 'r') as f:
+        lines = f.readlines()
+
+    new_lines = []
+    for line in lines:
+        stripped = line.strip()
+
+        # Preserve empty lines and comments as-is
+        if not stripped or stripped.startswith('#'):
+            new_lines.append(line)
+            continue
+
+        # Parse the package entry
+        # Handle inline comments
+        inline_comment = ''
+        if '#' in stripped:
+            parts = stripped.split('#', 1)
+            pkg_part = parts[0].strip()
+            inline_comment = '  # ' + parts[1].strip()
+        else:
+            pkg_part = stripped
+
+        # Extract package name and extras
+        if '==' in pkg_part:
+            name_with_extras = pkg_part.split('==')[0]
+        else:
+            name_with_extras = pkg_part
+
+        # Separate name from extras
+        if '[' in name_with_extras:
+            name = name_with_extras.split('[')[0]
+            extras = '[' + name_with_extras.split('[')[1]
+            if ']' not in extras:
+                extras += ']'
+        else:
+            name = name_with_extras
+            extras = ''
+
+        # Look up new version
+        name_lower = name.lower()
+        if name_lower in versions_lower:
+            new_version = versions_lower[name_lower]
+            # Construct new line with version pin
+            new_entry = f"{name}{extras}=={new_version}{inline_comment}\n"
+            new_lines.append(new_entry)
+        else:
+            # Package not in new_versions dict, keep as-is
+            new_lines.append(line)
+
+    with open(packages_file, 'w') as f:
+        f.writelines(new_lines)
+
+
+def parse_constraints(constraints_file: str) -> dict:
+    """Parse constraints.txt to extract version constraints.
+
+    Supports all pip constraint operators: ==, !=, <, <=, >, >=, ~=
+    and compound constraints like "pkg!=1.0,<2.0".
+
+    Args:
+        constraints_file: Path to constraints.txt
+
+    Returns:
+        Dict mapping package name (lowercase) → SpecifierSet object
+    """
+    constraints = {}
+
+    if not os.path.exists(constraints_file):
+        return constraints
+
+    with open(constraints_file, 'r') as f:
+        for line in f:
+            line = line.strip()
+            if not line or line.startswith('#'):
+                continue
+
+            # Remove inline comments
+            line = line.split('#')[0].strip()
+            if not line:
+                continue
+
+            # Parse package name and specifier
+            # Match package name (can include - and _), then version specifier
+            match = re.match(r'^([a-zA-Z0-9_-]+)(.*)', line)
+            if not match:
+                print(f"Warning: Could not parse constraint line: {line}")
+                continue
+
+            name = match.group(1).lower()
+            specifier_str = match.group(2).strip()
+
+            if not specifier_str:
+                # No version specifier, skip
+                continue
+
+            try:
+                specifier = SpecifierSet(specifier_str)
+                if name in constraints:
+                    # Combine with existing constraints
+                    constraints[name] = constraints[name] & specifier
+                else:
+                    constraints[name] = specifier
+            except InvalidSpecifier as e:
+                print(f"Warning: Invalid specifier '{specifier_str}' for {name}: {e}")
+                continue
+
+    return constraints
+
+
+def auto_pin_packages_to_latest(packages_file: str, constraints_file: str = None) -> dict:
+    """Update packages.txt with latest PyPI versions that satisfy constraints.
+
+    For each package:
+    - If no constraint exists, use the latest PyPI version
+    - If latest version satisfies constraints, use it
+    - If latest version doesn't satisfy constraints, find the highest version that does
+
+    This ensures packages.txt always contains the latest allowable versions.
+
+    Supports all constraint operators: ==, !=, <, <=, >, >=, ~=
+
+    Args:
+        packages_file: Path to packages.txt
+        constraints_file: Optional path to constraints.txt
+
+    Returns:
+        Dict of changed packages: {pkg: (old_version, new_version)}
+
+    Raises:
+        RuntimeError: If any PyPI fetch fails or no valid version exists for a constrained package
+    """
+    # 0. Parse constraints to get version specifiers
+    if constraints_file is None:
+        constraints_file = os.path.join(os.path.dirname(packages_file), "constraints.txt")
+    version_constraints = parse_constraints(constraints_file)
+    if version_constraints:
+        print(f"Loaded constraints: {dict((k, str(v)) for k, v in version_constraints.items())}")
+
+    # 1. Get current pins (skips commented-out packages)
+    old_pins = get_current_pyhc_pins(packages_file)
+
+    # 2. Fetch latest versions (fails explicitly on error)
+    packages = list(old_pins.keys())
+    print(f"Fetching latest versions for {len(packages)} packages from PyPI...")
+    latest_versions = fetch_all_latest_versions(packages)
+
+    # 3. Check constraints and determine final versions
+    final_versions = {}
+    constrained_updates = []
+    for pkg, latest_ver in latest_versions.items():
+        constraint = version_constraints.get(pkg)
+        if constraint is not None and latest_ver not in constraint:
+            # Latest version doesn't satisfy constraint - find highest valid version
+            print(f"  {pkg}: latest {latest_ver} blocked by '{constraint}', searching for valid version...")
+            valid_ver = find_highest_satisfying_version(pkg, constraint)
+            if valid_ver is None:
+                raise RuntimeError(
+                    f"No version of '{pkg}' satisfies constraint '{constraint}'. "
+                    f"Latest version is {latest_ver}. Please update constraints.txt."
+                )
+            final_versions[pkg] = valid_ver
+            constrained_updates.append(f"{pkg}: using {valid_ver} (latest {latest_ver} blocked by '{constraint}')")
+        else:
+            # Latest version satisfies constraints (or no constraint exists) - use it
+            final_versions[pkg] = latest_ver
+
+    if constrained_updates:
+        print("Packages pinned to non-latest due to constraints:")
+        for msg in constrained_updates:
+            print(f"  {msg}")
+
+    # 4. Calculate changes
+    changes = {}
+    for pkg, new_ver in final_versions.items():
+        old_ver = old_pins.get(pkg, {}).get('version')
+        if old_ver != new_ver:
+            changes[pkg] = (old_ver, new_ver)
+
+    # 5. Write updated packages.txt (preserves comments, extras, ordering)
+    if changes:
+        update_packages_txt_with_pins(packages_file, final_versions)
+        print(f"Updated {len(changes)} package(s) in {packages_file}")
+    else:
+        print("All packages already at latest compatible versions")
+
+    return changes
