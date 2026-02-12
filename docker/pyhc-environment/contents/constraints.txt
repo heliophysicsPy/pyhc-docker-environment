@@ -13,4 +13,4 @@
 # latest PyPI versions that satisfy these constraints.
 # ============================================
 
-
+pyrfu<2.4.18
