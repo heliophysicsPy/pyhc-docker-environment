@@ -31,14 +31,6 @@ The pipeline triggers a Docker rebuild when any of the following conditions are 
 - **Force build**: The `force_build` parameter is set to `true`
 - **Quick deploy**: The `skip_checks` parameter is set to `true` (skips validation)
 
-### Quick Deploy Mode
-
-Use `skip_checks=true` for emergency deployments when you need to rebuild the Docker image without running the full validation pipeline. This mode:
-- Skips auto-pin (fetching latest versions from PyPI)
-- Skips dependency resolution (uv compile)
-- Skips spreadsheet generation
-- Goes directly to Docker build with current `packages.txt` content
-
 ## Docker Image
 The pipeline creates and maintains the following Docker image:
 - [pyhc-environment](https://hub.docker.com/r/spolson/pyhc-environment)
