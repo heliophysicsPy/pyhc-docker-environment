@@ -65,7 +65,7 @@ jobs:
       if: github.event.inputs.skip_checks != 'true'
       run: python pipeline.py --auto-pin
 
-    - name: Skip if no PyHC updates (unless forced or quick deploy)
+    - name: No-op notice when no PyHC updates (downstream conditions handle skipping)
       if: github.event.inputs.skip_checks != 'true' && steps.auto_pin.outputs.pyhc_packages_changed != 'true' && github.event.inputs.force_build != 'true'
       run: |
         echo "No PyHC package updates detected. Skipping build."
@@ -153,41 +153,112 @@ jobs:
     # Commit and Push Changes
     # ============================================
     - name: Commit and Push Repo Changes
+      id: commit_repo_changes
       if: github.event.inputs.skip_checks == 'true' || ((steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && steps.compile.outcome == 'success')
       run: |
+        set -euo pipefail
         git config --global user.name 'github-actions[bot]'
         git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        echo "repo_commit_made=false" >> "$GITHUB_OUTPUT"
 
-        # Add files based on mode
+        push_with_rebase_retry() {
+          local attempt=1
+          local max_attempts=3
+
+          while [ "${attempt}" -le "${max_attempts}" ]; do
+            if git push origin "${BRANCH_NAME}"; then
+              return 0
+            fi
+
+            if [ "${attempt}" -eq "${max_attempts}" ]; then
+              echo "Push failed after ${max_attempts} attempts."
+              return 1
+            fi
+
+            echo "Push attempt ${attempt} failed. Rebasing and retrying..."
+            git pull --rebase origin "${BRANCH_NAME}"
+            attempt=$((attempt + 1))
+          done
+        }
+
+        # Quick deploy mode keeps the existing simple commit message.
         if [ "${{ github.event.inputs.skip_checks }}" = "true" ]; then
-          # Quick deploy: only add README (no lockfile changes)
           git add README.md
           MSG="Quick deploy: rebuild Docker images"
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
+          git commit -m "$MSG"
+          push_with_rebase_retry
+          echo "repo_commit_made=true" >> "$GITHUB_OUTPUT"
+          exit 0
+        fi
+
+        # Normal mode: stage lockfile/package/README updates and spreadsheet (if generated).
+        git add docker/pyhc-environment/contents/packages.txt docker/pyhc-environment/contents/constraints.txt docker/pyhc-environment/contents/resolved-versions.txt README.md
+
+        if [ -n "${SPREADSHEET_PATH}" ] && [ -d "spreadsheets" ]; then
+          git add spreadsheets/
+        fi
+
+        STAGED_FILES="$(git diff --cached --name-only)"
+        if [ -z "${STAGED_FILES}" ]; then
+          echo "No changes to commit"
+          exit 0
+        fi
+
+        if echo "${STAGED_FILES}" | grep -q '^README.md$'; then
+          README_UPDATED="yes"
         else
-          # Normal mode: add all changed files (packages/constraints/lockfile + README)
-          git add docker/pyhc-environment/contents/packages.txt docker/pyhc-environment/contents/constraints.txt docker/pyhc-environment/contents/resolved-versions.txt README.md
-          MSG="Update PyHC environment: auto-pin packages and rebuild"
+          README_UPDATED="no"
         fi
 
-        git commit -m "$MSG" || echo "No changes to commit"
-        git push
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Commit spreadsheet if generated
-      if: github.event.inputs.skip_checks != 'true' && (steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && (github.event_name != 'workflow_dispatch' || github.event.inputs.generate_spreadsheet != 'false') && steps.compile.outcome == 'success'
-      run: |
-        git config --global user.name 'github-actions[bot]'
-        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-        git add spreadsheets/
-        MSG="Add dependency spreadsheet"
-        if [ "${{ steps.generate_spreadsheet.outputs.conflict_count }}" != "0" ]; then
-          MSG="Add dependency conflict spreadsheet"
+        if echo "${STAGED_FILES}" | grep -q '^spreadsheets/'; then
+          SPREADSHEET_COMMITTED="yes"
+        else
+          SPREADSHEET_COMMITTED="no"
         fi
-        git commit -m "$MSG" || echo "No spreadsheet changes"
-        git push
+
+        if [ -n "${CHANGED_PACKAGES}" ]; then
+          PKG_SUMMARY="${CHANGED_PACKAGES}"
+        else
+          PKG_SUMMARY="None"
+        fi
+
+        if [ -n "${SPREADSHEET_PATH}" ]; then
+          CONFLICT_SUMMARY="${CONFLICT_COUNT:-0}"
+          SPEC0_SUMMARY="${SPEC0_COUNT:-0}"
+        else
+          CONFLICT_SUMMARY="N/A"
+          SPEC0_SUMMARY="N/A"
+        fi
+
+        COMMIT_BODY=$(cat <<EOF
+        PyHC package changes:
+        ${PKG_SUMMARY}
+
+        Docker tag pushed: ${DOCKER_TAG}
+        Spreadsheet committed: ${SPREADSHEET_COMMITTED}
+        Dependency conflicts in spreadsheet: ${CONFLICT_SUMMARY}
+        SPEC 0 problems in spreadsheet: ${SPEC0_SUMMARY}
+        README updated: ${README_UPDATED}
+        EOF
+        )
+
+        git commit -m "Update PyHC environment" -m "${COMMIT_BODY}"
+        push_with_rebase_retry
+        echo "repo_commit_made=true" >> "$GITHUB_OUTPUT"
+
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BRANCH_NAME: ${{ github.ref_name }}
+        CHANGED_PACKAGES: ${{ steps.auto_pin.outputs.changed_packages || '' }}
+        DOCKER_TAG: ${{ steps.build_and_push.outputs.docker_version || '' }}
+        SPREADSHEET_PATH: ${{ steps.generate_spreadsheet.outputs.spreadsheet_path || '' }}
+        CONFLICT_COUNT: ${{ steps.generate_spreadsheet.outputs.conflict_count || '' }}
+        SPEC0_COUNT: ${{ steps.generate_spreadsheet.outputs.spec0_problem_count || '' }}
 
     # ============================================
     # Trigger Binder Rebuild
@@ -223,7 +294,7 @@ jobs:
       with:
         issue-number: 2
         body: |
-          Docker Hub images and GitHub repo have been updated.
+          ${{ steps.commit_repo_changes.outputs.repo_commit_made == 'true' && 'Docker Hub images and GitHub repo have been updated.' || 'Docker Hub images have been updated. No repository file changes were committed.' }}
 
           ${{ github.event.inputs.skip_checks == 'true' && '**Mode:** Quick deploy (skipped checks)' || '' }}
 

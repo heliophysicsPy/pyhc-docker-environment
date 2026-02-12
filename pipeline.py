@@ -109,80 +109,6 @@ def run_uv_compile(packages_file: str, output_file: str, python_version: str = N
         return False, str(e)
 
 
-def normalize_lockfile(content: str) -> list[str]:
-    """
-    Normalize lockfile content for comparison.
-
-    Extracts just the package==version lines, ignoring comments and metadata.
-    Returns sorted list of normalized package lines.
-    """
-    lines = []
-    for line in content.split("\n"):
-        line = line.strip()
-        # Skip empty lines, comments, and 'via' annotations
-        if not line or line.startswith("#") or line.startswith("# via"):
-            continue
-        # Only keep lines with package==version format
-        if "==" in line and not line.startswith(" "):
-            # Normalize to lowercase for comparison
-            lines.append(line.lower())
-    return sorted(lines)
-
-
-def check_for_changes(packages_file: str, lockfile_path: str, tmp_resolved_path: str,
-                      constraints_file: str = None) -> tuple[bool, str, list[str]]:
-    """
-    Compare current resolution against last deployed lockfile.
-
-    Args:
-        packages_file: Path to packages.txt
-        lockfile_path: Path to existing resolved-versions.txt
-        tmp_resolved_path: Path to write new resolution for comparison
-        constraints_file: Optional path to constraints.txt
-
-    Returns:
-        Tuple of (should_run, reason, changes_list)
-    """
-    # Run uv to see what it would resolve TODAY
-    success, error = run_uv_compile(packages_file, tmp_resolved_path,
-                                    constraints_file=constraints_file)
-
-    if not success:
-        return True, f"resolution_failed: {error}", []
-
-    # Check if lockfile exists
-    if not os.path.exists(lockfile_path):
-        return True, "no_existing_lockfile", []
-
-    # Compare against stored lockfile
-    with open(lockfile_path, "r") as f:
-        current_content = f.read()
-
-    with open(tmp_resolved_path, "r") as f:
-        new_content = f.read()
-
-    current_packages = normalize_lockfile(current_content)
-    new_packages = normalize_lockfile(new_content)
-
-    if current_packages != new_packages:
-        # Find what changed
-        current_set = set(current_packages)
-        new_set = set(new_packages)
-
-        added = new_set - current_set
-        removed = current_set - new_set
-
-        changes = []
-        for pkg in sorted(added):
-            changes.append(f"+ {pkg}")
-        for pkg in sorted(removed):
-            changes.append(f"- {pkg}")
-
-        return True, "versions_changed", changes
-
-    return False, "no_changes", []
-
-
 def update_lockfile(tmp_resolved_path: str, lockfile_path: str) -> None:
     """Update the stored lockfile after successful build."""
     shutil.copy(tmp_resolved_path, lockfile_path)
@@ -282,21 +208,11 @@ def generate_spreadsheet(packages_file=None):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="PyHC Docker Environment Pipeline V2")
+    parser = argparse.ArgumentParser(description="PyHC Docker Environment Pipeline")
     parser.add_argument(
         "--generate-spreadsheet",
         action="store_true",
         help="Generate dependency spreadsheet using legacy v1 code (for debugging)"
-    )
-    parser.add_argument(
-        "--force",
-        action="store_true",
-        help="Force pipeline to run even if no changes detected"
-    )
-    parser.add_argument(
-        "--dry-run",
-        action="store_true",
-        help="Check for changes without triggering build"
     )
     parser.add_argument(
         "--auto-pin",
@@ -308,6 +224,11 @@ def main():
         action="store_true",
         help="Run uv pip compile with constraints to generate lockfile"
     )
+    parser.add_argument(
+        "--post-build",
+        action="store_true",
+        help="Update persisted lockfile from /tmp/new-resolved-versions.txt after successful build"
+    )
     args = parser.parse_args()
 
     # Canonical file paths
@@ -315,6 +236,11 @@ def main():
     lockfile_path = LOCKFILE_PATH
     constraints_file = CONSTRAINTS_FILE
     tmp_resolved_path = TMP_RESOLVED_PATH
+
+    # Handle post-build lockfile update mode
+    if args.post_build:
+        post_build_update_lockfile()
+        return
 
     # Handle spreadsheet generation mode
     if args.generate_spreadsheet:
@@ -393,44 +319,7 @@ def main():
         set_github_output("compile_success", "true")
         return
 
-    # Check for changes (legacy mode - compare lockfiles)
-    print("Checking for package updates...")
-    should_run, reason, changes = check_for_changes(packages_file, lockfile_path,
-                                                     tmp_resolved_path, constraints_file)
-
-    if args.force:
-        should_run = True
-        reason = "forced"
-
-    if not should_run:
-        print(f"No changes detected ({reason}), skipping build.")
-        set_github_output("should_run", "false")
-        return
-
-    print(f"Changes detected ({reason}), triggering build.")
-
-    if changes:
-        print("Package changes:")
-        for change in changes[:20]:  # Limit output
-            print(f"  {change}")
-        if len(changes) > 20:
-            print(f"  ... and {len(changes) - 20} more changes")
-
-    if args.dry_run:
-        print("Dry run mode - not updating files.")
-        set_github_output("should_run", "false")
-        return
-
-    # Set GitHub Actions outputs
-    set_github_output("should_run", "true")
-    set_github_output("change_reason", reason)
-
-    # Format changes for GitHub Actions output (preserve full list + newlines)
-    if changes:
-        changes_formatted = "\n".join(changes)
-        set_github_output("package_changes", changes_formatted)
-
-    print("Pipeline check complete. Ready for Docker build.")
+    parser.error("No mode specified. Use one of: --auto-pin, --compile, --generate-spreadsheet, --post-build")
 
 
 def post_build_update_lockfile():
@@ -449,7 +338,4 @@ def post_build_update_lockfile():
 
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1 and sys.argv[1] == "--post-build":
-        post_build_update_lockfile()
-    else:
-        main()
+    main()
