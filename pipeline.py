@@ -1,21 +1,20 @@
 """
-PyHC Docker Environment Pipeline V2
+PyHC Docker Environment Pipeline
 
-Simplified pipeline that uses packages.txt (just package names) instead of
-the complex version resolution spreadsheet approach. Lets uv resolve
-transitive dependencies at build time.
+This script drives the workflow stages and operates on canonical files in:
+docker/pyhc-environment/contents/
 
-Key differences from v1:
-- packages.txt contains only PyHC package names (with optional pins for broken releases)
-- resolved-versions.txt is a lockfile tracking what was deployed
-- Change detection compares current resolution against lockfile
-- No more pipdeptree dependency resolution per-package
+Primary modes:
+- --auto-pin: pin PyHC packages in packages.txt to latest constraint-compatible versions
+  and detect direct package set additions/removals against resolved-versions.txt
+- --compile: run uv pip compile to produce /tmp/new-resolved-versions.txt
+- --post-build: persist /tmp/new-resolved-versions.txt to resolved-versions.txt
+- --generate-spreadsheet: optional dependency analysis artifact for diagnostics
 
-Strict Latest-Pin Workflow (auto-pin):
-- All PyHC packages are pinned to latest PyPI versions
-- If latest versions can't resolve together, fail explicitly
-- constraints.txt blocks known-broken versions
-- Only triggers rebuild when PyHC packages have new versions (not transitive deps)
+Behavior notes:
+- packages.txt contains pinned direct PyHC package entries (extras preserved)
+- constraints.txt is applied during auto-pin and compile
+- resolved-versions.txt is the persisted lockfile for the last successful build
 
 __author__ = "Shawn Polson"
 """
@@ -118,7 +117,7 @@ def update_lockfile(tmp_resolved_path: str, lockfile_path: str) -> None:
 def generate_spreadsheet(packages_file=None):
     """
     Generate dependency spreadsheet using legacy v1 code.
-    This is available for debugging/analysis but not part of normal v2 flow.
+    This is available for debugging/analysis but not part of the normal workflow.
 
     Args:
         packages_file: Path to packages.txt (default: docker/pyhc-environment/contents/packages.txt)

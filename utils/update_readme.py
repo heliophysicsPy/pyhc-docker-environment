@@ -1,8 +1,6 @@
 """
 Extracts PyHC package versions from docker/pyhc-environment/contents/resolved-versions.txt
 and puts them into a table in the README.
-
-V2: Reads package names and lockfile versions from docker/pyhc-environment/contents
 """
 
 import os
@@ -91,7 +89,7 @@ def update_readme_with_table(readme_path, section_header, new_table):
 if __name__ == '__main__':
     repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-    # V2 canonical file paths under docker/pyhc-environment/contents
+    # Canonical file paths under docker/pyhc-environment/contents
     contents_dir = os.path.join(repo_root, 'docker', 'pyhc-environment', 'contents')
     packages_file_path = os.path.join(contents_dir, 'packages.txt')
     lockfile_path = os.path.join(contents_dir, 'resolved-versions.txt')
