@@ -59,6 +59,7 @@ pyaurorax==1.22.0
 pycdfpp==0.8.6
 pydarn==4.2
 pyflct==0.3.1
+pyIntensityFeatures==0.2.0
 pymap3d==3.2.0
 pyrfu==2.4.20
 pytplot==1.7.28
