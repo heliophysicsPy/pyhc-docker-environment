@@ -13,4 +13,5 @@
 # latest PyPI versions that satisfy these constraints.
 # ============================================
 
-
+# Temporary block: Kaipy 1.1.5 exact-pins old SunPy and PySPEDAS versions
+kaipy!=1.1.5
