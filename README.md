@@ -105,7 +105,7 @@ savic | 1.2.7
 sciencedates | 1.5.0
 SciQLop | 0.10.5
 SkyWinder | 0.0.3
-solarmach | 0.5.2
+solarmach | 0.5.3
 solo-epd-loader | 0.4.4
 space-packet-parser | 6.1.0
 spacepy | 0.7.0
