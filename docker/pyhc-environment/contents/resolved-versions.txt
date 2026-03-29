@@ -26,7 +26,7 @@ aioftp==0.27.2
     # via parfive
 aiohappyeyeballs==2.6.1
     # via aiohttp
-aiohttp==3.13.3
+aiohttp==3.13.4
     # via
     #   aiobotocore
     #   dkist
@@ -459,7 +459,7 @@ humanize==4.15.0
     #   speasy
 hvpy==1.1.0
     # via sunpy
-hypothesis==6.151.9
+hypothesis==6.151.10
     # via
     #   pyhc-core
     #   pytest-astropy
@@ -1369,7 +1369,7 @@ python-dateutil==2.9.0.post0
     #   themisasi
 python-dotenv==1.2.2
     # via pydantic-settings
-python-json-logger==4.0.0
+python-json-logger==4.1.0
     # via jupyter-events
 python-utils==3.9.1
     # via progressbar2
@@ -1425,7 +1425,7 @@ referencing==0.37.0
     #   jsonschema
     #   jsonschema-specifications
     #   jupyter-events
-regularizepsf==1.1.2
+regularizepsf==1.2.0
     # via -r docker/pyhc-environment/contents/packages.txt
 reproject==0.19.0
     # via
