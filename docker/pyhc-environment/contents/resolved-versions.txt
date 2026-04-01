@@ -26,7 +26,7 @@ aioftp==0.27.2
     # via parfive
 aiohappyeyeballs==2.6.1
     # via aiohttp
-aiohttp==3.13.4
+aiohttp==3.13.5
     # via
     #   aiobotocore
     #   dkist
@@ -139,7 +139,7 @@ astropy==7.2.0
     #   tscat
 astropy-healpix==1.1.3
     # via reproject
-astropy-iers-data==0.2026.3.23.0.51.38
+astropy-iers-data==0.2026.3.30.0.54.34
     # via astropy
 astroquery==0.4.11
     # via speasy
@@ -235,7 +235,7 @@ click==8.3.1
     #   dask
     #   pyaurorax
     #   space-packet-parser
-cloudcatalog==1.1.0
+cloudcatalog==1.2.1
     # via -r docker/pyhc-environment/contents/packages.txt
 cloudpickle==3.1.2
     # via dask
@@ -291,7 +291,7 @@ decorator==5.2.1
     # via
     #   ipython
     #   obspy
-deepdiff==8.6.2
+deepdiff==9.0.0
     # via pyhc-core
 defusedxml==0.7.1
     # via nbconvert
@@ -382,7 +382,7 @@ geospacelab==0.13.0
     # via -r docker/pyhc-environment/contents/packages.txt
 gfz-api-client==0.1.0
     # via kaipy
-globus-sdk==4.4.1
+globus-sdk==4.5.0
     # via dkist
 glymur==0.14.7
     # via sunpy
@@ -650,7 +650,7 @@ lazy-loader==0.5
     # via scikit-image
 librt==0.8.1
     # via mypy
-llvmlite==0.46.0
+llvmlite==0.47.0
     # via numba
 lmfit==1.3.4
     # via plasmapy
@@ -774,7 +774,7 @@ multidict==6.7.1
     #   yarl
 multiprocess==0.70.19
     # via pathos
-mypy==1.19.1
+mypy==1.20.0
     # via sqlalchemy
 mypy-extensions==1.1.0
     # via mypy
@@ -834,7 +834,7 @@ notebook-shim==0.2.4
     #   jupyterlab
     #   notebook
     #   sciqlop
-numba==0.64.0
+numba==0.65.0
     # via pyrfu
 numcodecs==0.16.5
     # via zarr
@@ -980,7 +980,7 @@ opencv-python==4.13.0.92
     #   sunpy
 orderly-set==5.5.0
     # via deepdiff
-orjson==3.11.7
+orjson==3.11.8
     # via
     #   solarmach
     #   tscat
@@ -1030,7 +1030,7 @@ packaging==26.0
     #   zarr
 palettable==3.3.3
     # via geospacelab
-pandas==3.0.1
+pandas==3.0.2
     # via
     #   asilib
     #   cloudcatalog
@@ -1188,7 +1188,7 @@ pygam==0.12.0
     # via euvpy
 pygithub==2.9.0
     # via sciqlop
-pygments==2.19.2
+pygments==2.20.0
     # via
     #   ipython
     #   ipython-pygments-lexers
@@ -1431,7 +1431,7 @@ reproject==0.19.0
     # via
     #   ndcube
     #   sunpy
-requests==2.33.0
+requests==2.33.1
     # via
     #   asilib
     #   astroquery
@@ -1617,7 +1617,7 @@ sortedcontainers==2.4.0
     # via hypothesis
 soupsieve==2.8.3
     # via beautifulsoup4
-space-packet-parser==6.1.0
+space-packet-parser==6.1.1
     # via -r docker/pyhc-environment/contents/packages.txt
 spacepy==0.7.0
     # via
@@ -1890,7 +1890,7 @@ xarray==2026.2.0
     #   wmm2020
 xgboost==3.2.0
     # via savic
-xyzservices==2025.11.0
+xyzservices==2026.3.0
     # via bokeh
 yarl==1.23.0
     # via aiohttp

@@ -55,7 +55,7 @@ asilib | 0.30.1
 astrometry-azel | 1.3.0
 ccsdspy | 1.4.3
 cdflib | 1.3.8
-cloudcatalog | 1.1.0
+cloudcatalog | 1.2.1
 dascutils | 2.3.0
 dbprocessing | 0.1.0
 dmsp | 0.6.0
@@ -107,7 +107,7 @@ SciQLop | 0.10.5
 SkyWinder | 0.0.3
 solarmach | 0.5.3
 solo-epd-loader | 0.4.4
-space-packet-parser | 6.1.0
+space-packet-parser | 6.1.1
 spacepy | 0.7.0
 speasy | 1.7.1
 spiceypy | 8.0.2
