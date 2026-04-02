@@ -139,7 +139,7 @@ astropy==7.2.0
     #   tscat
 astropy-healpix==1.1.3
     # via reproject
-astropy-iers-data==0.2026.3.30.0.54.34
+astropy-iers-data==0.2026.4.1.15.5.49
     # via astropy
 astroquery==0.4.11
     # via speasy
@@ -1081,7 +1081,7 @@ pathspec==1.0.4
     # via mypy
 pexpect==4.9.0
     # via ipython
-pillow==12.1.1
+pillow==12.2.0
     # via
     #   bokeh
     #   glymur
@@ -1146,7 +1146,7 @@ pyaurorax==1.22.0
     # via -r docker/pyhc-environment/contents/packages.txt
 pyavm==0.9.9
     # via reproject
-pycdfpp==0.8.7
+pycdfpp==0.9.0
     # via
     #   -r docker/pyhc-environment/contents/packages.txt
     #   pyistp
