@@ -107,7 +107,7 @@ SciQLop | 0.10.5
 SkyWinder | 0.0.3
 solarmach | 0.5.3
 solo-epd-loader | 0.4.4
-space-packet-parser | 6.1.1
+space-packet-parser | 6.1.2
 spacepy | 0.7.0
 speasy | 1.7.1
 spiceypy | 8.0.2
