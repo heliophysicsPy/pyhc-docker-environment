@@ -1146,7 +1146,7 @@ pyaurorax==1.22.0
     # via -r docker/pyhc-environment/contents/packages.txt
 pyavm==0.9.9
     # via reproject
-pycdfpp==0.9.1
+pycdfpp==0.9.2
     # via
     #   -r docker/pyhc-environment/contents/packages.txt
     #   pyistp
@@ -1658,7 +1658,7 @@ sphinxcontrib-qthelp==2.0.0
     # via sphinx
 sphinxcontrib-serializinghtml==2.0.0
     # via sphinx
-spiceypy==8.0.2
+spiceypy==8.1.0
     # via
     #   -r docker/pyhc-environment/contents/packages.txt
     #   sunpy

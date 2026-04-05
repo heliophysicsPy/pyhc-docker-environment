@@ -86,7 +86,7 @@ ocbpy | 0.6.0
 OMMBV | 1.1.0
 plasmapy | 2026.2.0
 pyaurorax | 1.22.0
-pycdfpp | 0.9.1
+pycdfpp | 0.9.2
 pydarn | 4.2
 pyflct | 0.3.1
 pyhc-core[tests] | 0.0.8
@@ -110,7 +110,7 @@ solo-epd-loader | 0.4.4
 space-packet-parser | 6.1.2
 spacepy | 0.7.0
 speasy | 1.7.1
-spiceypy | 8.0.2
+spiceypy | 8.1.0
 sunkit-image | 0.7.0
 sunkit-instruments | 0.6.2
 sunpy | 7.1.1
