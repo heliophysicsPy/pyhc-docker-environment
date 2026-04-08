@@ -48,7 +48,7 @@ docker pull spolson/pyhc-environment:vYYYY.MM.DD
 ## PyHC Package Versions in Current Environment
 Package | Version
 ---|---
-aacgmv2 | 2.7.0
+aacgmv2 | 2.7.1
 aiapy | 0.12.0
 apexpy | 2.1.0
 asilib | 0.30.1
