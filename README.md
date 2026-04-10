@@ -54,7 +54,7 @@ apexpy | 2.1.0
 asilib | 0.30.1
 astrometry-azel | 1.3.0
 ccsdspy | 1.4.3
-cdflib | 1.3.8
+cdflib | 1.3.9
 cloudcatalog | 1.2.1
 dascutils | 2.3.0
 dbprocessing | 0.1.0
