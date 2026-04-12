@@ -39,26 +39,46 @@ aiosignal==1.4.0
     # via aiohttp
 alabaster==1.0.0
     # via sphinx
-alembic==1.18.4
-    # via tscat
 alive-progress==3.3.0
     # via kaipy
+annotated-doc==0.0.4
+    # via fastapi
 annotated-types==0.7.0
     # via pydantic
+anycorn==0.18.6
+    # via fps
 anyio==4.13.0
     # via
+    #   anycorn
+    #   anyioutils
+    #   fps
+    #   fps-contents
+    #   fps-file-watcher
+    #   fps-kernel-subprocess
+    #   fps-kernels
+    #   fps-lab
+    #   fps-terminals
     #   httpx
-    #   httpx-ws
+    #   jupyqt
     #   jupyter-server
+    #   jupyverse-api
+    #   jupyverse-contents
+    #   jupyverse-file-watcher
+    #   jupyverse-kernel
+    #   jupyverse-lab
     #   pycrdt
-    #   pycrdt-websocket
-    #   sqlite-anyio
+    #   starlette
+    #   watchfiles
+    #   zmq-anyio
+anyioutils==0.7.4
+    # via
+    #   fps
+    #   jupyverse-contents
+    #   zmq-anyio
 apexpy==2.1.0
     # via -r docker/pyhc-environment/contents/packages.txt
 appdirs==1.4.4
-    # via
-    #   speasy
-    #   tscat
+    # via speasy
 argon2-cffi==25.1.0
     # via jupyter-server
 argon2-cffi-bindings==25.1.0
@@ -136,7 +156,6 @@ astropy==7.2.0
     #   sunpy
     #   sunraster
     #   swxsoc
-    #   tscat
 astropy-healpix==1.1.3
     # via reproject
 astropy-iers-data==0.2026.4.6.0.54.57
@@ -152,11 +171,13 @@ attrs==26.1.0
     #   aiohttp
     #   asdf
     #   jsonschema
+    #   outcome
     #   pytest-astropy
     #   referencing
     #   zeep
 babel==2.18.0
     # via
+    #   fps-lab
     #   jupyterlab-server
     #   sphinx
 backports-zstd==1.3.0
@@ -233,7 +254,9 @@ charset-normalizer==3.4.7
 click==8.3.2
     # via
     #   dask
+    #   fps
     #   pyaurorax
+    #   rich-click
     #   space-packet-parser
 cloudcatalog==1.2.1
     # via -r docker/pyhc-environment/contents/packages.txt
@@ -333,6 +356,24 @@ executing==2.2.1
     # via stack-data
 expression==5.6.0
     # via sciqlop
+fastapi==0.135.3
+    # via
+    #   fps
+    #   fps-contents
+    #   fps-jupyterlab
+    #   fps-kernels
+    #   fps-lab
+    #   fps-nbconvert
+    #   fps-noauth
+    #   fps-terminals
+    #   jupyverse-api
+    #   jupyverse-contents
+    #   jupyverse-jupyterlab
+    #   jupyverse-kernels
+    #   jupyverse-lab
+    #   jupyverse-nbconvert
+    #   jupyverse-terminals
+    #   jupyverse-yjs
 fastjsonschema==2.21.2
     # via nbformat
 ffmpeg-python==0.2.0
@@ -350,6 +391,44 @@ fonttools==4.62.1
     # via matplotlib
 fortranformat==2.0.3
     # via fiasco
+fps==0.6.3
+    # via
+    #   fps-contents
+    #   fps-file-watcher
+    #   fps-frontend
+    #   fps-jupyterlab
+    #   fps-kernel-subprocess
+    #   fps-kernels
+    #   fps-lab
+    #   fps-nbconvert
+    #   fps-noauth
+    #   fps-terminals
+    #   jupyverse
+    #   jupyverse-api
+    #   jupyverse-jupyterlab
+    #   jupyverse-lab
+fps-contents==0.11.2
+    # via jupyverse
+fps-file-watcher==0.2.1
+    # via jupyverse
+fps-frontend==0.10.1
+    # via jupyverse
+fps-jupyterlab==0.11.3
+    # via jupyverse
+fps-kernel-subprocess==0.2.2
+    # via jupyverse
+fps-kernels==0.11.3
+    # via
+    #   jupyqt
+    #   jupyverse
+fps-lab==0.11.4
+    # via jupyverse
+fps-nbconvert==0.10.1
+    # via jupyverse
+fps-noauth==0.10.1
+    # via jupyqt
+fps-terminals==0.10.1
+    # via jupyverse
 fqdn==1.5.1
     # via jsonschema
 frozenlist==1.8.0
@@ -403,8 +482,11 @@ gwcs==1.0.3
     #   ndcube
 h11==0.16.0
     # via
+    #   anycorn
     #   httpcore
     #   wsproto
+h2==4.3.0
+    # via anycorn
 h5netcdf==1.8.1
     # via
     #   solo-epd-loader
@@ -440,18 +522,16 @@ hatanaka==2.8.1
     # via georinex
 hissw==2.3
     # via -r docker/pyhc-environment/contents/packages.txt
+hpack==4.1.0
+    # via
+    #   anycorn
+    #   h2
 html5lib==1.1
     # via astroquery
 httpcore==1.0.9
-    # via
-    #   httpx
-    #   httpx-ws
+    # via httpx
 httpx==0.28.1
-    # via
-    #   httpx-ws
-    #   jupyterlab
-httpx-ws==0.7.2
-    # via sciqlop
+    # via jupyterlab
 humanize==4.15.0
     # via
     #   pyaurorax
@@ -460,6 +540,8 @@ humanize==4.15.0
     #   speasy
 hvpy==1.1.0
     # via sunpy
+hyperframe==6.1.0
+    # via h2
 hypothesis==6.151.12
     # via
     #   pyhc-core
@@ -483,32 +565,31 @@ imageio==2.37.3
     #   solarmach
 imagesize==2.0.0
     # via sphinx
-importlib-resources==6.5.2
+importlib-resources==7.0.0
     # via hatanaka
 iniconfig==2.3.0
     # via pytest
-ipykernel==6.29.5
+ipykernel==7.2.0
     # via
     #   jupyterlab
     #   qtconsole
-    #   sciqlop
-ipympl==0.9.7
-    # via
-    #   gcmprocpy
-    #   sciqlop
-ipython==8.37.0
+ipympl==0.10.0
+    # via gcmprocpy
+ipython==9.12.0
     # via
     #   gcmprocpy
     #   ipykernel
     #   ipympl
     #   ipywidgets
+    #   jupyqt
     #   sciqlop
 ipython-pygments-lexers==1.1.1
-    # via qtconsole
-ipywidgets==8.1.7
+    # via
+    #   ipython
+    #   qtconsole
+ipywidgets==8.1.8
     # via
     #   ipympl
-    #   sciqlop
     #   sunpy
 iri2016==1.11.1
     # via -r docker/pyhc-environment/contents/packages.txt
@@ -565,7 +646,9 @@ joblib==1.5.3
 jplephem==2.24
     # via sunpy
 json5==0.14.0
-    # via jupyterlab-server
+    # via
+    #   fps-lab
+    #   jupyterlab-server
 jsonpointer==3.1.1
     # via jsonschema
 jsonschema==4.26.0
@@ -575,14 +658,15 @@ jsonschema==4.26.0
     #   nbformat
 jsonschema-specifications==2025.9.1
     # via jsonschema
-jupyter-client==8.6.3
+jupyqt==0.5.0
+    # via sciqlop
+jupyter-client==8.8.0
     # via
     #   ipykernel
     #   jupyter-server
     #   nbclient
     #   qtconsole
-    #   sciqlop
-jupyter-core==5.8.1
+jupyter-core==5.9.1
     # via
     #   ipykernel
     #   jupyter-client
@@ -592,46 +676,99 @@ jupyter-core==5.8.1
     #   nbconvert
     #   nbformat
     #   qtconsole
-    #   sciqlop
 jupyter-events==0.12.0
-    # via
-    #   jupyter-server
-    #   sciqlop
-jupyter-lsp==2.2.5
-    # via
-    #   jupyterlab
-    #   sciqlop
-jupyter-server==2.16.0
+    # via jupyter-server
+jupyter-lsp==2.3.1
+    # via jupyterlab
+jupyter-server==2.17.0
     # via
     #   jupyter-lsp
     #   jupyterlab
     #   jupyterlab-server
-    #   notebook
     #   notebook-shim
-    #   sciqlop
-jupyter-server-terminals==0.5.3
-    # via
-    #   jupyter-server
-    #   sciqlop
-jupyterlab==4.4.4
+jupyter-server-terminals==0.5.4
+    # via jupyter-server
+jupyterlab==4.5.6
     # via
     #   euvpy
     #   kaipy
-    #   notebook
-    #   sciqlop
+jupyterlab-js==4.5.5
+    # via fps-jupyterlab
 jupyterlab-pygments==0.3.0
+    # via nbconvert
+jupyterlab-server==2.28.0
+    # via jupyterlab
+jupyterlab-widgets==3.0.16
+    # via ipywidgets
+jupyverse==0.14.9
+    # via jupyqt
+jupyverse-api==0.15.1
     # via
-    #   nbconvert
-    #   sciqlop
-jupyterlab-server==2.27.3
+    #   fps-contents
+    #   fps-jupyterlab
+    #   fps-kernels
+    #   fps-lab
+    #   fps-nbconvert
+    #   fps-terminals
+    #   jupyverse-auth
+    #   jupyverse-contents
+    #   jupyverse-frontend
+    #   jupyverse-jupyterlab
+    #   jupyverse-kernels
+    #   jupyverse-lab
+    #   jupyverse-nbconvert
+    #   jupyverse-terminals
+    #   jupyverse-yjs
+jupyverse-auth==0.2.1
     # via
-    #   jupyterlab
-    #   notebook
-    #   sciqlop
-jupyterlab-widgets==3.0.15
+    #   fps-contents
+    #   fps-jupyterlab
+    #   fps-kernels
+    #   fps-lab
+    #   fps-nbconvert
+    #   fps-noauth
+    #   fps-terminals
+    #   jupyverse-contents
+    #   jupyverse-jupyterlab
+    #   jupyverse-kernels
+    #   jupyverse-lab
+    #   jupyverse-nbconvert
+    #   jupyverse-terminals
+    #   jupyverse-yjs
+jupyverse-contents==0.1.2
+    # via fps-contents
+jupyverse-file-watcher==0.1.1
     # via
-    #   ipywidgets
-    #   sciqlop
+    #   fps-file-watcher
+    #   fps-kernels
+jupyverse-frontend==0.1.1
+    # via
+    #   fps-frontend
+    #   fps-jupyterlab
+    #   fps-kernels
+    #   fps-lab
+jupyverse-jupyterlab==0.1.1
+    # via
+    #   fps-jupyterlab
+    #   fps-lab
+    #   jupyverse-lab
+jupyverse-kernel==0.1.1
+    # via
+    #   fps-kernel-subprocess
+    #   fps-kernels
+    #   jupyverse-kernels
+jupyverse-kernels==0.1.1
+    # via fps-kernels
+jupyverse-lab==0.3.0
+    # via
+    #   fps-jupyterlab
+    #   fps-lab
+jupyverse-nbconvert==0.1.1
+    # via fps-nbconvert
+jupyverse-terminals==0.1.1
+    # via fps-terminals
+jupyverse-yjs==0.1.2
+    # via fps-kernels
 kaipy==1.1.4
     # via
     #   -c docker/pyhc-environment/contents/constraints.txt
@@ -641,6 +778,7 @@ keyring==25.7.0
     #   astroquery
     #   geospacelab
     #   pyrfu
+    #   sciqlop
 keyrings-alt==5.0.2
     # via pyrfu
 kiwisolver==1.5.0
@@ -649,8 +787,6 @@ lark==1.3.1
     # via rfc3987-syntax
 lazy-loader==0.5
     # via scikit-image
-librt==0.9.0
-    # via mypy
 llvmlite==0.47.0
     # via numba
 lmfit==1.3.4
@@ -678,8 +814,6 @@ madrigalweb==3.3.7
     #   geospacelab
 maidenhead==1.8.0
     # via -r docker/pyhc-environment/contents/packages.txt
-mako==1.3.10
-    # via alembic
 markdown-it-py==4.0.0
     # via
     #   mdit-py-plugins
@@ -688,9 +822,8 @@ markdown-it-py==4.0.0
 markupsafe==3.0.3
     # via
     #   jinja2
-    #   mako
     #   nbconvert
-matplotlib==3.10.3
+matplotlib==3.10.8
     # via
     #   aiapy
     #   asilib
@@ -730,11 +863,10 @@ matplotlib==3.10.3
     #   sunkit-instruments
     #   sunkit-magex
     #   sunpy
-matplotlib-inline==0.1.7
+matplotlib-inline==0.2.1
     # via
     #   ipykernel
     #   ipython
-    #   sciqlop
 mcalf==1.0.0
     # via -r docker/pyhc-environment/contents/packages.txt
 mccabe==0.7.0
@@ -754,7 +886,7 @@ mpl-animators==1.2.4
     #   irispy-lmsal
     #   ndcube
     #   sunpy
-mplcursors==0.6
+mplcursors==0.7.1
     # via gcmprocpy
 mpmath==1.4.1
     # via plasmapy
@@ -775,10 +907,6 @@ multidict==6.7.1
     #   yarl
 multiprocess==0.70.19
     # via pathos
-mypy==1.20.0
-    # via sqlalchemy
-mypy-extensions==1.1.0
-    # via mypy
 myst-parser==5.0.0
     # via euvpy
 narwhals==2.19.0
@@ -790,7 +918,9 @@ natsort==8.4.0
 nbclient==0.10.4
     # via nbconvert
 nbconvert==7.17.1
-    # via jupyter-server
+    # via
+    #   fps-nbconvert
+    #   jupyter-server
 nbformat==5.10.4
     # via
     #   jupyter-server
@@ -828,13 +958,8 @@ networkx==3.6.1
     # via scikit-image
 nexradutils==1.0.0
     # via -r docker/pyhc-environment/contents/packages.txt
-notebook==7.4.4
-    # via sciqlop
 notebook-shim==0.2.4
-    # via
-    #   jupyterlab
-    #   notebook
-    #   sciqlop
+    # via jupyterlab
 numba==0.65.0
     # via pyrfu
 numcodecs==0.16.5
@@ -982,11 +1107,9 @@ opencv-python==4.13.0.92
 orderly-set==5.5.0
     # via deepdiff
 orjson==3.11.8
-    # via
-    #   solarmach
-    #   tscat
-overrides==7.7.0
-    # via jupyter-server
+    # via solarmach
+outcome==1.3.0.post0
+    # via anyioutils
 packaging==26.0
     # via
     #   asdf
@@ -997,6 +1120,7 @@ packaging==26.0
     #   dask
     #   dkist
     #   drms
+    #   fps-kernels
     #   h5netcdf
     #   ipykernel
     #   jupyter-events
@@ -1078,8 +1202,6 @@ partd==1.4.2
     # via dask
 pathos==0.3.5
     # via mcalf
-pathspec==1.0.4
-    # via mypy
 pexpect==4.9.0
     # via ipython
 pillow==12.2.0
@@ -1117,6 +1239,8 @@ pox==0.3.7
     # via pathos
 ppft==1.7.8
     # via pathos
+priority==2.0.0
+    # via anycorn
 progressbar==2.5
     # via kaipy
 progressbar2==4.5.0
@@ -1132,6 +1256,7 @@ propcache==0.4.1
 psutil==7.2.2
     # via
     #   ipykernel
+    #   sciqlop
     #   sunpy
 ptyprocess==0.7.0
     # via
@@ -1158,15 +1283,21 @@ pycparser==3.0
     # via cffi
 pycrdt==0.12.50
     # via
-    #   pycrdt-websocket
-    #   sciqlop
-pycrdt-websocket==0.15.5
-    # via sciqlop
+    #   fps-kernels
+    #   jupyverse-yjs
 pydantic==2.12.5
     # via
+    #   fastapi
     #   hvpy
+    #   jupyverse-api
+    #   jupyverse-auth
+    #   jupyverse-contents
+    #   jupyverse-kernels
+    #   jupyverse-terminals
+    #   jupyverse-yjs
     #   mt-metadata
     #   pydantic-settings
+    #   sciqlop
 pydantic-core==2.41.5
     # via pydantic
 pydantic-settings==2.13.1
@@ -1254,19 +1385,19 @@ pyshp==3.0.3
     # via
     #   asilib
     #   cartopy
-pyside6==6.9.2
+pyside6==6.10.2
     # via
+    #   jupyqt
     #   sciqlop
     #   sciqlopplots
-    #   tscat-gui
-pyside6-addons==6.9.2
+pyside6-addons==6.10.2
     # via pyside6
-pyside6-essentials==6.9.2
+pyside6-essentials==6.10.2
     # via
     #   pyside6
     #   pyside6-addons
     #   pyside6-qtads
-pyside6-qtads==4.4.0.3
+pyside6-qtads==4.5.0.2
     # via sciqlop
 pysocks==1.7.1
     # via speasy
@@ -1346,6 +1477,7 @@ python-dateutil==2.9.0.post0
     #   dascutils
     #   dbprocessing
     #   dmsp
+    #   fps-kernels
     #   geomagindices
     #   georinex
     #   goesutils
@@ -1401,16 +1533,18 @@ pyyaml==6.0.3
     #   pydarn
     #   pytest-regressions
     #   sammi-cdf
+    #   sciqlop
     #   speasy
     #   swxsoc
 pyzenodo3==1.0.2
     # via -r docker/pyhc-environment/contents/packages.txt
-pyzmq==27.0.0
+pyzmq==27.1.0
     # via
+    #   fps-kernel-subprocess
     #   ipykernel
     #   jupyter-client
     #   jupyter-server
-    #   sciqlop
+    #   zmq-anyio
 pyzstd==0.19.1
     # via sciqlop
 qasync==0.28.0
@@ -1482,7 +1616,13 @@ rfc3986-validator==0.1.1
 rfc3987-syntax==1.1.0
     # via jsonschema
 rich==14.3.4
-    # via space-packet-parser
+    # via
+    #   rich-click
+    #   space-packet-parser
+rich-click==1.9.7
+    # via
+    #   anycorn
+    #   jupyverse
 roman-numerals==4.1.0
     # via sphinx
 rpds-py==0.30.0
@@ -1565,9 +1705,9 @@ scipy==1.14.1
     #   sunpy
     #   themisasi
     #   xgboost
-sciqlop==0.10.5
+sciqlop==0.11.0
     # via -r docker/pyhc-environment/contents/packages.txt
-sciqlopplots==0.17.1
+sciqlopplots==0.21.0
     # via sciqlop
 seaborn==0.13.2
     # via
@@ -1588,7 +1728,7 @@ setuptools==81.0.0
     #   pyspedas
 shapely==2.1.2
     # via cartopy
-shiboken6==6.9.2
+shiboken6==6.10.2
     # via
     #   pyside6
     #   pyside6-addons
@@ -1666,21 +1806,29 @@ spiceypy==8.1.0
     #   sunpy
 sqlalchemy==2.0.49
     # via
-    #   alembic
     #   dbprocessing
     #   obspy
-    #   sqlalchemy-utils
-    #   tscat
-sqlalchemy-utils==0.42.1
-    # via tscat
-sqlite-anyio==0.2.8
-    # via pycrdt-websocket
 sscws==2.4.7
     # via geospacelab
 stack-data==0.6.3
     # via ipython
+starlette==1.0.0
+    # via
+    #   fastapi
+    #   fps-contents
+    #   fps-jupyterlab
+    #   fps-kernels
+    #   fps-lab
 streamtracer==2.6.0
     # via sunkit-magex
+structlog==25.5.0
+    # via
+    #   fps
+    #   fps-contents
+    #   fps-file-watcher
+    #   fps-kernels
+    #   fps-terminals
+    #   jupyverse-api
 sunkit-image==0.7.0
     # via -r docker/pyhc-environment/contents/packages.txt
 sunkit-instruments==0.6.2
@@ -1728,7 +1876,7 @@ threadpoolctl==3.6.0
     # via
     #   scikit-learn
     #   solarmach
-tifffile==2026.3.3
+tifffile==2026.4.11
     # via
     #   dask-image
     #   pims
@@ -1737,20 +1885,20 @@ tinycss2==1.4.0
     # via bleach
 toml==0.10.2
     # via geospacelab
+tomli-w==1.2.0
+    # via sciqlop
 toolz==1.1.0
     # via
     #   dask
     #   partd
     #   pysat
-tornado==6.5.1
+tornado==6.5.5
     # via
     #   bokeh
     #   ipykernel
     #   jupyter-client
     #   jupyter-server
     #   jupyterlab
-    #   notebook
-    #   sciqlop
     #   terminado
 tqdm==4.67.3
     # via
@@ -1782,22 +1930,17 @@ traitlets==5.14.3
     #   nbconvert
     #   nbformat
     #   qtconsole
-tscat==0.4.4
-    # via
-    #   sciqlop
-    #   tscat-gui
-tscat-gui==0.6.0
-    # via sciqlop
+types-python-dateutil==2.9.0.20260408
+    # via fps-kernels
 typing-extensions==4.15.0
     # via
     #   aiosignal
-    #   alembic
     #   anyio
     #   beautifulsoup4
     #   csaps
     #   expression
+    #   fastapi
     #   mt-metadata
-    #   mypy
     #   numcodecs
     #   pydantic
     #   pydantic-core
@@ -1806,12 +1949,12 @@ typing-extensions==4.15.0
     #   pyzstd
     #   referencing
     #   sqlalchemy
-    #   sqlite-anyio
-    #   tscat
+    #   starlette
     #   typing-inspection
     #   zarr
 typing-inspection==0.4.2
     # via
+    #   fastapi
     #   pydantic
     #   pydantic-settings
 tzdata==2026.1
@@ -1831,8 +1974,12 @@ urllib3==2.6.3
     #   requests
     #   savic
     #   speasy
+uv==0.11.6
+    # via sciqlop
 viresclient==0.15.2
     # via -r docker/pyhc-environment/contents/packages.txt
+watchfiles==1.1.1
+    # via fps-file-watcher
 wcwidth==0.6.0
     # via prompt-toolkit
 webcolors==25.10.0
@@ -1859,7 +2006,7 @@ wrapt==1.17.3
     #   aiobotocore
     #   plasmapy
 wsproto==1.3.2
-    # via httpx-ws
+    # via anycorn
 xarray==2026.2.0
     # via
     #   astrometry-azel
@@ -1903,3 +2050,5 @@ zeep==4.3.2
     #   solarmach
     #   solo-epd-loader
     #   sunpy
+zmq-anyio==0.3.14
+    # via fps-kernel-subprocess
