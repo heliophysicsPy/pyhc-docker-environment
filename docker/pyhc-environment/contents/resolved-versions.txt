@@ -158,7 +158,7 @@ astropy==7.2.0
     #   swxsoc
 astropy-healpix==1.1.3
     # via reproject
-astropy-iers-data==0.2026.4.6.0.54.57
+astropy-iers-data==0.2026.4.13.0.58.2
     # via astropy
 astroquery==0.4.11
     # via speasy
@@ -542,7 +542,7 @@ hvpy==1.1.0
     # via sunpy
 hyperframe==6.1.0
     # via h2
-hypothesis==6.151.12
+hypothesis==6.151.13
     # via
     #   pyhc-core
     #   pytest-astropy
@@ -565,7 +565,7 @@ imageio==2.37.3
     #   solarmach
 imagesize==2.0.0
     # via sphinx
-importlib-resources==7.0.0
+importlib-resources==7.1.0
     # via hatanaka
 iniconfig==2.3.0
     # via pytest
@@ -799,7 +799,7 @@ loguru==0.7.3
     # via mt-metadata
 lowtran==3.1.0
     # via -r docker/pyhc-environment/contents/packages.txt
-lxml==6.0.3
+lxml==6.0.4
     # via
     #   glymur
     #   obspy
@@ -1615,7 +1615,7 @@ rfc3986-validator==0.1.1
     #   jupyter-events
 rfc3987-syntax==1.1.0
     # via jsonschema
-rich==14.3.4
+rich==15.0.0
     # via
     #   rich-click
     #   space-packet-parser
@@ -1705,7 +1705,7 @@ scipy==1.14.1
     #   sunpy
     #   themisasi
     #   xgboost
-sciqlop==0.11.0
+sciqlop==0.11.2
     # via -r docker/pyhc-environment/contents/packages.txt
 sciqlopplots==0.21.0
     # via sciqlop
