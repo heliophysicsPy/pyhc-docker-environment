@@ -103,7 +103,7 @@ regularizepsf | 1.2.0
 sammi-cdf | 1.0.2
 savic | 1.2.7
 sciencedates | 1.5.0
-SciQLop | 0.11.3
+SciQLop | 0.11.4
 SkyWinder | 0.0.3
 solarmach | 0.5.3
 solo-epd-loader | 0.4.4
