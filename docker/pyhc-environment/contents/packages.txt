@@ -17,7 +17,7 @@ plasmapy==2026.2.0
 pysat==3.2.2
 pyspedas==2.1.0
 spacepy==0.7.0
-sunpy==7.1.1
+sunpy==7.1.2
 
 # --- Community Packages ---
 aacgmv2==2.7.1

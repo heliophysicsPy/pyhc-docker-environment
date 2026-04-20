@@ -158,7 +158,7 @@ astropy==7.2.0
     #   swxsoc
 astropy-healpix==1.1.3
     # via reproject
-astropy-iers-data==0.2026.4.13.0.58.2
+astropy-iers-data==0.2026.4.20.0.58.15
     # via astropy
 astroquery==0.4.11
     # via speasy
@@ -356,7 +356,7 @@ executing==2.2.1
     # via stack-data
 expression==5.6.0
     # via sciqlop
-fastapi==0.135.3
+fastapi==0.136.0
     # via
     #   fps
     #   fps-contents
@@ -658,7 +658,7 @@ jsonschema==4.26.0
     #   nbformat
 jsonschema-specifications==2025.9.1
     # via jsonschema
-jupyqt==0.5.2
+jupyqt==0.5.3
     # via sciqlop
 jupyter-client==8.8.0
     # via
@@ -796,10 +796,13 @@ locket==1.0.0
 lofarsun==0.3.32
     # via -r docker/pyhc-environment/contents/packages.txt
 loguru==0.7.3
-    # via mt-metadata
+    # via
+    #   mt-io
+    #   mt-metadata
+    #   mt-timeseries
 lowtran==3.1.0
     # via -r docker/pyhc-environment/contents/packages.txt
-lxml==6.0.4
+lxml==6.1.0
     # via
     #   glymur
     #   obspy
@@ -842,6 +845,7 @@ matplotlib==3.10.8
     #   mpl-animators
     #   mplcursors
     #   mt-metadata
+    #   mt-timeseries
     #   ndcube
     #   obspy
     #   plasmapy
@@ -896,9 +900,18 @@ msise00==1.11.1
     # via
     #   -r docker/pyhc-environment/contents/packages.txt
     #   reesaurora
-mt-metadata==1.0.8
+mt-io==0.0.1
     # via mth5
-mth5==0.6.5
+mt-metadata==1.0.9
+    # via
+    #   mt-io
+    #   mt-timeseries
+    #   mth5
+mt-timeseries==0.0.2
+    # via
+    #   mt-io
+    #   mth5
+mth5==0.6.6
     # via pyhc-core
 multidict==6.7.1
     # via
@@ -1024,7 +1037,9 @@ numpy==2.2.6
     #   mcalf
     #   mpl-animators
     #   msise00
+    #   mt-io
     #   mt-metadata
+    #   mt-timeseries
     #   ndcube
     #   netcdf4
     #   nexradutils
@@ -1099,7 +1114,7 @@ ocbpy==0.6.0
     # via -r docker/pyhc-environment/contents/packages.txt
 ommbv==1.1.0
     # via -r docker/pyhc-environment/contents/packages.txt
-opencv-python==4.13.0.92
+opencv-python==4.12.0.88
     # via
     #   asilib
     #   pyucalgarysrs
@@ -1170,6 +1185,7 @@ pandas==3.0.2
     #   kaipy
     #   lofarsun
     #   mt-metadata
+    #   mt-timeseries
     #   plasmapy
     #   pyintensityfeatures
     #   pyrfu
@@ -1285,7 +1301,7 @@ pycrdt==0.12.50
     # via
     #   fps-kernels
     #   jupyverse-yjs
-pydantic==2.13.0
+pydantic==2.13.2
     # via
     #   fastapi
     #   hvpy
@@ -1298,7 +1314,7 @@ pydantic==2.13.0
     #   mt-metadata
     #   pydantic-settings
     #   sciqlop
-pydantic-core==2.46.0
+pydantic-core==2.46.2
     # via pydantic
 pydantic-settings==2.13.1
     # via hvpy
@@ -1674,7 +1690,9 @@ scipy==1.14.1
     #   lmfit
     #   lofarsun
     #   mcalf
+    #   mt-io
     #   mt-metadata
+    #   mt-timeseries
     #   mth5
     #   ndcube
     #   obspy
@@ -1835,7 +1853,7 @@ sunkit-instruments==0.6.2
     # via -r docker/pyhc-environment/contents/packages.txt
 sunkit-magex==1.1.0
     # via solarmach
-sunpy==7.1.1
+sunpy==7.1.2
     # via
     #   -r docker/pyhc-environment/contents/packages.txt
     #   aiapy
@@ -1974,7 +1992,7 @@ urllib3==2.6.3
     #   requests
     #   savic
     #   speasy
-uv==0.11.6
+uv==0.11.7
     # via sciqlop
 viresclient==0.15.2
     # via -r docker/pyhc-environment/contents/packages.txt
@@ -2021,7 +2039,9 @@ xarray==2026.4.0
     #   iri2016
     #   lowtran
     #   msise00
+    #   mt-io
     #   mt-metadata
+    #   mt-timeseries
     #   nexradutils
     #   plasmapy
     #   pyintensityfeatures
