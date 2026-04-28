@@ -85,7 +85,7 @@ argon2-cffi-bindings==25.1.0
     # via argon2-cffi
 arrow==1.4.0
     # via isoduration
-asdf==5.2.0
+asdf==5.3.0
     # via
     #   asdf-astropy
     #   asdf-coordinates-schemas
@@ -158,7 +158,7 @@ astropy==7.2.0
     #   swxsoc
 astropy-healpix==1.1.3
     # via reproject
-astropy-iers-data==0.2026.4.20.0.58.15
+astropy-iers-data==0.2026.4.27.1.3.2
     # via astropy
 astroquery==0.4.11
     # via speasy
@@ -233,7 +233,7 @@ cdflib==1.3.9
     #   sunpy
     #   themisasi
     #   viresclient
-certifi==2026.2.25
+certifi==2026.4.22
     # via
     #   httpcore
     #   httpx
@@ -251,7 +251,7 @@ cftime==1.6.5
     # via netcdf4
 charset-normalizer==3.4.7
     # via requests
-click==8.3.2
+click==8.3.3
     # via
     #   dask
     #   fps
@@ -283,7 +283,7 @@ contourpy==1.3.3
     #   sunpy
 coverage==7.13.5
     # via pytest-cov
-cryptography==46.0.7
+cryptography==47.0.0
     # via
     #   globus-sdk
     #   pyjwt
@@ -356,7 +356,7 @@ executing==2.2.1
     # via stack-data
 expression==5.6.0
     # via sciqlop
-fastapi==0.136.0
+fastapi==0.136.1
     # via
     #   fps
     #   fps-contents
@@ -444,7 +444,7 @@ fsspec==2026.3.0
     #   sunpy
 future==1.0.0
     # via ffmpeg-python
-gcmprocpy==1.4.0
+gcmprocpy==1.4.1
     # via -r docker/pyhc-environment/contents/packages.txt
 geomag==0.9.2015
     # via gcmprocpy
@@ -472,7 +472,7 @@ google-crc32c==1.8.0
     # via zarr
 graphemeu==0.7.2
     # via alive-progress
-greenlet==3.4.0
+greenlet==3.5.0
     # via sqlalchemy
 gridaurora==1.3.4
     # via reesaurora
@@ -542,11 +542,11 @@ hvpy==1.1.0
     # via sunpy
 hyperframe==6.1.0
     # via h2
-hypothesis==6.152.1
+hypothesis==6.152.4
     # via
     #   pyhc-core
     #   pytest-astropy
-idna==3.11
+idna==3.13
     # via
     #   anyio
     #   email-validator
@@ -575,7 +575,7 @@ ipykernel==7.2.0
     #   qtconsole
 ipympl==0.10.0
     # via gcmprocpy
-ipython==9.12.0
+ipython==9.13.0
     # via
     #   gcmprocpy
     #   ipykernel
@@ -676,7 +676,7 @@ jupyter-core==5.9.1
     #   nbconvert
     #   nbformat
     #   qtconsole
-jupyter-events==0.12.0
+jupyter-events==0.12.1
     # via jupyter-server
 jupyter-lsp==2.3.1
     # via jupyterlab
@@ -900,7 +900,7 @@ msise00==1.11.1
     # via
     #   -r docker/pyhc-environment/contents/packages.txt
     #   reesaurora
-mt-io==0.0.1
+mt-io==0.0.3
     # via mth5
 mt-metadata==1.0.9
     # via
@@ -911,7 +911,7 @@ mt-timeseries==0.0.2
     # via
     #   mt-io
     #   mth5
-mth5==0.6.6
+mth5==0.6.7
     # via pyhc-core
 multidict==6.7.1
     # via
@@ -922,7 +922,7 @@ multiprocess==0.70.19
     # via pathos
 myst-parser==5.0.0
     # via euvpy
-narwhals==2.19.0
+narwhals==2.20.0
     # via
     #   bokeh
     #   plotly
@@ -973,7 +973,7 @@ nexradutils==1.0.0
     # via -r docker/pyhc-environment/contents/packages.txt
 notebook-shim==0.2.4
     # via jupyterlab
-numba==0.65.0
+numba==0.65.1
     # via pyrfu
 numcodecs==0.16.5
     # via zarr
@@ -1106,7 +1106,7 @@ numpy==2.2.6
     #   xarray
     #   xgboost
     #   zarr
-nvidia-nccl-cu12==2.29.7
+nvidia-nccl-cu12==2.30.4
     # via xgboost
 obspy==1.5.0
     # via pyhc-core
@@ -1125,7 +1125,7 @@ orjson==3.11.8
     # via solarmach
 outcome==1.3.0.post0
     # via anyioutils
-packaging==26.1
+packaging==26.2
     # via
     #   asdf
     #   asdf-astropy
@@ -1272,6 +1272,7 @@ propcache==0.4.1
 psutil==7.2.2
     # via
     #   ipykernel
+    #   ipython
     #   sciqlop
     #   sunpy
 ptyprocess==0.7.0
@@ -1282,7 +1283,7 @@ pure-eval==0.2.3
     # via stack-data
 py-cpuinfo==9.0.0
     # via tables
-pyarrow==23.0.1
+pyarrow==24.0.0
     # via dask
 pyaurorax==1.22.0
     # via -r docker/pyhc-environment/contents/packages.txt
@@ -1301,7 +1302,7 @@ pycrdt==0.12.50
     # via
     #   fps-kernels
     #   jupyverse-yjs
-pydantic==2.13.2
+pydantic==2.13.3
     # via
     #   fastapi
     #   hvpy
@@ -1314,9 +1315,9 @@ pydantic==2.13.2
     #   mt-metadata
     #   pydantic-settings
     #   sciqlop
-pydantic-core==2.46.2
+pydantic-core==2.46.3
     # via pydantic
-pydantic-settings==2.13.1
+pydantic-settings==2.14.0
     # via hvpy
 pydarn==4.2
     # via -r docker/pyhc-environment/contents/packages.txt
@@ -1349,7 +1350,7 @@ pyhc-core==0.0.8
     # via -r docker/pyhc-environment/contents/packages.txt
 pyintensityfeatures==0.2.0
     # via -r docker/pyhc-environment/contents/packages.txt
-pyistp==0.7.2
+pyistp==0.7.3
     # via speasy
 pyjwt==2.12.1
     # via
@@ -1372,7 +1373,6 @@ pyproj==3.7.2
 pyqt5==5.15.11
     # via
     #   euvpy
-    #   gcmprocpy
     #   lofarsun
     #   pyqtwebengine
     #   pytplot
@@ -1403,6 +1403,7 @@ pyshp==3.0.3
     #   cartopy
 pyside6==6.10.2
     # via
+    #   gcmprocpy
     #   jupyqt
     #   sciqlop
     #   sciqlopplots
@@ -1975,7 +1976,7 @@ typing-inspection==0.4.2
     #   fastapi
     #   pydantic
     #   pydantic-settings
-tzdata==2026.1
+tzdata==2026.2
     # via arrow
 ujson==5.12.0
     # via gfz-api-client
@@ -1992,7 +1993,7 @@ urllib3==2.6.3
     #   requests
     #   savic
     #   speasy
-uv==0.11.7
+uv==0.11.8
     # via sciqlop
 viresclient==0.15.2
     # via -r docker/pyhc-environment/contents/packages.txt
@@ -2011,7 +2012,7 @@ websocket-client==1.9.0
     # via jupyter-server
 wget==3.2
     # via savic
-wheel==0.46.3
+wheel==0.47.0
     # via asilib
 widgetsnbextension==4.0.15
     # via ipywidgets
