@@ -15,7 +15,7 @@ pyhc-core[tests]==0.0.8
 hapiclient==0.2.7
 plasmapy==2026.2.0
 pysat==3.2.2
-pyspedas==2.1.0
+pyspedas==2.1.1
 spacepy==0.7.0
 sunpy==7.1.2
 
@@ -35,9 +35,9 @@ enlilviz==0.2.0
 EUVpy==1.0.0
 fiasco==0.8.1
 gcmprocpy==1.4.1
-geopack==1.0.12
+geopack==1.0.13
 georinex==1.16.2
-geospacelab==0.13.0
+geospacelab==0.14.1
 goesutils==1.0.8
 hapiplot==0.2.2
 hissw==2.3
@@ -70,7 +70,7 @@ regularizepsf==1.2.0
 sammi-cdf==1.0.2
 savic==1.2.7
 sciencedates==1.5.0
-SciQLop==0.11.4
+SciQLop==0.12.0
 SkyWinder==0.0.3
 solarmach==0.5.3
 solo-epd-loader==0.4.4

@@ -63,9 +63,9 @@ enlilviz | 0.2.0
 EUVpy | 1.0.0
 fiasco | 0.8.1
 gcmprocpy | 1.4.1
-geopack | 1.0.12
+geopack | 1.0.13
 georinex | 1.16.2
-geospacelab | 0.13.0
+geospacelab | 0.14.1
 goesutils | 1.0.8
 hapiclient | 0.2.7
 hapiplot | 0.2.2
@@ -94,7 +94,7 @@ pyIntensityFeatures | 0.2.0
 pymap3d | 3.2.0
 pyrfu | 2.4.21
 pysat | 3.2.2
-pyspedas | 2.1.0
+pyspedas | 2.1.1
 pytplot | 1.7.28
 pytplot-mpl-temp | 2.2.79
 pyzenodo3 | 1.0.2
@@ -103,7 +103,7 @@ regularizepsf | 1.2.0
 sammi-cdf | 1.0.2
 savic | 1.2.7
 sciencedates | 1.5.0
-SciQLop | 0.11.4
+SciQLop | 0.12.0
 SkyWinder | 0.0.3
 solarmach | 0.5.3
 solo-epd-loader | 0.4.4
