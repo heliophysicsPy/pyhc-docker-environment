@@ -19,4 +19,5 @@ kaipy!=1.1.5
 # Temporary block: irispy-lmsal 0.7.0 requires scipy>=1.17.0,
 # but pydarn 4.2 on PyPI requires scipy<1.15.0.
 # Remove after a pyDARN PyPI release includes SuperDARN/pydarn#436.
+# See: https://github.com/SuperDARN/pydarn/issues/445
 irispy-lmsal!=0.7.0
