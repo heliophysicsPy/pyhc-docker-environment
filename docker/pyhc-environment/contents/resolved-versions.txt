@@ -460,7 +460,7 @@ geopack==1.0.13
     #   pyspedas
 georinex==1.16.2
     # via -r docker/pyhc-environment/contents/packages.txt
-geospacelab==0.14.1
+geospacelab==0.14.2
     # via -r docker/pyhc-environment/contents/packages.txt
 gfz-api-client==0.1.0
     # via kaipy
@@ -1406,7 +1406,7 @@ pysat==3.2.2
     #   pysatspaceweather
 pysatspaceweather==0.0.10
     # via pysat
-pyshp==3.0.6
+pyshp==3.0.7
     # via
     #   asilib
     #   cartopy
@@ -2072,7 +2072,7 @@ xgboost==3.2.0
     # via savic
 xyzservices==2026.3.0
     # via bokeh
-yarl==1.23.0
+yarl==1.24.2
     # via aiohttp
 zarr==3.2.1
     # via reproject
