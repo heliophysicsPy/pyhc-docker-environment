@@ -24,7 +24,7 @@ aiofiles==25.1.0
     # via aioboto3
 aioftp==0.27.2
     # via parfive
-aiohappyeyeballs==2.6.1
+aiohappyeyeballs==2.6.2
     # via aiohttp
 aiohttp==3.13.5
     # via
@@ -192,7 +192,7 @@ beautifulsoup4==4.14.3
     #   sunpy
 bleach==6.3.0
     # via nbconvert
-blosc2==4.3.1
+blosc2==4.3.3
     # via tables
 bokeh==3.9.0
     # via pytplot
@@ -223,7 +223,7 @@ cdasws==1.8.16
     # via
     #   kaipy
     #   pyspedas
-cdflib==1.3.10
+cdflib==1.3.11
     # via
     #   -r docker/pyhc-environment/contents/packages.txt
     #   geospacelab
@@ -235,7 +235,7 @@ cdflib==1.3.10
     #   sunpy
     #   themisasi
     #   viresclient
-certifi==2026.4.22
+certifi==2026.5.20
     # via
     #   httpcore
     #   httpx
@@ -253,7 +253,7 @@ cftime==1.6.5
     # via netcdf4
 charset-normalizer==3.4.7
     # via requests
-click==8.4.0
+click==8.4.1
     # via
     #   dask
     #   fps
@@ -464,7 +464,7 @@ geospacelab==0.14.2
     # via -r docker/pyhc-environment/contents/packages.txt
 gfz-api-client==0.1.0
     # via kaipy
-globus-sdk==4.6.0
+globus-sdk==4.7.0
     # via dkist
 glymur==0.14.8
     # via sunpy
@@ -474,7 +474,7 @@ google-crc32c==1.8.0
     # via zarr
 graphemeu==0.7.2
     # via alive-progress
-greenlet==3.5.0
+greenlet==3.5.1
     # via sqlalchemy
 gridaurora==1.3.4
     # via reesaurora
@@ -548,7 +548,7 @@ hypothesis==6.152.9
     # via
     #   pyhc-core
     #   pytest-astropy
-idna==3.15
+idna==3.16
     # via
     #   anyio
     #   email-validator
@@ -1305,7 +1305,7 @@ pycodestyle==2.14.0
     # via flake8
 pycparser==3.0
     # via cffi
-pycrdt==0.13.0
+pycrdt==0.13.1
     # via
     #   fps-kernels
     #   jupyverse-yjs
@@ -1361,7 +1361,7 @@ pyintensityfeatures==0.2.0
     # via -r docker/pyhc-environment/contents/packages.txt
 pyistp==0.7.3
     # via speasy
-pyjwt==2.12.1
+pyjwt==2.13.0
     # via
     #   globus-sdk
     #   pygithub
@@ -1385,7 +1385,7 @@ pyqt5==5.15.11
     #   lofarsun
     #   pyqtwebengine
     #   pytplot
-pyqt5-qt5==5.15.18
+pyqt5-qt5==5.15.19
     # via pyqt5
 pyqt5-sip==12.18.0
     # via
@@ -1395,7 +1395,7 @@ pyqtgraph==0.14.0
     # via pytplot
 pyqtwebengine==5.15.7
     # via pytplot
-pyqtwebengine-qt5==5.15.18
+pyqtwebengine-qt5==5.15.19
     # via pyqtwebengine
 pyrfu==2.4.21
     # via -r docker/pyhc-environment/contents/packages.txt
@@ -1406,7 +1406,7 @@ pysat==3.2.2
     #   pysatspaceweather
 pysatspaceweather==0.0.10
     # via pysat
-pyshp==3.0.7
+pyshp==3.0.8
     # via
     #   asilib
     #   cartopy
@@ -1486,7 +1486,7 @@ pytest-regressions==2.10.0
     # via pyhc-core
 pytest-remotedata==0.4.1
     # via pytest-astropy
-pytest-rerunfailures==16.2
+pytest-rerunfailures==16.3
     # via pyhc-core
 pytest-xdist==3.8.0
     # via pyhc-core
@@ -1840,7 +1840,7 @@ sscws==2.5.0
     # via geospacelab
 stack-data==0.6.3
     # via ipython
-starlette==1.0.0
+starlette==1.0.1
     # via
     #   fastapi
     #   fps-contents
@@ -2003,7 +2003,7 @@ urllib3==2.7.0
     #   requests
     #   savic
     #   speasy
-uv==0.11.15
+uv==0.11.16
     # via sciqlop
 viresclient==0.16.0
     # via -r docker/pyhc-environment/contents/packages.txt
