@@ -158,7 +158,7 @@ astropy==7.2.0
     #   swxsoc
 astropy-healpix==1.1.3
     # via reproject
-astropy-iers-data==0.2026.5.18.1.11.28
+astropy-iers-data==0.2026.5.25.1.14.13
     # via astropy
 astroquery==0.4.11
     # via speasy
@@ -283,7 +283,7 @@ contourpy==1.3.3
     #   bokeh
     #   matplotlib
     #   sunpy
-coverage==7.14.0
+coverage==7.14.1
     # via pytest-cov
 cryptography==48.0.0
     # via
@@ -294,7 +294,7 @@ csaps==1.3.3
     # via euvpy
 cycler==0.12.1
     # via matplotlib
-cython==3.2.4
+cython==3.2.5
     # via geospacelab
 darn-dmap==0.4.0
     # via pydarnio
@@ -358,7 +358,7 @@ executing==2.2.1
     # via stack-data
 expression==5.6.0
     # via sciqlop
-fastapi==0.136.1
+fastapi==0.136.3
     # via
     #   fps
     #   fps-contents
@@ -460,7 +460,7 @@ geopack==1.0.13
     #   pyspedas
 georinex==1.16.2
     # via -r docker/pyhc-environment/contents/packages.txt
-geospacelab==0.14.2
+geospacelab==0.14.4
     # via -r docker/pyhc-environment/contents/packages.txt
 gfz-api-client==0.1.0
     # via kaipy
@@ -544,7 +544,7 @@ hvpy==1.1.0
     # via sunpy
 hyperframe==6.1.0
     # via h2
-hypothesis==6.152.9
+hypothesis==6.153.2
     # via
     #   pyhc-core
     #   pytest-astropy
@@ -888,7 +888,7 @@ mdurl==0.1.2
     # via markdown-it-py
 mistune==3.2.1
     # via nbconvert
-more-itertools==11.0.2
+more-itertools==11.1.0
     # via
     #   jaraco-classes
     #   jaraco-functools
@@ -907,7 +907,7 @@ msise00==1.11.1
     # via
     #   -r docker/pyhc-environment/contents/packages.txt
     #   reesaurora
-mt-io==0.0.3
+mt-io==0.0.4
     # via mth5
 mt-metadata==1.0.9
     # via
@@ -1482,7 +1482,7 @@ pytest-mpl==0.19.0
     # via sunpy
 pytest-ordering==0.6
     # via pysat
-pytest-regressions==2.10.0
+pytest-regressions==2.11.0
     # via pyhc-core
 pytest-remotedata==0.4.1
     # via pytest-astropy
@@ -1775,7 +1775,7 @@ slack-sdk==3.42.0
     # via kaipy
 slicerator==1.1.0
     # via pims
-snowballstemmer==3.0.1
+snowballstemmer==3.1.0
     # via
     #   pydocstyle
     #   sphinx
@@ -1785,7 +1785,7 @@ solo-epd-loader==0.4.4
     # via -r docker/pyhc-environment/contents/packages.txt
 sortedcontainers==2.4.0
     # via hypothesis
-soupsieve==2.8.3
+soupsieve==2.8.4
     # via beautifulsoup4
 space-packet-parser==6.1.2
     # via -r docker/pyhc-environment/contents/packages.txt
@@ -1832,7 +1832,7 @@ spiceypy==8.1.0
     # via
     #   -r docker/pyhc-environment/contents/packages.txt
     #   sunpy
-sqlalchemy==2.0.49
+sqlalchemy==2.0.50
     # via
     #   dbprocessing
     #   obspy
@@ -1840,7 +1840,7 @@ sscws==2.5.0
     # via geospacelab
 stack-data==0.6.3
     # via ipython
-starlette==1.0.1
+starlette==1.1.0
     # via
     #   fastapi
     #   fps-contents
