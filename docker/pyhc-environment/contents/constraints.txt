@@ -21,8 +21,3 @@ kaipy!=1.1.5
 # Remove after a pyDARN PyPI release includes SuperDARN/pydarn#436.
 # See: https://github.com/SuperDARN/pydarn/issues/445
 irispy-lmsal!=0.7.0
-
-# Temporary block: geospacelab 0.14.5+ requires numpy>=2.4.0,
-# which drops still-supported NumPy versions under PHEP 3 and conflicts
-# with pyrfu 2.4.21's numpy<2.4 upper bound.
-geospacelab<0.14.5
