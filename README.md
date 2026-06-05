@@ -67,7 +67,7 @@ geopack | 1.0.13
 georinex | 1.16.2
 geospacelab | 0.14.15
 goesutils | 1.0.8
-hapiclient | 0.2.7
+hapiclient | 0.2.8
 hapiplot | 0.2.2
 hissw | 2.3
 igrf | 13.0.2

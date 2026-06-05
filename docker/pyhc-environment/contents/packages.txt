@@ -12,7 +12,7 @@
 
 # --- Core Packages ---
 pyhc-core[tests]==0.0.8
-hapiclient==0.2.7
+hapiclient==0.2.8
 plasmapy==2026.2.0
 pysat==3.2.2
 pyspedas==2.1.1
