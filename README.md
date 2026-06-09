@@ -67,7 +67,7 @@ geopack | 1.0.13
 georinex | 1.16.2
 geospacelab | 0.14.15
 goesutils | 1.0.8
-hapiclient | 0.2.8
+hapiclient | 0.2.9
 hapiplot | 0.2.2
 hissw | 2.3
 igrf | 13.0.2
@@ -94,7 +94,7 @@ pyIntensityFeatures | 0.2.0
 pymap3d | 3.2.0
 pyrfu | 2.4.21
 pysat | 3.2.2
-pyspedas | 2.1.1
+pyspedas | 2.1.2
 pytplot | 1.7.28
 pytplot-mpl-temp | 2.2.79
 pyzenodo3 | 1.0.2
