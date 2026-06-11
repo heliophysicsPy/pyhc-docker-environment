@@ -78,7 +78,9 @@ anyioutils==0.7.4
 apexpy==2.1.0
     # via -r docker/pyhc-environment/contents/packages.txt
 appdirs==1.4.4
-    # via speasy
+    # via
+    #   ccsdspy
+    #   speasy
 argon2-cffi==25.1.0
     # via jupyter-server
 argon2-cffi-bindings==25.1.0
@@ -190,9 +192,11 @@ beautifulsoup4==4.15.0
     #   nbconvert
     #   pyzenodo3
     #   sunpy
+bitstruct==8.22.1
+    # via ccsdspy
 bleach==6.4.0
     # via nbconvert
-blosc2==4.4.2
+blosc2==4.4.3
     # via tables
 bokeh==3.9.1
     # via pytplot
@@ -217,7 +221,7 @@ cartopy==0.25.0
     #   kaipy
     #   pyaurorax
     #   pydarn
-ccsdspy==1.4.3
+ccsdspy==2.0.0
     # via -r docker/pyhc-environment/contents/packages.txt
 cdasws==1.8.16
     # via
@@ -285,7 +289,7 @@ contourpy==1.3.3
     #   sunpy
 coverage==7.14.1
     # via pytest-cov
-cryptography==48.0.0
+cryptography==48.0.1
     # via
     #   globus-sdk
     #   pyjwt
@@ -341,7 +345,7 @@ docutils==0.22.4
     #   sphinx-rtd-theme
 donfig==0.8.1.post1
     # via zarr
-drms==0.9.0
+drms==0.9.1
     # via
     #   solarmach
     #   solo-epd-loader
@@ -464,7 +468,7 @@ geospacelab==0.14.15
     # via -r docker/pyhc-environment/contents/packages.txt
 gfz-api-client==0.1.0
     # via kaipy
-globus-sdk==4.7.0
+globus-sdk==4.8.0
     # via dkist
 glymur==0.14.8
     # via sunpy
@@ -571,7 +575,7 @@ importlib-resources==7.1.0
     # via hatanaka
 iniconfig==2.3.0
     # via pytest
-ipykernel==7.2.0
+ipykernel==7.3.0
     # via
     #   jupyterlab
     #   qtconsole
@@ -606,7 +610,7 @@ isodate==0.7.2
     #   zeep
 isoduration==20.11.0
     # via jsonschema
-itables==2.8.0
+itables==2.8.1
     # via sunpy
 jaraco-classes==3.4.0
     # via
@@ -665,7 +669,7 @@ jsonschema-specifications==2025.9.1
     # via jsonschema
 jupyqt==0.5.3
     # via sciqlop
-jupyter-client==8.9.0
+jupyter-client==8.9.1
     # via
     #   ipykernel
     #   jupyter-server
@@ -901,7 +905,7 @@ mplcursors==0.7.1
     # via gcmprocpy
 mpmath==1.4.1
     # via plasmapy
-msgpack==1.1.2
+msgpack==1.2.0
     # via blosc2
 msise00==1.11.1
     # via
@@ -951,7 +955,7 @@ ncompress==1.0.2
     # via
     #   georinex
     #   hatanaka
-ndcube==2.4.0
+ndcube==2.4.1
     # via
     #   -r docker/pyhc-environment/contents/packages.txt
     #   dkist
@@ -960,7 +964,7 @@ ndcube==2.4.0
     #   swxsoc
 ndindex==1.10.1
     # via blosc2
-nest-asyncio==1.6.0
+nest-asyncio2==1.7.2
     # via ipykernel
 netcdf4==1.7.4
     # via
@@ -1143,7 +1147,6 @@ packaging==26.2
     #   cartopy
     #   dask
     #   dkist
-    #   drms
     #   fps-kernels
     #   h5netcdf
     #   ipykernel
@@ -1303,7 +1306,7 @@ pycodestyle==2.14.0
     # via flake8
 pycparser==3.0
     # via cffi
-pycrdt==0.13.1
+pycrdt==0.14.0
     # via
     #   fps-kernels
     #   jupyverse-yjs
@@ -1547,6 +1550,7 @@ pyyaml==6.0.3
     #   asdf
     #   astropy
     #   bokeh
+    #   ccsdspy
     #   dask
     #   donfig
     #   jupyter-events
@@ -1838,7 +1842,7 @@ sscws==2.5.0
     # via geospacelab
 stack-data==0.6.3
     # via ipython
-starlette==1.2.1
+starlette==1.3.0
     # via
     #   fastapi
     #   fps-contents
@@ -1927,7 +1931,7 @@ tornado==6.5.7
     #   jupyter-server
     #   jupyterlab
     #   terminado
-tqdm==4.68.1
+tqdm==4.68.2
     # via
     #   dkist
     #   euvpy
@@ -2003,7 +2007,7 @@ urllib3==2.7.0
     #   requests
     #   savic
     #   speasy
-uv==0.11.19
+uv==0.11.20
     # via sciqlop
 viresclient==0.16.0
     # via -r docker/pyhc-environment/contents/packages.txt

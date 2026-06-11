@@ -53,7 +53,7 @@ aiapy | 0.12.0
 apexpy | 2.1.0
 asilib | 0.30.1
 astrometry-azel | 1.3.0
-ccsdspy | 1.4.3
+ccsdspy | 2.0.0
 cdflib | 1.3.12
 cloudcatalog | 1.2.1
 dascutils | 2.3.0
@@ -80,7 +80,7 @@ madrigalWeb | 3.3.7
 maidenhead | 1.8.0
 mcalf | 1.0.0
 msise00 | 1.11.1
-ndcube | 2.4.0
+ndcube | 2.4.1
 nexradutils | 1.0.0
 ocbpy | 0.7.0
 OMMBV | 1.1.0
