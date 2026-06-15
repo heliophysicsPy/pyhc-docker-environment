@@ -182,7 +182,7 @@ babel==2.18.0
     #   fps-lab
     #   jupyterlab-server
     #   sphinx
-backports-zstd==1.5.0
+backports-zstd==1.6.0
     # via pyzstd
 beautifulsoup4==4.15.0
     # via
@@ -196,7 +196,7 @@ bitstruct==8.22.1
     # via ccsdspy
 bleach==6.4.0
     # via nbconvert
-blosc2==4.4.3
+blosc2==4.4.5
     # via tables
 bokeh==3.9.1
     # via pytplot
@@ -289,7 +289,7 @@ contourpy==1.3.3
     #   sunpy
 coverage==7.14.1
     # via pytest-cov
-cryptography==48.0.1
+cryptography==49.0.0
     # via
     #   globus-sdk
     #   pyjwt
@@ -362,7 +362,7 @@ executing==2.2.1
     # via stack-data
 expression==5.6.0
     # via sciqlop
-fastapi==0.136.3
+fastapi==0.137.0
     # via
     #   fps
     #   fps-contents
@@ -800,6 +800,8 @@ lark==1.3.1
     # via rfc3987-syntax
 lazy-loader==0.5
     # via scikit-image
+linkify-it-py==2.1.0
+    # via markdown-it-py
 llvmlite==0.47.0
     # via numba
 lmfit==1.3.4
@@ -835,6 +837,7 @@ markdown-it-py==4.2.0
     #   mdit-py-plugins
     #   myst-parser
     #   rich
+    #   textual
 markupsafe==3.0.3
     # via
     #   jinja2
@@ -889,7 +892,9 @@ mcalf==1.0.0
 mccabe==0.7.0
     # via flake8
 mdit-py-plugins==0.6.1
-    # via myst-parser
+    # via
+    #   myst-parser
+    #   textual
 mdurl==0.1.2
     # via markdown-it-py
 mistune==3.2.1
@@ -1254,6 +1259,7 @@ platformdirs==4.10.0
     #   dkist
     #   jupyter-core
     #   sciqlop
+    #   textual
     #   zeep
 plotly==6.8.0
     # via solarmach
@@ -1358,6 +1364,7 @@ pygments==2.20.0
     #   qtconsole
     #   rich
     #   sphinx
+    #   textual
 pyhc-core==0.0.8
     # via -r docker/pyhc-environment/contents/packages.txt
 pyintensityfeatures==0.2.0
@@ -1435,7 +1442,7 @@ pyspedas==2.1.2
     #   -r docker/pyhc-environment/contents/packages.txt
     #   kaipy
     #   pyhc-core
-pytest==9.0.3
+pytest==9.1.0
     # via
     #   euvpy
     #   kaipy
@@ -1648,8 +1655,10 @@ rfc3987-syntax==1.1.0
     # via jsonschema
 rich==15.0.0
     # via
+    #   blosc2
     #   rich-click
     #   space-packet-parser
+    #   textual
 rich-click==1.9.8
     # via
     #   anycorn
@@ -1833,7 +1842,7 @@ sphinxcontrib-qthelp==2.0.0
     # via sphinx
 sphinxcontrib-serializinghtml==2.0.0
     # via sphinx
-spiceypy==8.1.0
+spiceypy==8.1.2
     # via
     #   -r docker/pyhc-environment/contents/packages.txt
     #   sunpy
@@ -1845,7 +1854,7 @@ sscws==2.5.0
     # via geospacelab
 stack-data==0.6.3
     # via ipython
-starlette==1.3.0
+starlette==1.3.1
     # via
     #   fastapi
     #   fps-contents
@@ -1903,6 +1912,8 @@ texttable==1.7.0
     # via
     #   pyaurorax
     #   pyucalgarysrs
+textual==8.2.7
+    # via blosc2
 themisasi==1.2.0
     # via -r docker/pyhc-environment/contents/packages.txt
 threadpoolctl==3.6.0
@@ -1986,6 +1997,7 @@ typing-extensions==4.15.0
     #   referencing
     #   sqlalchemy
     #   starlette
+    #   textual
     #   typing-inspection
     #   zarr
 typing-inspection==0.4.2
@@ -1995,7 +2007,9 @@ typing-inspection==0.4.2
     #   pydantic-settings
 tzdata==2026.2
     # via arrow
-ujson==5.12.1
+uc-micro-py==2.0.0
+    # via linkify-it-py
+ujson==5.13.0
     # via gfz-api-client
 uncertainties==3.2.3
     # via lmfit

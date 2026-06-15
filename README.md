@@ -110,7 +110,7 @@ solo-epd-loader | 0.4.4
 space-packet-parser | 6.1.2
 spacepy | 0.7.0
 speasy | 1.7.1
-spiceypy | 8.1.0
+spiceypy | 8.1.2
 sunkit-image | 0.7.0
 sunkit-instruments | 0.6.2
 sunpy | 7.1.2
