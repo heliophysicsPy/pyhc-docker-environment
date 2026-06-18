@@ -50,7 +50,7 @@ Package | Version
 ---|---
 aacgmv2 | 2.7.1
 aiapy | 0.12.0
-apexpy | 2.1.0
+apexpy | 2.1.1
 asilib | 0.30.1
 astrometry-azel | 1.3.0
 ccsdspy | 2.0.0
