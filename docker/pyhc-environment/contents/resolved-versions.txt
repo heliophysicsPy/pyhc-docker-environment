@@ -72,7 +72,6 @@ anyio==4.14.0
     #   zmq-anyio
 anyioutils==0.7.4
     # via
-    #   fps
     #   jupyverse-contents
     #   zmq-anyio
 apexpy==2.1.1
@@ -362,7 +361,7 @@ executing==2.2.1
     # via stack-data
 expression==5.6.0
     # via sciqlop
-fastapi==0.137.2
+fastapi==0.138.0
     # via
     #   fps
     #   fps-contents
@@ -397,7 +396,7 @@ fonttools==4.63.0
     # via matplotlib
 fortranformat==2.0.3
     # via fiasco
-fps==0.6.3
+fps==0.6.4
     # via
     #   fps-contents
     #   fps-file-watcher
@@ -423,7 +422,7 @@ fps-jupyterlab==0.11.3
     # via jupyverse
 fps-kernel-subprocess==0.2.2
     # via jupyverse
-fps-kernels==0.11.3
+fps-kernels==0.11.4
     # via
     #   jupyqt
     #   jupyverse
@@ -550,7 +549,7 @@ hvpy==1.1.0
     # via sunpy
 hyperframe==6.1.0
     # via h2
-hypothesis==6.155.3
+hypothesis==6.155.6
     # via
     #   pyhc-core
     #   pytest-astropy
@@ -656,7 +655,7 @@ joblib==1.5.3
     #   scikit-learn
 jplephem==2.24
     # via sunpy
-json5==0.14.0
+json5==0.15.0
     # via
     #   fps-lab
     #   jupyterlab-server
@@ -671,6 +670,8 @@ jsonschema-specifications==2025.9.1
     # via jsonschema
 jupyqt==0.5.3
     # via sciqlop
+jupyter-builder==1.0.2
+    # via jupyterlab
 jupyter-client==8.9.1
     # via
     #   ipykernel
@@ -680,6 +681,7 @@ jupyter-client==8.9.1
 jupyter-core==5.9.1
     # via
     #   ipykernel
+    #   jupyter-builder
     #   jupyter-client
     #   jupyter-server
     #   jupyterlab
@@ -699,11 +701,11 @@ jupyter-server==2.20.0
     #   notebook-shim
 jupyter-server-terminals==0.5.4
     # via jupyter-server
-jupyterlab==4.5.9
+jupyterlab==4.6.0
     # via
     #   euvpy
     #   kaipy
-jupyterlab-js==4.5.5
+jupyterlab-js==4.6.0
     # via fps-jupyterlab
 jupyterlab-pygments==0.3.0
     # via nbconvert
@@ -713,9 +715,9 @@ jupyterlab-widgets==3.0.16
     # via
     #   ipywidgets
     #   sciqlop
-jupyverse==0.14.12
+jupyverse==0.14.13
     # via jupyqt
-jupyverse-api==0.15.1
+jupyverse-api==0.15.2
     # via
     #   fps-contents
     #   fps-jupyterlab
@@ -912,7 +914,7 @@ mplcursors==0.7.1
     # via gcmprocpy
 mpmath==1.4.1
     # via plasmapy
-msgpack==1.2.0
+msgpack==1.2.1
     # via blosc2
 msise00==1.11.1
     # via
@@ -1161,6 +1163,7 @@ packaging==26.2
     #   jupyter-server
     #   jupyterlab
     #   jupyterlab-server
+    #   jupyverse-api
     #   lazy-loader
     #   matplotlib
     #   nbconvert
@@ -1307,7 +1310,7 @@ pyaurorax==1.22.0
     # via -r docker/pyhc-environment/contents/packages.txt
 pyavm==0.9.9
     # via reproject
-pycdfpp==0.9.3
+pycdfpp==0.10.0
     # via
     #   -r docker/pyhc-environment/contents/packages.txt
     #   pyistp
@@ -1337,7 +1340,7 @@ pydantic==2.13.4
     #   sscws
 pydantic-core==2.46.4
     # via pydantic
-pydantic-settings==2.14.1
+pydantic-settings==2.14.2
     # via hvpy
 pydarn==4.2
     # via -r docker/pyhc-environment/contents/packages.txt
@@ -1418,7 +1421,7 @@ pysat==3.2.2
     #   pysatspaceweather
 pysatspaceweather==0.0.10
     # via pysat
-pyshp==3.0.12
+pyshp==3.0.13
     # via
     #   asilib
     #   cartopy
@@ -1444,7 +1447,7 @@ pyspedas==2.1.2
     #   -r docker/pyhc-environment/contents/packages.txt
     #   kaipy
     #   pyhc-core
-pytest==9.1.0
+pytest==9.1.1
     # via
     #   euvpy
     #   kaipy
@@ -1548,8 +1551,6 @@ pytplot==1.7.28
     # via -r docker/pyhc-environment/contents/packages.txt
 pytplot-mpl-temp==2.2.79
     # via -r docker/pyhc-environment/contents/packages.txt
-pytz==2026.2
-    # via zeep
 pyucalgarysrs==1.26.2
     # via pyaurorax
 pyvo==1.9.1
@@ -1767,7 +1768,6 @@ sep==1.4.1
     # via regularizepsf
 setuptools==81.0.0
     # via
-    #   jupyterlab
     #   obspy
     #   pyspedas
 shapely==2.1.2
@@ -1971,6 +1971,7 @@ traitlets==5.15.1
     #   ipympl
     #   ipython
     #   ipywidgets
+    #   jupyter-builder
     #   jupyter-client
     #   jupyter-core
     #   jupyter-events
@@ -2030,7 +2031,7 @@ urllib3==2.7.0
     #   requests
     #   savic
     #   speasy
-uv==0.11.21
+uv==0.11.23
     # via sciqlop
 viresclient==0.16.0
     # via -r docker/pyhc-environment/contents/packages.txt
@@ -2103,7 +2104,7 @@ yarl==1.24.2
     # via aiohttp
 zarr==3.2.1
     # via reproject
-zeep==4.3.2
+zeep==4.3.3
     # via
     #   solarmach
     #   solo-epd-loader
