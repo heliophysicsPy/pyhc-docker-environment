@@ -138,6 +138,7 @@ astropy==8.0.0
     #   dkist
     #   fiasco
     #   gwcs
+    #   irispy-lmsal
     #   kaipy
     #   lofarsun
     #   mcalf
@@ -603,10 +604,8 @@ ipywidgets==8.1.8
     #   sunpy
 iri2016==1.11.1
     # via -r docker/pyhc-environment/contents/packages.txt
-irispy-lmsal==0.6.0
-    # via
-    #   -c docker/pyhc-environment/contents/constraints.txt
-    #   -r docker/pyhc-environment/contents/packages.txt
+irispy-lmsal==0.7.0
+    # via -r docker/pyhc-environment/contents/packages.txt
 isodate==0.7.2
     # via
     #   hapiclient
@@ -670,7 +669,7 @@ jsonschema==4.26.0
     #   nbformat
 jsonschema-specifications==2025.9.1
     # via jsonschema
-jupyqt==0.5.3
+jupyqt==0.6.0
     # via sciqlop
 jupyter-builder==1.0.2
     # via jupyterlab
@@ -1423,7 +1422,7 @@ pysat==3.2.2
     #   pysatspaceweather
 pysatspaceweather==0.0.10
     # via pysat
-pyshp==3.1.0
+pyshp==3.1.1
     # via
     #   asilib
     #   cartopy
