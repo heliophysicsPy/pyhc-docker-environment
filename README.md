@@ -49,7 +49,7 @@ docker pull spolson/pyhc-environment:vYYYY.MM.DD
 Package | Version
 ---|---
 aacgmv2 | 2.7.1
-aiapy | 0.12.0
+aiapy | 0.12.1
 apexpy | 2.1.1
 asilib | 0.30.1
 astrometry-azel | 1.3.0
@@ -94,13 +94,13 @@ pyIntensityFeatures | 0.2.0
 pymap3d | 3.2.0
 pyrfu | 2.4.21
 pysat | 3.2.2
-pyspedas | 2.1.2
+pyspedas | 2.1.3
 pytplot | 1.7.28
 pytplot-mpl-temp | 2.2.79
 pyzenodo3 | 1.0.2
 reesaurora | 1.0.5
 regularizepsf | 1.2.0
-sammi-cdf | 1.0.2
+sammi-cdf | 1.1.0
 savic | 1.2.7
 sciencedates | 1.5.0
 SciQLop | 0.12.0
