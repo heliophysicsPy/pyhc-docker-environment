@@ -15,3 +15,8 @@
 
 # Temporary block: Kaipy 1.1.5 exact-pins old SunPy and PySPEDAS versions
 kaipy!=1.1.5
+
+# Temporary block: astrometry-azel is no longer available on PyPI, so it is
+# removed from the PyHC Environment while maintainers clarify whether it will
+# be republished. See https://github.com/space-physics/astrometry_geomap/issues/6
+astrometry-azel<0

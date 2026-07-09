@@ -52,7 +52,6 @@ aacgmv2 | 2.7.1
 aiapy | 0.12.1
 apexpy | 2.1.1
 asilib | 0.30.1
-astrometry-azel | 1.3.0
 ccsdspy | 2.0.0
 cdflib | 1.3.12
 cloudcatalog | 1.2.1
@@ -67,7 +66,7 @@ geopack | 1.0.13
 georinex | 1.16.2
 geospacelab | 0.14.15
 goesutils | 1.0.8
-hapiclient | 0.2.9
+hapiclient | 0.3.1
 hapiplot | 0.2.2
 hissw | 2.3
 igrf | 13.0.2
