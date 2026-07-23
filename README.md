@@ -66,7 +66,7 @@ geopack | 1.0.13
 georinex | 1.16.2
 geospacelab | 0.14.15
 goesutils | 1.0.8
-hapiclient | 0.3.1
+hapiclient | 0.3.2
 hapiplot | 0.2.2
 hissw | 2.3
 igrf | 13.0.2
@@ -84,7 +84,7 @@ nexradutils | 1.0.0
 ocbpy | 0.7.0
 OMMBV | 1.1.0
 plasmapy | 2026.2.0
-pyaurorax | 1.22.0
+pyaurorax | 1.22.1
 pycdfpp | 0.11.0
 pydarn | 4.3
 pyflct | 0.3.1
