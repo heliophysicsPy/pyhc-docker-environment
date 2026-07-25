@@ -43,7 +43,7 @@ alive-progress==3.3.0
     # via kaipy
 annotated-doc==0.0.4
     # via fastapi
-annotated-types==0.7.0
+annotated-types==0.8.0
     # via pydantic
 anycorn==0.18.7
     # via fps
@@ -295,7 +295,7 @@ csaps==1.3.3
     # via euvpy
 cycler==0.12.1
     # via matplotlib
-cython==3.2.8
+cython==3.2.9
     # via geospacelab
 darn-dmap==0.4.0
     # via pydarnio
@@ -359,7 +359,7 @@ executing==2.2.1
     # via stack-data
 expression==5.6.0
     # via sciqlop
-fastapi==0.139.2
+fastapi==0.140.0
     # via
     #   fps
     #   fps-contents
@@ -490,7 +490,7 @@ h11==0.16.0
     #   anycorn
     #   httpcore
     #   wsproto
-h2==4.3.0
+h2==4.4.0
     # via
     #   anycorn
     #   httpx
@@ -553,7 +553,7 @@ hvpy==1.1.0
     # via sunpy
 hyperframe==6.1.0
     # via h2
-hypothesis==6.161.0
+hypothesis==6.161.2
     # via
     #   pyhc-core
     #   pytest-astropy
@@ -828,7 +828,7 @@ lxml==6.1.1
     #   space-packet-parser
     #   sunpy
     #   zeep
-madrigalweb==3.3.7
+madrigalweb==3.3.8
     # via
     #   -r docker/pyhc-environment/contents/packages.txt
     #   geospacelab
@@ -1277,7 +1277,7 @@ progressbar==2.5
     # via kaipy
 progressbar2==4.5.0
     # via pygam
-prometheus-client==0.25.0
+prometheus-client==0.26.0
     # via jupyter-server
 prompt-toolkit==3.0.52
     # via ipython
@@ -1840,7 +1840,7 @@ sphinxcontrib-qthelp==2.0.0
     # via sphinx
 sphinxcontrib-serializinghtml==2.0.0
     # via sphinx
-spiceypy==8.1.2
+spiceypy==8.2.0
     # via
     #   -r docker/pyhc-environment/contents/packages.txt
     #   sunpy
@@ -1941,7 +1941,7 @@ tornado==6.5.7
     #   jupyter-server
     #   jupyterlab
     #   terminado
-tqdm==4.69.0
+tqdm==4.69.1
     # via
     #   dkist
     #   euvpy
@@ -2019,7 +2019,7 @@ urllib3==2.7.0
     #   responses
     #   savic
     #   speasy
-uv==0.11.31
+uv==0.11.32
     # via sciqlop
 viresclient==0.16.0
     # via -r docker/pyhc-environment/contents/packages.txt

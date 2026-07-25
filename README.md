@@ -75,7 +75,7 @@ irispy-lmsal | 0.7.0
 kaipy | 1.1.4
 lofarSun | 0.3.32
 lowtran | 3.1.0
-madrigalWeb | 3.3.7
+madrigalWeb | 3.3.8
 maidenhead | 1.8.0
 mcalf | 1.0.0
 msise00 | 1.11.1
@@ -109,7 +109,7 @@ solo-epd-loader | 0.4.4
 space-packet-parser | 6.1.2
 spacepy | 0.7.0
 speasy | 1.7.1
-spiceypy | 8.1.2
+spiceypy | 8.2.0
 sunkit-image | 0.7.0
 sunkit-instruments | 0.6.2
 sunpy | 8.0.0
