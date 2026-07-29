@@ -41,7 +41,7 @@ alabaster==1.0.0
     # via sphinx
 alive-progress==3.3.0
     # via kaipy
-annotated-doc==0.0.4
+annotated-doc==0.0.5
     # via fastapi
 annotated-types==0.8.0
     # via pydantic
@@ -359,7 +359,7 @@ executing==2.2.1
     # via stack-data
 expression==5.6.0
     # via sciqlop
-fastapi==0.140.7
+fastapi==0.140.13
     # via
     #   fps
     #   fps-contents
@@ -381,7 +381,7 @@ fastjsonschema==2.22.1
     # via nbformat
 ffmpeg-python==0.2.0
     # via asilib
-fiasco==0.8.1
+fiasco==0.8.2
     # via -r docker/pyhc-environment/contents/packages.txt
 flake8==7.3.0
     # via
@@ -438,7 +438,7 @@ frozenlist==1.8.0
     # via
     #   aiohttp
     #   aiosignal
-fsspec==2026.6.0
+fsspec==2026.7.0
     # via
     #   dask
     #   pyspedas
@@ -1132,7 +1132,7 @@ ocbpy==0.7.0
     # via -r docker/pyhc-environment/contents/packages.txt
 ommbv==1.1.0
     # via -r docker/pyhc-environment/contents/packages.txt
-opencv-python==4.11.0.86
+opencv-python==4.14.0.94
     # via
     #   asilib
     #   pyucalgarysrs
@@ -1668,7 +1668,7 @@ rpds-py==2026.6.3
     # via
     #   jsonschema
     #   referencing
-s3fs==2026.6.0
+s3fs==2026.7.0
     # via
     #   fsspec
     #   pyspedas
@@ -2021,7 +2021,7 @@ urllib3==2.7.0
     #   responses
     #   savic
     #   speasy
-uv==0.11.32
+uv==0.12.0
     # via sciqlop
 viresclient==0.16.0
     # via -r docker/pyhc-environment/contents/packages.txt
