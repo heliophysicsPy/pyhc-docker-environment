@@ -15,7 +15,7 @@ pyhc-core[tests]==0.0.8
 hapiclient==0.3.2
 plasmapy==2026.2.0
 pysat==3.2.2
-pyspedas==2.1.3
+pyspedas==2.1.4
 spacepy==0.7.0
 sunpy==8.0.0
 

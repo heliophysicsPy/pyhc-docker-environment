@@ -93,7 +93,7 @@ pyIntensityFeatures | 0.2.0
 pymap3d | 3.2.0
 pyrfu | 2.4.21
 pysat | 3.2.2
-pyspedas | 2.1.3
+pyspedas | 2.1.4
 pytplot | 1.7.28
 pytplot-mpl-temp | 2.2.79
 pyzenodo3 | 1.0.2
