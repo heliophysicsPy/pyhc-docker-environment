@@ -22,6 +22,7 @@ sunpy==8.0.0
 # --- Community Packages ---
 aacgmv2==2.7.1
 aiapy==0.12.1
+amisrsynthdata==1.2.0
 apexpy==2.1.1
 asilib==0.30.1
 # Temporarily removed: astrometry-azel is no longer available on PyPI.
@@ -89,7 +90,6 @@ wmm2015==1.1.1
 wmm2020==1.1.1
 
 # --- Excluded Packages ---
-# amisrsynthdata  # No Python 3.12 support
 # kamodo          # No Python 3.12 support
 # pysatCDF        # pip install broken
 # heliopy         # Deprecated, incompatible with Python 3.12

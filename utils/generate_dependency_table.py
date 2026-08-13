@@ -84,7 +84,6 @@ def generate_requirements_file():
 
 #     TODO:
 #     aidapy has been removed because it depends on heliopy which is incompatible with Python 3.12 and deprecated.
-#     amisrsynthdata has been removed until they add support for Python 3.12.
 #     heliopy has been removed due to incompatibility with Python 3.12 (it was originally hardcoded to 0.15.4 because 1.0.0 is deprecated)
 #     pysatCDF has been removed due to installation failures.
 #     """
