@@ -28,7 +28,7 @@ asilib==0.30.1
 # Temporarily removed: astrometry-azel is no longer available on PyPI.
 # See https://github.com/space-physics/astrometry_geomap/issues/6
 # astrometry-azel==1.3.0
-ccsdspy==2.0.0
+ccsdspy==2.0.1
 cdflib==1.3.12
 cloudcatalog==1.2.1
 dascutils==2.3.0

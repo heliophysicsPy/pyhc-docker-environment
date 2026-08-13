@@ -50,9 +50,10 @@ Package | Version
 ---|---
 aacgmv2 | 2.7.1
 aiapy | 0.12.1
+amisrsynthdata | 1.2.0
 apexpy | 2.1.1
 asilib | 0.30.1
-ccsdspy | 2.0.0
+ccsdspy | 2.0.1
 cdflib | 1.3.12
 cloudcatalog | 1.2.1
 dascutils | 2.3.0

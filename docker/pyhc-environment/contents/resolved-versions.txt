@@ -41,6 +41,8 @@ alabaster==1.0.0
     # via sphinx
 alive-progress==3.3.0
     # via kaipy
+amisrsynthdata==1.2.0
+    # via -r docker/pyhc-environment/contents/packages.txt
 annotated-doc==0.0.5
     # via fastapi
 annotated-types==0.8.0
@@ -75,7 +77,9 @@ anyioutils==0.7.4
     #   jupyverse-contents
     #   zmq-anyio
 apexpy==2.1.1
-    # via -r docker/pyhc-environment/contents/packages.txt
+    # via
+    #   -r docker/pyhc-environment/contents/packages.txt
+    #   amisrsynthdata
 appdirs==1.4.4
     # via
     #   ccsdspy
@@ -217,7 +221,7 @@ cartopy==0.25.0
     #   kaipy
     #   pyaurorax
     #   pydarn
-ccsdspy==2.0.0
+ccsdspy==2.0.1
     # via -r docker/pyhc-environment/contents/packages.txt
 cdasws==1.8.18
     # via
@@ -251,7 +255,7 @@ cffi==2.1.1
     #   pynacl
 cftime==1.6.5
     # via netcdf4
-charset-normalizer==3.4.9
+charset-normalizer==3.5.0
     # via requests
 click==8.4.2
     # via
@@ -499,6 +503,7 @@ h5netcdf==1.8.1
     #   sunpy
 h5py==3.16.0
     # via
+    #   amisrsynthdata
     #   asilib
     #   dascutils
     #   fiasco
@@ -552,7 +557,7 @@ hvpy==1.1.0
     # via sunpy
 hyperframe==6.1.0
     # via h2
-hypothesis==6.165.3
+hypothesis==6.165.5
     # via
     #   pyhc-core
     #   pytest-astropy
@@ -1003,6 +1008,7 @@ numpy==2.3.5
     # via
     #   aacgmv2
     #   aiapy
+    #   amisrsynthdata
     #   apexpy
     #   asdf
     #   asdf-astropy
@@ -1374,6 +1380,7 @@ pyjwt==2.13.0
 pymap3d==3.2.0
     # via
     #   -r docker/pyhc-environment/contents/packages.txt
+    #   amisrsynthdata
     #   asilib
     #   dascutils
 pynacl==1.6.2
@@ -1555,6 +1562,7 @@ pywavelets==1.9.0
     # via pyspedas
 pyyaml==6.0.3
     # via
+    #   amisrsynthdata
     #   asdf
     #   astropy
     #   bokeh
@@ -1998,7 +2006,7 @@ typing-extensions==4.16.0
     #   starlette
     #   typing-inspection
     #   zarr
-typing-inspection==0.4.3
+typing-inspection==0.4.4
     # via
     #   fastapi
     #   pydantic
