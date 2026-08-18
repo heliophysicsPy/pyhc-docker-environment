@@ -182,7 +182,7 @@ babel==2.18.0
     #   fps-lab
     #   jupyterlab-server
     #   sphinx
-backports-zstd==1.6.0
+backports-zstd==1.7.0
     # via pyzstd
 beautifulsoup4==4.15.0
     # via
@@ -192,7 +192,7 @@ beautifulsoup4==4.15.0
     #   nbconvert
     #   pyzenodo3
     #   sunpy
-bitstruct==8.22.1
+bitstruct==8.22.2
     # via ccsdspy
 bleach==6.4.0
     # via nbconvert
@@ -255,7 +255,7 @@ cffi==2.1.1
     #   pynacl
 cftime==1.6.5
     # via netcdf4
-charset-normalizer==3.5.0
+charset-normalizer==3.5.1
     # via requests
 click==8.4.2
     # via
@@ -359,7 +359,7 @@ execnet==2.1.2
     # via pytest-xdist
 executing==2.2.1
     # via stack-data
-expression==5.6.0
+expression==5.7.0
     # via sciqlop
 fastapi==0.141.1
     # via
@@ -379,7 +379,7 @@ fastapi==0.141.1
     #   jupyverse-nbconvert
     #   jupyverse-terminals
     #   jupyverse-yjs
-fastjsonschema==2.22.1
+fastjsonschema==2.22.2
     # via nbformat
 ffmpeg-python==0.2.0
     # via asilib
@@ -557,11 +557,11 @@ hvpy==1.1.0
     # via sunpy
 hyperframe==6.1.0
     # via h2
-hypothesis==6.165.9
+hypothesis==6.165.10
     # via
     #   pyhc-core
     #   pytest-astropy
-idna==3.18
+idna==3.19
     # via
     #   anyio
     #   email-validator
@@ -956,7 +956,7 @@ nbconvert==7.17.1
     # via
     #   fps-nbconvert
     #   jupyter-server
-nbformat==5.11.0
+nbformat==5.11.1
     # via
     #   jupyter-server
     #   nbclient
@@ -1358,7 +1358,7 @@ pygam==0.8.0
     # via euvpy
 pygithub==2.9.1
     # via sciqlop
-pygments==2.20.0
+pygments==2.21.0
     # via
     #   ipython
     #   ipython-pygments-lexers
@@ -1501,7 +1501,7 @@ pytest-regressions==2.11.0
     # via pyhc-core
 pytest-remotedata==0.4.2
     # via pytest-astropy
-pytest-rerunfailures==16.5
+pytest-rerunfailures==16.6
     # via pyhc-core
 pytest-run-parallel==0.10.0
     # via sunpy
@@ -1544,9 +1544,9 @@ python-dateutil==2.9.0.post0
     #   sscws
     #   sunpy
     #   themisasi
-python-dotenv==1.2.2
+python-dotenv==1.2.3
     # via pydantic-settings
-python-json-logger==4.1.0
+python-json-logger==4.2.0
     # via jupyter-events
 python-utils==4.0.0
     # via progressbar2
@@ -1554,7 +1554,7 @@ pytplot==1.7.28
     # via -r docker/pyhc-environment/contents/packages.txt
 pytplot-mpl-temp==2.2.79
     # via -r docker/pyhc-environment/contents/packages.txt
-pyucalgarysrs==1.26.3
+pyucalgarysrs==1.26.4
     # via pyaurorax
 pyvo==1.9.1
     # via astroquery
@@ -1801,7 +1801,7 @@ snowballstemmer==3.1.1
     # via
     #   pydocstyle
     #   sphinx
-solarmach==0.5.3
+solarmach==0.5.4
     # via -r docker/pyhc-environment/contents/packages.txt
 solo-epd-loader==0.4.4
     # via -r docker/pyhc-environment/contents/packages.txt
@@ -1858,7 +1858,7 @@ sqlalchemy==2.0.52
     # via
     #   dbprocessing
     #   obspy
-sscws==2.5.0
+sscws==2.5.1
     # via geospacelab
 stack-data==0.6.3
     # via ipython
@@ -1927,7 +1927,7 @@ threadpoolctl==3.6.0
     #   blosc2
     #   scikit-learn
     #   solarmach
-tifffile==2026.7.31
+tifffile==2026.8.16
     # via
     #   dask-image
     #   pims
@@ -2039,7 +2039,7 @@ wcwidth==0.8.2
     # via prompt-toolkit
 webcolors==25.10.0
     # via jsonschema
-webencodings==0.5.1
+webencodings==0.6.1
     # via
     #   bleach
     #   html5lib
@@ -2093,7 +2093,7 @@ xarray==2026.7.0
     #   viresclient
     #   wmm2015
     #   wmm2020
-xgboost==3.4.0
+xgboost==3.4.1
     # via savic
 xyzservices==2026.3.0
     # via bokeh

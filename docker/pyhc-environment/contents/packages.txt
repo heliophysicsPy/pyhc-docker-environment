@@ -75,7 +75,7 @@ savic==1.2.7
 sciencedates==1.5.0
 SciQLop==0.12.2
 SkyWinder==0.0.3
-solarmach==0.5.3
+solarmach==0.5.4
 solo-epd-loader==0.4.4
 space-packet-parser==6.1.2
 speasy==1.7.1
