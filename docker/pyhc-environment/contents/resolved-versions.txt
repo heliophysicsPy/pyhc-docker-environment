@@ -86,7 +86,7 @@ appdirs==1.4.4
     #   speasy
 argon2-cffi==25.1.0
     # via jupyter-server
-argon2-cffi-bindings==25.1.0
+argon2-cffi-bindings==26.1.0
     # via argon2-cffi
 arrow==1.4.0
     # via isoduration
@@ -127,7 +127,7 @@ asdf-wcs-schemas==0.5.0
     #   gwcs
 asilib==0.30.1
     # via -r docker/pyhc-environment/contents/packages.txt
-asteval==1.0.9
+asteval==1.0.10
     # via lmfit
 astropy==8.0.1
     # via
@@ -161,7 +161,7 @@ astropy==8.0.1
     #   swxsoc
 astropy-healpix==2.0.1
     # via reproject
-astropy-iers-data==0.2026.8.10.0.32.39
+astropy-iers-data==0.2026.8.18.14.22.31
     # via astropy
 astroquery==0.4.11
     # via speasy
@@ -192,13 +192,13 @@ beautifulsoup4==4.15.0
     #   nbconvert
     #   pyzenodo3
     #   sunpy
-bitstruct==8.22.2
+bitstruct==8.23.0
     # via ccsdspy
 bleach==6.4.0
     # via nbconvert
 blosc2==4.11.0
     # via tables
-bokeh==3.9.2
+bokeh==3.10.0
     # via pytplot
 boto3==1.40.61
     # via
@@ -284,7 +284,6 @@ configparser==7.2.0
     # via kaipy
 contourpy==1.3.3
     # via
-    #   bokeh
     #   matplotlib
     #   sunpy
 coverage==7.15.4
@@ -298,7 +297,7 @@ csaps==1.3.3
     # via euvpy
 cycler==0.12.1
     # via matplotlib
-cython==3.2.9
+cython==3.3.0
     # via geospacelab
 darn-dmap==0.4.0
     # via pydarnio
@@ -331,7 +330,7 @@ dill==0.4.1
     #   pathos
 diskcache==5.6.3
     # via speasy
-dkist==1.17.0
+dkist==1.18.1
     # via irispy-lmsal
 dmsp==0.6.0
     # via -r docker/pyhc-environment/contents/packages.txt
@@ -602,7 +601,7 @@ ipython-pygments-lexers==1.1.1
     # via
     #   ipython
     #   qtconsole
-ipywidgets==8.1.8
+ipywidgets==8.1.9
     # via
     #   ipympl
     #   sciqlop
@@ -717,7 +716,7 @@ jupyterlab-pygments==0.3.0
     # via nbconvert
 jupyterlab-server==2.28.0
     # via jupyterlab
-jupyterlab-widgets==3.0.16
+jupyterlab-widgets==3.0.17
     # via
     #   ipywidgets
     #   sciqlop
@@ -823,7 +822,7 @@ loguru==0.7.3
     #   mt-timeseries
 lowtran==3.1.0
     # via -r docker/pyhc-environment/contents/packages.txt
-lxml==6.1.1
+lxml==6.1.2
     # via
     #   glymur
     #   obspy
@@ -923,7 +922,7 @@ msise00==1.11.1
     #   reesaurora
 mt-io==0.0.4
     # via mth5
-mt-metadata==1.0.9
+mt-metadata==1.0.10
     # via
     #   mt-io
     #   mt-timeseries
@@ -943,7 +942,7 @@ multiprocess==0.70.19
     # via pathos
 myst-parser==5.1.0
     # via euvpy
-narwhals==2.24.0
+narwhals==2.25.0
     # via
     #   bokeh
     #   plotly
@@ -1270,7 +1269,7 @@ pluggy==1.6.0
     # via
     #   pytest
     #   pytest-cov
-portalocker==4.1.0
+portalocker==4.2.0
     # via pysat
 pox==0.3.7
     # via pathos
@@ -1304,7 +1303,7 @@ pure-eval==0.2.3
     # via stack-data
 py-cpuinfo==9.0.0
     # via tables
-pyaurorax==1.22.1
+pyaurorax==1.22.2
     # via -r docker/pyhc-environment/contents/packages.txt
 pyavm==0.9.9
     # via reproject
@@ -1317,7 +1316,7 @@ pycodestyle==2.14.0
     # via flake8
 pycparser==3.0
     # via cffi
-pycrdt==0.14.2
+pycrdt==0.14.3
     # via
     #   fps-kernels
     #   jupyverse-yjs
@@ -1356,7 +1355,7 @@ pyflct==0.3.1
     # via -r docker/pyhc-environment/contents/packages.txt
 pygam==0.8.0
     # via euvpy
-pygithub==2.9.1
+pygithub==2.10.0
     # via sciqlop
 pygments==2.21.0
     # via
@@ -1583,7 +1582,7 @@ pyyaml==6.0.3
     #   swxsoc
 pyzenodo3==1.0.2
     # via -r docker/pyhc-environment/contents/packages.txt
-pyzmq==27.1.0
+pyzmq==27.2.0
     # via
     #   fps-kernel-subprocess
     #   ipykernel
@@ -1707,7 +1706,7 @@ scikit-learn==1.9.0
     #   euvpy
     #   mcalf
     #   savic
-scipy==1.18.0
+scipy==1.18.1
     # via
     #   asilib
     #   csaps
@@ -2050,7 +2049,7 @@ wget==3.2
     # via savic
 wheel==0.48.0
     # via asilib
-widgetsnbextension==4.0.15
+widgetsnbextension==4.0.16
     # via ipywidgets
 wmm2015==1.1.1
     # via -r docker/pyhc-environment/contents/packages.txt
