@@ -1,5 +1,7 @@
+# syntax=docker/dockerfile:1
+
 # Use an official Anaconda runtime as a parent image
-FROM continuumio/miniconda3
+FROM continuumio/miniconda3 AS base
 
 # Set the working directory in the container to /app
 WORKDIR /app
@@ -22,13 +24,17 @@ RUN mv /app/cdf38_0-dist /usr/lib/ && \
 ENV CDF_BASE=/usr/lib/cdf38_0-dist
 ENV CDF_LIB=$CDF_BASE/lib
 
+# Add environment's bin directory to PATH for global access to commands
+ENV PATH=/opt/conda/envs/pyhc-all/bin:$PATH
+
+# Build the conda environment in a disposable stage so installation layers and
+# caches are not retained in the runtime image.
+FROM base AS builder
+
 # Create the conda environment using environment.yml and activate it, then cleanup
 RUN conda env create -f /app/environment.yml && \
     echo ". /opt/conda/etc/profile.d/conda.sh && conda activate pyhc-all" > /etc/profile.d/init_conda.sh && \
     conda clean -afy
-
-# Add environment's bin directory to PATH for global access to commands
-ENV PATH /opt/conda/envs/pyhc-all/bin:$PATH
 
 # Install uv for faster dependency resolution
 RUN pip install uv
@@ -37,6 +43,21 @@ RUN pip install uv
 # packages.txt contains PyHC package names with version pins
 # constraints.txt blocks known-broken versions
 RUN uv pip install --system -c /app/constraints.txt -r /app/packages.txt
+
+# Pre-build the wmm2015, wmm2020, and savic packages using Bash shell
+RUN /bin/bash -c "source activate pyhc-all && \
+    python -c 'import wmm2015' && \
+    python -c 'import wmm2020' && \
+    python -c 'import savic'"
+
+# Start the runtime stage from the clean base, then copy the completed conda
+# installation with its final Binder-compatible ownership and permissions.
+FROM base AS runtime
+
+RUN rm -rf /opt/conda
+
+COPY --from=builder --chown=jovyan:users --chmod=u+w /opt/conda/ /opt/conda/
+COPY --from=builder /etc/profile.d/init_conda.sh /etc/profile.d/init_conda.sh
 
 # Cleanup environment.yml and pipeline input files after their use
 RUN rm /app/environment.yml /app/packages.txt /app/constraints.txt /app/resolved-versions.txt
@@ -58,16 +79,6 @@ RUN cp /app/start /opt/pyhc/start && \
 
 # Clean up /home/jovyan since files will be symlinked from /opt
 RUN rm -rf /home/jovyan/*
-
-# Change ownership of the entire conda directory to allow package installation/modification (note: this recursive permission setting can take a long time... ~2 mins in GitHub Actions) 
-RUN chown -R jovyan:users /opt/conda && \
-    chmod -R u+w /opt/conda
-
-# Pre-build the wmm2015, wmm2020, and savic packages using Bash shell
-RUN /bin/bash -c "source activate pyhc-all && \
-    python -c 'import wmm2015' && \
-    python -c 'import wmm2020' && \
-    python -c 'import savic'"
 
 # Set the working directory to jovyan's home for Binder compatibility
 WORKDIR /home/jovyan
