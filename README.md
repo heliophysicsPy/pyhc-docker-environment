@@ -90,7 +90,7 @@ pyaurorax | 1.22.2
 pycdfpp | 0.11.0
 pydarn | 4.3
 pyflct | 0.3.1
-pyhc-core[tests] | 0.0.8
+pyhc-core[tests] | 0.0.9
 pyIntensityFeatures | 0.2.0
 pymap3d | 3.2.0
 pyrfu | 2.4.21

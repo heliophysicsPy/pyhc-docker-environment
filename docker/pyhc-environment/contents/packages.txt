@@ -11,7 +11,7 @@
 # ============================================
 
 # --- Core Packages ---
-pyhc-core[tests]==0.0.8
+pyhc-core[tests]==0.0.9
 hapiclient==0.3.3
 kamodo-ccmc==26.8.7
 plasmapy==2026.2.0
