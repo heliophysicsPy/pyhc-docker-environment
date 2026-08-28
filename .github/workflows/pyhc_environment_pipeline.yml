@@ -150,6 +150,7 @@ jobs:
           rm /opt/conda/.pyhc-write-test && \
           python -m pip check && \
           python -c "import wmm2015, wmm2020, savic" && \
+          mkdir -p /home/jovyan/Geospacelab/Data && \
           python -c "from pathlib import Path; path = Path.home() / \".geospacelab\" / \"config.toml\"; path.parent.mkdir(parents=True, exist_ok=True); path.write_text(\"[datahub]\\ndata_root_dir = \\\"/home/jovyan/Geospacelab/Data\\\"\\n\")" && \
           python -c "import nbformat; from nbclient import NotebookClient; notebook = nbformat.read(\"/opt/pyhc/import-test.ipynb\", as_version=4); NotebookClient(notebook, timeout=1800, allow_errors=False).execute(); print(\"Full import notebook passed\")"'
 
