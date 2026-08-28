@@ -1,4 +1,5 @@
-# syntax=docker/dockerfile:1
+# syntax=docker/dockerfile:1.19.0
+# Dockerfile 1.14+ is required for symbolic COPY --chmod, which preserves existing execute bits.
 
 # Use an official Anaconda runtime as a parent image
 FROM continuumio/miniconda3 AS base
