@@ -13,6 +13,7 @@
 # --- Core Packages ---
 pyhc-core[tests]==0.0.8
 hapiclient==0.3.3
+kamodo-ccmc==26.8.7
 plasmapy==2026.2.0
 pysat==3.2.2
 pyspedas==2.1.4
@@ -90,7 +91,6 @@ wmm2015==1.1.1
 wmm2020==1.1.1
 
 # --- Excluded Packages ---
-# kamodo          # No Python 3.12 support
 # pysatCDF        # pip install broken
 # heliopy         # Deprecated, incompatible with Python 3.12
 # aidapy          # Depends on heliopy which is deprecated

@@ -66,8 +66,6 @@ def generate_requirements_file():
 #     TODO: consider scraping this from projects_core.yml online?
 #     :return: A list of the core PyHC package names.
 
-#     TODO:
-#     kamodo has been removed until it supports Python>=3.12
 #     """
 #     return ["hapiclient", "plasmapy", "pysat", "pyspedas", "spacepy", "sunpy", "pyhc-core[tests]"]
 
