@@ -136,7 +136,22 @@ jobs:
 
     - name: Build Docker Image Without Publishing
       if: github.event_name == 'workflow_dispatch' && github.event.inputs.docker_tag_suffix == '-validation-only'
-      run: docker build -t pyhc-environment:validation ./docker/pyhc-environment
+      run: |
+        docker build -t pyhc-environment:validation ./docker/pyhc-environment
+        docker image inspect pyhc-environment:validation --format 'image_size_bytes={{.Size}}'
+        docker history pyhc-environment:validation --format '{{.Size}}\t{{.CreatedBy}}'
+        docker run --rm --user root --entrypoint bash pyhc-environment:validation -lc \
+          'test ! -e /root/.cache/uv'
+        docker run --rm -e HOME=/home/jovyan --entrypoint bash pyhc-environment:validation -lc \
+          'test -w /opt/conda && \
+          test -z "$(find /opt/conda ! -user jovyan -print -quit)" && \
+          test -z "$(find /opt/conda ! -perm -u=w -print -quit)" && \
+          touch /opt/conda/.pyhc-write-test && \
+          rm /opt/conda/.pyhc-write-test && \
+          python -m pip check && \
+          python -c "import wmm2015, wmm2020, savic" && \
+          python -c "from pathlib import Path; path = Path.home() / \".geospacelab\" / \"config.toml\"; path.parent.mkdir(parents=True, exist_ok=True); path.write_text(\"[datahub]\\ndata_root_dir = \\\"/home/jovyan/Geospacelab/Data\\\"\\n\")" && \
+          python -c "import nbformat; from nbclient import NotebookClient; notebook = nbformat.read(\"/opt/pyhc/import-test.ipynb\", as_version=4); NotebookClient(notebook, timeout=1800, allow_errors=False).execute(); print(\"Full import notebook passed\")"'
 
     # ============================================
     # Docker Build and Push
