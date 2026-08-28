@@ -134,11 +134,15 @@ jobs:
         fi
         exit 1
 
+    - name: Build Docker Image Without Publishing
+      if: github.event_name == 'workflow_dispatch' && github.event.inputs.docker_tag_suffix == '-validation-only'
+      run: docker build -t pyhc-environment:validation ./docker/pyhc-environment
+
     # ============================================
     # Docker Build and Push
     # ============================================
     - name: Build and Push Docker Images
-      if: github.event.inputs.skip_checks == 'true' || ((steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && steps.compile.outcome == 'success')
+      if: github.event.inputs.docker_tag_suffix != '-validation-only' && (github.event.inputs.skip_checks == 'true' || ((steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && steps.compile.outcome == 'success'))
       id: build_and_push
       run: python utils/docker_operations.py ./docker ${{ secrets.DOCKER_HUB_USERNAME }} ${{ secrets.DOCKER_HUB_TOKEN }} "${{ github.event.inputs.docker_tag_suffix || '' }}"
 
@@ -147,7 +151,7 @@ jobs:
       run: python pipeline.py --post-build
 
     - name: Update README Table
-      if: github.event.inputs.skip_checks == 'true' || ((steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && steps.compile.outcome == 'success')
+      if: github.event.inputs.docker_tag_suffix != '-validation-only' && (github.event.inputs.skip_checks == 'true' || ((steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && steps.compile.outcome == 'success'))
       run: python utils/update_readme.py
 
     # ============================================
@@ -155,7 +159,7 @@ jobs:
     # ============================================
     - name: Commit and Push Repo Changes
       id: commit_repo_changes
-      if: github.event.inputs.skip_checks == 'true' || ((steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && steps.compile.outcome == 'success')
+      if: github.event.inputs.docker_tag_suffix != '-validation-only' && (github.event.inputs.skip_checks == 'true' || ((steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && steps.compile.outcome == 'success'))
       run: |
         set -euo pipefail
         git config --global user.name 'github-actions[bot]'
@@ -265,7 +269,7 @@ jobs:
     # Trigger Binder Rebuild
     # ============================================
     - name: Update science-platforms-coordination to Trigger Binder Rebuild
-      if: github.event.inputs.skip_checks == 'true' || ((steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && steps.compile.outcome == 'success')
+      if: github.event.inputs.docker_tag_suffix != '-validation-only' && (github.event.inputs.skip_checks == 'true' || ((steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && steps.compile.outcome == 'success'))
       run: |
         # Clone the target repo using a PAT with push permissions
         git clone https://${{ secrets.SCIENCE_PLATFORMS_PAT }}@github.com/heliophysicsPy/science-platforms-coordination.git coordination_repo
@@ -290,7 +294,7 @@ jobs:
     # Notifications
     # ============================================
     - name: Notify on Successful Push
-      if: github.event.inputs.skip_checks == 'true' || ((steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && steps.compile.outcome == 'success')
+      if: github.event.inputs.docker_tag_suffix != '-validation-only' && (github.event.inputs.skip_checks == 'true' || ((steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && steps.compile.outcome == 'success'))
       uses: peter-evans/create-or-update-comment@v4
       with:
         issue-number: 2
