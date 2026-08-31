@@ -69,6 +69,7 @@ geospacelab | 0.14.15
 goesutils | 1.0.8
 hapiclient | 0.3.3
 hapiplot | 0.2.2
+helioai-agent | 0.2.1
 hissw | 2.3
 igrf | 13.0.2
 iri2016 | 1.11.1
@@ -110,7 +111,7 @@ solarmach | 0.5.4
 solo-epd-loader | 0.4.4
 space-packet-parser | 6.1.2
 spacepy | 0.7.0
-speasy | 1.7.1
+speasy | 1.8.0
 spiceypy | 8.2.0
 sunkit-image | 0.7.0
 sunkit-instruments | 0.6.2
