@@ -58,7 +58,7 @@ antlr4-python3-runtime==4.11.1
     # via kamodo-core-official
 anycorn==0.20.0
     # via fps
-anyio==4.14.2
+anyio==4.15.0
     # via
     #   anycorn
     #   anyioutils
@@ -216,7 +216,7 @@ bleach==6.4.0
     # via nbconvert
 blinker==1.9.0
     # via flask
-blosc2==4.11.0
+blosc2==4.12.0
     # via tables
 bokeh==3.10.0
     # via pytplot
@@ -332,7 +332,7 @@ csaps==1.3.3
     # via euvpy
 cuda-bindings==13.3.1
     # via torch
-cuda-pathfinder==1.8.0
+cuda-pathfinder==1.8.1
     # via cuda-bindings
 cuda-toolkit==13.0.3.0
     # via torch
@@ -544,7 +544,7 @@ google-auth==2.57.0
     # via google-genai
 google-crc32c==1.8.0
     # via zarr
-google-genai==2.20.0
+google-genai==2.22.0
     # via helioai-agent
 googleapis-common-protos==1.75.2
     # via opentelemetry-exporter-otlp-proto-grpc
@@ -644,7 +644,7 @@ httpx-sse==0.4.3
     # via mcp
 httpx2==2.12.0
     # via openai
-huggingface-hub==1.29.0
+huggingface-hub==1.30.0
     # via
     #   sentence-transformers
     #   tokenizers
@@ -696,7 +696,7 @@ ipykernel==7.3.0
     #   qtconsole
 ipympl==0.10.0
     # via gcmprocpy
-ipython==9.17.0
+ipython==9.17.1
     # via
     #   gcmprocpy
     #   helioai-agent
@@ -910,7 +910,7 @@ kaipy==1.1.4
     # via
     #   -c docker/pyhc-environment/contents/constraints.txt
     #   -r docker/pyhc-environment/contents/packages.txt
-kaleido==1.3.0
+kaleido==1.4.0
     # via kamodo-core-official
 kamodo-ccmc==26.8.7
     # via
@@ -953,7 +953,7 @@ loguru==0.7.3
     #   mt-timeseries
 lowtran==3.1.0
     # via -r docker/pyhc-environment/contents/packages.txt
-lxml==6.1.2
+lxml==6.1.3
     # via
     #   glymur
     #   obspy
@@ -1298,7 +1298,7 @@ nvidia-cuda-nvrtc==13.0.88
     #   nvidia-cublas
 nvidia-cuda-runtime==13.0.96
     # via cuda-toolkit
-nvidia-cudnn-cu13==9.20.0.48
+nvidia-cudnn-cu13==9.24.0.43
     # via torch
 nvidia-cufft==12.0.0.61
     # via cuda-toolkit
@@ -1314,7 +1314,7 @@ nvidia-cusparse==12.6.3.3
     #   nvidia-cusolver
 nvidia-cusparselt-cu13==0.8.1
     # via torch
-nvidia-nccl-cu13==2.29.7
+nvidia-nccl-cu13==2.30.7
     # via
     #   torch
     #   xgboost
@@ -1338,7 +1338,7 @@ ommbv==1.1.0
     # via -r docker/pyhc-environment/contents/packages.txt
 onnxruntime==1.29.0
     # via chromadb
-openai==3.6.0
+openai==3.7.0
     # via helioai-agent
 opencv-python==4.14.0.94
     # via
@@ -1495,7 +1495,7 @@ plasmapy==2026.2.0
     #   fiasco
     #   helioai-agent
     #   pyhc-core
-platformdirs==4.11.5
+platformdirs==4.11.7
     # via
     #   choreographer
     #   dkist
@@ -1531,7 +1531,7 @@ propcache==0.5.2
     # via
     #   aiohttp
     #   yarl
-protobuf==7.36.0
+protobuf==7.36.1
     # via
     #   googleapis-common-protos
     #   onnxruntime
@@ -1684,7 +1684,7 @@ pysat==3.2.2
     #   pysatspaceweather
 pysatspaceweather==0.0.10
     # via pysat
-pysciqlop-cache==0.1.8
+pysciqlop-cache==0.1.11
     # via speasy
 pyshp==3.1.6
     # via
@@ -1770,7 +1770,7 @@ pytest-regressions==2.11.0
     # via pyhc-core
 pytest-remotedata==0.4.2
     # via pytest-astropy
-pytest-rerunfailures==16.6
+pytest-rerunfailures==16.6.1
     # via pyhc-core
 pytest-run-parallel==0.10.0
     # via sunpy
@@ -1897,7 +1897,7 @@ referencing==0.37.0
     #   jsonschema
     #   jsonschema-specifications
     #   jupyter-events
-regex==2026.8.31
+regex==2026.9.3
     # via transformers
 regularizepsf==1.2.1
     # via -r docker/pyhc-environment/contents/packages.txt
@@ -2145,7 +2145,7 @@ spacepy==0.7.0
     #   pyhc-core
     #   pyspedas
     #   swxsoc
-speasy==1.8.0
+speasy==1.8.1
     # via
     #   -r docker/pyhc-environment/contents/packages.txt
     #   helioai-agent
@@ -2188,7 +2188,7 @@ sqlalchemy==2.0.52
     #   obspy
 sscws==2.5.1
     # via geospacelab
-sse-starlette==3.4.8
+sse-starlette==3.4.10
     # via mcp
 stack-data==0.6.3
     # via ipython
@@ -2275,7 +2275,7 @@ tifffile==2026.8.23
     #   scikit-image
 tinycss2==1.5.1
     # via bleach
-tokenizers==0.23.1
+tokenizers==0.23.2
     # via
     #   chromadb
     #   sentence-transformers
@@ -2289,7 +2289,7 @@ toolz==1.1.0
     #   dask
     #   partd
     #   pysat
-torch==2.13.0
+torch==2.14.0
     # via sentence-transformers
 tornado==6.5.8
     # via
@@ -2336,7 +2336,7 @@ traitlets==5.16.1
     #   qtconsole
 transformers==5.16.1
     # via sentence-transformers
-triton==3.7.1
+triton==3.8.0
     # via torch
 truststore==0.10.4
     # via
@@ -2408,7 +2408,7 @@ urllib3==2.7.0
     #   responses
     #   savic
     #   speasy
-uv==0.12.7
+uv==0.12.9
     # via sciqlop
 uvicorn==0.52.4
     # via
