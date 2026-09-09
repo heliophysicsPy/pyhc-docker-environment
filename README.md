@@ -75,7 +75,7 @@ igrf | 13.0.2
 iri2016 | 1.11.1
 irispy-lmsal | 0.8.1
 kaipy | 1.1.4
-kamodo-ccmc | 26.8.7
+kamodo-ccmc | 26.9.1
 lofarSun | 0.3.32
 lowtran | 3.1.0
 madrigalWeb | 3.3.8
@@ -87,7 +87,7 @@ nexradutils | 1.0.0
 ocbpy | 0.7.0
 OMMBV | 1.1.0
 plasmapy | 2026.2.0
-pyaurorax | 1.22.2
+pyaurorax | 1.23.0
 pycdfpp | 0.11.0
 pydarn | 4.3
 pyflct | 0.3.1
