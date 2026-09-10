@@ -232,7 +232,7 @@ botocore==1.40.61
     #   boto3
     #   pyrfu
     #   s3transfer
-build==1.6.0
+build==1.6.1
     # via chromadb
 cachebox==5.2.3
     # via deepdiff
@@ -328,7 +328,7 @@ cryptography==50.0.1
     #   secretstorage
 csaps==1.3.3
     # via euvpy
-cuda-bindings==13.3.1
+cuda-bindings==13.4.1
     # via torch
 cuda-pathfinder==1.8.1
     # via cuda-bindings
@@ -338,7 +338,7 @@ cycler==0.12.1
     # via matplotlib
 cython==3.3.0
     # via geospacelab
-darn-dmap==0.4.0
+darn-dmap==0.8.2
     # via pydarnio
 dascutils==2.3.0
     # via -r docker/pyhc-environment/contents/packages.txt
@@ -538,7 +538,7 @@ glymur==0.14.8
     # via sunpy
 goesutils==1.0.8
     # via -r docker/pyhc-environment/contents/packages.txt
-google-auth==2.57.1
+google-auth==2.58.0
     # via google-genai
 google-crc32c==1.8.0
     # via zarr
@@ -642,7 +642,7 @@ httpx-sse==0.4.3
     # via mcp
 httpx2==2.12.0
     # via openai
-huggingface-hub==1.30.0
+huggingface-hub==1.31.0
     # via
     #   sentence-transformers
     #   tokenizers
@@ -1071,7 +1071,7 @@ mt-timeseries==0.0.2
     #   mth5
 mth5==0.6.8
     # via pyhc-core
-multidict==6.7.1
+multidict==6.8.0
     # via
     #   aiobotocore
     #   aiohttp
@@ -1316,7 +1316,7 @@ nvidia-nccl-cu13==2.30.7
     # via
     #   torch
     #   xgboost
-nvidia-nvjitlink==13.3.33
+nvidia-nvjitlink==13.4.52
     # via
     #   cuda-toolkit
     #   nvidia-cufft
@@ -1336,7 +1336,7 @@ ommbv==1.1.0
     # via -r docker/pyhc-environment/contents/packages.txt
 onnxruntime==1.29.0
     # via chromadb
-openai==3.10.0
+openai==3.11.0
     # via helioai-agent
 opencv-python==4.14.0.94
     # via
@@ -1553,7 +1553,7 @@ pyasn1==0.6.4
     # via pyasn1-modules
 pyasn1-modules==0.4.2
     # via google-auth
-pyaurorax==1.23.0
+pyaurorax==1.24.0
     # via -r docker/pyhc-environment/contents/packages.txt
 pyavm==0.9.9
     # via reproject
@@ -1600,7 +1600,7 @@ pydantic-settings==2.15.0
     #   mcp
 pydarn==4.3
     # via -r docker/pyhc-environment/contents/packages.txt
-pydarnio==2.0.0
+pydarnio==2.1
     # via pydarn
 pydocstyle==6.3.0
     # via flake8-docstrings
@@ -1682,7 +1682,7 @@ pysat==3.2.2
     #   pysatspaceweather
 pysatspaceweather==0.0.10
     # via pysat
-pysciqlop-cache==0.1.11
+pysciqlop-cache==0.1.12
     # via speasy
 pyshp==3.1.6
     # via
@@ -1895,7 +1895,7 @@ referencing==0.37.0
     #   jsonschema
     #   jsonschema-specifications
     #   jupyter-events
-regex==2026.9.3
+regex==2026.9.10
     # via transformers
 regularizepsf==1.2.1
     # via -r docker/pyhc-environment/contents/packages.txt
@@ -2214,7 +2214,7 @@ sunkit-image==0.7.0
     # via -r docker/pyhc-environment/contents/packages.txt
 sunkit-instruments==0.6.2
     # via -r docker/pyhc-environment/contents/packages.txt
-sunkit-magex==1.1.0
+sunkit-magex==1.2.0
     # via solarmach
 sunpy==8.0.0
     # via
@@ -2332,7 +2332,7 @@ traitlets==5.16.1
     #   nbconvert
     #   nbformat
     #   qtconsole
-transformers==5.16.1
+transformers==5.17.0
     # via sentence-transformers
 triton==3.8.0
     # via torch
@@ -2407,7 +2407,7 @@ urllib3==2.7.0
     #   responses
     #   savic
     #   speasy
-uv==0.12.11
+uv==0.12.12
     # via sciqlop
 uvicorn==0.52.4
     # via
