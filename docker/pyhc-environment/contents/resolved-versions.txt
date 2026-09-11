@@ -452,7 +452,7 @@ flask-restful==0.3.10
     # via kamodo-core-official
 flatbuffers==25.12.19
     # via onnxruntime
-fonttools==4.64.0
+fonttools==4.65.0
     # via matplotlib
 fortranformat==2.0.3
     # via fiasco
@@ -542,7 +542,7 @@ google-auth==2.58.0
     # via google-genai
 google-crc32c==1.8.0
     # via zarr
-google-genai==2.22.0
+google-genai==2.23.0
     # via helioai-agent
 googleapis-common-protos==1.75.3
     # via opentelemetry-exporter-otlp-proto-grpc
@@ -715,7 +715,7 @@ ipywidgets==8.1.9
     #   sunpy
 iri2016==1.11.1
     # via -r docker/pyhc-environment/contents/packages.txt
-irispy-lmsal==0.8.1
+irispy-lmsal==0.9.0
     # via -r docker/pyhc-environment/contents/packages.txt
 isodate==0.7.2
     # via
@@ -1334,9 +1334,9 @@ ocbpy==0.7.0
     # via -r docker/pyhc-environment/contents/packages.txt
 ommbv==1.1.0
     # via -r docker/pyhc-environment/contents/packages.txt
-onnxruntime==1.29.0
+onnxruntime==1.30.0
     # via chromadb
-openai==3.11.0
+openai==3.13.0
     # via helioai-agent
 opencv-python==4.14.0.94
     # via
@@ -1545,7 +1545,7 @@ ptyprocess==0.7.0
     # via
     #   pexpect
     #   terminado
-pure-eval==0.2.3
+pure-eval==0.2.4
     # via stack-data
 py-cpuinfo==9.0.0
     # via tables
@@ -1568,7 +1568,7 @@ pycodestyle==2.14.0
     # via flake8
 pycparser==3.0
     # via cffi
-pycrdt==0.14.4
+pycrdt==0.14.5
     # via
     #   fps-kernels
     #   jupyverse-yjs
@@ -1705,7 +1705,7 @@ pyside6-qtads==4.5.0.3
     # via sciqlop
 pysocks==1.7.1
     # via speasy
-pyspedas==2.1.4
+pyspedas==2.1.5
     # via
     #   -r docker/pyhc-environment/contents/packages.txt
     #   kaipy
@@ -2006,7 +2006,7 @@ scikit-image==0.26.0
     #   sunkit-image
     #   sunkit-magex
     #   sunpy
-scikit-learn==1.9.0
+scikit-learn==1.9.1
     # via
     #   euvpy
     #   mcalf
@@ -2280,6 +2280,8 @@ tokenizers==0.23.2
     #   transformers
 toml==0.10.2
     # via geospacelab
+tomli==2.4.1
+    # via pyspedas
 tomli-w==1.2.0
     # via sciqlop
 toolz==1.1.0
@@ -2297,7 +2299,7 @@ tornado==6.5.8
     #   jupyter-server
     #   jupyterlab
     #   terminado
-tqdm==4.70.0
+tqdm==4.70.1
     # via
     #   chromadb
     #   dkist
@@ -2407,7 +2409,7 @@ urllib3==2.7.0
     #   responses
     #   savic
     #   speasy
-uv==0.12.12
+uv==0.12.13
     # via sciqlop
 uvicorn==0.52.4
     # via

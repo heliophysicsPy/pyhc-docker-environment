@@ -73,7 +73,7 @@ helioai-agent | 0.2.1
 hissw | 2.3
 igrf | 13.0.2
 iri2016 | 1.11.1
-irispy-lmsal | 0.8.1
+irispy-lmsal | 0.9.0
 kaipy | 1.1.4
 kamodo-ccmc | 26.9.1
 lofarSun | 0.3.32
@@ -96,7 +96,7 @@ pyIntensityFeatures | 0.2.0
 pymap3d | 3.2.0
 pyrfu | 2.4.21
 pysat | 3.2.2
-pyspedas | 2.1.4
+pyspedas | 2.1.5
 pytplot | 1.7.28
 pytplot-mpl-temp | 2.2.79
 pyzenodo3 | 1.0.2

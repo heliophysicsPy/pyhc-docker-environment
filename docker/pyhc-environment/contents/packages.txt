@@ -16,7 +16,7 @@ hapiclient==0.3.3
 kamodo-ccmc==26.9.1
 plasmapy==2026.2.0
 pysat==3.2.2
-pyspedas==2.1.4
+pyspedas==2.1.5
 spacepy==0.7.0
 sunpy==8.0.0
 
@@ -48,7 +48,7 @@ helioai-agent==0.2.1
 hissw==2.3
 igrf==13.0.2
 iri2016==1.11.1
-irispy-lmsal==0.8.1
+irispy-lmsal==0.9.0
 kaipy==1.1.4
 lofarSun==0.3.32
 lowtran==3.1.0
