@@ -56,38 +56,17 @@ annotated-types==0.8.0
     # via pydantic
 antlr4-python3-runtime==4.11.1
     # via kamodo-core-official
-anycorn==0.20.0
-    # via fps
 anyio==4.15.1
     # via
-    #   anycorn
-    #   anyioutils
-    #   fps
-    #   fps-contents
-    #   fps-file-watcher
-    #   fps-kernel-subprocess
-    #   fps-kernels
-    #   fps-lab
-    #   fps-terminals
     #   google-genai
     #   httpx
     #   httpx2
-    #   jupyqt
     #   jupyter-server
-    #   jupyverse-api
-    #   jupyverse-contents
-    #   jupyverse-file-watcher
-    #   jupyverse-kernel
-    #   jupyverse-lab
     #   mcp
     #   openai
-    #   pycrdt
     #   sse-starlette
     #   starlette
     #   watchfiles
-    #   zmq-anyio
-anyioutils==0.7.4
-    # via jupyverse-contents
 apexpy==2.1.1
     # via
     #   -r docker/pyhc-environment/contents/packages.txt
@@ -175,7 +154,7 @@ astropy==8.0.1
     #   swxsoc
 astropy-healpix==2.0.1
     # via reproject
-astropy-iers-data==0.2026.9.7.0.56.14
+astropy-iers-data==0.2026.9.14.0.56.43
     # via astropy
 astroquery==0.4.11
     # via speasy
@@ -188,16 +167,12 @@ attrs==26.1.0
     #   aiohttp
     #   asdf
     #   jsonschema
-    #   outcome
     #   referencing
     #   zeep
 babel==2.18.0
     # via
-    #   fps-lab
     #   jupyterlab-server
     #   sphinx
-backports-zstd==1.7.0
-    # via pyzstd
 bcrypt==5.0.0
     # via chromadb
 beautifulsoup4==4.15.0
@@ -214,7 +189,7 @@ bleach==6.4.0
     # via nbconvert
 blinker==1.9.0
     # via flask
-blosc2==4.13.0
+blosc2==4.13.1
     # via tables
 bokeh==3.10.0
     # via pytplot
@@ -275,7 +250,6 @@ cffi==2.1.1
     # via
     #   argon2-cffi-bindings
     #   cryptography
-    #   pynacl
 cftime==1.6.5
     # via netcdf4
 charset-normalizer==3.5.1
@@ -288,10 +262,8 @@ click==8.5.0
     # via
     #   dask
     #   flask
-    #   fps
     #   huggingface-hub
     #   pyaurorax
-    #   rich-click
     #   space-packet-parser
     #   uvicorn
 cloudcatalog==1.2.1
@@ -318,7 +290,7 @@ contourpy==1.4.0
     # via
     #   matplotlib
     #   sunpy
-coverage==7.16.0
+coverage==7.16.1
     # via pytest-cov
 cryptography==50.0.1
     # via
@@ -403,27 +375,8 @@ execnet==2.1.2
     # via pytest-xdist
 executing==2.2.1
     # via stack-data
-expression==5.7.0
-    # via sciqlop
 fastapi==0.141.1
-    # via
-    #   fps
-    #   fps-contents
-    #   fps-jupyterlab
-    #   fps-kernels
-    #   fps-lab
-    #   fps-nbconvert
-    #   fps-noauth
-    #   fps-terminals
-    #   helioai-agent
-    #   jupyverse-api
-    #   jupyverse-contents
-    #   jupyverse-jupyterlab
-    #   jupyverse-kernels
-    #   jupyverse-lab
-    #   jupyverse-nbconvert
-    #   jupyverse-terminals
-    #   jupyverse-yjs
+    # via helioai-agent
 fastjsonschema==2.22.2
     # via nbformat
 ffmpeg-python==0.2.0
@@ -456,44 +409,6 @@ fonttools==4.65.0
     # via matplotlib
 fortranformat==2.0.3
     # via fiasco
-fps==0.6.7
-    # via
-    #   fps-contents
-    #   fps-file-watcher
-    #   fps-frontend
-    #   fps-jupyterlab
-    #   fps-kernel-subprocess
-    #   fps-kernels
-    #   fps-lab
-    #   fps-nbconvert
-    #   fps-noauth
-    #   fps-terminals
-    #   jupyverse
-    #   jupyverse-api
-    #   jupyverse-jupyterlab
-    #   jupyverse-lab
-fps-contents==0.11.4
-    # via jupyverse
-fps-file-watcher==0.2.2
-    # via jupyverse
-fps-frontend==0.10.2
-    # via jupyverse
-fps-jupyterlab==0.11.4
-    # via jupyverse
-fps-kernel-subprocess==0.2.5
-    # via jupyverse
-fps-kernels==0.11.5
-    # via
-    #   jupyqt
-    #   jupyverse
-fps-lab==0.11.6
-    # via jupyverse
-fps-nbconvert==0.10.2
-    # via jupyverse
-fps-noauth==0.10.2
-    # via jupyqt
-fps-terminals==0.10.2
-    # via jupyverse
 fqdn==1.5.1
     # via jsonschema
 frozenlist==1.8.0
@@ -548,11 +463,11 @@ googleapis-common-protos==1.75.3
     # via opentelemetry-exporter-otlp-proto-grpc
 graphemeu==0.7.2
     # via alive-progress
-greenlet==3.5.5
+greenlet==3.5.6
     # via sqlalchemy
 gridaurora==1.3.4
     # via reesaurora
-grpcio==1.83.1
+grpcio==1.84.0
     # via
     #   chromadb
     #   opentelemetry-exporter-otlp-proto-grpc
@@ -563,15 +478,11 @@ gwcs==1.0.3
     #   ndcube
 h11==0.16.0
     # via
-    #   anycorn
     #   httpcore
     #   httpcore2
     #   uvicorn
-    #   wsproto
 h2==4.4.1
-    # via
-    #   anycorn
-    #   httpx
+    # via httpx
 h5netcdf==1.8.1
     # via
     #   kamodo-ccmc
@@ -618,14 +529,12 @@ hf-xet==1.6.0
 hissw==2.3
     # via -r docker/pyhc-environment/contents/packages.txt
 hpack==4.2.0
-    # via
-    #   anycorn
-    #   h2
+    # via h2
 html5lib==1.1
     # via astroquery
 httpcore==1.0.9
     # via httpx
-httpcore2==2.12.0
+httpcore2==2.13.0
     # via httpx2
 httptools==0.8.0
     # via uvicorn
@@ -640,7 +549,7 @@ httpx==0.28.1
     #   mcp
 httpx-sse==0.4.3
     # via mcp
-httpx2==2.12.0
+httpx2==2.13.0
     # via openai
 huggingface-hub==1.31.0
     # via
@@ -651,7 +560,6 @@ humanize==4.16.0
     # via
     #   pyaurorax
     #   pyucalgarysrs
-    #   sciqlop
     #   speasy
 hvpy==1.1.0
     # via sunpy
@@ -691,7 +599,6 @@ ipykernel==7.3.0
     # via
     #   helioai-agent
     #   jupyterlab
-    #   qtconsole
 ipympl==0.10.0
     # via gcmprocpy
 ipython==9.17.1
@@ -701,17 +608,12 @@ ipython==9.17.1
     #   ipykernel
     #   ipympl
     #   ipywidgets
-    #   jupyqt
-    #   sciqlop
 ipython-pygments-lexers==1.1.1
-    # via
-    #   ipython
-    #   qtconsole
+    # via ipython
 ipywidgets==8.1.9
     # via
     #   helioai-agent
     #   ipympl
-    #   sciqlop
     #   sunpy
 iri2016==1.11.1
     # via -r docker/pyhc-environment/contents/packages.txt
@@ -754,7 +656,6 @@ jinja2==3.1.6
     #   myst-parser
     #   nbconvert
     #   pytest-mpl
-    #   sciqlop
     #   solarmach
     #   sphinx
     #   torch
@@ -774,9 +675,7 @@ joblib==1.6.0
 jplephem==2.24
     # via sunpy
 json5==0.15.0
-    # via
-    #   fps-lab
-    #   jupyterlab-server
+    # via jupyterlab-server
 jsonpointer==3.1.1
     # via jsonschema
 jsonschema==4.26.0
@@ -788,8 +687,6 @@ jsonschema==4.26.0
     #   nbformat
 jsonschema-specifications==2025.9.1
     # via jsonschema
-jupyqt==0.6.4
-    # via sciqlop
 jupyter-builder==1.2.3
     # via jupyterlab
 jupyter-client==8.10.0
@@ -797,7 +694,6 @@ jupyter-client==8.10.0
     #   ipykernel
     #   jupyter-server
     #   nbclient
-    #   qtconsole
 jupyter-core==5.9.1
     # via
     #   ipykernel
@@ -808,7 +704,6 @@ jupyter-core==5.9.1
     #   nbclient
     #   nbconvert
     #   nbformat
-    #   qtconsole
 jupyter-events==0.12.1
     # via jupyter-server
 jupyter-lsp==2.3.1
@@ -825,92 +720,19 @@ jupyterlab==4.6.3
     # via
     #   euvpy
     #   kaipy
-jupyterlab-js==4.6.2
-    # via fps-jupyterlab
 jupyterlab-pygments==0.3.0
     # via nbconvert
 jupyterlab-server==2.28.0
     # via jupyterlab
 jupyterlab-widgets==3.0.17
-    # via
-    #   ipywidgets
-    #   sciqlop
-jupyverse==0.14.17
-    # via jupyqt
-jupyverse-api==0.15.3
-    # via
-    #   fps-contents
-    #   fps-jupyterlab
-    #   fps-kernels
-    #   fps-lab
-    #   fps-nbconvert
-    #   fps-terminals
-    #   jupyverse-auth
-    #   jupyverse-contents
-    #   jupyverse-frontend
-    #   jupyverse-jupyterlab
-    #   jupyverse-kernels
-    #   jupyverse-lab
-    #   jupyverse-nbconvert
-    #   jupyverse-terminals
-    #   jupyverse-yjs
-jupyverse-auth==0.2.2
-    # via
-    #   fps-contents
-    #   fps-jupyterlab
-    #   fps-kernels
-    #   fps-lab
-    #   fps-nbconvert
-    #   fps-noauth
-    #   fps-terminals
-    #   jupyverse-contents
-    #   jupyverse-jupyterlab
-    #   jupyverse-kernels
-    #   jupyverse-lab
-    #   jupyverse-nbconvert
-    #   jupyverse-terminals
-    #   jupyverse-yjs
-jupyverse-contents==0.1.4
-    # via fps-contents
-jupyverse-file-watcher==0.1.2
-    # via
-    #   fps-file-watcher
-    #   fps-kernels
-jupyverse-frontend==0.1.2
-    # via
-    #   fps-frontend
-    #   fps-jupyterlab
-    #   fps-kernels
-    #   fps-lab
-jupyverse-jupyterlab==0.1.2
-    # via
-    #   fps-jupyterlab
-    #   fps-lab
-    #   jupyverse-lab
-jupyverse-kernel==0.1.2
-    # via
-    #   fps-kernel-subprocess
-    #   fps-kernels
-    #   jupyverse-kernels
-jupyverse-kernels==0.1.2
-    # via fps-kernels
-jupyverse-lab==0.3.1
-    # via
-    #   fps-jupyterlab
-    #   fps-lab
-jupyverse-nbconvert==0.1.2
-    # via fps-nbconvert
-jupyverse-terminals==0.1.2
-    # via fps-terminals
-jupyverse-yjs==0.1.3
-    # via fps-kernels
+    # via ipywidgets
 kaipy==1.1.4
     # via
     #   -c docker/pyhc-environment/contents/constraints.txt
     #   -r docker/pyhc-environment/contents/packages.txt
 kaleido==1.4.0
     # via kamodo-core-official
-kamodo-ccmc==26.9.1
+kamodo-ccmc==26.9.2
     # via
     #   -r docker/pyhc-environment/contents/packages.txt
     #   pyhc-core
@@ -921,7 +743,6 @@ keyring==25.7.0
     #   astroquery
     #   geospacelab
     #   pyrfu
-    #   sciqlop
 keyrings-alt==5.0.2
     # via pyrfu
 kiwisolver==1.5.1
@@ -977,7 +798,7 @@ markupsafe==3.0.3
     #   jinja2
     #   nbconvert
     #   werkzeug
-matplotlib==3.10.8
+matplotlib==3.11.2
     # via
     #   aiapy
     #   asilib
@@ -1009,7 +830,6 @@ matplotlib==3.10.8
     #   pytplot
     #   pytplot-mpl-temp
     #   regularizepsf
-    #   sciqlop
     #   seaborn
     #   solarmach
     #   solo-epd-loader
@@ -1090,9 +910,7 @@ natsort==8.4.0
 nbclient==0.11.0
     # via nbconvert
 nbconvert==7.17.1
-    # via
-    #   fps-nbconvert
-    #   jupyter-server
+    # via jupyter-server
 nbformat==5.11.1
     # via
     #   helioai-agent
@@ -1255,8 +1073,6 @@ numpy==2.3.5
     #   scikit-image
     #   scikit-learn
     #   scipy
-    #   sciqlop
-    #   sciqlopplots
     #   seaborn
     #   sentence-transformers
     #   sep
@@ -1336,7 +1152,7 @@ ommbv==1.1.0
     # via -r docker/pyhc-environment/contents/packages.txt
 onnxruntime==1.30.0
     # via chromadb
-openai==3.13.0
+openai==3.14.0
     # via helioai-agent
 opencv-python==4.14.0.94
     # via
@@ -1370,8 +1186,6 @@ orjson==3.12.0
     #   chromadb
     #   kaleido
     #   solarmach
-outcome==1.3.0.post0
-    # via anyioutils
 overrides==7.7.0
     # via chromadb
 packaging==26.3
@@ -1384,7 +1198,6 @@ packaging==26.3
     #   cartopy
     #   dask
     #   dkist
-    #   fps-kernels
     #   h5netcdf
     #   huggingface-hub
     #   ipykernel
@@ -1392,7 +1205,6 @@ packaging==26.3
     #   jupyter-server
     #   jupyterlab
     #   jupyterlab-server
-    #   jupyverse-api
     #   kaleido
     #   lazy-loader
     #   matplotlib
@@ -1409,9 +1221,8 @@ packaging==26.3
     #   pytest-mpl
     #   pytest-remotedata
     #   pytest-rerunfailures
-    #   qtconsole
-    #   qtpy
     #   scikit-image
+    #   sciqlop
     #   speasy
     #   sphinx
     #   streamtracer
@@ -1509,14 +1320,12 @@ pluggy==1.6.0
     # via
     #   pytest
     #   pytest-cov
-portalocker==4.3.1
+portalocker==4.3.2
     # via pysat
 pox==0.3.7
     # via pathos
 ppft==1.7.8
     # via pathos
-priority==2.0.0
-    # via anycorn
 progressbar==2.5
     # via kaipy
 progressbar2==4.6.0
@@ -1539,7 +1348,6 @@ psutil==7.2.2
     #   ipykernel
     #   ipython
     #   kamodo-ccmc
-    #   sciqlop
     #   sunpy
 ptyprocess==0.7.0
     # via
@@ -1568,10 +1376,6 @@ pycodestyle==2.14.0
     # via flake8
 pycparser==3.0
     # via cffi
-pycrdt==0.14.5
-    # via
-    #   fps-kernels
-    #   jupyverse-yjs
 pydantic==2.13.5
     # via
     #   blosc2
@@ -1579,12 +1383,6 @@ pydantic==2.13.5
     #   fastapi
     #   google-genai
     #   hvpy
-    #   jupyverse-api
-    #   jupyverse-auth
-    #   jupyverse-contents
-    #   jupyverse-kernels
-    #   jupyverse-terminals
-    #   jupyverse-yjs
     #   mcp
     #   mt-metadata
     #   openai
@@ -1614,15 +1412,12 @@ pyflct==0.3.1
     # via -r docker/pyhc-environment/contents/packages.txt
 pygam==0.8.0
     # via euvpy
-pygithub==2.10.0
-    # via sciqlop
 pygments==2.21.0
     # via
     #   ipython
     #   ipython-pygments-lexers
     #   nbconvert
     #   pytest
-    #   qtconsole
     #   rich
     #   sphinx
 pyhc-core==0.0.9
@@ -1635,15 +1430,12 @@ pyjwt==2.14.0
     # via
     #   globus-sdk
     #   mcp
-    #   pygithub
 pymap3d==3.2.0
     # via
     #   -r docker/pyhc-environment/contents/packages.txt
     #   amisrsynthdata
     #   asilib
     #   dascutils
-pynacl==1.6.2
-    # via pygithub
 pyparsing==3.3.2
     # via matplotlib
 pypika==0.51.1
@@ -1682,27 +1474,20 @@ pysat==3.2.2
     #   pysatspaceweather
 pysatspaceweather==0.0.10
     # via pysat
-pysciqlop-cache==0.1.13
+pysciqlop-cache==0.1.16
     # via speasy
 pyshp==3.1.6
     # via
     #   asilib
     #   cartopy
-pyside6==6.11.0
-    # via
-    #   gcmprocpy
-    #   jupyqt
-    #   sciqlop
-    #   sciqlopplots
-pyside6-addons==6.11.0
+pyside6==6.11.2
+    # via gcmprocpy
+pyside6-addons==6.11.2
     # via pyside6
-pyside6-essentials==6.11.0
+pyside6-essentials==6.11.2
     # via
     #   pyside6
     #   pyside6-addons
-    #   pyside6-qtads
-pyside6-qtads==4.5.0.3
-    # via sciqlop
 pysocks==1.7.1
     # via speasy
 pyspedas==2.1.5
@@ -1788,7 +1573,6 @@ python-dateutil==2.9.0.post0
     #   dascutils
     #   dbprocessing
     #   dmsp
-    #   fps-kernels
     #   geomagindices
     #   georinex
     #   goesutils
@@ -1871,19 +1655,9 @@ pyzenodo3==1.0.2
     # via -r docker/pyhc-environment/contents/packages.txt
 pyzmq==27.2.0
     # via
-    #   fps-kernel-subprocess
     #   ipykernel
     #   jupyter-client
     #   jupyter-server
-    #   zmq-anyio
-pyzstd==0.19.1
-    # via sciqlop
-qasync==0.28.0
-    # via sciqlop
-qtconsole==5.7.2
-    # via sciqlop
-qtpy==2.4.3
-    # via qtconsole
 rank-bm25==0.2.2
     # via helioai-agent
 rbamlib==26.2
@@ -1925,7 +1699,6 @@ requests==2.34.2
     #   obspy
     #   plasmapy
     #   pyaurorax
-    #   pygithub
     #   pyrfu
     #   pysatspaceweather
     #   pyspedas
@@ -1966,13 +1739,8 @@ rich==15.0.0
     # via
     #   blosc2
     #   chromadb
-    #   rich-click
     #   space-packet-parser
     #   typer
-rich-click==1.9.9
-    # via
-    #   anycorn
-    #   jupyverse
 roman-numerals==4.1.0
     # via sphinx
 rpds-py==2026.6.3
@@ -2054,7 +1822,6 @@ scipy==1.18.1
     #   reproject
     #   scikit-image
     #   scikit-learn
-    #   sciqlop
     #   sentence-transformers
     #   solarmach
     #   spacepy
@@ -2065,14 +1832,10 @@ scipy==1.18.1
     #   sunpy
     #   themisasi
     #   xgboost
-sciqlop==0.12.2
+sciqlop==0.13.0
     # via -r docker/pyhc-environment/contents/packages.txt
-sciqlopplots==0.24.0
-    # via sciqlop
 seaborn==0.13.2
-    # via
-    #   euvpy
-    #   sciqlop
+    # via euvpy
 secretstorage==3.5.0
     # via keyring
 semantic-version==2.10.0
@@ -2093,14 +1856,11 @@ shapely==2.1.2
     # via cartopy
 shellingham==1.5.4
     # via typer
-shiboken6==6.11.0
+shiboken6==6.11.2
     # via
     #   pyside6
     #   pyside6-addons
     #   pyside6-essentials
-    #   pyside6-qtads
-    #   sciqlop
-    #   sciqlopplots
 simplejson==4.1.2
     # via choreographer
 six==1.17.0
@@ -2118,7 +1878,6 @@ slicerator==1.1.0
     # via pims
 sniffio==1.3.1
     # via
-    #   anycorn
     #   google-genai
     #   openai
 snowballstemmer==3.1.1
@@ -2147,7 +1906,6 @@ speasy==1.8.1
     # via
     #   -r docker/pyhc-environment/contents/packages.txt
     #   helioai-agent
-    #   sciqlop
     #   solarmach
 sphinx==9.1.0
     # via
@@ -2180,7 +1938,7 @@ spiceypy==8.2.0
     # via
     #   -r docker/pyhc-environment/contents/packages.txt
     #   sunpy
-sqlalchemy==2.0.52
+sqlalchemy==2.0.53
     # via
     #   dbprocessing
     #   obspy
@@ -2193,23 +1951,12 @@ stack-data==0.6.3
 starlette==1.6.0
     # via
     #   fastapi
-    #   fps-contents
-    #   fps-jupyterlab
-    #   fps-kernels
-    #   fps-lab
     #   mcp
     #   sse-starlette
 streamtracer==2.6.0
     # via sunkit-magex
 structlog==26.1.0
-    # via
-    #   fps
-    #   fps-contents
-    #   fps-file-watcher
-    #   fps-kernels
-    #   fps-terminals
-    #   helioai-agent
-    #   jupyverse-api
+    # via helioai-agent
 sunkit-image==0.7.0
     # via -r docker/pyhc-environment/contents/packages.txt
 sunkit-instruments==0.6.2
@@ -2291,7 +2038,7 @@ toolz==1.1.0
     #   pysat
 torch==2.14.0
     # via sentence-transformers
-tornado==6.5.8
+tornado==6.5.9
     # via
     #   bokeh
     #   ipykernel
@@ -2333,7 +2080,6 @@ traitlets==5.16.1
     #   nbclient
     #   nbconvert
     #   nbformat
-    #   qtconsole
 transformers==5.17.0
     # via sentence-transformers
 triton==3.8.0
@@ -2346,8 +2092,6 @@ typer==0.27.2
     # via
     #   chromadb
     #   transformers
-types-python-dateutil==2.9.0.20260807
-    # via fps-kernels
 typing-extensions==4.16.0
     # via
     #   aiohttp
@@ -2357,7 +2101,6 @@ typing-extensions==4.16.0
     #   beautifulsoup4
     #   chromadb
     #   csaps
-    #   expression
     #   fastapi
     #   google-genai
     #   grpcio
@@ -2374,9 +2117,7 @@ typing-extensions==4.16.0
     #   opentelemetry-semantic-conventions
     #   pydantic
     #   pydantic-core
-    #   pygithub
     #   python-utils
-    #   pyzstd
     #   referencing
     #   sentence-transformers
     #   sqlalchemy
@@ -2404,14 +2145,13 @@ urllib3==2.7.0
     #   cdasws
     #   hapiclient
     #   kubernetes
-    #   pygithub
     #   requests
     #   responses
     #   savic
     #   speasy
-uv==0.12.13
+uv==0.12.14
     # via sciqlop
-uvicorn==0.52.4
+uvicorn==0.53.0
     # via
     #   chromadb
     #   helioai-agent
@@ -2421,9 +2161,7 @@ uvloop==0.22.1
 viresclient==0.16.0
     # via -r docker/pyhc-environment/contents/packages.txt
 watchfiles==1.2.0
-    # via
-    #   fps-file-watcher
-    #   uvicorn
+    # via uvicorn
 wcwidth==0.8.3
     # via prompt-toolkit
 webcolors==25.10.0
@@ -2459,8 +2197,6 @@ wrapt==1.17.3
     # via
     #   aiobotocore
     #   plasmapy
-wsproto==1.3.2
-    # via anycorn
 xarray==2026.7.0
     # via
     #   dascutils
@@ -2505,5 +2241,3 @@ zeep==4.3.3
     #   solarmach
     #   solo-epd-loader
     #   sunpy
-zmq-anyio==0.4.1
-    # via fps-kernel-subprocess

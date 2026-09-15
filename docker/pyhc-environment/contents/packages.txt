@@ -13,7 +13,7 @@
 # --- Core Packages ---
 pyhc-core[tests]==0.0.9
 hapiclient==0.3.3
-kamodo-ccmc==26.9.1
+kamodo-ccmc==26.9.2
 plasmapy==2026.2.0
 pysat==3.2.2
 pyspedas==2.1.5
@@ -75,7 +75,7 @@ regularizepsf==1.2.1
 sammi-cdf==1.1.0
 savic==1.2.7
 sciencedates==1.5.0
-SciQLop==0.12.2
+SciQLop==0.13.0
 SkyWinder==0.0.3
 solarmach==0.5.4
 solo-epd-loader==0.4.4

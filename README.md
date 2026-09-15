@@ -75,7 +75,7 @@ igrf | 13.0.2
 iri2016 | 1.11.1
 irispy-lmsal | 0.9.0
 kaipy | 1.1.4
-kamodo-ccmc | 26.9.1
+kamodo-ccmc | 26.9.2
 lofarSun | 0.3.32
 lowtran | 3.1.0
 madrigalWeb | 3.3.8
@@ -105,7 +105,7 @@ regularizepsf | 1.2.1
 sammi-cdf | 1.1.0
 savic | 1.2.7
 sciencedates | 1.5.0
-SciQLop | 0.12.2
+SciQLop | 0.13.0
 SkyWinder | 0.0.3
 solarmach | 0.5.4
 solo-epd-loader | 0.4.4
