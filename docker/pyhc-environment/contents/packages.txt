@@ -56,12 +56,12 @@ madrigalWeb==3.3.8
 maidenhead==1.8.0
 mcalf==1.0.0
 msise00==1.11.1
-ndcube==2.4.1
+ndcube==2.4.2
 nexradutils==1.0.0
 ocbpy==0.7.0
 OMMBV==1.1.0
 pyaurorax==1.24.0
-pycdfpp==0.11.0
+pycdfpp==0.11.1
 pydarn==4.3
 pyflct==0.3.1
 pyIntensityFeatures==0.2.0

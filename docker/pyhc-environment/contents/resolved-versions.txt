@@ -211,7 +211,7 @@ build==1.6.1
     # via chromadb
 cachebox==5.2.3
     # via deepdiff
-cartopy==0.25.0
+cartopy==0.26.0
     # via
     #   gcmprocpy
     #   kaipy
@@ -254,7 +254,7 @@ cftime==1.6.5
     # via netcdf4
 charset-normalizer==3.5.1
     # via requests
-choreographer==1.3.0
+choreographer==1.4.0
     # via kaleido
 chromadb==1.5.9
     # via helioai-agent
@@ -300,9 +300,9 @@ cryptography==50.0.1
     #   secretstorage
 csaps==1.3.3
     # via euvpy
-cuda-bindings==13.4.1
+cuda-bindings==13.4.2
     # via torch
-cuda-pathfinder==1.8.1
+cuda-pathfinder==1.8.2
     # via cuda-bindings
 cuda-toolkit==13.0.3.0
     # via torch
@@ -326,7 +326,7 @@ dask-image==2026.5.0
     # via reproject
 dbprocessing==0.1.0
     # via -r docker/pyhc-environment/contents/packages.txt
-debugpy==1.8.21
+debugpy==1.8.22
     # via ipykernel
 decorator==5.3.1
     # via
@@ -383,7 +383,7 @@ ffmpeg-python==0.2.0
     # via asilib
 fiasco==0.8.2
     # via -r docker/pyhc-environment/contents/packages.txt
-filelock==3.32.6
+filelock==4.0.0
     # via
     #   huggingface-hub
     #   torch
@@ -457,7 +457,7 @@ google-auth==2.58.0
     # via google-genai
 google-crc32c==1.8.0
     # via zarr
-google-genai==2.23.0
+google-genai==2.24.0
     # via helioai-agent
 googleapis-common-protos==1.75.3
     # via opentelemetry-exporter-otlp-proto-grpc
@@ -551,7 +551,7 @@ httpx-sse==0.4.3
     # via mcp
 httpx2==2.13.0
     # via openai
-huggingface-hub==1.31.0
+huggingface-hub==1.32.0
     # via
     #   sentence-transformers
     #   tokenizers
@@ -569,7 +569,7 @@ hypothesis==6.168.0
     # via
     #   pyhc-core
     #   pytest-astropy
-idna==3.19
+idna==3.20
     # via
     #   anyio
     #   email-validator
@@ -708,7 +708,7 @@ jupyter-events==0.12.1
     # via jupyter-server
 jupyter-lsp==2.3.1
     # via jupyterlab
-jupyter-server==2.21.0
+jupyter-server==2.21.1
     # via
     #   jupyter-lsp
     #   jupyterlab
@@ -722,7 +722,7 @@ jupyterlab==4.6.3
     #   kaipy
 jupyterlab-pygments==0.3.0
     # via nbconvert
-jupyterlab-server==2.28.0
+jupyterlab-server==2.28.1
     # via jupyterlab
 jupyterlab-widgets==3.0.17
     # via ipywidgets
@@ -874,6 +874,8 @@ mpmath==1.3.0
     #   sympy
 msgpack==1.2.2
     # via blosc2
+msgspec==0.21.1
+    # via zarr
 msise00==1.11.1
     # via
     #   -r docker/pyhc-environment/contents/packages.txt
@@ -922,7 +924,7 @@ ncompress==1.0.2
     # via
     #   georinex
     #   hatanaka
-ndcube==2.4.1
+ndcube==2.4.2
     # via
     #   -r docker/pyhc-environment/contents/packages.txt
     #   dkist
@@ -960,7 +962,7 @@ numba==0.67.0
     # via
     #   kamodo-ccmc
     #   pyrfu
-numcodecs==0.16.5
+numcodecs==0.17.0
     # via zarr
 numexpr==2.14.2
     # via
@@ -1132,7 +1134,7 @@ nvidia-nccl-cu13==2.30.7
     # via
     #   torch
     #   xgboost
-nvidia-nvjitlink==13.4.52
+nvidia-nvjitlink==13.4.92
     # via
     #   cuda-toolkit
     #   nvidia-cufft
@@ -1152,7 +1154,7 @@ ommbv==1.1.0
     # via -r docker/pyhc-environment/contents/packages.txt
 onnxruntime==1.30.0
     # via chromadb
-openai==3.14.0
+openai==3.15.0
     # via helioai-agent
 opencv-python==4.14.0.94
     # via
@@ -1235,7 +1237,7 @@ packaging==26.3
     #   zarr
 palettable==3.3.3
     # via geospacelab
-pandas==3.0.5
+pandas==3.0.6
     # via
     #   asilib
     #   cloudcatalog
@@ -1304,14 +1306,14 @@ plasmapy==2026.2.0
     #   fiasco
     #   helioai-agent
     #   pyhc-core
-platformdirs==4.11.8
+platformdirs==4.11.10
     # via
     #   choreographer
     #   dkist
     #   jupyter-core
     #   sciqlop
     #   zeep
-plotly==7.0.0
+plotly==7.1.0
     # via
     #   kamodo-ccmc
     #   kamodo-core-official
@@ -1334,11 +1336,11 @@ prometheus-client==0.26.0
     # via jupyter-server
 prompt-toolkit==3.0.53
     # via ipython
-propcache==0.5.2
+propcache==0.5.4
     # via
     #   aiohttp
     #   yarl
-protobuf==7.36.1
+protobuf==7.36.2
     # via
     #   googleapis-common-protos
     #   onnxruntime
@@ -1367,7 +1369,7 @@ pyavm==0.9.9
     # via reproject
 pybase64==1.5.0
     # via chromadb
-pycdfpp==0.11.0
+pycdfpp==0.11.1
     # via
     #   -r docker/pyhc-environment/contents/packages.txt
     #   pyistp
@@ -1445,7 +1447,7 @@ pyproj==3.8.0
     #   cartopy
     #   mt-metadata
     #   pyaurorax
-pyproject-hooks==1.2.0
+pyproject-hooks==1.3.3
     # via build
 pyqt5==5.15.11
     # via
@@ -1553,7 +1555,7 @@ pytest-regressions==2.11.0
     # via pyhc-core
 pytest-remotedata==0.4.2
     # via pytest-astropy
-pytest-rerunfailures==16.6.1
+pytest-rerunfailures==16.7
     # via pyhc-core
 pytest-run-parallel==0.10.0
     # via sunpy
@@ -1615,7 +1617,7 @@ pytplot-mpl-temp==2.2.79
     # via -r docker/pyhc-environment/contents/packages.txt
 pytz==2026.3.post1
     # via flask-restful
-pyucalgarysrs==1.26.5
+pyucalgarysrs==1.27.0
     # via pyaurorax
 pyverbplt==24.9
     # via kamodo-ccmc
@@ -1842,7 +1844,7 @@ semantic-version==2.10.0
     # via asdf
 send2trash==2.1.0
     # via jupyter-server
-sentence-transformers==6.0.1
+sentence-transformers==6.1.0
     # via helioai-agent
 sep==1.4.1
     # via regularizepsf
@@ -1938,7 +1940,7 @@ spiceypy==8.2.0
     # via
     #   -r docker/pyhc-environment/contents/packages.txt
     #   sunpy
-sqlalchemy==2.0.53
+sqlalchemy==2.0.54
     # via
     #   dbprocessing
     #   obspy
@@ -2008,12 +2010,12 @@ texttable==1.7.0
     #   pyucalgarysrs
 themisasi==1.2.0
     # via -r docker/pyhc-environment/contents/packages.txt
-threadpoolctl==3.6.0
+threadpoolctl==3.7.0
     # via
     #   blosc2
     #   scikit-learn
     #   solarmach
-tifffile==2026.9.9
+tifffile==2026.9.15
     # via
     #   dask-image
     #   pims
@@ -2038,7 +2040,7 @@ toolz==1.1.0
     #   pysat
 torch==2.14.0
     # via sentence-transformers
-tornado==6.5.9
+tornado==6.5.10
     # via
     #   bokeh
     #   ipykernel
@@ -2139,7 +2141,7 @@ uncertainties==3.2.3
     # via lmfit
 uri-template==1.3.0
     # via jsonschema
-urllib3==2.7.0
+urllib3==2.8.0
     # via
     #   botocore
     #   cdasws
@@ -2149,7 +2151,7 @@ urllib3==2.7.0
     #   responses
     #   savic
     #   speasy
-uv==0.12.14
+uv==0.12.16
     # via sciqlop
 uvicorn==0.53.0
     # via
@@ -2162,7 +2164,7 @@ viresclient==0.16.0
     # via -r docker/pyhc-environment/contents/packages.txt
 watchfiles==1.2.0
     # via uvicorn
-wcwidth==0.8.3
+wcwidth==0.8.4
     # via prompt-toolkit
 webcolors==25.10.0
     # via jsonschema
@@ -2232,9 +2234,9 @@ xgboost==3.4.1
     # via savic
 xyzservices==2026.9.1
     # via bokeh
-yarl==1.24.5
+yarl==1.25.1
     # via aiohttp
-zarr==3.3.0
+zarr==3.4.0
     # via reproject
 zeep==4.3.3
     # via
