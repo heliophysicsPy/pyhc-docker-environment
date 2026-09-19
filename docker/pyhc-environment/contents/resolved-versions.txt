@@ -383,7 +383,7 @@ ffmpeg-python==0.2.0
     # via asilib
 fiasco==0.8.2
     # via -r docker/pyhc-environment/contents/packages.txt
-filelock==4.0.0
+filelock==4.0.1
     # via
     #   huggingface-hub
     #   torch
@@ -415,7 +415,7 @@ frozenlist==1.8.0
     # via
     #   aiohttp
     #   aiosignal
-fsspec==2026.7.0
+fsspec==2026.9.0
     # via
     #   dask
     #   huggingface-hub
@@ -893,7 +893,7 @@ mt-timeseries==0.0.2
     #   mth5
 mth5==0.6.9
     # via pyhc-core
-multidict==6.8.0
+multidict==6.9.0
     # via
     #   aiobotocore
     #   aiohttp
@@ -1154,7 +1154,7 @@ ommbv==1.1.0
     # via -r docker/pyhc-environment/contents/packages.txt
 onnxruntime==1.30.0
     # via chromadb
-openai==3.15.0
+openai==3.16.2
     # via helioai-agent
 opencv-python==4.14.0.94
     # via
@@ -1306,7 +1306,7 @@ plasmapy==2026.2.0
     #   fiasco
     #   helioai-agent
     #   pyhc-core
-platformdirs==4.11.10
+platformdirs==4.11.11
     # via
     #   choreographer
     #   dkist
@@ -1749,7 +1749,7 @@ rpds-py==2026.6.3
     # via
     #   jsonschema
     #   referencing
-s3fs==2026.7.0
+s3fs==2026.9.0
     # via
     #   fsspec
     #   kamodo-ccmc
@@ -1904,7 +1904,7 @@ spacepy==0.7.0
     #   pyhc-core
     #   pyspedas
     #   swxsoc
-speasy==1.8.1
+speasy==1.8.2
     # via
     #   -r docker/pyhc-environment/contents/packages.txt
     #   helioai-agent
@@ -2151,7 +2151,7 @@ urllib3==2.8.0
     #   responses
     #   savic
     #   speasy
-uv==0.12.16
+uv==0.12.17
     # via sciqlop
 uvicorn==0.53.0
     # via
