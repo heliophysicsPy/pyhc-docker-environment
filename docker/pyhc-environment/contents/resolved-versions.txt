@@ -24,7 +24,7 @@ aiobotocore==2.25.1
     #   sunpy
 aiofiles==25.1.0
     # via aioboto3
-aioftp==0.28.0
+aioftp==0.28.3
     # via parfive
 aiohappyeyeballs==2.7.1
     # via aiohttp
@@ -151,15 +151,18 @@ astropy==8.0.1
     #   sunkit-magex
     #   sunpy
     #   sunraster
+    #   swvo
     #   swxsoc
 astropy-healpix==2.0.1
     # via reproject
-astropy-iers-data==0.2026.9.14.0.56.43
+astropy-iers-data==0.2026.9.21.0.56.25
     # via astropy
 astroquery==0.4.11
     # via speasy
 asttokens==3.0.2
-    # via stack-data
+    # via
+    #   icecream
+    #   stack-data
 async-lru==2.3.0
     # via jupyterlab
 attrs==26.1.0
@@ -183,6 +186,7 @@ beautifulsoup4==4.15.0
     #   nbconvert
     #   pyzenodo3
     #   sunpy
+    #   swvo
 bitstruct==8.23.0
     # via ccsdspy
 bleach==6.4.0
@@ -266,7 +270,7 @@ click==8.5.0
     #   pyaurorax
     #   space-packet-parser
     #   uvicorn
-cloudcatalog==1.2.1
+cloudcatalog==1.3.0
     # via -r docker/pyhc-environment/contents/packages.txt
 cloudpickle==3.1.2
     # via
@@ -277,7 +281,9 @@ cmasher==1.9.2
     #   kaipy
     #   solarmach
 colorama==0.4.6
-    # via pyqtgraph
+    # via
+    #   icecream
+    #   pyqtgraph
 colorspacious==1.1.2
     # via cmasher
 comm==0.2.3
@@ -300,6 +306,8 @@ cryptography==50.0.1
     #   secretstorage
 csaps==1.3.3
     # via euvpy
+csem-midl==1.1.2
+    # via swvo
 cuda-bindings==13.4.2
     # via torch
 cuda-pathfinder==1.8.2
@@ -343,6 +351,8 @@ dill==0.4.1
     #   pathos
 diskcache==5.6.3
     # via speasy
+distance==0.1.3
+    # via swvo
 distro==1.9.0
     # via google-genai
 dkist==1.18.1
@@ -374,7 +384,9 @@ euvpy==1.0.0
 execnet==2.1.2
     # via pytest-xdist
 executing==2.2.1
-    # via stack-data
+    # via
+    #   icecream
+    #   stack-data
 fastapi==0.141.1
     # via helioai-agent
 fastjsonschema==2.22.2
@@ -499,6 +511,7 @@ h5py==3.16.0
     #   kaipy
     #   kamodo-ccmc
     #   lofarsun
+    #   mat73
     #   mth5
     #   plasmapy
     #   pydarnio
@@ -522,7 +535,7 @@ hapiplot==0.2.2
     # via -r docker/pyhc-environment/contents/packages.txt
 hatanaka==2.8.1
     # via georinex
-helioai-agent==0.2.1
+helioai-agent==0.3.0
     # via -r docker/pyhc-environment/contents/packages.txt
 hf-xet==1.6.0
     # via huggingface-hub
@@ -546,11 +559,10 @@ httpx==0.28.1
     #   helioai-agent
     #   huggingface-hub
     #   jupyterlab
-    #   mcp
-httpx-sse==0.4.3
-    # via mcp
 httpx2==2.13.0
-    # via openai
+    # via
+    #   mcp
+    #   openai
 huggingface-hub==1.32.0
     # via
     #   sentence-transformers
@@ -569,6 +581,8 @@ hypothesis==6.168.0
     # via
     #   pyhc-core
     #   pytest-astropy
+icecream==2.2.0
+    # via swvo
 idna==3.20
     # via
     #   anyio
@@ -671,6 +685,7 @@ jmespath==1.1.0
 joblib==1.6.0
     # via
     #   hapiclient
+    #   richpool
     #   scikit-learn
 jplephem==2.24
     # via sunpy
@@ -716,7 +731,7 @@ jupyter-server==2.21.1
     #   notebook-shim
 jupyter-server-terminals==0.5.4
     # via jupyter-server
-jupyterlab==4.6.3
+jupyterlab==4.6.4
     # via
     #   euvpy
     #   kaipy
@@ -798,6 +813,8 @@ markupsafe==3.0.3
     #   jinja2
     #   nbconvert
     #   werkzeug
+mat73==0.65
+    # via swvo
 matplotlib==3.11.2
     # via
     #   aiapy
@@ -839,6 +856,7 @@ matplotlib==3.11.2
     #   sunkit-instruments
     #   sunkit-magex
     #   sunpy
+    #   swvo
 matplotlib-inline==0.2.2
     # via
     #   ipykernel
@@ -847,8 +865,10 @@ mcalf==1.0.0
     # via -r docker/pyhc-environment/contents/packages.txt
 mccabe==0.7.0
     # via flake8
-mcp==1.30.0
+mcp==2.2.0
     # via helioai-agent
+mcp-types==2.2.0
+    # via mcp
 mdit-py-plugins==0.6.1
     # via myst-parser
 mdurl==0.1.2
@@ -868,7 +888,7 @@ mpl-animators==1.2.4
     #   sunpy
 mplcursors==0.7.1
     # via gcmprocpy
-mpmath==1.3.0
+mpmath==1.4.1
     # via
     #   plasmapy
     #   sympy
@@ -949,8 +969,9 @@ netcdf4==1.7.4
     #   pysatspaceweather
     #   pyspedas
     #   pytplot-mpl-temp
+    #   swvo
     #   viresclient
-networkx==3.6.1
+networkx==3.7
     # via
     #   scikit-image
     #   torch
@@ -991,6 +1012,7 @@ numpy==2.3.5
     #   colorspacious
     #   contourpy
     #   csaps
+    #   csem-midl
     #   darn-dmap
     #   dascutils
     #   dask
@@ -1024,6 +1046,7 @@ numpy==2.3.5
     #   lmfit
     #   lofarsun
     #   lowtran
+    #   mat73
     #   matplotlib
     #   mcalf
     #   mpl-animators
@@ -1091,6 +1114,7 @@ numpy==2.3.5
     #   sunkit-magex
     #   sunpy
     #   sunraster
+    #   swvo
     #   swxsoc
     #   tables
     #   themisasi
@@ -1164,6 +1188,7 @@ opencv-python==4.14.0.94
 opentelemetry-api==1.44.0
     # via
     #   chromadb
+    #   mcp
     #   opentelemetry-exporter-otlp-proto-grpc
     #   opentelemetry-sdk
     #   opentelemetry-semantic-conventions
@@ -1241,6 +1266,7 @@ pandas==3.0.6
     # via
     #   asilib
     #   cloudcatalog
+    #   csem-midl
     #   drms
     #   euvpy
     #   geomagindices
@@ -1269,6 +1295,7 @@ pandas==3.0.6
     #   sunkit-instruments
     #   sunpy
     #   supermag-api
+    #   swvo
     #   viresclient
     #   xarray
 pandocfilters==1.5.1
@@ -1284,7 +1311,9 @@ parso==0.8.7
 partd==1.4.2
     # via dask
 pathos==0.3.5
-    # via mcalf
+    # via
+    #   mcalf
+    #   richpool
 pexpect==4.9.0
     # via ipython
 pillow==12.3.0
@@ -1309,6 +1338,7 @@ plasmapy==2026.2.0
 platformdirs==4.11.11
     # via
     #   choreographer
+    #   csem-midl
     #   dkist
     #   jupyter-core
     #   sciqlop
@@ -1322,7 +1352,7 @@ pluggy==1.6.0
     # via
     #   pytest
     #   pytest-cov
-portalocker==4.3.2
+portalocker==4.4.0
     # via pysat
 pox==0.3.7
     # via pathos
@@ -1386,6 +1416,7 @@ pydantic==2.13.5
     #   google-genai
     #   hvpy
     #   mcp
+    #   mcp-types
     #   mt-metadata
     #   openai
     #   pydantic-settings
@@ -1397,7 +1428,6 @@ pydantic-settings==2.15.0
     # via
     #   chromadb
     #   hvpy
-    #   mcp
 pydarn==4.3
     # via -r docker/pyhc-environment/contents/packages.txt
 pydarnio==2.1
@@ -1416,6 +1446,7 @@ pygam==0.8.0
     # via euvpy
 pygments==2.21.0
     # via
+    #   icecream
     #   ipython
     #   ipython-pygments-lexers
     #   nbconvert
@@ -1438,7 +1469,7 @@ pymap3d==3.2.0
     #   amisrsynthdata
     #   asilib
     #   dascutils
-pyparsing==3.3.2
+pyparsing==3.3.3
     # via matplotlib
 pypika==0.51.1
     # via chromadb
@@ -1521,6 +1552,7 @@ pytest==9.1.1
     #   pytest-run-parallel
     #   pytest-skip-slow
     #   pytest-xdist
+    #   richpool
     #   sunpy
 pytest-arraydiff==0.7.0
     # via pytest-astropy
@@ -1597,6 +1629,7 @@ python-dateutil==2.9.0.post0
     #   speasy
     #   sscws
     #   sunpy
+    #   swvo
     #   themisasi
 python-dotenv==1.2.3
     # via
@@ -1684,6 +1717,7 @@ requests==2.34.2
     #   asilib
     #   astroquery
     #   cdasws
+    #   csem-midl
     #   gcmprocpy
     #   geomagindices
     #   geospacelab
@@ -1716,6 +1750,7 @@ requests==2.34.2
     #   sphinx
     #   sscws
     #   sunpy
+    #   swvo
     #   themisasi
     #   viresclient
     #   zeep
@@ -1741,14 +1776,20 @@ rich==15.0.0
     # via
     #   blosc2
     #   chromadb
+    #   richpool
     #   space-packet-parser
+    #   swvo
     #   typer
+richpool==0.1.4
+    # via swvo
 roman-numerals==4.1.0
     # via sphinx
 rpds-py==2026.6.3
     # via
     #   jsonschema
     #   referencing
+ruff==0.16.8
+    # via richpool
 s3fs==2026.9.0
     # via
     #   fsspec
@@ -1832,6 +1873,7 @@ scipy==1.18.1
     #   sunkit-instruments
     #   sunkit-magex
     #   sunpy
+    #   swvo
     #   themisasi
     #   xgboost
 sciqlop==0.13.0
@@ -1979,6 +2021,7 @@ sunpy==8.0.0
     #   sunkit-image
     #   sunkit-instruments
     #   sunkit-magex
+    #   swvo
     #   swxsoc
 sunraster==0.7.0
     # via
@@ -1986,9 +2029,11 @@ sunraster==0.7.0
     #   irispy-lmsal
 supermag-api==0.0.6
     # via kaipy
+swvo==1.2.8
+    # via -r docker/pyhc-environment/contents/packages.txt
 swxsoc==0.2.3
     # via -r docker/pyhc-environment/contents/packages.txt
-sympy==1.14.0
+sympy==1.14.0rc1
     # via
     #   kamodo-core-official
     #   torch
@@ -2015,7 +2060,7 @@ threadpoolctl==3.7.0
     #   blosc2
     #   scikit-learn
     #   solarmach
-tifffile==2026.9.15
+tifffile==2026.9.20
     # via
     #   dask-image
     #   pims
@@ -2039,7 +2084,9 @@ toolz==1.1.0
     #   partd
     #   pysat
 torch==2.14.0
-    # via sentence-transformers
+    # via
+    #   helioai-agent
+    #   sentence-transformers
 tornado==6.5.10
     # via
     #   bokeh
@@ -2064,6 +2111,7 @@ tqdm==4.70.1
     #   solo-epd-loader
     #   speasy
     #   sunpy
+    #   swvo
     #   transformers
     #   viresclient
 traitlets==5.16.1
@@ -2090,6 +2138,8 @@ truststore==0.10.4
     # via
     #   httpcore2
     #   httpx2
+ty==0.0.82
+    # via richpool
 typer==0.27.2
     # via
     #   chromadb
@@ -2110,6 +2160,7 @@ typing-extensions==4.16.0
     #   huggingface-hub
     #   jupyter-client
     #   mcp
+    #   mcp-types
     #   mt-metadata
     #   numcodecs
     #   openai
@@ -2162,7 +2213,7 @@ uvloop==0.22.1
     # via uvicorn
 viresclient==0.16.0
     # via -r docker/pyhc-environment/contents/packages.txt
-watchfiles==1.2.0
+watchfiles==1.3.0
     # via uvicorn
 wcwidth==0.8.4
     # via prompt-toolkit
@@ -2186,7 +2237,9 @@ werkzeug==3.1.8
     #   flask
     #   flask-cors
 wget==3.2
-    # via savic
+    # via
+    #   savic
+    #   swvo
 wheel==0.48.0
     # via asilib
 widgetsnbextension==4.0.16
@@ -2201,6 +2254,7 @@ wrapt==1.17.3
     #   plasmapy
 xarray==2026.7.0
     # via
+    #   csem-midl
     #   dascutils
     #   dmsp
     #   enlilviz
@@ -2226,6 +2280,7 @@ xarray==2026.7.0
     #   pytplot-mpl-temp
     #   reesaurora
     #   sunkit-instruments
+    #   swvo
     #   themisasi
     #   viresclient
     #   wmm2015

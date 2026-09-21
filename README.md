@@ -55,7 +55,7 @@ apexpy | 2.1.1
 asilib | 0.30.1
 ccsdspy | 2.0.1
 cdflib | 1.3.12
-cloudcatalog | 1.2.1
+cloudcatalog | 1.3.0
 dascutils | 2.3.0
 dbprocessing | 0.1.0
 dmsp | 0.6.0
@@ -69,7 +69,7 @@ geospacelab | 0.14.15
 goesutils | 1.0.8
 hapiclient | 0.3.3
 hapiplot | 0.2.2
-helioai-agent | 0.2.1
+helioai-agent | 0.3.0
 hissw | 2.3
 igrf | 13.0.2
 iri2016 | 1.11.1
@@ -117,6 +117,7 @@ sunkit-image | 0.7.0
 sunkit-instruments | 0.6.2
 sunpy | 8.0.0
 sunraster | 0.7.0
+swvo | 1.2.8
 swxsoc | 0.2.3
 themisasi | 1.2.0
 viresclient | 0.16.0
