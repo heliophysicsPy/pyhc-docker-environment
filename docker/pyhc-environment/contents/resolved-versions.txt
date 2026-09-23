@@ -211,6 +211,8 @@ botocore==1.40.61
     #   boto3
     #   pyrfu
     #   s3transfer
+bottleneck==1.6.0
+    # via pyspedas
 build==1.6.1
     # via chromadb
 cachebox==5.2.3
@@ -254,6 +256,8 @@ cffi==2.1.1
     # via
     #   argon2-cffi-bindings
     #   cryptography
+cfgv==3.5.0
+    # via pre-commit
 cftime==1.6.5
     # via netcdf4
 charset-normalizer==3.5.1
@@ -308,7 +312,7 @@ csaps==1.3.3
     # via euvpy
 csem-midl==1.1.2
     # via swvo
-cuda-bindings==13.4.2
+cuda-bindings==13.4.3
     # via torch
 cuda-pathfinder==1.8.2
     # via cuda-bindings
@@ -353,6 +357,8 @@ diskcache==5.6.3
     # via speasy
 distance==0.1.3
     # via swvo
+distlib==0.4.3
+    # via virtualenv
 distro==1.9.0
     # via google-genai
 dkist==1.18.1
@@ -398,7 +404,9 @@ fiasco==0.8.2
 filelock==4.0.1
     # via
     #   huggingface-hub
+    #   python-discovery
     #   torch
+    #   virtualenv
 flake8==7.3.0
     # via
     #   flake8-docstrings
@@ -469,7 +477,7 @@ google-auth==2.58.0
     # via google-genai
 google-crc32c==1.8.0
     # via zarr
-google-genai==2.24.0
+google-genai==2.25.0
     # via helioai-agent
 googleapis-common-protos==1.75.3
     # via opentelemetry-exporter-otlp-proto-grpc
@@ -547,7 +555,7 @@ html5lib==1.1
     # via astroquery
 httpcore==1.0.9
     # via httpx
-httpcore2==2.13.0
+httpcore2==2.13.1
     # via httpx2
 httptools==0.8.0
     # via uvicorn
@@ -559,7 +567,7 @@ httpx==0.28.1
     #   helioai-agent
     #   huggingface-hub
     #   jupyterlab
-httpx2==2.13.0
+httpx2==2.13.1
     # via
     #   mcp
     #   openai
@@ -577,12 +585,14 @@ hvpy==1.1.0
     # via sunpy
 hyperframe==6.1.0
     # via h2
-hypothesis==6.168.0
+hypothesis==6.168.1
     # via
     #   pyhc-core
     #   pytest-astropy
 icecream==2.2.0
     # via swvo
+identify==2.6.19
+    # via pre-commit
 idna==3.20
     # via
     #   anyio
@@ -953,7 +963,7 @@ ndcube==2.4.2
     #   swxsoc
 ndindex==1.10.1
     # via blosc2
-nest-asyncio2==1.7.2
+nest-asyncio2==1.7.3
     # via ipykernel
 netcdf4==1.7.4
     # via
@@ -977,6 +987,8 @@ networkx==3.7
     #   torch
 nexradutils==1.0.0
     # via -r docker/pyhc-environment/contents/packages.txt
+nodeenv==1.10.0
+    # via pre-commit
 notebook-shim==0.2.4
     # via jupyterlab
 numba==0.67.0
@@ -1003,6 +1015,7 @@ numpy==2.3.5
     #   astroquery
     #   blosc2
     #   bokeh
+    #   bottleneck
     #   cartopy
     #   ccsdspy
     #   cdflib
@@ -1178,7 +1191,7 @@ ommbv==1.1.0
     # via -r docker/pyhc-environment/contents/packages.txt
 onnxruntime==1.30.0
     # via chromadb
-openai==3.17.0
+openai==3.19.0
     # via helioai-agent
 opencv-python==4.14.0.94
     # via
@@ -1341,7 +1354,9 @@ platformdirs==4.11.12
     #   csem-midl
     #   dkist
     #   jupyter-core
+    #   pyspedas
     #   sciqlop
+    #   virtualenv
     #   zeep
 plotly==7.1.0
     # via
@@ -1358,6 +1373,8 @@ pox==0.3.7
     # via pathos
 ppft==1.7.8
     # via pathos
+pre-commit==4.6.2
+    # via richpool
 progressbar==2.5
     # via kaipy
 progressbar2==4.6.0
@@ -1523,7 +1540,7 @@ pyside6-essentials==6.11.2
     #   pyside6-addons
 pysocks==1.7.1
     # via speasy
-pyspedas==2.1.5
+pyspedas==2.2.0
     # via
     #   -r docker/pyhc-environment/contents/packages.txt
     #   kaipy
@@ -1631,6 +1648,8 @@ python-dateutil==2.9.0.post0
     #   sunpy
     #   swvo
     #   themisasi
+python-discovery==1.6.1
+    # via virtualenv
 python-dotenv==1.2.3
     # via
     #   helioai-agent
@@ -1676,6 +1695,7 @@ pyyaml==6.0.3
     #   mcalf
     #   mth5
     #   myst-parser
+    #   pre-commit
     #   pycdfpp
     #   pydarn
     #   pytest-regressions
@@ -1780,7 +1800,7 @@ rich==15.0.0
     #   space-packet-parser
     #   swvo
     #   typer
-richpool==0.1.4
+richpool==0.2.1
     # via swvo
 roman-numerals==4.1.0
     # via sphinx
@@ -1992,7 +2012,7 @@ sse-starlette==3.4.11
     # via mcp
 stack-data==0.6.3
     # via ipython
-starlette==1.6.0
+starlette==1.7.0
     # via
     #   fastapi
     #   mcp
@@ -2078,6 +2098,8 @@ tomli==2.4.1
     # via pyspedas
 tomli-w==1.2.0
     # via sciqlop
+tomlkit==0.15.1
+    # via pyspedas
 toolz==1.1.0
     # via
     #   dask
@@ -2202,7 +2224,7 @@ urllib3==2.8.0
     #   responses
     #   savic
     #   speasy
-uv==0.12.17
+uv==0.12.18
     # via sciqlop
 uvicorn==0.53.0
     # via
@@ -2213,6 +2235,8 @@ uvloop==0.22.1
     # via uvicorn
 viresclient==0.16.0
     # via -r docker/pyhc-environment/contents/packages.txt
+virtualenv==21.11.0
+    # via pre-commit
 watchfiles==1.3.0
     # via uvicorn
 wcwidth==0.8.4
