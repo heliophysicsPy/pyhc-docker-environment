@@ -55,7 +55,7 @@ apexpy | 2.1.1
 asilib | 0.30.1
 ccsdspy | 2.0.1
 cdflib | 1.3.12
-cloudcatalog | 1.3.0
+cloudcatalog | 1.3.1
 dascutils | 2.3.0
 dbprocessing | 0.1.0
 dmsp | 0.6.0
@@ -87,7 +87,7 @@ nexradutils | 1.0.0
 ocbpy | 0.7.0
 OMMBV | 1.1.0
 plasmapy | 2026.2.0
-pyaurorax | 1.25.0
+pyaurorax | 1.26.0
 pycdfpp | 0.11.1
 pydarn | 4.3
 pyflct | 0.3.1
