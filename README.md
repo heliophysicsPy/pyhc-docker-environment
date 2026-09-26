@@ -54,7 +54,7 @@ amisrsynthdata | 1.2.0
 apexpy | 2.1.1
 asilib | 0.30.1
 ccsdspy | 2.0.1
-cdflib | 1.3.12
+cdflib | 1.3.14
 cloudcatalog | 1.3.1
 dascutils | 2.3.0
 dbprocessing | 0.1.0
@@ -88,7 +88,7 @@ ocbpy | 0.7.0
 OMMBV | 1.1.0
 plasmapy | 2026.2.0
 pyaurorax | 1.26.0
-pycdfpp | 0.12.0
+pycdfpp | 0.13.1
 pydarn | 4.3
 pyflct | 0.3.1
 pyhc-core[tests] | 0.0.9
@@ -111,7 +111,7 @@ solarmach | 0.5.4
 solo-epd-loader | 0.4.4
 space-packet-parser | 6.2.0
 spacepy | 0.7.0
-speasy | 1.8.3
+speasy | 1.8.4
 spiceypy | 8.2.0
 sunkit-image | 0.7.0
 sunkit-instruments | 0.6.2
