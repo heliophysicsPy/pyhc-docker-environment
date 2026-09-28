@@ -155,7 +155,7 @@ astropy==8.0.1
     #   swxsoc
 astropy-healpix==2.0.1
     # via reproject
-astropy-iers-data==0.2026.9.21.0.56.25
+astropy-iers-data==0.2026.9.28.0.59.37
     # via astropy
 astroquery==0.4.11
     # via speasy
@@ -193,7 +193,7 @@ bleach==6.4.0
     # via nbconvert
 blinker==1.9.0
     # via flask
-blosc2==4.13.1
+blosc2==4.14.0
     # via tables
 bokeh==3.10.0
     # via pytplot
@@ -300,7 +300,7 @@ contourpy==1.4.0
     # via
     #   matplotlib
     #   sunpy
-coverage==7.16.1
+coverage==7.16.2
     # via pytest-cov
 cryptography==50.0.1
     # via
@@ -401,7 +401,7 @@ ffmpeg-python==0.2.0
     # via asilib
 fiasco==0.8.2
     # via -r docker/pyhc-environment/contents/packages.txt
-filelock==4.0.3
+filelock==4.0.5
     # via
     #   huggingface-hub
     #   python-discovery
@@ -429,7 +429,7 @@ fonttools==4.66.0
     # via matplotlib
 fortranformat==2.0.3
     # via fiasco
-fqdn==1.5.1
+fqdn==1.6.0
     # via jsonschema
 frozenlist==1.8.0
     # via
@@ -583,13 +583,13 @@ hvpy==1.1.0
     # via sunpy
 hyperframe==6.1.0
     # via h2
-hypothesis==6.168.1
+hypothesis==6.168.3
     # via
     #   pyhc-core
     #   pytest-astropy
 icecream==2.2.0
     # via swvo
-identify==2.6.19
+identify==2.6.20
     # via pre-commit
 idna==3.20
     # via
@@ -602,7 +602,7 @@ idna==3.20
     #   yarl
 igrf==13.0.2
     # via -r docker/pyhc-environment/contents/packages.txt
-imageio==2.37.4
+imageio==2.38.0
     # via
     #   goesutils
     #   nexradutils
@@ -639,7 +639,7 @@ ipywidgets==8.1.9
     #   sunpy
 iri2016==1.11.1
     # via -r docker/pyhc-environment/contents/packages.txt
-irispy-lmsal==0.9.0
+irispy-lmsal==0.9.1
     # via -r docker/pyhc-environment/contents/packages.txt
 isodate==0.7.2
     # via
@@ -985,7 +985,7 @@ networkx==3.7
     #   torch
 nexradutils==1.0.0
     # via -r docker/pyhc-environment/contents/packages.txt
-nodeenv==1.10.0
+nodeenv==1.11.0
     # via pre-commit
 notebook-shim==0.2.4
     # via jupyterlab
@@ -1179,7 +1179,7 @@ nvidia-nvshmem-cu13==3.4.5
     # via torch
 nvidia-nvtx==13.0.85
     # via cuda-toolkit
-oauthlib==3.3.1
+oauthlib==4.0.0
     # via requests-oauthlib
 obspy==1.5.1
     # via pyhc-core
@@ -1349,7 +1349,7 @@ plasmapy==2026.2.0
     #   fiasco
     #   helioai-agent
     #   pyhc-core
-platformdirs==4.11.15
+platformdirs==4.12.1
     # via
     #   choreographer
     #   csem-midl
@@ -1417,7 +1417,7 @@ pyavm==0.9.9
     # via reproject
 pybase64==1.5.0
     # via chromadb
-pycdfpp==0.13.1
+pycdfpp==0.15.0
     # via
     #   -r docker/pyhc-environment/contents/packages.txt
     #   pyistp
@@ -1595,7 +1595,7 @@ pytest-filter-subpackage==0.2.0
     # via
     #   pyhc-core
     #   pytest-astropy
-pytest-mock==3.15.1
+pytest-mock==3.16.0
     # via pytest-astropy
 pytest-mpl==0.19.0
     # via sunpy
@@ -2236,7 +2236,7 @@ uvloop==0.22.1
     # via uvicorn
 viresclient==0.16.0
     # via -r docker/pyhc-environment/contents/packages.txt
-virtualenv==21.12.1
+virtualenv==21.13.0
     # via pre-commit
 watchfiles==1.3.0
     # via uvicorn
@@ -2257,7 +2257,7 @@ websockets==16.1.1
     # via
     #   google-genai
     #   uvicorn
-werkzeug==3.1.8
+werkzeug==3.1.9
     # via
     #   flask
     #   flask-cors

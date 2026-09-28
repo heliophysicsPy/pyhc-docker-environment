@@ -73,7 +73,7 @@ helioai-agent | 0.3.0
 hissw | 2.3
 igrf | 13.0.2
 iri2016 | 1.11.1
-irispy-lmsal | 0.9.0
+irispy-lmsal | 0.9.1
 kaipy | 1.1.4
 kamodo-ccmc | 26.9.2
 lofarSun | 0.3.32
@@ -88,7 +88,7 @@ ocbpy | 0.7.0
 OMMBV | 1.1.0
 plasmapy | 2026.2.0
 pyaurorax | 1.26.0
-pycdfpp | 0.13.1
+pycdfpp | 0.15.0
 pydarn | 4.3
 pyflct | 0.3.1
 pyhc-core[tests] | 0.0.9
