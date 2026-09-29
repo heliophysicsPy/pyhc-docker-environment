@@ -258,7 +258,7 @@ cffi==2.1.1
     #   cryptography
 cfgv==3.5.0
     # via pre-commit
-cftime==1.6.5
+cftime==1.6.6
     # via netcdf4
 charset-normalizer==3.5.1
     # via requests
@@ -401,7 +401,7 @@ ffmpeg-python==0.2.0
     # via asilib
 fiasco==0.8.2
     # via -r docker/pyhc-environment/contents/packages.txt
-filelock==4.0.5
+filelock==4.0.6
     # via
     #   huggingface-hub
     #   python-discovery
@@ -473,7 +473,7 @@ glymur==0.14.8
     # via sunpy
 goesutils==1.0.8
     # via -r docker/pyhc-environment/contents/packages.txt
-google-auth==2.58.1
+google-auth==2.59.0
     # via google-genai
 google-crc32c==1.9.0
     # via zarr
@@ -900,7 +900,7 @@ mpmath==1.4.1
     # via
     #   plasmapy
     #   sympy
-msgpack==1.2.2
+msgpack==1.2.3
     # via blosc2
 msgspec==0.21.1
     # via zarr
@@ -1189,7 +1189,7 @@ ommbv==1.1.0
     # via -r docker/pyhc-environment/contents/packages.txt
 onnxruntime==1.30.0
     # via chromadb
-openai==3.19.2
+openai==3.20.0
     # via helioai-agent
 opencv-python==4.14.0.94
     # via
@@ -1417,11 +1417,12 @@ pyavm==0.9.9
     # via reproject
 pybase64==1.5.0
     # via chromadb
-pycdfpp==0.15.0
+pycdfpp==0.15.1
     # via
     #   -r docker/pyhc-environment/contents/packages.txt
     #   pyistp
     #   pyrfu
+    #   speasy
 pycodestyle==2.14.0
     # via flake8
 pycparser==3.0
@@ -1477,7 +1478,7 @@ pyintensityfeatures==0.2.0
     # via -r docker/pyhc-environment/contents/packages.txt
 pyistp==0.9.1
     # via speasy
-pyjwt==2.15.0
+pyjwt==2.15.1
     # via
     #   globus-sdk
     #   mcp
@@ -1525,7 +1526,7 @@ pysat==3.2.2
     #   pysatspaceweather
 pysatspaceweather==0.0.10
     # via pysat
-pysciqlop-cache==0.2.2
+pysciqlop-cache==0.3.0
     # via speasy
 pyshp==3.1.6
     # via
@@ -1725,7 +1726,7 @@ referencing==0.37.0
     #   jsonschema
     #   jsonschema-specifications
     #   jupyter-events
-regex==2026.9.10
+regex==2026.9.29
     # via transformers
 regularizepsf==1.2.1
     # via -r docker/pyhc-environment/contents/packages.txt
@@ -1967,7 +1968,7 @@ spacepy==0.7.0
     #   pyhc-core
     #   pyspedas
     #   swxsoc
-speasy==1.8.4
+speasy==1.8.5
     # via
     #   -r docker/pyhc-environment/contents/packages.txt
     #   helioai-agent
@@ -2009,7 +2010,7 @@ sqlalchemy==2.1.1
     #   obspy
 sscws==2.5.1
     # via geospacelab
-sse-starlette==3.4.11
+sse-starlette==3.5.0
     # via mcp
 stack-data==0.6.3
     # via ipython
@@ -2225,7 +2226,7 @@ urllib3==2.8.0
     #   responses
     #   savic
     #   speasy
-uv==0.12.19
+uv==0.12.20
     # via sciqlop
 uvicorn==0.54.0
     # via
