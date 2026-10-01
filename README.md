@@ -75,7 +75,7 @@ igrf | 13.0.2
 iri2016 | 1.11.1
 irispy-lmsal | 0.9.1
 kaipy | 1.1.4
-kamodo-ccmc | 26.9.2
+kamodo-ccmc | 26.9.3
 lofarSun | 0.3.32
 lowtran | 3.1.0
 madrigalWeb | 3.3.8
@@ -88,7 +88,7 @@ ocbpy | 0.7.0
 OMMBV | 1.1.0
 plasmapy | 2026.2.0
 pyaurorax | 1.26.0
-pycdfpp | 0.15.1
+pycdfpp | 0.16.0
 pydarn | 4.3
 pyflct | 0.3.1
 pyhc-core[tests] | 0.0.9
@@ -111,7 +111,7 @@ solarmach | 0.5.4
 solo-epd-loader | 0.4.4
 space-packet-parser | 6.2.0
 spacepy | 0.7.0
-speasy | 1.8.5
+speasy | 1.8.6
 spiceypy | 8.2.0
 sunkit-image | 0.7.0
 sunkit-instruments | 0.6.2
