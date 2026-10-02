@@ -44,7 +44,7 @@ georinex==1.16.2
 geospacelab==0.14.15
 goesutils==1.0.8
 hapiplot==0.2.2
-helioai-agent==0.3.0
+helioai-agent==0.4.0
 hissw==2.3
 igrf==13.0.2
 iri2016==1.11.1
@@ -75,7 +75,7 @@ regularizepsf==1.2.1
 sammi-cdf==1.1.0
 savic==1.2.7
 sciencedates==1.5.0
-SciQLop==0.13.0
+SciQLop==0.13.1
 SkyWinder==0.0.3
 solarmach==0.5.4
 solo-epd-loader==0.4.4
