@@ -43,7 +43,10 @@ RUN pip install uv
 # Install PyHC packages with uv
 # packages.txt contains PyHC package names with version pins
 # constraints.txt blocks known-broken versions
-RUN uv pip install --system -c /app/constraints.txt -r /app/packages.txt
+# Activate Conda so native Python 3.13 builds receive its compiler and FFTW flags.
+RUN /bin/bash -c "source activate pyhc-all && \
+    uv pip install --system -c /app/constraints.txt -r /app/packages.txt && \
+    uv pip check --system"
 
 # Pre-build the wmm2015, wmm2020, and savic packages using Bash shell
 RUN /bin/bash -c "source activate pyhc-all && \
