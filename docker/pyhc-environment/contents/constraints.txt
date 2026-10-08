@@ -13,8 +13,18 @@
 # latest PyPI versions that satisfy these constraints.
 # ============================================
 
-# Temporary block: Kaipy 1.1.5 exact-pins old SunPy and PySPEDAS versions
-kaipy!=1.1.5
+# Temporary Python 3.13 workaround: current Kaipy releases require Python<3.13.
+# Use 1.0.6 until a supported current release is available (tracked from #47).
+# Restore its import in import-test.ipynb when this constraint is removed.
+kaipy<1.0.7
+
+# Temporary exclusion: EUVpy's Python-3.13-compatible pyGAM dependency requires
+# SciPy<1.17, conflicting with current pyDARN and irispy-lmsal (tracked from #47).
+# Restore its package entry and import-test.ipynb import once dependencies work.
+EUVpy<0
+
+# Keep the Conda-pinned Jupyter Book 0.15.1 / MyST toolchain compatible.
+markdown-it-py<3
 
 # Temporary block: astrometry-azel is no longer available on PyPI, so it is
 # removed from the PyHC Environment while maintainers clarify whether it will
