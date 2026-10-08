@@ -8,7 +8,8 @@ FROM continuumio/miniconda3 AS base
 WORKDIR /app
 
 # Update the packages in the base image and install the necessary compilers, then cleanup
-RUN apt-get update && apt-get install -y gcc g++ gfortran ncurses-dev build-essential cmake libgl1 vim nano wget curl git zip unzip \
+# pyflct 0.3.1 builds from source on Python 3.13 and links against FFTW.
+RUN apt-get update && apt-get install -y gcc g++ gfortran ncurses-dev build-essential cmake libfftw3-dev libgl1 vim nano wget curl git zip unzip \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -43,7 +44,8 @@ RUN pip install uv
 # Install PyHC packages with uv
 # packages.txt contains PyHC package names with version pins
 # constraints.txt blocks known-broken versions
-RUN uv pip install --system -c /app/constraints.txt -r /app/packages.txt
+RUN uv pip install --system -c /app/constraints.txt -r /app/packages.txt && \
+    uv pip check --system
 
 # Pre-build the wmm2015, wmm2020, and savic packages using Bash shell
 RUN /bin/bash -c "source activate pyhc-all && \
