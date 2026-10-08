@@ -8,6 +8,7 @@ dependencies:
   - gxx_linux-64=14.2.*       # pulls in gxx_impl_linux-64 14.2.x (wmm2015/wmm2020 C code fails to compile with GCC>=15.1); added to help matplotlib wheel build
   - gfortran_linux-64=14.2.*  # pulls in gfortran_impl_linux-64 14.2.x; needed for ffnet dependency of spacepy
   - fftw                     # headers and library for pyflct's Python 3.13 source build
+  - mdit-py-plugins=0.3.*  # MyST bundled with Jupyter Book 0.15.1 requires ~=0.3.1
   - jupyter-book=0.15.1
   - jupyterlab=4.0.10  #=3.5.0
   - jupyterlab-git=0.50.0

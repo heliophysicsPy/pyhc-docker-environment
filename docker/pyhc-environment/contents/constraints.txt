@@ -25,6 +25,7 @@ EUVpy<0
 
 # Keep the Conda-pinned Jupyter Book 0.15.1 / MyST toolchain compatible.
 markdown-it-py<3
+mdit-py-plugins>=0.3.1,<0.4
 
 # Temporary block: astrometry-azel is no longer available on PyPI, so it is
 # removed from the PyHC Environment while maintainers clarify whether it will
