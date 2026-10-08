@@ -60,7 +60,6 @@ dascutils | 2.3.0
 dbprocessing | 0.1.0
 dmsp | 0.6.0
 enlilviz | 0.2.0
-EUVpy | 1.0.0
 fiasco | 0.8.2
 gcmprocpy | 1.5.2
 geopack | 1.0.13
@@ -74,7 +73,7 @@ hissw | 2.3
 igrf | 13.0.2
 iri2016 | 1.11.1
 irispy-lmsal | 0.9.1
-kaipy | 1.1.4
+kaipy | 1.0.6
 kamodo-ccmc | 26.9.3
 lofarSun | 0.3.32
 lowtran | 3.1.0
@@ -105,7 +104,7 @@ regularizepsf | 1.2.1
 sammi-cdf | 1.1.0
 savic | 1.2.7
 sciencedates | 1.5.0
-SciQLop | 0.13.1
+SciQLop | 0.14.1
 SkyWinder | 0.0.3
 solarmach | 0.5.4
 solo-epd-loader | 0.4.4
