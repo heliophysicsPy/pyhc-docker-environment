@@ -94,7 +94,7 @@ pyflct | 0.3.1
 pyhc-core[tests] | 0.0.9
 pyIntensityFeatures | 0.2.0
 pymap3d | 3.2.0
-pyrfu | 2.4.21
+pyrfu | 2.5.0
 pysat | 3.2.2
 pyspedas | 2.2.0
 pytplot | 1.7.28
@@ -111,7 +111,7 @@ solarmach | 0.5.4
 solo-epd-loader | 0.4.4
 space-packet-parser | 6.2.0
 spacepy | 0.7.0
-speasy | 1.9.0
+speasy | 1.9.1
 spiceypy | 8.2.0
 sunkit-image | 0.7.0
 sunkit-instruments | 0.6.2
