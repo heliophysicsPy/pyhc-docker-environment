@@ -20,3 +20,7 @@ kaipy!=1.1.5
 # removed from the PyHC Environment while maintainers clarify whether it will
 # be republished. See https://github.com/space-physics/astrometry_geomap/issues/6
 astrometry-azel<0
+
+# Temporary Python 3.12 workaround: SciQLop 0.14+ requires Python 3.13.
+# Remove when the environment upgrades to Python 3.13 (issue #47).
+SciQLop<0.14
