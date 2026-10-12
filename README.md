@@ -9,7 +9,7 @@ The PyHC Environment Pipeline automates the creation of a Docker image with a Py
 - **Automated Docker Builds**: Automatically builds the Docker image with an updated Python environment using GitHub Actions.
 - **Daily Updates**: Runs daily to check for and include the latest versions of PyHC packages.
 - **Docker Hub Hosting**: Docker image is readily available on Docker Hub for easy access and deployment.
-- **Dependency Spreadsheet**: An intermediate step of the pipeline is to generate an Excel spreadsheet showing a matrix of allowed version range requirements.
+- **Dependency Spreadsheet**: On request, a manual run can generate an Excel spreadsheet showing a matrix of allowed version range requirements (off by default).
 
 ## Workflow Parameters
 
@@ -19,7 +19,7 @@ The pipeline workflow supports the following manual trigger parameters:
 |-----------|-------------|---------|
 | `skip_checks` | Skip auto-pin and compile (quick deploy mode) | `false` |
 | `force_build` | Force build even if no changes detected | `false` |
-| `generate_spreadsheet` | Generate dependency spreadsheet | `true` |
+| `generate_spreadsheet` | Generate dependency spreadsheet | `false` |
 | `spreadsheet_workers` | Number of workers for spreadsheet generation | `2` |
 | `docker_tag_suffix` | Optional suffix appended to date tag (e.g., `-temp`) | `` |
 
