@@ -17,9 +17,9 @@ on:
         default: 'false'
         type: boolean
       generate_spreadsheet:
-        description: 'Generate dependency spreadsheet (set false to skip)'
+        description: 'Generate dependency spreadsheet (off by default)'
         required: false
-        default: 'true'
+        default: 'false'
         type: boolean
       spreadsheet_workers:
         description: 'Number of workers for spreadsheet generation'
@@ -84,19 +84,20 @@ jobs:
 
     # ============================================
     # Optional Spreadsheet Generation (for diagnostics and analysis)
-    # Runs only when updates/force would run pipeline, regardless of compile success.
+    # Opt-in: runs only on manual runs with generate_spreadsheet=true, and only
+    # when updates/force would run pipeline, regardless of compile success.
     # Skipped in quick deploy mode.
     # ============================================
     - name: Generate Dependency Spreadsheet
       id: generate_spreadsheet
-      if: github.event.inputs.skip_checks != 'true' && (steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && (github.event_name != 'workflow_dispatch' || github.event.inputs.generate_spreadsheet != 'false')
+      if: github.event.inputs.skip_checks != 'true' && (steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && github.event.inputs.generate_spreadsheet == 'true'
       env:
         PYHC_SPREADSHEET_WORKERS: ${{ github.event.inputs.spreadsheet_workers || '2' }}
         PIP_DISABLE_PIP_VERSION_CHECK: '1'
       run: python pipeline.py --generate-spreadsheet
 
     - name: Upload Spreadsheet Artifact
-      if: github.event.inputs.skip_checks != 'true' && (steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && (github.event_name != 'workflow_dispatch' || github.event.inputs.generate_spreadsheet != 'false')
+      if: github.event.inputs.skip_checks != 'true' && (steps.auto_pin.outputs.pyhc_packages_changed == 'true' || github.event.inputs.force_build == 'true') && github.event.inputs.generate_spreadsheet == 'true'
       uses: actions/upload-artifact@v4
       with:
         name: dependency-spreadsheet
@@ -127,7 +128,7 @@ jobs:
     - name: Fail workflow on compile error
       if: github.event.inputs.skip_checks != 'true' && steps.compile.outcome == 'failure'
       run: |
-        if [ "${{ github.event_name != 'workflow_dispatch' || github.event.inputs.generate_spreadsheet != 'false' }}" = "true" ]; then
+        if [ "${{ github.event.inputs.generate_spreadsheet == 'true' }}" = "true" ]; then
           echo "ERROR: Dependency resolution failed. See issue #2 and this run's spreadsheet artifact for details."
         else
           echo "ERROR: Dependency resolution failed. See issue #2 for details."
