@@ -4,6 +4,10 @@
 ## Overview
 The PyHC Environment Pipeline automates the creation of a Docker image with a Python environment that comes pre-loaded with the latest versions of all published PyHC ([Python in Heliophysics Community](https://pyhc.org/projects)) packages. The GitHub Actions workflow rebuilds and pushes the Docker image to [Docker Hub](https://hub.docker.com/u/spolson) each time a PyHC package releases a new update. It also keeps the source files in this repo in-sync with what's in Docker Hub, and updates a Binder build.
 
+
+> [!TIP]
+> _**Maintain a PyHC package?** Use the [PyHC Environment Compatibility Checker](https://github.com/heliophysicsPy/pyhc-actions#2-pyhc-environment-compatibility-checker) GitHub Action to catch dependency conflicts with this environment before you release!_
+
 ## Features
 - **Binder Deployment**: For ease of use, the `pyhc-environment` Docker image is deployed in Binder and continually updated (use the "launch binder" badge above to access it).
 - **Automated Docker Builds**: Automatically builds the Docker image with an updated Python environment using GitHub Actions.
