@@ -37,15 +37,19 @@ RUN conda env create -f /app/environment.yml && \
     echo ". /opt/conda/etc/profile.d/conda.sh && conda activate pyhc-all" > /etc/profile.d/init_conda.sh && \
     conda clean -afy
 
-# Install uv for faster dependency resolution
-RUN pip install uv
+# Install uv for faster dependency resolution. uv is pinned because --torch-backend (below) is a
+# preview option that may change between uv releases; keep this pin in sync with the workflow's.
+RUN pip install uv==0.13.0
 
 # Install PyHC packages with uv
 # packages.txt contains PyHC package names with version pins
 # constraints.txt blocks known-broken versions
 # Activate Conda so native Python 3.13 builds receive its compiler and FFTW flags.
+# --torch-backend cpu installs the CPU-only build of PyTorch (from PyTorch's own index) instead of
+# the default Linux build, which brings about 3 GB of NVIDIA CUDA libraries our GPU-less
+# deployments can't use; all other packages still come from PyPI. Keep in sync with pipeline.py.
 RUN /bin/bash -c "source activate pyhc-all && \
-    uv pip install --system -c /app/constraints.txt -r /app/packages.txt && \
+    uv pip install --system --torch-backend cpu -c /app/constraints.txt -r /app/packages.txt && \
     uv pip check --system"
 
 # Pre-build the wmm2015, wmm2020, and savic packages using Bash shell

@@ -53,7 +53,8 @@ jobs:
         python-version: ${{ steps.python_version.outputs.version }}
 
     - name: Install uv
-      run: pip install uv
+      # Pinned (and kept in sync with the Dockerfile) because pipeline.py uses the preview --torch-backend option
+      run: pip install uv==0.13.0
 
     - name: Install Pipeline Dependencies
       run: pip install -r pipeline_requirements.txt
