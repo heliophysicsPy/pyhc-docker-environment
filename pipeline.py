@@ -91,6 +91,8 @@ def run_uv_compile(packages_file: str, output_file: str, python_version: str = N
         packages_file,
         "-o", output_file,
         "--python-version", python_version,
+        # Resolve the CPU-only build of PyTorch, matching the Dockerfile's uv pip install
+        "--torch-backend", "cpu",
     ]
 
     # Add constraints file if provided and exists
