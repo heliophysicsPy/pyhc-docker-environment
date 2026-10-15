@@ -237,7 +237,7 @@ cffi==2.1.1
     # via cryptography
 cfgv==3.5.0
     # via pre-commit
-cftime==1.6.6
+cftime==1.6.6.1
     # via netcdf4
 charset-normalizer==3.5.2
     # via requests
@@ -353,7 +353,7 @@ executing==2.3.0
     # via
     #   icecream
     #   stack-data
-fastapi==0.143.0
+fastapi==0.143.1
     # via helioai-agent
 fastjsonschema==2.22.2
     # via nbformat
@@ -361,7 +361,7 @@ ffmpeg-python==0.2.0
     # via asilib
 fiasco==0.8.2
     # via -r docker/pyhc-environment/contents/packages.txt
-filelock==4.1.1
+filelock==4.2.0
     # via
     #   huggingface-hub
     #   python-discovery
@@ -385,7 +385,7 @@ flask-restful==0.3.10
     # via kamodo-core-official
 flatbuffers==25.12.19
     # via onnxruntime
-fonttools==4.66.1
+fonttools==4.67.0
     # via matplotlib
 fortranformat==2.0.3
     # via fiasco
@@ -431,7 +431,7 @@ google-auth==2.62.0
     # via google-genai
 google-crc32c==1.9.0
     # via zarr
-google-genai==2.30.1
+google-genai==2.31.0
     # via helioai-agent
 googleapis-common-protos==1.75.5
     # via opentelemetry-exporter-otlp-proto-grpc
@@ -538,7 +538,7 @@ hvpy==1.1.0
     # via sunpy
 hyperframe==6.1.0
     # via h2
-hypothesis==6.169.0
+hypothesis==6.169.4
     # via
     #   pyhc-core
     #   pytest-astropy
@@ -781,7 +781,7 @@ mdurl==0.1.2
     # via markdown-it-py
 mmh3==5.3.1
     # via chromadb
-more-itertools==11.2.0
+more-itertools==11.2.1
     # via
     #   jaraco-classes
     #   jaraco-functools
@@ -1029,7 +1029,7 @@ ommbv==1.1.0
     # via -r docker/pyhc-environment/contents/packages.txt
 onnxruntime==1.31.0
     # via chromadb
-openai==3.29.0
+openai==3.31.0
     # via helioai-agent
 opencv-python==4.14.0.94
     # via
@@ -1195,7 +1195,7 @@ plotly==7.1.0
     #   kamodo-ccmc
     #   kamodo-core-official
     #   solarmach
-pluggy==1.6.0
+pluggy==1.7.0
     # via
     #   pytest
     #   pytest-cov
@@ -1235,7 +1235,7 @@ pyasn1==0.6.4
     # via pyasn1-modules
 pyasn1-modules==0.4.2
     # via google-auth
-pyaurorax==1.26.0
+pyaurorax==1.27.0
     # via -r docker/pyhc-environment/contents/packages.txt
 pyavm==0.9.9
     # via reproject
@@ -1268,7 +1268,7 @@ pydantic==2.14.1
     #   sscws
 pydantic-core==2.50.1
     # via pydantic
-pydantic-settings==2.15.0
+pydantic-settings==2.16.0
     # via
     #   chromadb
     #   hvpy
@@ -1902,7 +1902,7 @@ truststore==0.10.5
     # via
     #   httpcore2
     #   httpx2
-ty==0.0.86
+ty==0.0.88
     # via richpool
 typer==0.27.3
     # via
@@ -1931,6 +1931,7 @@ typing-extensions==4.16.0
     #   opentelemetry-semantic-conventions
     #   pydantic
     #   pydantic-core
+    #   pydantic-settings
     #   sentence-transformers
     #   sqlalchemy
     #   torch
@@ -1954,7 +1955,7 @@ urllib3==2.8.0
     #   responses
     #   savic
     #   speasy
-uv==0.13.0
+uv==0.13.1
     # via sciqlop
 uvicorn==0.54.0
     # via
