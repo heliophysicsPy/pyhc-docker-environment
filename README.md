@@ -120,7 +120,7 @@ sunkit-image | 0.7.0
 sunkit-instruments | 0.6.2
 sunpy | 8.0.1
 sunraster | 0.7.0
-swvo | 1.2.8
+swvo | 1.2.9
 swxsoc | 0.2.3
 themisasi | 1.2.0
 viresclient | 0.16.0
