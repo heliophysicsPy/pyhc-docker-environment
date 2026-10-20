@@ -16,7 +16,7 @@ hapiclient==0.3.3
 kamodo-ccmc==26.9.3
 plasmapy==2026.2.0
 pysat==3.2.2
-pyspedas==2.2.0
+pyspedas==2.2.1
 spacepy==0.7.0
 sunpy==8.0.1
 
