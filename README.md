@@ -78,7 +78,7 @@ igrf | 13.0.2
 iri2016 | 1.11.1
 irispy-lmsal | 0.9.1
 kaipy | 1.0.6
-kamodo-ccmc | 26.9.3
+kamodo-ccmc | 26.10.1
 lofarSun | 0.3.32
 lowtran | 3.1.0
 madrigalWeb | 3.3.8

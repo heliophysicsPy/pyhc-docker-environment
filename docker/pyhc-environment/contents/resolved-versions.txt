@@ -226,6 +226,7 @@ cdflib==1.3.16
     #   viresclient
 certifi==2026.10.19
     # via
+    #   globus-sdk
     #   httpcore
     #   httpx
     #   kubernetes
@@ -272,13 +273,13 @@ comm==0.2.3
     # via
     #   ipykernel
     #   ipywidgets
-configparser==7.2.0
+configparser==7.3.0
     # via kaipy
 contourpy==1.4.0
     # via
     #   matplotlib
     #   sunpy
-coverage==7.16.2
+coverage==7.17.0
     # via pytest-cov
 cryptography==50.0.2
     # via
@@ -354,7 +355,7 @@ executing==2.3.0
     # via
     #   icecream
     #   stack-data
-fastapi==0.159.1
+fastapi==0.161.1
     # via helioai-agent
 fastjsonschema==2.22.2
     # via nbformat
@@ -422,7 +423,7 @@ georinex==1.16.2
     # via -r docker/pyhc-environment/contents/packages.txt
 geospacelab==0.14.15
     # via -r docker/pyhc-environment/contents/packages.txt
-globus-sdk==4.9.1
+globus-sdk==4.10.0
     # via dkist
 glymur==0.14.8
     # via sunpy
@@ -432,15 +433,15 @@ google-auth==2.62.0
     # via google-genai
 google-crc32c==1.9.0
     # via zarr
-google-genai==2.32.0
+google-genai==2.33.0
     # via helioai-agent
-googleapis-common-protos==1.75.5
+googleapis-common-protos==1.76.0
     # via opentelemetry-exporter-otlp-proto-grpc
 graphemeu==0.7.2
     # via alive-progress
 gridaurora==1.3.4
     # via reesaurora
-grpcio==1.84.0
+grpcio==1.84.1
     # via
     #   chromadb
     #   opentelemetry-exporter-otlp-proto-grpc
@@ -524,7 +525,7 @@ httpx2==2.16.0
     #   huggingface-hub
     #   mcp
     #   openai
-huggingface-hub==2.2.0
+huggingface-hub==2.3.0
     # via
     #   helioai-agent
     #   sentence-transformers
@@ -539,7 +540,7 @@ hvpy==1.1.0
     # via sunpy
 hyperframe==6.1.0
     # via h2
-hypothesis==6.170.5
+hypothesis==6.170.8
     # via
     #   pyhc-core
     #   pytest-astropy
@@ -662,7 +663,7 @@ kaipy==1.0.6
     #   -r docker/pyhc-environment/contents/packages.txt
 kaleido==1.5.0
     # via kamodo-core-official
-kamodo-ccmc==26.9.3
+kamodo-ccmc==26.10.1
     # via
     #   -r docker/pyhc-environment/contents/packages.txt
     #   pyhc-core
@@ -1030,7 +1031,7 @@ ommbv==1.1.0
     # via -r docker/pyhc-environment/contents/packages.txt
 onnxruntime==1.31.0
     # via chromadb
-openai==3.36.1
+openai==3.37.0
     # via helioai-agent
 opencv-python==4.14.0.94
     # via
@@ -1113,7 +1114,7 @@ packaging==26.3
     #   zarr
 palettable==3.3.3
     # via geospacelab
-pandas==3.0.6
+pandas==3.1.0
     # via
     #   asilib
     #   cloudcatalog
@@ -1251,7 +1252,7 @@ pycdfpp==0.19.0
     #   speasy
 pycodestyle==2.14.0
     # via flake8
-pycparser==3.11
+pycparser==3.12
     # via cffi
 pydantic==2.14.1
     # via
@@ -1616,7 +1617,7 @@ rpds-py==2026.9.1
     # via
     #   jsonschema
     #   referencing
-ruff==0.17.1
+ruff==0.17.2
     # via richpool
 s3fs==2026.9.0
     # via
@@ -1904,7 +1905,7 @@ truststore==0.10.5
     # via
     #   httpcore2
     #   httpx2
-ty==0.0.90
+ty==0.0.91
     # via richpool
 typer==0.27.3
     # via
@@ -1968,7 +1969,7 @@ uvloop==0.23.0
     # via uvicorn
 viresclient==0.16.0
     # via -r docker/pyhc-environment/contents/packages.txt
-virtualenv==21.14.12
+virtualenv==21.14.13
     # via pre-commit
 watchfiles==1.3.0
     # via uvicorn
@@ -1978,7 +1979,7 @@ webencodings==0.6.1
     # via html5lib
 websocket-client==1.9.2
     # via kubernetes
-websockets==16.1.1
+websockets==17.3
     # via
     #   google-genai
     #   uvicorn
