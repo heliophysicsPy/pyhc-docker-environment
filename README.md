@@ -57,7 +57,7 @@ aiapy | 0.12.1
 amisrsynthdata | 1.2.0
 apexpy | 2.1.1
 asilib | 0.30.1
-ccsdspy | 2.0.1
+ccsdspy | 2.1.0
 cdflib | 1.3.16
 cloudcatalog | 1.3.3
 dascutils | 2.3.0
@@ -85,7 +85,7 @@ madrigalWeb | 3.3.8
 maidenhead | 1.8.0
 mcalf | 1.0.0
 msise00 | 1.11.1
-ndcube | 2.4.2
+ndcube | 2.4.3
 nexradutils | 1.0.0
 ocbpy | 0.7.0
 OMMBV | 1.1.0
@@ -97,7 +97,7 @@ pyflct | 0.3.1
 pyhc-core[tests] | 0.0.9
 pyIntensityFeatures | 0.2.0
 pymap3d | 3.2.0
-pyrfu | 2.5.5
+pyrfu | 2.5.6
 pysat | 3.2.2
 pyspedas | 2.2.2
 pytplot | 1.7.28
@@ -110,7 +110,7 @@ savic | 1.2.7
 sciencedates | 1.5.0
 SciQLop | 0.14.1
 SkyWinder | 0.0.3
-solarmach | 0.5.6
+solarmach | 0.5.7
 solo-epd-loader | 0.4.4
 space-packet-parser | 6.2.0
 spacepy | 0.7.0
