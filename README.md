@@ -97,7 +97,7 @@ pyflct | 0.3.1
 pyhc-core[tests] | 0.0.9
 pyIntensityFeatures | 0.2.0
 pymap3d | 3.2.0
-pyrfu | 2.5.6
+pyrfu | 2.5.7
 pysat | 3.2.2
 pyspedas | 2.2.2
 pytplot | 1.7.28

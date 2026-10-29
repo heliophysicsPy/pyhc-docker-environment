@@ -67,7 +67,7 @@ pydarn==4.3
 pyflct==0.3.1
 pyIntensityFeatures==0.2.0
 pymap3d==3.2.0
-pyrfu==2.5.6
+pyrfu==2.5.7
 pytplot==1.7.28
 pytplot-mpl-temp==2.2.79
 pyzenodo3==1.0.2
