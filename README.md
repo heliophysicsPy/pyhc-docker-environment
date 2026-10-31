@@ -64,7 +64,7 @@ dascutils | 2.3.0
 dbprocessing | 0.1.0
 dmsp | 0.6.0
 enlilviz | 0.2.0
-fiasco | 0.8.2
+fiasco | 0.8.3
 gcmprocpy | 1.5.2
 geopack | 1.0.13
 georinex | 1.16.2
@@ -97,7 +97,7 @@ pyflct | 0.3.1
 pyhc-core[tests] | 0.0.9
 pyIntensityFeatures | 0.2.0
 pymap3d | 3.2.0
-pyrfu | 2.5.7
+pyrfu | 2.5.8
 pysat | 3.2.2
 pyspedas | 2.2.2
 pytplot | 1.7.28

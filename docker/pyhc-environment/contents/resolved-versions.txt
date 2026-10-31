@@ -334,7 +334,7 @@ dkist==1.18.1
     # via irispy-lmsal
 dmsp==0.6.0
     # via -r docker/pyhc-environment/contents/packages.txt
-dnspython==2.9.0
+dnspython==2.9.1
     # via email-validator
 donfig==0.8.1.post1
     # via zarr
@@ -361,9 +361,9 @@ fastjsonschema==2.22.2
     # via nbformat
 ffmpeg-python==0.2.0
     # via asilib
-fiasco==0.8.2
+fiasco==0.8.3
     # via -r docker/pyhc-environment/contents/packages.txt
-filelock==4.2.4
+filelock==4.2.5
     # via
     #   huggingface-hub
     #   python-discovery
@@ -441,7 +441,7 @@ graphemeu==0.7.2
     # via alive-progress
 gridaurora==1.3.4
     # via reesaurora
-grpcio==1.85.0
+grpcio==1.85.1
     # via
     #   chromadb
     #   opentelemetry-exporter-otlp-proto-grpc
@@ -499,7 +499,7 @@ hatanaka==2.8.1
     # via georinex
 helioai-agent==0.4.0
     # via -r docker/pyhc-environment/contents/packages.txt
-hf-xet==1.7.1
+hf-xet==1.8.0
     # via huggingface-hub
 hissw==2.3
     # via -r docker/pyhc-environment/contents/packages.txt
@@ -525,7 +525,7 @@ httpx2==2.16.0
     #   huggingface-hub
     #   mcp
     #   openai
-huggingface-hub==2.3.0
+huggingface-hub==2.4.0
     # via
     #   helioai-agent
     #   sentence-transformers
@@ -540,7 +540,7 @@ hvpy==1.1.0
     # via sunpy
 hyperframe==6.1.0
     # via h2
-hypothesis==6.170.13
+hypothesis==6.170.14
     # via
     #   pyhc-core
     #   pytest-astropy
@@ -575,7 +575,7 @@ ipykernel==7.4.0
     # via helioai-agent
 ipympl==0.10.0
     # via gcmprocpy
-ipython==9.17.1
+ipython==9.18.0
     # via
     #   gcmprocpy
     #   helioai-agent
@@ -873,7 +873,7 @@ networkx==3.7
     #   torch
 nexradutils==1.0.0
     # via -r docker/pyhc-environment/contents/packages.txt
-nodeenv==1.11.0
+nodeenv==1.11.1
     # via pre-commit
 numba==0.68.1
     # via
@@ -1021,7 +1021,7 @@ numpy==2.5.4
     #   zarr
 nvidia-nccl-cu13==2.32.3
     # via xgboost
-oauthlib==4.0.0
+oauthlib==4.0.1
     # via requests-oauthlib
 obspy==1.5.1
     # via pyhc-core
@@ -1031,14 +1031,14 @@ ommbv==1.1.0
     # via -r docker/pyhc-environment/contents/packages.txt
 onnxruntime==1.31.1
     # via chromadb
-openai==3.41.0
+openai==3.42.0
     # via helioai-agent
 opencv-python==4.14.0.94
     # via
     #   asilib
     #   pyucalgarysrs
     #   sunpy
-opentelemetry-api==1.45.1
+opentelemetry-api==1.45.2
     # via
     #   chromadb
     #   fastapi
@@ -1046,22 +1046,22 @@ opentelemetry-api==1.45.1
     #   opentelemetry-exporter-otlp-proto-grpc
     #   opentelemetry-sdk
     #   opentelemetry-semantic-conventions
-opentelemetry-exporter-otlp-common==0.66b1
+opentelemetry-exporter-otlp-common==0.66b2
     # via opentelemetry-exporter-otlp-proto-grpc
-opentelemetry-exporter-otlp-proto-common==1.45.1
+opentelemetry-exporter-otlp-proto-common==1.45.2
     # via opentelemetry-exporter-otlp-proto-grpc
-opentelemetry-exporter-otlp-proto-grpc==1.45.1
+opentelemetry-exporter-otlp-proto-grpc==1.45.2
     # via chromadb
-opentelemetry-proto==1.45.1
+opentelemetry-proto==1.45.2
     # via
     #   opentelemetry-exporter-otlp-proto-common
     #   opentelemetry-exporter-otlp-proto-grpc
-opentelemetry-sdk==1.45.1
+opentelemetry-sdk==1.45.2
     # via
     #   chromadb
     #   opentelemetry-exporter-otlp-common
     #   opentelemetry-exporter-otlp-proto-grpc
-opentelemetry-semantic-conventions==0.66b1
+opentelemetry-semantic-conventions==0.66b2
     # via opentelemetry-sdk
 orderly-set==5.5.0
     # via deepdiff
@@ -1254,7 +1254,7 @@ pycodestyle==2.14.0
     # via flake8
 pycparser==3.12
     # via cffi
-pydantic==2.14.1
+pydantic==2.14.2
     # via
     #   blosc2
     #   chromadb
@@ -1269,7 +1269,7 @@ pydantic==2.14.1
     #   pydantic-settings
     #   sciqlop
     #   sscws
-pydantic-core==2.50.1
+pydantic-core==2.50.2
     # via pydantic
 pydantic-settings==2.16.2
     # via
@@ -1342,7 +1342,7 @@ pyqtwebengine==5.15.7
     # via pytplot
 pyqtwebengine-qt5==5.15.19
     # via pyqtwebengine
-pyrfu==2.5.7
+pyrfu==2.5.8
     # via -r docker/pyhc-environment/contents/packages.txt
 pysat==3.2.2
     # via
@@ -1480,7 +1480,7 @@ python-dateutil==2.9.0.post0
     #   sunpy
     #   swvo
     #   themisasi
-python-discovery==1.6.7
+python-discovery==1.9.0
     # via virtualenv
 python-dotenv==1.2.4
     # via
@@ -1899,13 +1899,13 @@ traitlets==5.16.1
     #   jupyter-core
     #   matplotlib-inline
     #   nbformat
-transformers==5.21.1
+transformers==5.22.1
     # via sentence-transformers
 truststore==0.10.5
     # via
     #   httpcore2
     #   httpx2
-ty==0.0.94
+ty==0.0.95
     # via richpool
 typer==0.27.3
     # via
@@ -1969,7 +1969,7 @@ uvloop==0.23.0
     # via uvicorn
 viresclient==0.16.0
     # via -r docker/pyhc-environment/contents/packages.txt
-virtualenv==21.15.1
+virtualenv==21.15.2
     # via pre-commit
 watchfiles==1.3.0
     # via uvicorn
@@ -1979,7 +1979,7 @@ webencodings==0.6.1
     # via html5lib
 websocket-client==1.9.2
     # via kubernetes
-websockets==17.3
+websockets==17.4
     # via
     #   google-genai
     #   uvicorn
