@@ -56,7 +56,7 @@ annotated-types==0.8.0
     # via pydantic
 antlr4-python3-runtime==4.11.1
     # via kamodo-core-official
-anyio==4.15.1
+anyio==4.16.0
     # via
     #   google-genai
     #   httpx
@@ -148,7 +148,7 @@ astropy==8.0.2
     #   swxsoc
 astropy-healpix==2.0.1
     # via reproject
-astropy-iers-data==0.2026.10.19.0.52.1
+astropy-iers-data==0.2026.11.2.0.34.55
     # via astropy
 astroquery==0.4.11
     # via speasy
@@ -279,7 +279,7 @@ contourpy==1.4.0
     # via
     #   matplotlib
     #   sunpy
-coverage==7.17.0
+coverage==7.17.1
     # via pytest-cov
 cryptography==50.0.2
     # via
@@ -291,7 +291,7 @@ csem-midl==1.1.4
     # via swvo
 cycler==0.12.1
     # via matplotlib
-cython==3.3.0
+cython==3.3.1
     # via geospacelab
 darn-dmap==0.8.2
     # via pydarnio
@@ -357,13 +357,13 @@ executing==2.3.0
     #   stack-data
 fastapi==0.162.0
     # via helioai-agent
-fastjsonschema==2.22.2
+fastjsonschema==2.22.3
     # via nbformat
 ffmpeg-python==0.2.0
     # via asilib
 fiasco==0.8.3
     # via -r docker/pyhc-environment/contents/packages.txt
-filelock==4.2.5
+filelock==4.2.7
     # via
     #   huggingface-hub
     #   python-discovery
@@ -429,7 +429,7 @@ glymur==0.14.8
     # via sunpy
 goesutils==1.0.8
     # via -r docker/pyhc-environment/contents/packages.txt
-google-auth==2.62.0
+google-auth==2.62.1
     # via google-genai
 google-crc32c==1.9.0
     # via zarr
@@ -575,7 +575,7 @@ ipykernel==7.4.0
     # via helioai-agent
 ipympl==0.10.0
     # via gcmprocpy
-ipython==9.18.0
+ipython==9.18.1
     # via
     #   gcmprocpy
     #   helioai-agent
@@ -873,7 +873,7 @@ networkx==3.7
     #   torch
 nexradutils==1.0.0
     # via -r docker/pyhc-environment/contents/packages.txt
-nodeenv==1.11.1
+nodeenv==1.12.0
     # via pre-commit
 numba==0.68.1
     # via
@@ -1031,7 +1031,7 @@ ommbv==1.1.0
     # via -r docker/pyhc-environment/contents/packages.txt
 onnxruntime==1.31.1
     # via chromadb
-openai==3.42.0
+openai==3.42.1
     # via helioai-agent
 opencv-python==4.14.0.94
     # via
@@ -1182,7 +1182,7 @@ plasmapy==2026.2.0
     #   fiasco
     #   helioai-agent
     #   pyhc-core
-platformdirs==4.14.0
+platformdirs==4.14.3
     # via
     #   choreographer
     #   csem-midl
@@ -1342,7 +1342,7 @@ pyqtwebengine==5.15.7
     # via pytplot
 pyqtwebengine-qt5==5.15.19
     # via pyqtwebengine
-pyrfu==2.5.8
+pyrfu==2.5.9
     # via -r docker/pyhc-environment/contents/packages.txt
 pysat==3.2.2
     # via
@@ -1419,7 +1419,7 @@ pytest-cov==7.1.0
     #   pyhc-core
     #   pysat
     #   pytest-astropy
-pytest-datadir==1.8.0
+pytest-datadir==1.9.0
     # via pytest-regressions
 pytest-doctestplus==1.7.1
     # via pytest-astropy
@@ -1480,7 +1480,7 @@ python-dateutil==2.9.0.post0
     #   sunpy
     #   swvo
     #   themisasi
-python-discovery==1.9.0
+python-discovery==1.9.2
     # via virtualenv
 python-dotenv==1.2.4
     # via
@@ -1489,7 +1489,7 @@ python-dotenv==1.2.4
     #   uvicorn
 python-forge==18.6.0
     # via kamodo-core-official
-python-multipart==0.0.32
+python-multipart==0.0.33
     # via mcp
 pytplot==1.7.28
     # via -r docker/pyhc-environment/contents/packages.txt
@@ -1746,7 +1746,7 @@ solo-epd-loader==0.4.4
     # via -r docker/pyhc-environment/contents/packages.txt
 sortedcontainers==2.4.0
     # via hypothesis
-soupsieve==3.0.4
+soupsieve==4.0
     # via beautifulsoup4
 space-packet-parser==6.2.0
     # via -r docker/pyhc-environment/contents/packages.txt
@@ -1905,7 +1905,7 @@ truststore==0.10.5
     # via
     #   httpcore2
     #   httpx2
-ty==0.0.95
+ty==0.0.96
     # via richpool
 typer==0.27.3
     # via
@@ -1958,7 +1958,7 @@ urllib3==2.8.0
     #   responses
     #   savic
     #   speasy
-uv==0.13.6
+uv==0.13.7
     # via sciqlop
 uvicorn==0.54.0
     # via
