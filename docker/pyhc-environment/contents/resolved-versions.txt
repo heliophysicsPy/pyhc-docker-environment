@@ -247,7 +247,7 @@ choreographer==1.4.0
     # via kaleido
 chromadb==1.5.9
     # via helioai-agent
-click==8.5.0
+click==8.5.1
     # via
     #   dask
     #   flask
@@ -355,7 +355,7 @@ executing==2.3.0
     # via
     #   icecream
     #   stack-data
-fastapi==0.162.0
+fastapi==0.162.1
     # via helioai-agent
 fastjsonschema==2.22.3
     # via nbformat
@@ -626,7 +626,7 @@ jinja2==3.1.6
     #   solarmach
     #   torch
     #   viresclient
-jiter==0.18.0
+jiter==0.19.0
     # via openai
 jmespath==1.1.0
     # via
@@ -1340,7 +1340,7 @@ pyqtwebengine==5.15.7
     # via pytplot
 pyqtwebengine-qt5==5.15.19
     # via pyqtwebengine
-pyrfu==2.5.9
+pyrfu==2.5.10
     # via -r docker/pyhc-environment/contents/packages.txt
 pysat==3.2.2
     # via
@@ -1351,7 +1351,7 @@ pysatspaceweather==0.0.10
     # via pysat
 pysciqlop-cache==0.3.7
     # via speasy
-pyshp==3.1.6
+pyshp==3.1.7
     # via
     #   asilib
     #   cartopy
@@ -1478,7 +1478,7 @@ python-dateutil==2.9.0.post0
     #   sunpy
     #   swvo
     #   themisasi
-python-discovery==1.9.4
+python-discovery==1.9.5
     # via virtualenv
 python-dotenv==1.2.4
     # via
@@ -1546,7 +1546,7 @@ referencing==0.37.0
     # via
     #   jsonschema
     #   jsonschema-specifications
-regex==2026.9.29
+regex==2026.11.7
     # via transformers
 regularizepsf==1.2.1
     # via -r docker/pyhc-environment/contents/packages.txt
@@ -1771,7 +1771,7 @@ sqlalchemy==2.1.8
     #   obspy
 sscws==2.5.1
     # via geospacelab
-sse-starlette==3.6.0
+sse-starlette==3.7.0
     # via mcp
 stack-data==0.6.3
     # via ipython
@@ -1897,7 +1897,7 @@ traitlets==5.16.1
     #   jupyter-core
     #   matplotlib-inline
     #   nbformat
-transformers==5.22.1
+transformers==5.22.2
     # via sentence-transformers
 truststore==0.10.5
     # via
@@ -1967,7 +1967,7 @@ uvloop==0.23.0
     # via uvicorn
 viresclient==0.16.0
     # via -r docker/pyhc-environment/contents/packages.txt
-virtualenv==21.15.5
+virtualenv==21.15.6
     # via pre-commit
 watchfiles==1.3.0
     # via uvicorn
