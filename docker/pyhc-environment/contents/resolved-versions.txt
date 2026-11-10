@@ -148,7 +148,7 @@ astropy==8.0.2
     #   swxsoc
 astropy-healpix==2.0.1
     # via reproject
-astropy-iers-data==0.2026.11.2.0.34.55
+astropy-iers-data==0.2026.11.9.0.35.9
     # via astropy
 astroquery==0.4.11
     # via speasy
@@ -355,7 +355,7 @@ executing==2.3.0
     # via
     #   icecream
     #   stack-data
-fastapi==0.162.1
+fastapi==0.162.3
     # via helioai-agent
 fastjsonschema==2.22.3
     # via nbformat
@@ -363,7 +363,7 @@ ffmpeg-python==0.2.0
     # via asilib
 fiasco==0.8.3
     # via -r docker/pyhc-environment/contents/packages.txt
-filelock==4.2.9
+filelock==4.2.10
     # via
     #   huggingface-hub
     #   python-discovery
@@ -525,6 +525,7 @@ httpx2==2.16.0
     #   huggingface-hub
     #   mcp
     #   openai
+    #   sscws
 huggingface-hub==2.4.0
     # via
     #   helioai-agent
@@ -1029,7 +1030,7 @@ ommbv==1.1.0
     # via -r docker/pyhc-environment/contents/packages.txt
 onnxruntime==1.31.1
     # via chromadb
-openai==3.46.0
+openai==3.49.0
     # via helioai-agent
 opencv-python==4.14.0.94
     # via
@@ -1267,6 +1268,7 @@ pydantic==2.14.3
     #   pydantic-settings
     #   sciqlop
     #   sscws
+    #   typer
 pydantic-core==2.50.4
     # via pydantic
 pydantic-settings==2.16.2
@@ -1340,7 +1342,7 @@ pyqtwebengine==5.15.7
     # via pytplot
 pyqtwebengine-qt5==5.15.19
     # via pyqtwebengine
-pyrfu==2.5.10
+pyrfu==2.5.11
     # via -r docker/pyhc-environment/contents/packages.txt
 pysat==3.2.2
     # via
@@ -1351,7 +1353,7 @@ pysatspaceweather==0.0.10
     # via pysat
 pysciqlop-cache==0.3.7
     # via speasy
-pyshp==3.1.7
+pyshp==3.1.8
     # via
     #   asilib
     #   cartopy
@@ -1546,7 +1548,7 @@ referencing==0.37.0
     # via
     #   jsonschema
     #   jsonschema-specifications
-regex==2026.11.7
+regex==2026.11.9
     # via transformers
 regularizepsf==1.2.1
     # via -r docker/pyhc-environment/contents/packages.txt
@@ -1587,7 +1589,6 @@ requests==2.34.2
     #   responses
     #   solo-epd-loader
     #   speasy
-    #   sscws
     #   sunpy
     #   swvo
     #   themisasi
@@ -1744,7 +1745,7 @@ solo-epd-loader==0.4.4
     # via -r docker/pyhc-environment/contents/packages.txt
 sortedcontainers==2.4.0
     # via hypothesis
-soupsieve==4.0.1
+soupsieve==4.1
     # via beautifulsoup4
 space-packet-parser==6.2.0
     # via -r docker/pyhc-environment/contents/packages.txt
@@ -1769,7 +1770,7 @@ sqlalchemy==2.1.8
     # via
     #   dbprocessing
     #   obspy
-sscws==2.5.1
+sscws==2.5.3
     # via geospacelab
 sse-starlette==3.7.0
     # via mcp
@@ -1837,7 +1838,7 @@ threadpoolctl==3.8.0
     #   blosc2
     #   scikit-learn
     #   solarmach
-tifffile==2026.10.15
+tifffile==2026.11.8
     # via
     #   dask-image
     #   pims
@@ -1864,7 +1865,7 @@ torch==2.15.0+cpu
     # via
     #   helioai-agent
     #   sentence-transformers
-tornado==6.6
+tornado==6.6.1
     # via
     #   bokeh
     #   ipykernel
@@ -1903,9 +1904,9 @@ truststore==0.10.5
     # via
     #   httpcore2
     #   httpx2
-ty==0.0.99
+ty==0.0.100
     # via richpool
-typer==0.28.0
+typer==0.29.0
     # via
     #   chromadb
     #   transformers
