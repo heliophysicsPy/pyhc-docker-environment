@@ -48,7 +48,7 @@ amisrsynthdata==1.2.0
     # via -r docker/pyhc-environment/contents/packages.txt
 aniso8601==10.0.1
     # via flask-restful
-annotated-doc==0.0.5
+annotated-doc==0.0.6
     # via
     #   fastapi
     #   typer
@@ -58,6 +58,7 @@ antlr4-python3-runtime==4.11.1
     # via kamodo-core-official
 anyio==4.16.0
     # via
+    #   fastapi
     #   google-genai
     #   httpx
     #   httpx2
@@ -177,7 +178,7 @@ bitstruct==8.24.0
     # via ccsdspy
 blinker==1.9.0
     # via flask
-blosc2==4.14.1
+blosc2==4.15.0
     # via tables
 bokeh==3.10.2
     # via pytplot
@@ -355,13 +356,13 @@ executing==2.3.0
     # via
     #   icecream
     #   stack-data
-fastapi==0.162.3
+fastapi==0.162.4
     # via helioai-agent
 fastjsonschema==2.22.3
     # via nbformat
 ffmpeg-python==0.2.0
     # via asilib
-fiasco==0.8.3
+fiasco==0.9.0
     # via -r docker/pyhc-environment/contents/packages.txt
 filelock==4.2.10
     # via
@@ -429,11 +430,11 @@ glymur==0.14.8
     # via sunpy
 goesutils==1.0.8
     # via -r docker/pyhc-environment/contents/packages.txt
-google-auth==2.62.1
+google-auth==2.62.2
     # via google-genai
 google-crc32c==1.9.0
     # via zarr
-google-genai==3.0.0
+google-genai==3.1.0
     # via helioai-agent
 googleapis-common-protos==1.76.0
     # via opentelemetry-exporter-otlp-proto-grpc
@@ -457,7 +458,7 @@ h11==0.16.0
     #   uvicorn
 h2==4.4.1
     # via httpx
-h5netcdf==1.8.2
+h5netcdf==1.8.3
     # via
     #   kamodo-ccmc
     #   solo-epd-loader
@@ -809,7 +810,7 @@ msise00==1.11.1
     #   reesaurora
 mt-io==0.0.5
     # via mth5
-mt-metadata==1.0.12
+mt-metadata==1.0.13
     # via
     #   mt-io
     #   mt-timeseries
@@ -881,9 +882,7 @@ numba==0.68.1
 numcodecs==0.17.1
     # via zarr
 numexpr==2.14.2
-    # via
-    #   blosc2
-    #   tables
+    # via tables
 numpy==2.5.4
     # via
     #   aacgmv2
@@ -1018,7 +1017,7 @@ numpy==2.5.4
     #   xarray
     #   xgboost
     #   zarr
-nvidia-nccl-cu13==2.32.3
+nvidia-nccl-cu13==2.32.6
     # via xgboost
 oauthlib==4.0.1
     # via requests-oauthlib
@@ -1241,7 +1240,7 @@ pyaurorax==1.27.0
     # via -r docker/pyhc-environment/contents/packages.txt
 pyavm==0.9.9
     # via reproject
-pybase64==1.5.1
+pybase64==1.5.2
     # via chromadb
 pycdfpp==0.20.0
     # via
@@ -1332,7 +1331,7 @@ pyqt5==5.15.11
     #   pytplot
 pyqt5-qt5==5.15.19
     # via pyqt5
-pyqt5-sip==12.20.0
+pyqt5-sip==12.20.1
     # via
     #   pyqt5
     #   pyqtwebengine
@@ -1342,7 +1341,7 @@ pyqtwebengine==5.15.7
     # via pytplot
 pyqtwebengine-qt5==5.15.19
     # via pyqtwebengine
-pyrfu==2.5.11
+pyrfu==2.5.12
     # via -r docker/pyhc-environment/contents/packages.txt
 pysat==3.2.2
     # via
@@ -1706,7 +1705,7 @@ secretstorage==3.5.0
     # via keyring
 semantic-version==2.10.0
     # via asdf
-sentence-transformers==6.2.0
+sentence-transformers==6.3.0
     # via helioai-agent
 sep==1.4.1
     # via regularizepsf
@@ -1722,7 +1721,7 @@ shellingham==1.5.4
     # via typer
 shiboken6==6.12.0
     # via pyside6-essentials
-simplejson==4.2.0
+simplejson==4.3.0
     # via choreographer
 six==1.17.0
     # via
@@ -1904,9 +1903,9 @@ truststore==0.10.5
     # via
     #   httpcore2
     #   httpx2
-ty==0.0.100
+ty==0.0.101
     # via richpool
-typer==0.29.0
+typer==0.29.1
     # via
     #   chromadb
     #   transformers
@@ -1953,6 +1952,7 @@ urllib3==2.8.0
     #   cdasws
     #   hapiclient
     #   kubernetes
+    #   pyrfu
     #   requests
     #   responses
     #   savic
