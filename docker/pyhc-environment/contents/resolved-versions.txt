@@ -280,7 +280,7 @@ contourpy==1.4.0
     # via
     #   matplotlib
     #   sunpy
-coverage==7.17.2
+coverage==7.17.3
     # via pytest-cov
 cryptography==50.0.2
     # via
@@ -356,7 +356,7 @@ executing==2.3.0
     # via
     #   icecream
     #   stack-data
-fastapi==0.162.4
+fastapi==0.162.5
     # via helioai-agent
 fastjsonschema==2.22.3
     # via nbformat
@@ -434,7 +434,7 @@ google-auth==2.62.2
     # via google-genai
 google-crc32c==1.9.0
     # via zarr
-google-genai==3.1.0
+google-genai==3.2.0
     # via helioai-agent
 googleapis-common-protos==1.76.0
     # via opentelemetry-exporter-otlp-proto-grpc
@@ -533,7 +533,7 @@ huggingface-hub==2.4.0
     #   sentence-transformers
     #   tokenizers
     #   transformers
-humanize==4.16.0
+humanize==4.17.0
     # via
     #   pyaurorax
     #   pyucalgarysrs
@@ -696,7 +696,7 @@ logistro==2.0.1
     # via
     #   choreographer
     #   kaleido
-loguru==0.7.3
+loguru==0.8.0
     # via
     #   mt-io
     #   mt-metadata
@@ -1341,7 +1341,7 @@ pyqtwebengine==5.15.7
     # via pytplot
 pyqtwebengine-qt5==5.15.19
     # via pyqtwebengine
-pyrfu==2.5.12
+pyrfu==2.5.13
     # via -r docker/pyhc-environment/contents/packages.txt
 pysat==3.2.2
     # via
@@ -1761,7 +1761,7 @@ speasy==1.9.1
     #   -r docker/pyhc-environment/contents/packages.txt
     #   helioai-agent
     #   solarmach
-spiceypy==8.3.0
+spiceypy==8.4.0
     # via
     #   -r docker/pyhc-environment/contents/packages.txt
     #   sunpy
