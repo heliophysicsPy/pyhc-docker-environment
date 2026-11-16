@@ -149,7 +149,7 @@ astropy==8.0.2
     #   swxsoc
 astropy-healpix==2.0.1
     # via reproject
-astropy-iers-data==0.2026.11.9.0.35.9
+astropy-iers-data==0.2026.11.16.0.37.44
     # via astropy
 astroquery==0.4.11
     # via speasy
@@ -510,7 +510,7 @@ html5lib==1.1
     # via astroquery
 httpcore==1.0.9
     # via httpx
-httpcore2==2.16.0
+httpcore2==2.16.2
     # via httpx2
 httptools==0.9.0
     # via uvicorn
@@ -519,7 +519,7 @@ httpx==0.28.1
     #   blosc2
     #   chromadb
     #   helioai-agent
-httpx2==2.16.0
+httpx2==2.16.2
     # via
     #   google-genai
     #   helioai-agent
@@ -560,7 +560,7 @@ idna==3.20
     #   yarl
 igrf==13.0.2
     # via -r docker/pyhc-environment/contents/packages.txt
-imageio==2.38.1
+imageio==2.38.2
     # via
     #   goesutils
     #   nexradutils
@@ -883,7 +883,7 @@ numcodecs==0.17.1
     # via zarr
 numexpr==2.14.2
     # via tables
-numpy==2.5.4
+numpy==2.5.5
     # via
     #   aacgmv2
     #   aiapy
@@ -1341,7 +1341,7 @@ pyqtwebengine==5.15.7
     # via pytplot
 pyqtwebengine-qt5==5.15.19
     # via pyqtwebengine
-pyrfu==2.5.14
+pyrfu==2.5.15
     # via -r docker/pyhc-environment/contents/packages.txt
 pysat==3.2.2
     # via
@@ -1487,7 +1487,7 @@ python-dotenv==1.2.4
     #   uvicorn
 python-forge==18.6.0
     # via kamodo-core-official
-python-multipart==0.0.33
+python-multipart==0.0.34
     # via mcp
 pytplot==1.7.28
     # via -r docker/pyhc-environment/contents/packages.txt
@@ -1546,7 +1546,7 @@ referencing==0.37.0
     # via
     #   jsonschema
     #   jsonschema-specifications
-regex==2026.11.9
+regex==2026.11.15
     # via transformers
 regularizepsf==1.2.1
     # via -r docker/pyhc-environment/contents/packages.txt
@@ -1813,7 +1813,7 @@ swvo==1.2.9
     # via -r docker/pyhc-environment/contents/packages.txt
 swxsoc==0.2.3
     # via -r docker/pyhc-environment/contents/packages.txt
-sympy==1.14.0rc1
+sympy==1.15.0rc2
     # via
     #   kamodo-core-official
     #   torch
