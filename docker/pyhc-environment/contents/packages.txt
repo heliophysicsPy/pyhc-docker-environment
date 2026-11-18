@@ -13,7 +13,7 @@
 # --- Core Packages ---
 pyhc-core[tests]==0.0.9
 hapiclient==0.3.3
-kamodo-ccmc==26.11.3
+kamodo-ccmc==26.11.4
 plasmapy==2026.2.0
 pysat==3.2.2
 pyspedas==2.2.2
@@ -87,7 +87,7 @@ sunkit-image==0.7.0
 sunkit-instruments==0.6.2
 sunraster==0.7.0
 swvo==1.2.9
-swxsoc==0.2.3
+swxsoc==0.2.4
 themisasi==1.2.0
 viresclient==0.16.0
 wmm2015==1.1.1

@@ -78,7 +78,7 @@ igrf | 13.0.2
 iri2016 | 1.11.1
 irispy-lmsal | 0.9.1
 kaipy | 1.0.6
-kamodo-ccmc | 26.11.3
+kamodo-ccmc | 26.11.4
 lofarSun | 0.3.32
 lowtran | 3.1.0
 madrigalWeb | 3.3.8
@@ -121,7 +121,7 @@ sunkit-instruments | 0.6.2
 sunpy | 8.0.1
 sunraster | 0.7.0
 swvo | 1.2.9
-swxsoc | 0.2.3
+swxsoc | 0.2.4
 themisasi | 1.2.0
 viresclient | 0.16.0
 wmm2015 | 1.1.1
