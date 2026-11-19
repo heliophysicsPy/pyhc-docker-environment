@@ -61,13 +61,13 @@ ndcube==2.4.3
 nexradutils==1.0.0
 ocbpy==0.7.0
 OMMBV==1.1.0
-pyaurorax==1.27.0
+pyaurorax==1.27.1
 pycdfpp==0.20.0
 pydarn==4.3
 pyflct==0.3.1
 pyIntensityFeatures==0.2.0
 pymap3d==3.2.0
-pyrfu==2.5.16
+pyrfu==2.6.0
 pytplot==1.7.28
 pytplot-mpl-temp==2.2.79
 pyzenodo3==1.0.2

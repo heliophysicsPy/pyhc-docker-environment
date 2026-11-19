@@ -90,14 +90,14 @@ nexradutils | 1.0.0
 ocbpy | 0.7.0
 OMMBV | 1.1.0
 plasmapy | 2026.2.0
-pyaurorax | 1.27.0
+pyaurorax | 1.27.1
 pycdfpp | 0.20.0
 pydarn | 4.3
 pyflct | 0.3.1
 pyhc-core[tests] | 0.0.9
 pyIntensityFeatures | 0.2.0
 pymap3d | 3.2.0
-pyrfu | 2.5.16
+pyrfu | 2.6.0
 pysat | 3.2.2
 pyspedas | 2.2.2
 pytplot | 1.7.28
